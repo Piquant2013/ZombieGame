@@ -64,6 +64,24 @@ function player:collision(dt, shape_a, shape_b)
     	sship.yes = true
     end
 
+
+
+    if other == wallT then
+    	plyr.y = plyr.y + 0.3
+    	plyr.speed = 0
+    elseif other == wallB then
+    	plyr.y = plyr.y - 0.3
+    	plyr.speed = 0
+    elseif other == wallL then
+    	plyr.x = plyr.x + 0.3
+    	plyr.speed = 0
+    elseif other == wallR then
+    	plyr.x = plyr.x - 0.3
+    	plyr.speed = 0
+    end
+
+
+
     -- Rock
     for i, o in ipairs(rocks) do
     	if other == o.bb then

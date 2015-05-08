@@ -15,6 +15,8 @@ function love.load()
 
 	FPSfont = love.graphics.newFont("fonts/PressStart.ttf", 20)
 
+	crosshair = love.mouse.newCursor("images/crosshair.png", 14, 14)
+
 	-- FPS, Mute, Win, Deb and Mou states
 	SetFPS = false
 	SetMute = false

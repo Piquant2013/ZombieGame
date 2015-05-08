@@ -65,6 +65,7 @@ function ship:collision(dt, shape_a, shape_b)
     	-- Bullet
     	if other == o.bb then
     		sship.health = sship.health - 10
+    		Collider:remove(o.bb)
     		table.remove(gun.Bullets, i)
     	end
     end
@@ -74,6 +75,7 @@ function ship:collision(dt, shape_a, shape_b)
     	-- Rock
     	if other == o.bb then
     		sship.health = sship.health - 20
+    		Collider:remove(o.bb)
     		table.remove(rocks, i)
     	end
     end

@@ -46,7 +46,7 @@ function game:init()
 	self.ZoomCam = false
 	
 	-- Button and arrow areas
-	self.BtnY = 440	
+	self.BtnY = 600	
 	self.BtnX = 530
 	self.ArrowX = 480
 
@@ -75,13 +75,14 @@ function game:init()
 	------ AUDIO ------
 
 	------ FONTS ------
-	self.InteractFont = love.graphics.newFont("fonts/xen3.ttf", 10)
-	self.BtnFont = love.graphics.newFont("fonts/xen3.ttf", 50)
-	self.GameOverText = love.graphics.newFont("fonts/xen3.ttf", 40)
-	self.GameOverTitleFont = love.graphics.newFont("fonts/xen3.ttf", 90)
-	self.WelcomeFont = love.graphics.newFont("fonts/xen3.ttf", 20)
+	self.InteractFont = love.graphics.newFont("fonts/PressStart.ttf", 20)
+	self.BtnFont = love.graphics.newFont("fonts/PressStart.ttf", 30)
+	self.GameOverText = love.graphics.newFont("fonts/PressStart.ttf", 20)
+	self.GameOverTitleFont = love.graphics.newFont("fonts/PressStart.ttf", 40)
+	self.WelcomeFont = love.graphics.newFont("fonts/PressStart.ttf", 20)
 	------ FONTS ------
 end
+
 
 function on_collision(dt, shape_a, shape_b)
 	player:collision(dt, shape_a, shape_b)
@@ -134,15 +135,15 @@ function game:keypressed(key)
   	end
 
   	-- Zoom game camera in by 1
-    if key == "x" and game.ZoomCam == false and game.GameOver == false then
+    if key == "x" then --and game.ZoomCam == false and game.GameOver == false then
 		game.Cam:zoom(2)
-		game.ZoomCam = true
+		--game.ZoomCam = true
 	end
 
 	-- Zoom game camera back to default
-	if key == "z" and game.ZoomCam == true and game.GameOver == false then
+	if key == "z" then --and game.ZoomCam == true and game.GameOver == false then
 		game.Cam:zoom(0.5)
-		game.ZoomCam = false
+		--game.ZoomCam = false
 	end
 
 	-- If you are near the ship and you push "e" enter the ship
@@ -183,39 +184,6 @@ function game:mousepressed(mx, my, button)
 
 	-- Update the mousepressed of the gun
 	gun:shooting(mx, my, button)
-
-	------ WELCOME AND GAMEOVER BUTTONS ------
-	-- Tells welcome to continue onto the game
-	if button == "l" and game.WelcomeButtonArea == true and game.Welcome == true then
-		
-		-- turn game reset off
-		GameReset = false
-  		
-  		-- turn welcome screen off
-  		game.Welcome = false
-  		
-  		-- play sound effect for enter
-  		love.audio.play(game.GameEnter)
-  	end
-
-  	-- Tells game to continue onto the main menu
-  	if button == "l" and game.GameOverMouseBackArea == true and game.GameOver == true then
-		
-		-- play sound effect for enter
-		love.audio.play(game.GameEnter)
-    	
-    	-- Tells the game script to switch to the menu script
-    	Gamestate.switch(menu)
-    	
-    	-- Stops game music and plays menu music
-    	love.audio.play(MenuMusic)
-    	MenuMusic:setLooping(true)
-   		love.audio.stop(GameMusic)
-    	
-    	-- Reset the game
-    	GameReset = true
-  	end
-  	------ WELCOME AND GAMEOVER BUTTONS ------
 end
 
 function game:update(dt)
@@ -305,6 +273,11 @@ function game:update(dt)
 		sship.bb = Collider:addRectangle(sship.x, sship.y, sship.w, sship.h)
 		pistol.bb = Collider:addRectangle(pistol.itemx, pistol.itemy,24,24)
 
+		wallT = Collider:addRectangle(274, 192, 924, 16)
+    	wallB = Collider:addRectangle(274, 1136, 924, 16)
+    	wallL = Collider:addRectangle(256, 192, 16, 960)
+    	wallR = Collider:addRectangle(1200, 192, 16, 960)
+
 		-- Reset/spawn astroids
 		astroids:initialize()
 		rock1 = astroids:spawn()
@@ -317,55 +290,33 @@ function game:update(dt)
 		rock8 = astroids:spawn()
 		rock9 = astroids:spawn()
 		rock10 = astroids:spawn()
-	end
-	
-	------ WELCOME MOUSE ------
-	-- MOUSE WELCOME AUDIO ONCE
-	if game.WelcomeMouseOnBtn == false and game.Welcome == true then
-		game.WelcomeMouseDetect = 0
-		love.audio.stop(game.GameSelect1M)
-	end
-
-	if game.WelcomeMouseDetect == 1 and SetMute == false and game.Welcome == true then
-		love.audio.play(game.GameSelect1M)
-	end
-	-- MOUSE WELCOME AUDIO ONCE
-	
-	-- Anything between the "MOUSE WELCOME AUDIO ONCE" comments:
-	-- Ensures that the select audio only plays once for the welcome button when the mouse is moving over it
-
-
-	-- MOUSE WELCOME OUT OF AREA	
-	if love.mouse.getX() > ((love.graphics.getWidth()/2 - 320/2) + 320) and game.Welcome == true then
-		game.WelcomeButtonArea = false
-		game.WelcomeMouseOnBtn = false
+		rock11 = astroids:spawn()
+		rock12 = astroids:spawn()
+		rock13 = astroids:spawn()
+		rock14 = astroids:spawn()
+		rock15 = astroids:spawn()
+		rock16 = astroids:spawn()
+		rock17 = astroids:spawn()
+		rock18 = astroids:spawn()
+		rock19 = astroids:spawn()
+		rock20 = astroids:spawn()
+		rock21 = astroids:spawn()
+		rock22 = astroids:spawn()
+		rock23 = astroids:spawn()
+		rock24 = astroids:spawn()
+		rock25 = astroids:spawn()
+		rock26 = astroids:spawn()
+		rock27 = astroids:spawn()
+		rock28 = astroids:spawn()
+		rock29 = astroids:spawn()
+		rock30 = astroids:spawn()
 	end
 
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - 320/2) and game.Welcome == true then
-		game.WelcomeButtonArea = false
-		game.WelcomeMouseOnBtn = false
-	end
-
-	if love.mouse.getY() < 440 and game.Welcome == true then
-		game.WelcomeButtonArea = false
-		game.WelcomeMouseOnBtn = false
-	end
-
-	if love.mouse.getY() > 485 and game.Welcome == true then
-		game.WelcomeButtonArea = false
-		game.WelcomeMouseOnBtn = false
-	end
-	-- MOUSE WELCOME OUT OF AREA
-
-	-- Anything between the "MOUSE WELCOME OUT OF AREA" comments:
-	-- makes sure that if the mouse goes out of a button area the button area is turned back to false
-
+	astroids:update(dt)
 
 	-- MOUSE WELCOME BUTTON AREA
 	if love.mouse.getX() > (love.graphics.getWidth()/2 - 320/2) and love.mouse.getX() < ((love.graphics.getWidth()/2 - 320/2) + 320) and love.mouse.getY() > 440 and love.mouse.getY() < 485 and game.Welcome == true then
 		game.WelcomeButtonArea = true
-		game.WelcomeMouseOnBtn = true
-		game.WelcomeMouseDetect = game.WelcomeMouseDetect + 1
 	end
 	-- MOUSE WELCOME BUTTON AREA
 
@@ -373,53 +324,10 @@ function game:update(dt)
 	-- This tells the game if the mouse is over a certain button
 	------ WELCOME MOUSE ------
 
-	------ GAME OVER MOUSE ------
-	-- MOUSE GAME OVER AUDIO ONCE
-	if game.GameOverMouseOnBtn == false and game.GameOver == true then
-		game.GameOverMouseDetect = 0
-		love.audio.stop(game.GameSelect1M)
-	end
-
-	if game.GameOverMouseDetect == 1 and SetMute == false and game.GameOver == true then
-		love.audio.play(game.GameSelect1M)
-	end
-	-- MOUSE GAME OVER AUDIO ONCE
-	
-	-- Anything between the "MOUSE GAME OVER AUDIO ONCE" comments:
-	-- Ensures that the select audio only plays once for the game over button when the mouse is moving over it
-
-
-	-- MOUSE GAME OVER OUT OF AREA
-	if love.mouse.getX() > ((love.graphics.getWidth()/2 - 410/2) + 410) and game.GameOver == true then
-		game.GameOverMouseBackArea = false
-		game.GameOverMouseOnBtn = false
-	end
-
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - 410/2) and game.GameOver == true then
-		game.GameOverMouseBackArea = false
-		game.GameOverMouseOnBtn = false
-	end
-
-	if love.mouse.getY() < 440 and game.GameOver == true then
-		game.GameOverMouseBackArea = false
-		game.GameOverMouseOnBtn = false
-	end
-
-	if love.mouse.getY() > 485 and game.GameOver == true then
-		game.GameOverMouseBackArea = false
-		game.GameOverMouseOnBtn = false
-	end
-	-- MOUSE GAME OVER OUT OF AREA
-
-	-- Anything between the "MOUSE GAME OVER OUT OF AREA" comments:
-	-- makes sure that if the mouse goes out of a button area the button area is turned back to false
-
 
 	-- MOUSE GAME OVER BUTTON AREA
 	if love.mouse.getX() > (love.graphics.getWidth()/2 - 410/2) and love.mouse.getX() < ((love.graphics.getWidth()/2 - 410/2) + 410) and love.mouse.getY() > 440 and love.mouse.getY() < 485 and game.GameOver == true then
 		game.GameOverMouseBackArea = true
-		game.GameOverMouseOnBtn = true
-		game.GameOverMouseDetect = game.GameOverMouseDetect + 1
 	end
 	-- MOUSE GAME OVER BUTTON AREA
 
@@ -456,6 +364,11 @@ function game:draw()
 	
 	-- Draws space background
 	love.graphics.draw(game.GameBG, 0, 0)
+	
+	wallL:draw('line')
+	wallR:draw('line')
+	wallT:draw('line')
+	wallB:draw('line')
 
 	-- draw bullets
 	gun:bulletdraw()
@@ -471,56 +384,22 @@ function game:draw()
 
 	-- Draw astroids
 	astroids:draw()
-
-	-- Draw game hitboxes and other info when debugmode is active
-	if SetDeb == true then
-		debugmode:hitbox()
-		debugmode:astroids()
-		debugmode:bullets()
-	end
 	
 	-- End of camera
 	game.Cam:detach()
 	------ IN CAMERA -----
 
-	-- Draws Player Health and game hud
-	love.graphics.setFont( game.WelcomeFont )
-	love.graphics.setColor(25, 25, 25)
-	love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), 30 )
-	love.graphics.setColor(255,255,255)
-	love.graphics.rectangle("fill", 0, 30, love.graphics.getWidth(), 2 )
-	love.graphics.setColor(0, 90, 255)
-	love.graphics.rectangle("fill", 6, 6, plyr.health, 18 )
-	love.graphics.setColor(255,255,255)
-	love.graphics.rectangle("line", 6, 6, 100, 18 )
+	love.graphics.setFont( FPSfont )
+	
+	love.graphics.setColor(0, 0, 0)
+	love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), 30)
+	
+	love.graphics.setColor(160, 47, 0)
+	love.graphics.print("HP:"..tostring(plyr.health), 100, 10)
+	love.graphics.print("TIME:"..tostring(plyr.health), 350, 10)
+	love.graphics.print("SCORE:"..tostring(plyr.health), 710, 10)
+	love.graphics.print("WAVE:"..tostring(plyr.health), 1020, 10)
 	love.graphics.setColor(255, 255, 255)
-	love.graphics.print('Health', 20, 6)
-
-	-- Draws ship health once you have obtained it
-	if sship.owned == true then
-		love.graphics.setColor(0, 255, 0)
-		love.graphics.rectangle("fill", 112, 6, sship.health/2, 18 )
-		love.graphics.setColor(255, 255, 255)
-		love.graphics.rectangle("line", 112, 6, 100, 18 )
-		love.graphics.setColor(255, 255, 255)
-		love.graphics.print('Ship', 144, 6)
-	end
-
-	-- Draws game inventory hot bar
-	love.graphics.rectangle("fill", (love.graphics.getWidth()/2 - 804/2), love.graphics.getHeight() - 62, 804, 64 )
-	love.graphics.setColor(25, 25, 25)
-	love.graphics.rectangle("fill", (love.graphics.getWidth()/2 + 2 - 804/2), love.graphics.getHeight() - 60, 800, 60 )
-	love.graphics.setColor(255,255,255)
-	love.graphics.rectangle("fill", (love.graphics.getWidth()/2 - 2 - 2/2), love.graphics.getHeight() - 60, 2, 60 )
-	love.graphics.rectangle("fill", (love.graphics.getWidth()/2 - 102 - 2/2), love.graphics.getHeight() - 60, 2, 60 )
-	love.graphics.rectangle("fill", (love.graphics.getWidth()/2 - 202 - 2/2), love.graphics.getHeight() - 60, 2, 60 )
-	love.graphics.rectangle("fill", (love.graphics.getWidth()/2 - 302 - 2/2), love.graphics.getHeight() - 60, 2, 60 )
-	love.graphics.rectangle("fill", (love.graphics.getWidth()/2 + 102 - 2/2), love.graphics.getHeight() - 60, 2, 60 )
-	love.graphics.rectangle("fill", (love.graphics.getWidth()/2 + 202 - 2/2), love.graphics.getHeight() - 60, 2, 60 )
-	love.graphics.rectangle("fill", (love.graphics.getWidth()/2 + 302 - 2/2), love.graphics.getHeight() - 60, 2, 60 )
-
-	-- draw gun in inventory bar
-	gun:hotbaritem()
 
 	if game.GameOver == true then
 
@@ -538,48 +417,43 @@ function game:draw()
 
 		-- Game over text, box and button
 		love.mouse.setCursor(cursor)
-		love.graphics.rectangle("fill", (love.graphics.getWidth()/2 - 910/2), 55, 910, 510 )
-    	love.graphics.setColor(0, 0, 0)
-    	love.graphics.rectangle("fill", (love.graphics.getWidth()/2 - 900/2), 60, 900, 500 )
-    	love.graphics.setColor(255,255,255)
     	love.graphics.setFont( game.GameOverTitleFont )
-    	love.graphics.print('GAME OVER', (love.graphics.getWidth()/2 - game.GameOverTitleFont:getWidth( "GAME OVER" )/2), 120)
-    	love.graphics.setFont( game.GameOverText )
-		love.graphics.rectangle("fill", (love.graphics.getWidth()/2 - 410/2), game.BtnY + 5, 29, 35 )
-  		love.graphics.rectangle("fill", (love.graphics.getWidth()/2 - 410/2) + 381, game.BtnY + 5, 29, 35 )
-		love.graphics.print("Good game, well played,", (love.graphics.getWidth()/2 - game.GameOverText:getWidth( "Good game, well played," )/2), 230)
-		love.graphics.print("my friend, however you", (love.graphics.getWidth()/2 - game.GameOverText:getWidth( "my friend, however you" )/2), 270)
-		love.graphics.print("were utterly obliterated", (love.graphics.getWidth()/2 - game.GameOverText:getWidth( "were utterly obliterated" )/2), 310)
-		love.graphics.print("in these circumstances", (love.graphics.getWidth()/2 - game.GameOverText:getWidth( "in these circumstances" )/2), 350)
-		love.graphics.setFont( game.BtnFont )
-		love.graphics.print('Main Menu', (love.graphics.getWidth()/2 - game.BtnFont:getWidth( "Main Menu" )/2), game.BtnY)
+    	love.graphics.setColor(160, 47, 0)
+    	love.graphics.print('GAME OVER', (love.graphics.getWidth()/2 - game.GameOverTitleFont:getWidth( "GAME OVER" )/2), (love.graphics.getHeight()/2 - game.GameOverTitleFont:getHeight( "GAME OVER" )/2))
+		love.graphics.setColor(255, 255, 255)
 	end
 
     if game.Welcome == true then
     	
     	-- Welcome text, box and button
     	love.mouse.setCursor(cursor)
-    	love.graphics.rectangle("fill", (love.graphics.getWidth()/2 - 910/2), 55, 910, 510 )
+    	
     	love.graphics.setColor(0, 0, 0)
-    	love.graphics.rectangle("fill", (love.graphics.getWidth()/2 - 900/2), 60, 900, 500 )
-    	love.graphics.setColor(255,255,255)
+    	love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(),love.graphics.getHeight())
+    	
+    	love.graphics.setColor(160, 47, 0)
     	love.graphics.setFont( game.WelcomeFont )
-		love.graphics.rectangle("fill", (love.graphics.getWidth()/2 - 320/2), game.BtnY + 5, 29, 35 )
-		love.graphics.rectangle("fill", (love.graphics.getWidth()/2 - 320/2) + 291, game.BtnY + 5, 29, 35 )
-		love.graphics.print('Welcome!', (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "Welcome!" )/2), 110)
-		love.graphics.print("Thank you for taking the time to test Piquant Interactive's project, Space Game.", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "Thank you for taking the time to test Piquant Interactive's project, Space Game." )/2), 176)
-		love.graphics.print("The current version solely involves a minigame which has you battle inanimate", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "The current version solely involves a minigame which has you battle inanimate!" )/2), 194)
-		love.graphics.print("asteroids in a star field. Exhilarating, right??", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "asteroids in a star field. Exhilarating, right??" )/2), 212)
-		love.graphics.print("Leave any feedback you may have at [http://www.reddit.com/r/piquant2013/]", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "Leave any feedback you may have at [http://www.reddit.com/r/piquant2013/]" )/2), 248)
-		love.graphics.print("as we love player interaction.", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "as we love player interaction." )/2), 266)
-		love.graphics.print("Controls:", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "Controls:" )/2), 302)
-		love.graphics.print("Movement - W = Up, S = Down, A = Left, D = Right", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "Movement - W = Up, S = Down, A = Left, D = Right" )/2), 320)
-		love.graphics.print("Gun - Mouse = Aim, LeftClick = Shoot", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "Gun - Mouse = Aim, LeftClick = Shoot" )/2), 338)
-		love.graphics.print("Camera - X = Zoom In, Z = Zoom Out", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "Camera - X = Zoom In, Z = Zoom Out" )/2), 356)
-		love.graphics.print("Interaction - E = Activate, Q = Drop", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "Interaction - E = Activate, Q = Drop" )/2), 374)
-		love.graphics.print("Other - Esc = Pause, LeftShift = Sprint/Boost", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "Other - Esc = Pause, LeftShift = Sprint/Boost" )/2), 392)
+		
+		love.graphics.rectangle("fill", 500, game.BtnY - 8, 28, 28)
+
+		love.graphics.print('WELCOME!', (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "WELCOME!" )/2), 50)
+		love.graphics.print("THANK YOU FOR TAKING THE TIME TO TEST", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "THANK YOU FOR TAKING THE TIME TO TEST" )/2), 80)
+		love.graphics.print("PIQUANT INTERACTIVE'S PROJECT, ZOMBIE GAME.", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "PIQUANT INTERACTIVE'S PROJECT, ZOMBIE GAME." )/2), 110)
+		love.graphics.print("THE CURRENT VERSION SOLELY INVOLVES A MINIGAME", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "THE CURRENT VERSION SOLELY INVOLVES A MINIGAME" )/2), 140)
+		love.graphics.print("WHICH HAS YOU BATTLE INANIMATE", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "WHICH HAS YOU BATTLE INANIMATE" )/2), 170)
+		love.graphics.print("ASTEROIDS IN A STAR FIELD. EXHILARATING, RIGHT??", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "ASTEROIDS IN A STAR FIELD. EXHILARATING, RIGHT??" )/2), 200)
+		love.graphics.print("LEAVE ANY FEEDBACK YOU MAY HAVE AT", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "LEAVE ANY FEEDBACK YOU MAY HAVE AT" )/2), 230)
+		love.graphics.print("[HTTP://WWW.REDDIT.COM/R/PIQUANT2013/] AS WE LOVE", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "[HTTP://WWW.REDDIT.COM/R/PIQUANT2013/] AS WE LOVE" )/2), 260)
+		love.graphics.print("PLAYER INTERACTION.", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "PLAYER INTERACTION." )/2), 290)
+		
+		love.graphics.print("CONTROLS:", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "Controls:" )/2), 350)
+		love.graphics.print("MOVEMENT - W = UP, S = DOWN, A = LEFT, D = RIGHT", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "MOVEMENT - W = UP, S = DOWN, A = LEFT, D = RIGHT" )/2), 380)
+		love.graphics.print("GUN - MOUSE = AIM, LEFTCLICK = SHOOT", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "GUN - MOUSE = AIM, LEFTCLICK = SHOOT" )/2), 410)
+		love.graphics.print("CAMERA - X = ZOOM IN, Z = ZOOM OUT", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "CAMERA - X = ZOOM IN, Z = ZOOM OUT" )/2), 440)
+		love.graphics.print("INTERACTION - E = ACTIVATE, Q = DROP", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "INTERACTION - E = ACTIVATE, Q = DROP" )/2), 470)
+		love.graphics.print("OTHER - ESC = PAUSE, LEFTSHIFT = SPRINT/BOOST", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "OTHER - ESC = PAUSE, LEFTSHIFT = SPRINT/BOOST" )/2), 500)
 		love.graphics.setFont( game.BtnFont )
-		love.graphics.print('Continue', (love.graphics.getWidth()/2 - game.BtnFont:getWidth( "Continue" )/2), game.BtnY)
+		love.graphics.print('START', (love.graphics.getWidth()/2 - game.BtnFont:getWidth( "START" )/2), game.BtnY)
 	end
 end
 

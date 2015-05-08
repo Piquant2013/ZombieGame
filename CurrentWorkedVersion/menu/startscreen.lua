@@ -20,8 +20,9 @@ function startscreen:init()
 
 	-- Sets Menu fonts and size
 	self.MenuFont = love.graphics.newFont("fonts/PressStart.ttf", 30)
-
+	self.Enter = love.audio.newSource("audio/enter.ogg")
 	MenuMusic = love.audio.newSource("audio/menumusic.ogg")
+
 	love.audio.play(MenuMusic)
 	MenuMusic:setLooping(true)
 
@@ -53,6 +54,7 @@ function startscreen:keypressed(key)
 
 	if key == " " or key == "return" then
 		Gamestate.push(menu)
+		love.audio.play(self.Enter)
 	end
 end
 

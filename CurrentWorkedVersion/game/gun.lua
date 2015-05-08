@@ -92,12 +92,10 @@ function gun:update(dt)
 		o.x = o.x + math.cos(o.Dir) * o.Speed * dt
 		o.y = o.y + math.sin(o.Dir) * o.Speed * dt
 
-		--o.x = o.x - 0.5 * math.sin(o.Dir)
-		--o.y = o.y + 0.5 * math.cos(o.Dir)
-
 		if (o.x > (plyr.x + 300) or (o.x < (plyr.x - 300 ))) or (o.y > (plyr.y + 300 ) or (o.y < (plyr.y - 300 ))) then
 			
 			-- if the bullet goes off screen undraw it and move the bullet hit box (Temporally) to 4000, 4000
+			Collider:remove(o.bb)
 			table.remove(self.Bullets, i)
 		end
 	end
