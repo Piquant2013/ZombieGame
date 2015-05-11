@@ -83,17 +83,16 @@ function game:init()
 	------ FONTS ------
 end
 
-
-function on_collision(dt, shape_a, shape_b)
-	player:collision(dt, shape_a, shape_b)
+function on_collision(dt, shape_a, shape_b, mtv_x, mtv_y)
+	player:collision(dt, shape_a, shape_b, mtv_x, mtv_y)
 	ship:collision(dt, shape_a, shape_b)
-	astroids:collision(dt, shape_a, shape_b)
+	astroids:collision(dt, shape_a, shape_b, mtv_x, mtv_y)
 end
 
-function collision_stop(dt, shape_a, shape_b)
-	player:collisionstopped(dt, shape_a, shape_b)
+function collision_stop(dt, shape_a, shape_b, mtv_x, mtv_y)
+	player:collisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
 	ship:collisionstopped(dt, shape_a, shape_b)
-	astroids:collisionstopped(dt, shape_a, shape_b)
+	astroids:collisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
 end
 
 function game:keypressed(key)
@@ -168,22 +167,6 @@ function game:keypressed(key)
 		love.audio.stop(ship.ThrustSound)
 		love.audio.stop(ship.BoostSound)
 	end
-
-	-- If you are near the gun and you push "e" pick up the gun
-	if key == "e" and pistol.yes == true then
-		pistol.HaveGun = true
-	end
-
-	-- If you have the gun and you push "q" then drop the gun
-	if key == "q" and pistol.HaveGun == true and sship.entered == false then
-		pistol.HaveGun = false
-	end
-end
-
-function game:mousepressed(mx, my, button)
-
-	-- Update the mousepressed of the gun
-	gun:shooting(mx, my, button)
 end
 
 function game:update(dt)
@@ -222,8 +205,8 @@ function game:update(dt)
 		plyr.y = 400
 		plyr.x = 800
 		plyr.movementstop = false
-		plyr.speed = 70
-		plyr.health = 100
+		plyr.speed = 100
+		plyr.health = 1000
 		player.Tired = false
 		player.TiredTime = 0 
 		player.Sprint = false
@@ -232,7 +215,6 @@ function game:update(dt)
 		-- Reset gun
 		pistol.GunY = plyr.y
 		pistol.GunX = plyr.x
-		pistol.HaveGun = false
 		pistol.yes = false
 		pistol.itemx = 750
 		pistol.itemy = 380
@@ -271,7 +253,6 @@ function game:update(dt)
 		Collider = HC(100, on_collision, collision_stop)
 		plyr.bb = Collider:addRectangle(plyr.x, plyr.y, plyr.w, plyr.h)
 		sship.bb = Collider:addRectangle(sship.x, sship.y, sship.w, sship.h)
-		pistol.bb = Collider:addRectangle(pistol.itemx, pistol.itemy,24,24)
 
 		wallT = Collider:addRectangle(274, 192, 924, 16)
     	wallB = Collider:addRectangle(274, 1136, 924, 16)
@@ -280,6 +261,7 @@ function game:update(dt)
 
 		-- Reset/spawn astroids
 		astroids:initialize()
+		
 		rock1 = astroids:spawn()
 		rock2 = astroids:spawn()
 		rock3 = astroids:spawn()
@@ -300,16 +282,7 @@ function game:update(dt)
 		rock18 = astroids:spawn()
 		rock19 = astroids:spawn()
 		rock20 = astroids:spawn()
-		rock21 = astroids:spawn()
-		rock22 = astroids:spawn()
-		rock23 = astroids:spawn()
-		rock24 = astroids:spawn()
-		rock25 = astroids:spawn()
-		rock26 = astroids:spawn()
-		rock27 = astroids:spawn()
-		rock28 = astroids:spawn()
-		rock29 = astroids:spawn()
-		rock30 = astroids:spawn()
+		
 	end
 
 	astroids:update(dt)
@@ -413,7 +386,7 @@ function game:draw()
 		sship.entered = false
 		sship.yes = false
 		sship.exited = false
-		gun.HaveGun = false
+		love.mouse.setCursor(cursor)
 
 		-- Game over text, box and button
 		love.mouse.setCursor(cursor)

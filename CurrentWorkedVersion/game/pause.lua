@@ -119,6 +119,7 @@ function pause:update(dt)
 		love.audio.play(PauseMusic)
 		PauseMusic:setLooping(true)
 		love.audio.pause(GameMusic)
+		love.mouse.setCursor(cursor)
 	end
 
 	-- Switches back to the game script

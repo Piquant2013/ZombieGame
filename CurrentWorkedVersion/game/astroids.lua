@@ -14,7 +14,7 @@ function astroids:initialize()
 	rocks = {}
 end
 
-function astroids:collision(dt, shape_a, shape_b)
+function astroids:collision(dt, shape_a, shape_b, mtv_x, mtv_y)
 
 	for i, o in ipairs(rocks) do
 		for c, v in ipairs(gun.Bullets) do
@@ -44,7 +44,8 @@ function astroids:collision(dt, shape_a, shape_b)
 	end
 end
 
-function astroids:collisionstopped(dt, shape_a, shape_b)
+function astroids:collisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
+
 end
 
 function astroids:spawn()
@@ -75,7 +76,7 @@ function astroids:update(dt)
 		
 		v.x = v.x + dx
    		v.y = v.y + dy
-   		
+
 	end
 end
 
@@ -94,12 +95,12 @@ function astroids:draw()
 		
 		rockrot = math.atan2(v.x - plyr.x, plyr.y - v.y) + math.pi / 2
 		v.bb:moveTo(v.x, v.y)
-   		v.bb:setRotation(rockrotation)
+   		v.bb:setRotation(rockrot)
 
 
 		-- Rock graphic
 		love.graphics.draw(v.sprite, v.x, v.y, rockrot, 1, 1, rock.sprite:getWidth()/2, rock.sprite:getHeight()/2)
-		--v.bb:draw('line')
+		v.bb:draw('line')
 	end
 end
 

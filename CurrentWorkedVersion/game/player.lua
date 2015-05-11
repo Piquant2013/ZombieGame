@@ -27,10 +27,11 @@ function player:initialize()
 	plyr.x = 800
 	plyr.w = 12
 	plyr.h = 16
-	plyr.health = 100
-	plyr.speed = 70
+	plyr.health = 1000
+	plyr.speed = 100
 	plyr.movementstop = false
 	plyr.sprite = love.graphics.newImage("images/man.png")
+	plyr.arm = love.graphics.newImage("images/arm.png")
 	plyr.bb = Collider:addRectangle(plyr.x, plyr.y, plyr.w, plyr.h)
 	
 	-- Sprint varibles
@@ -40,7 +41,7 @@ function player:initialize()
 	self.SprintTime = 0
 end
 
-function player:collision(dt, shape_a, shape_b)
+function player:collision(dt, shape_a, shape_b, mtv_x, mtv_y)
 
 	-- Set player hitbox to a shape
 	local other
@@ -53,34 +54,16 @@ function player:collision(dt, shape_a, shape_b)
         return
     end
 
+    plyr.bb:move(mtv_x, mtv_y)
+    plyr.x, plyr.y = plyr.x - mtv_x, plyr.y - mtv_y
+    plyr.speed = 0
+
     -- what the player is colliding with
-    if other == pistol.bb then
-    	
-    	-- Gun
-    	pistol.yes = true
-    elseif other == sship.bb then
+    if other == sship.bb then
     	
     	-- Ship
     	sship.yes = true
     end
-
-
-
-    if other == wallT then
-    	plyr.y = plyr.y + 0.3
-    	plyr.speed = 0
-    elseif other == wallB then
-    	plyr.y = plyr.y - 0.3
-    	plyr.speed = 0
-    elseif other == wallL then
-    	plyr.x = plyr.x + 0.3
-    	plyr.speed = 0
-    elseif other == wallR then
-    	plyr.x = plyr.x - 0.3
-    	plyr.speed = 0
-    end
-
-
 
     -- Rock
     for i, o in ipairs(rocks) do
@@ -90,11 +73,11 @@ function player:collision(dt, shape_a, shape_b)
     end
 end
 
-function player:collisionstopped(dt, shape_a, shape_b)
+function player:collisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
 	
 	-- turn to false when the collisions stop
 	sship.yes = false
-	pistol.yes = false
+	plyr.speed = 100
 end
 
 function player:health(dt)
@@ -160,74 +143,18 @@ function player:movement(dt)
 	plyr.rotation = math.atan2(mx1 - plyr.x, plyr.y - my1) - math.pi / 2
 end
 
-function player:sprint(dt)
-
-	-- Start sprint timer
-	self.SprintTime = self.SprintTime + dt
-
-	-- If holding shift then player sprints
-	if love.keyboard.isDown("lshift") and sship.entered == false and plyr.movementstop == false then
-		
-		-- Set player speed
-		plyr.speed = 130
-		
-		-- Sprint is enabled
-		self.Sprint = true
-	end
-
-	-- If not holding down shift then dont sprint
-	if not love.keyboard.isDown("lshift") and sship.entered == false and plyr.movementstop == false then
-		
-		-- Set player speed
-		plyr.speed = 70
-		
-		-- Sprint is enabled
-		self.Sprint = false
-	end
-
-	-- If you have been sprinting for over 5 seconds then sprinting false
-	if self.Sprint == true and self.SprintTime > 5 and sship.entered == false then
-		self.Tired = true
-		plyr.speed = 70
-	end
-
-	-- Reset the sprint timer if your not sprinting
-	if self.Sprint == false then
-		self.SprintTime = 0
-	end
-
-	-- If your tired and you stop sprinting start the tried timer
-	if self.Tired == true and self.Sprint == false and sship.entered == false then
-		plyr.speed = 70
-		self.TiredTime = self.TiredTime + dt
-		self.SprintTime = 0
-	end
-
-	-- If the tired timer goes over 1.7 seconds tired turns off and you can sprint again
-	if self.TiredTime > 1.7 then
-		self.Tired = false
-		self.TiredTime = 0
-	end
-
-	-- Resets timers and set player back to default speed
-	if self.Tired == true and self.Sprint == true and sship.entered == false then
-		plyr.speed = 70
-		self.SprintTime = 0
-		self.TiredTime = 0
-	end
-end
-
 function player:update(dt)
 	
 	-- update player
+	Collider:addToGroup("players", plyr.bb)
 	player:movement(dt)
-	player:sprint(dt)
 end
 
 function player:draw()
 	
 	------ FILTERS ------
 	plyr.sprite:setFilter( 'nearest', 'nearest' )
+	plyr.arm:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
 	if sship.entered == true then
@@ -238,7 +165,29 @@ function player:draw()
 		-- Rotates the player hit box with the mouse
 		plyr.bb:setRotation(plyr.rotation)
 	
-	elseif sship.entered == false then 
+	elseif sship.entered == false then
+
+		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
+			
+			-- Set arm rotation
+			ArmMX = mx1 - 6 * math.sin(math.atan2(my1 - pistol.GunY, mx1 - pistol.GunX))
+			ArmMY = my1 + 6 * math.cos(math.atan2(my1 - pistol.GunY, mx1 - pistol.GunX))
+			self.armrot = math.atan2(ArmMY - pistol.GunY, ArmMX - pistol.GunX)
+
+			-- draw player arm
+			love.graphics.draw(plyr.arm, plyr.x, plyr.y, self.armrot, 1, 1, plyr.sprite:getWidth() - 32, plyr.sprite:getHeight() - 24)
+		
+		elseif (mx1 > (plyr.x - 20) or (mx1 < (plyr.x + 20 ))) or (my1 > (plyr.y - 20 ) or (my1 < (plyr.y + 20 ))) then
+
+			-- draw player arm
+			love.graphics.draw(plyr.arm, plyr.x, plyr.y, plyr.rotation, 1, 1, plyr.sprite:getWidth() - 32, plyr.sprite:getHeight() - 24)
+
+		end
+
+
+
+		plyr.bb:draw('line')
+
 
 		-- draw player
 		love.graphics.draw(plyr.sprite, plyr.x, plyr.y, plyr.rotation, 1, 1, plyr.sprite:getWidth()/2, plyr.sprite:getHeight()/2)
