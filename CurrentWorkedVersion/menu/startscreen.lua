@@ -55,6 +55,7 @@ function startscreen:keypressed(key)
 	if key == " " or key == "return" then
 		Gamestate.push(menu)
 		love.audio.play(self.Enter)
+		Paused = false
 	end
 end
 
@@ -63,7 +64,7 @@ function startscreen:draw()
 	self.MenuTitle:setFilter( 'nearest', 'nearest' )
 	self.MenuFont:setFilter( 'nearest', 'nearest' )
 
-	love.graphics.draw(self.bg, 0, love.graphics.getHeight() - self.bg:getHeight() + 16)
+	love.graphics.draw(self.bg, -10, 0, 0, 1)
 
 	love.graphics.setFont( self.MenuFont )
 

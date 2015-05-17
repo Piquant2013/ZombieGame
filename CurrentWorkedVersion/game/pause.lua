@@ -36,6 +36,8 @@ function pause:init()
 	self.PauseFont = love.graphics.newFont("fonts/PressStart.ttf", 30)
 	------ FONTS ------
 
+	self.bg = love.graphics.newImage("images/bg.png")
+
 	------ AUDIO ------
 	self.Enter = love.audio.newSource("audio/enter.ogg")
 	self.Select1 = love.audio.newSource("audio/sel.ogg")
@@ -190,6 +192,8 @@ function pause:draw()
 	pause.PauseFont:setFilter( 'nearest', 'nearest' )
 	FPSfont:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
+
+	love.graphics.draw(self.bg, 0, -1000, 0, 3)
 
 	-- Tells Menu to use PauseFont
 	love.graphics.setFont( pause.PauseFont )

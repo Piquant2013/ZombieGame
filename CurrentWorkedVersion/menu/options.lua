@@ -49,29 +49,17 @@ function options:init()
 	self.BackState = false
 
 	-- FPS Button Y & X
-	self.FPSBtnY = 242
-	
-	-- Mute Button Y & X
-	self.MuteBtnY = 292
+	self.FPSBtnY = 442
+	self.MuteBtnY = 492
+	self.MouBtnY = 542
+	self.CrdBtnY = 592
 
-	-- Mouse Lock Button Y & X
-	self.MouBtnY = 342
 
-	-- Windowed Mode Button Y & X
-	self.WinBtnY = 392
-
-	-- Credits Button Y & X
-	self.CrdBtnY = 442
 
 
 	self.FPSBtnX = 492
-
 	self.MuteBtnX = 502
-
 	self.CrdBtnX = 550
-
-	self.WinBtnX = 492
-
 	self.MouBtnX = 507
 
 
@@ -97,8 +85,8 @@ function options:init()
 	self.MuteOnOffX = 647
 
 	-- Windowed Mode Selecter Y & X
-	self.WinArrowY = 232
-	self.WinArrowX = 665
+	--self.WinArrowY = 232
+	--self.WinArrowX = 665
 
 	-- Mouse Lock Selecter Y & X
 	self.MouArrowY = 462
@@ -109,6 +97,20 @@ function options:init()
 end
 
 function options:update(dt)
+
+	if Paused == true then
+		self.FPSBtnY = 242
+		self.MuteBtnY = 292
+		self.MouBtnY = 342
+		self.CrdBtnY = 392
+	end 
+
+	if Paused == false then
+		self.FPSBtnY = 442
+		self.MuteBtnY = 492
+		self.MouBtnY = 542
+		self.CrdBtnY = 592
+	end 
 	
 	-- OPTION MENU STATES
 	if options.OptArrowY == options.FPSBtnY then
@@ -116,7 +118,7 @@ function options:update(dt)
 		options.FPSState = true
 		options.MuteState = false
 		options.CrdState = false
-		options.WinState = false
+		--options.WinState = false
 		options.MouState = false
 		love.audio.stop(options.Select1)
 		love.audio.stop(options.Select2)
@@ -133,7 +135,7 @@ function options:update(dt)
 		options.FPSState = false
 		options.MuteState = false
 		options.CrdState = true
-		options.WinState = false
+		--options.WinState = false
 		options.MouState = false
 		love.audio.stop(options.Select1)
 		love.audio.stop(options.Select2)
@@ -150,7 +152,7 @@ function options:update(dt)
 		options.FPSState = false
 		options.MuteState = true
 		options.CrdState = false
-		options.WinState = false
+		--options.WinState = false
 		options.MouState = false
 		love.audio.stop(options.Select2)
 		love.audio.stop(options.Select3)
@@ -161,6 +163,8 @@ function options:update(dt)
 		love.audio.stop(options.Select8)
 		love.audio.stop(options.Select9)
 	end
+
+	--[[
 
 	if options.OptArrowY < options.CrdBtnY and options.OptArrowY > options.MouBtnY then
 		self.OptArrowX = love.graphics.getWidth()/2 - 50 /2
@@ -178,13 +182,15 @@ function options:update(dt)
 		love.audio.stop(options.Select8)
 		love.audio.stop(options.Select9)
 	end
+
+	]]--
 	
-	if options.OptArrowY < options.WinBtnY and options.OptArrowY > options.MuteBtnY then
+	if options.OptArrowY < options.CrdBtnY and options.OptArrowY > options.MuteBtnY then
 		self.OptArrowX = love.graphics.getWidth()/2 + 10 /2
 		options.FPSState = false
 		options.MuteState = false
 		options.CrdState = false
-		options.WinState = false
+		--options.WinState = false
 		options.MouState = true
 		love.audio.stop(options.Select1)
 		love.audio.stop(options.Select2)
@@ -239,19 +245,19 @@ function options:update(dt)
 	end
 
 	-- Pushes Win arrow back if it trys to pass off
-	if options.WinArrowX > options.WinBtnX then
-		options.WinArrowX = options.WinBtnX - 118
-	end
+	--if options.WinArrowX > options.WinBtnX then
+		--options.WinArrowX = options.WinBtnX - 118
+	--end
 
 	-- Sets Win to Off
-	if options.WinArrowX == options.WinBtnX - 118 then
-		SetWin = true
-	end
+	--if options.WinArrowX == options.WinBtnX - 118 then
+		--SetWin = true
+	--end
 
 	-- Sets Win to On
-	if options.WinArrowX == options.WinBtnX then	
-		SetWin = false
-	end
+	--if options.WinArrowX == options.WinBtnX then	
+		--SetWin = false
+	--end
 
 	-- Pushes Mou arrow back if it trys to pass off
 	if options.MouArrowX > options.MouBtnX then
@@ -323,9 +329,9 @@ function options:keypressed(key)
 	end
 
 	-- If the arrow is on Win and return is true then move Win On & Off arrow
-	if key == "return" and options.WinState == true then
-		options.WinArrowX = options.WinArrowX + 118
-	end
+	--if key == "return" and options.WinState == true then
+		--options.WinArrowX = options.WinArrowX + 118
+	--end
 
 	-- If the arrow is on Mou and return is true then move Mou On & Off arrow
 	if key == "return" and options.MouState == true then
@@ -344,10 +350,10 @@ function options:keypressed(key)
 	end 
 
 	-- Plays audio for Win On & Off buttons
-	if key == "return" and SetWin == true then
-		love.audio.play(options.EnterOpt2)
-		love.audio.stop(options.EnterOpt2a)
-	end
+	--if key == "return" and SetWin == true then
+		--love.audio.play(options.EnterOpt2)
+		--love.audio.stop(options.EnterOpt2a)
+	--end
 
 	if key == "return" and SetWin == false then
 		love.audio.play(options.EnterOpt2a)
@@ -373,7 +379,11 @@ function options:draw()
 	------ FILTERS ------
 
 	if Paused == false then
-		love.graphics.draw(self.bg, 0, love.graphics.getHeight() - self.bg:getHeight() + 16)
+		love.graphics.draw(self.bg, -10, 0, 0, 1)
+	end
+
+	if Paused == true then
+		love.graphics.draw(self.bg, 0, -1000, 0, 3)
 	end
 
 	love.graphics.setColor(160, 47, 0)
@@ -386,7 +396,7 @@ function options:draw()
 	love.graphics.print('DISPLAY FPS:', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "DISPLAY FPS:" )/2), options.FPSBtnY)
 	love.graphics.print('MUTE AUDIO:', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "MUTE AUDIO:" )/2), options.MuteBtnY)
 	love.graphics.print('WINDOW LOCK:', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "WINDOW LOCK:" )/2), options.MouBtnY)
-	love.graphics.print('WINDOWED MODE:', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "WINDOWED MODE:" )/2), options.WinBtnY)
+	--love.graphics.print('WINDOWED MODE:', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "WINDOWED MODE:" )/2), options.WinBtnY)
 	love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "CREDITS" )/2), options.CrdBtnY)
 
 	-- Puts the fade on the On & Off buttons for FPS
@@ -408,13 +418,13 @@ function options:draw()
 	end
 
 	-- Puts the fade on the On & Off buttons for Win
-	if SetWin == true then
-		love.graphics.print('ON', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "ON" )/2) + 285, options.WinBtnY)
-	end
+	--if SetWin == true then
+		--love.graphics.print('ON', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "ON" )/2) + 285, options.WinBtnY)
+	--end
 
-	if SetWin == false then
-		love.graphics.print('OFF', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "OFF" )/2) + 300, options.WinBtnY)
-	end
+	--if SetWin == false then
+		--love.graphics.print('OFF', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "OFF" )/2) + 300, options.WinBtnY)
+	--end
 
 	-- Puts the fade on the On & Off buttons for Mou
 	if SetMou == true then
@@ -427,7 +437,10 @@ function options:draw()
 
 	love.graphics.setColor(255, 255, 255)
 
-	--love.graphics.draw(menu.MenuTitle, (love.graphics.getWidth()/2 - menu.MenuTitle:getWidth()/2), 100)
+	if Paused == false then
+		love.graphics.draw(menu.MenuTitle, (love.graphics.getWidth()/2 - menu.MenuTitle:getWidth()/2), logomove)
+	end
+
 end
 
 return options

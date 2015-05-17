@@ -10,6 +10,8 @@ function credits:init()
 	------ FONTS ------
 	self.CrdFont = love.graphics.newFont("fonts/PressStart.ttf", 30)
 
+	self.bg = love.graphics.newImage("images/bg.png")
+
 	------ AUDIO ------
 	EnterCrd = love.audio.newSource("audio/enter.ogg")
 	self.Select1M = love.audio.newSource("audio/sel.ogg")
@@ -41,6 +43,9 @@ function credits:draw()
 	------ FILTERS ------
 
 	------ TEXT ------
+	love.graphics.setColor(255, 255, 255)
+	love.graphics.draw(self.bg, 0, -1000, 0, 3)
+
 	love.graphics.setFont( credits.CrdFont )
 	love.graphics.setColor(160, 47, 0)
 	love.graphics.print("PROGRAMER", (love.graphics.getWidth( )/2-credits.CrdFont:getWidth("PROGRAMER")/2), 100)

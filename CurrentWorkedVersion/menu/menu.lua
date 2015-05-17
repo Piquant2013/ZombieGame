@@ -158,7 +158,7 @@ function menu:draw()
 	menu.MenuTitle:setFilter( 'nearest', 'nearest' )
 	menu.MenuFont:setFilter( 'nearest', 'nearest' )
 
-	love.graphics.draw(self.bg, 0, love.graphics.getHeight() - self.bg:getHeight() + 16)
+	love.graphics.draw(self.bg, -10, 0, 0, 1)
 
 	love.graphics.setColor(160, 47, 0)
 	love.graphics.rectangle("fill", menu.ArrowX, menu.ArrowY - 8, 28, 28 )

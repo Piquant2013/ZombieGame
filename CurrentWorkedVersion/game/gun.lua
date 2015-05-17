@@ -31,8 +31,6 @@ function gun:initialize()
 	pistol.itemx = 750
 	pistol.itemy = 380
 	pistol.sprite = love.graphics.newImage("images/gun.png")
-	pistol.invsprite = love.graphics.newImage("images/gunitem.png")
-	pistol.itemsprite = love.graphics.newImage("images/gunitem.png")
 	
 	------ AUDIO ------
 	self.GunSound = love.audio.newSource("audio/gun.ogg")
@@ -44,7 +42,7 @@ end
 
 function gun:update(dt)
 
-	if love.mouse.isDown('l') and ShotTime <= 0 and sship.entered == false then
+	if love.mouse.isDown('l') and ShotTime <= 0 and game.GameOver == false then
 		
 		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
 			
@@ -74,6 +72,8 @@ function gun:update(dt)
 		
 		-- Reset shot timer
 		ShotTime = ShotTimePlus
+
+		love.audio.play(bullet.sound)
 	end
 
 	-- Shot time
@@ -85,10 +85,10 @@ function gun:update(dt)
 		o.x = o.x + math.cos(o.Dir) * o.Speed * dt
 		o.y = o.y + math.sin(o.Dir) * o.Speed * dt
 
-		love.audio.play(o.sound)
+		--love.audio.play(o.sound)
 		Collider:addToGroup("players", o.bb)
 
-		if (o.x > (plyr.x + 300) or (o.x < (plyr.x - 300 ))) or (o.y > (plyr.y + 300 ) or (o.y < (plyr.y - 300 ))) then
+		if (o.x > (plyr.x + 250) or (o.x < (plyr.x - 250 ))) or (o.y > (plyr.y + 250 ) or (o.y < (plyr.y - 250 ))) then
 			
 			-- if the bullet goes off screen undraw it and move the bullet hit box (Temporally) to 4000, 4000
 			Collider:removeFromGroup("players", o.bb)
@@ -123,7 +123,7 @@ function gun:bulletdraw()
 		-- Move and rotate bullet hitbox
 		o.bb:moveTo(o.x + 6 * math.sin(o.Dir), o.y - 6 * math.cos(o.Dir))
 		o.bb:setRotation(o.Dir)
-		o.bb:draw('line')
+		--o.bb:draw('line')
 	end
 end
 
@@ -131,12 +131,10 @@ function gun:draw()
 
 	------ FILTERS ------
 	pistol.sprite:setFilter( 'nearest', 'nearest' )
-	pistol.itemsprite:setFilter( 'nearest', 'nearest' )
-	pistol.invsprite:setFilter( 'nearest', 'nearest' )
 	self.InteractFont:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
-	if sship.entered == false then
+	if game.GameOver == false then
 
 		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
 
@@ -150,6 +148,11 @@ function gun:draw()
 		
 		end
 	end
+
+	if game.GameOver == true then
+		love.graphics.draw(pistol.sprite, pistol.GunX, pistol.GunY, plyr.deadrotation, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
+	end
+
 end
 
 return gun
