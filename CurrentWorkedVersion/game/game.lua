@@ -78,6 +78,7 @@ function game:init()
 
 	------ IMAGES ------
 	self.GameBG = love.graphics.newImage("images/largespacebg.png")
+	self.treesBG = love.graphics.newImage("images/trees.png")
 	self.bg = love.graphics.newImage("images/bg.png")
 	------ IMAGES ------
 
@@ -109,7 +110,7 @@ end
 
 function game:keypressed(key)
 
-  	if key == "return" and game.Welcome == true then
+  	if key == "return" and game.Welcome == true or key == " " and game.Welcome == true then
   		
   		-- turn game reset off
   		GameReset = false
@@ -121,7 +122,7 @@ function game:keypressed(key)
   		love.audio.play(game.GameEnter)
   	end
 
-  	if key == "return" and game.GameOver == true then
+  	if key == "return" and game.GameOver == true or key == " " and game.GameOver == true then
   		
   		-- play sound effect for enter
   		love.audio.play(game.GameEnter)
@@ -147,12 +148,12 @@ function game:keypressed(key)
 
   	-- Zoom game camera in by 1
     if key == "x" then
-		--game.Cam:zoom(2)
+		game.Cam:zoomTo(3.2)--game.Cam:zoom(2)
 	end
 
 	-- Zoom game camera back to default
 	if key == "z" then
-		--game.Cam:zoom(0.5)
+		game.Cam:zoom(0.5)
 	end
 end
 
@@ -163,37 +164,34 @@ function game:update(dt)
 	mx1,my1 = game.Cam:mousepos()
 
 	-- make sure the camera stops at the top and bottom of map
-	if plyr.y > 735 and plyr.x > 198 and plyr.x < 811 then
-		game.Cam:move(dx/2, 0)
-	elseif plyr.y < 100 and plyr.x > 198 and plyr.x < 811 then
-		game.Cam:move(dx/2, 0)
-	end
+	--if plyr.y > 288 and plyr.x > 202 and plyr.x < 600 then
+	--	game.Cam:move(dx/2, 0)
+	--elseif plyr.y < 100 and plyr.x > 202 and plyr.x < 600 then
+	--	game.Cam:move(dx/2, 0)
+	--end
 	
 	-- make sure the camera stops at  the sides of map
-	if plyr.x < 198 and plyr.y > 100 and plyr.y < 735 then
-		game.Cam:move(0, dy/2)
-	elseif plyr.x > 811 and plyr.y > 100 and plyr.y < 735 then
-		game.Cam:move(0, dy/2)
-	end
+	--if plyr.x < 202 and plyr.y > 100 and plyr.y < 288 then
+	--	game.Cam:move(0, dy/2)
+	--elseif plyr.x > 600 and plyr.y > 100 and plyr.y < 288 then
+	--	game.Cam:move(0, dy/2)
+	--end
 
 	-- make sure the camera stops at the corners of map
-	if plyr.x < 198 and plyr.y < 100 then
-		game.Cam:move(0, 0)
-
-	elseif plyr.x > 811 and plyr.y > 735 then
-		game.Cam:move(0, 0)
-
-	elseif plyr.x > 811 and plyr.y < 100 then
-		game.Cam:move(0, 0)
-
-	elseif plyr.x < 198 and plyr.y > 735 then
-		game.Cam:move(0, 0)
-	end
+	--if plyr.x < 202 and plyr.y < 100 then
+		--game.Cam:move(0, 0)
+	--elseif plyr.x > 600 and plyr.y > 288 then
+		--game.Cam:move(0, 0)
+	--elseif plyr.x > 600 and plyr.y < 100 then
+		--game.Cam:move(0, 0)
+	--elseif plyr.x < 202 and plyr.y > 288 then
+		--game.Cam:move(0, 0)
+	--end
 
 	-- makes sure that if the player is in the center area of the map that the camera follows
-	if plyr.x < 811 and plyr.x > 198 and plyr.y > 100 and plyr.y < 735 then
+	--if plyr.x < 600 and plyr.x > 202 and plyr.y > 100 and plyr.y < 288 then
 		game.Cam:move(dx/2, dy/2)
-	end
+	--end
 
 	-- Zoom camera in when gameover but make sure it stays default when not
     if game.GameOver == true then
@@ -225,10 +223,10 @@ function game:update(dt)
 	if GameReset == true then
 
 		-- Reset player
-		plyr.y = 400
-		plyr.x = 500
+		plyr.y = 200
+		plyr.x = 600
 		plyr.movementstop = false
-		plyr.speed = 100
+		plyr.speed = 80
 		plyr.health = 100
 
 		-- Reset gun
@@ -237,8 +235,8 @@ function game:update(dt)
 		pistol.yes = false
 		pistol.itemx = 750
 		pistol.itemy = 380
-		gun.ShotTime = 0
-		gun.ShotTimePlus = 0
+		ShotTime = 0
+		ShotTimePlus = 0.25
 		gun.Bullets = {}
 		gun.GunShot = false
 		gun.GunShot1 = false
@@ -258,31 +256,38 @@ function game:update(dt)
 		self.score = 0
 		self.time = 0
 		self.wave = 1
+		
 		self.wavedrawtime = 0
 		self.wavestart = true
-		wavecount = 14
+		wavecount = 50
 		zombies = 0
 		wavebreak = 0
 		kills = 0
-		zombspeed = 14
+		zombspeed = 60
 		zombhealth = 1
 		healthlock = false
 		spawnratelock = false
 		speedlock = false
-		wavebreaktime = 6
+		wavebreaktime = 2
 		
 		-- Reset hardon collider hit boxes
 		Collider = HC(100, on_collision, collision_stop)
 		plyr.bb = Collider:addRectangle(plyr.x, plyr.y, plyr.w, plyr.h)
-		wallT = Collider:addRectangle(1, -17, 1007, 16)
-    	wallB = Collider:addRectangle(1, 846, 1007, 16)
-    	wallL = Collider:addRectangle(-17, -17, 16, 879)
-    	wallR = Collider:addRectangle(1010, -17, 16, 879)
+		wallT = Collider:addRectangle(188, 120, 850, 16)
+    	wallB = Collider:addRectangle(188, 580, 850, 16)
+    	wallL = Collider:addRectangle(170, 120, 16, 476)
+    	wallR = Collider:addRectangle(1040, 120, 16, 476)
+    	
+    	tree1 = Collider:addCircle(334, 282, 10)
+    	tree2 = Collider:addCircle(817, 259, 10)
+    	tree3 = Collider:addCircle(900, 457, 10)
+    	tree4 = Collider:addCircle(610, 356, 80)
+
 
     	-- zombie
     	rocks = {}
     	SpawnTime = 0
-		SpawnTimePlus = 1.6
+		SpawnTimePlus = 0.4
 
 		-- new player vars 
 		hitmove = 600
@@ -313,81 +318,24 @@ function game:update(dt)
 		self.wavestart = false
 	end
 
-	if kills == zombies and self.wavestart == false then
-		zombies = 0
-		kills = 0
-		wavebreak = wavebreak + dt
-	end
-
-	if wavebreak > wavebreaktime and zombies == 0 and self.wavestart == false then
-		wavebreak = 0
-		wavecount = wavecount + 4
-		game.wave = game.wave + 1
-		zombspeed = zombspeed + 2
-		zombhealth = zombhealth + 1
-		SpawnTimePlus = SpawnTimePlus - 0.1
-		self.wavedrawtime = 0
+	if zombies < wavecount then
 		self.wavestart = true
 	end
 
-	if game.wave == 5 and self.wavestart == false then
-		plyr.health = 100
-	elseif game.wave == 10 and self.wavestart == false then
-		plyr.health = 100
-	elseif game.wave == 15 and self.wavestart == false then
-		plyr.health = 100
-	elseif game.wave == 20 and self.wavestart == false then
-		plyr.health = 100
-	elseif game.wave == 25 and self.wavestart == false then
-		plyr.health = 100
-	elseif game.wave == 30 and self.wavestart == false then
-		plyr.health = 100
-	elseif game.wave == 35 and self.wavestart == false then
-		plyr.health = 100
-	elseif game.wave == 40 and self.wavestart == false then
-		plyr.health = 100
-	elseif game.wave == 45 and self.wavestart == false then
-		plyr.health = 100
-	elseif game.wave == 50 and self.wavestart == false then
-		plyr.health = 200
-	elseif game.wave == 55 and self.wavestart == false then
-		plyr.health = 200
-	elseif game.wave == 60 and self.wavestart == false then
-		plyr.health = 200
-	elseif game.wave == 65 and self.wavestart == false  then
-		plyr.health = 200
-	elseif game.wave == 70 and self.wavestart == false then
-		plyr.health = 200
-	elseif game.wave == 80 and self.wavestart == false then
-		plyr.health = 200
+	if kills > 100 then
+		kills = 0
+		SpawnTimePlus = SpawnTimePlus - 0.01
+		self.wavedrawtime = 0
+		game.wave = game.wave + 1
+		wavecount = wavecount + 6
 	end
 
-	if game.wave == 10 then
-		wavebreaktime = 10
+	if SpawnTimePlus < 0.1 then
+		SpawnTimePlus = 0.1
 	end
 
-	if SpawnTimePlus < 0.8 then
-		spawnratelock = true
-	end
-
-	if spawnratelock == true then
-		SpawnTimePlus = 0.8
-	end
-
-	if zombhealth > 10 then
-		healthlock = true
-	end
-
-	if healthlock == true then
-		zombhealth = 10
-	end
-
-	if zombspeed > 80 then
-		speedlock = true
-	end
-
-	if speedlock == true then
-		zombspeed = 80
+	if wavecount > 150 then
+		wavecount = 150
 	end
 
 
@@ -426,10 +374,13 @@ end
 function love.focus(f)
 	
 	-- If the mouse loses focus from the game window pause the game
-	if not f and not Paused and not game.Welcome then
-		Paused = true
-		Resume = false
-   		love.mouse.setCursor(cursor)
+	if not f then
+		
+		if Paused == false and game.Welcome == false then  
+			Paused = true
+			Resume = false
+   			love.mouse.setCursor(cursor)
+   		end 
 	end
 end
 
@@ -437,6 +388,7 @@ function game:draw()
 	
 	------ FILTERS ------
 	game.GameBG:setFilter( 'nearest', 'nearest' )
+	game.treesBG:setFilter( 'nearest', 'nearest' )
 	game.InteractFont:setFilter( 'nearest', 'nearest' )
 	game.InteractFont:setFilter( 'nearest', 'nearest' )
 	game.BtnFont:setFilter( 'nearest', 'nearest' )
@@ -450,11 +402,6 @@ function game:draw()
 	game.Cam:attach()
 
 	love.graphics.draw(game.GameBG, 0, 0)
-
-	--wallL:draw('line')
-	--wallR:draw('line')
-	--wallT:draw('line')
-	--wallB:draw('line')
 
 	-- draw bullets
 	gun:bulletdraw()
@@ -472,6 +419,17 @@ function game:draw()
 
 	-- Draw astroids
 	astroids:draw()
+
+	love.graphics.draw(self.treesBG, 0, 0)
+
+	tree1:draw('line')
+	tree2:draw('line')
+	tree3:draw('line')
+	tree4:draw('line')
+	wallL:draw('line')
+	wallR:draw('line')
+	wallT:draw('line')
+	wallB:draw('line')
 
 	-- End of camera
 	game.Cam:detach()
@@ -494,7 +452,7 @@ function game:draw()
 		love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), 30)
 	
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("HP:"..tostring(plyr.health), 100, 10)
+		love.graphics.print("HP:"..tostring(math.floor(plyr.health)), 100, 10)
 		love.graphics.print("TIME:"..tostring(math.floor(self.time)), 350, 10)
 		love.graphics.print("SCORE:"..tostring(self.score), 710, 10)
 		love.graphics.print("WAVE:"..tostring(self.wave), 1020, 10)
@@ -506,12 +464,12 @@ function game:draw()
 
 
 		if SetFPS == true then
-			--love.graphics.print("Zombs "..tostring(zombies), love.graphics.getWidth() + 20 - game.GameOverTitleFont:getWidth( "Zombs " ), 200)
-			--love.graphics.print("Count "..tostring(wavecount), love.graphics.getWidth() + 20 - game.GameOverTitleFont:getWidth( "Count " ), 250)
-			--love.graphics.print("Kills  "..tostring(kills), love.graphics.getWidth() + 20 - game.GameOverTitleFont:getWidth( "Kills " ), 300)
-			--love.graphics.print("Speed  "..tostring(rock.speed), love.graphics.getWidth() + 20 - game.GameOverTitleFont:getWidth( "Speed " ), 350)
-			--love.graphics.print("healh  "..tostring(zombhealth), love.graphics.getWidth() + 20 - game.GameOverTitleFont:getWidth( "healh " ), 400)
-			--love.graphics.print("Spawn  "..tostring(SpawnTimePlus), love.graphics.getWidth() + 20 - game.GameOverTitleFont:getWidth( "Spawn " ), 450)
+			love.graphics.print("Zombs "..tostring(zombies), love.graphics.getWidth() + 20 - game.GameOverTitleFont:getWidth( "Zombs " ), 200)
+			love.graphics.print("Count "..tostring(wavecount), love.graphics.getWidth() + 20 - game.GameOverTitleFont:getWidth( "Count " ), 250)
+			love.graphics.print("Kills  "..tostring(kills), love.graphics.getWidth() + 20 - game.GameOverTitleFont:getWidth( "Kills " ), 300)
+			love.graphics.print("Speed  "..tostring(rock.speed), love.graphics.getWidth() + 20 - game.GameOverTitleFont:getWidth( "Speed " ), 350)
+			love.graphics.print("healh  "..tostring(zombhealth), love.graphics.getWidth() + 20 - game.GameOverTitleFont:getWidth( "healh " ), 400)
+			love.graphics.print("Spawn  "..tostring(SpawnTimePlus), love.graphics.getWidth() + 20 - game.GameOverTitleFont:getWidth( "Spawn " ), 450)
 		end
 	
 

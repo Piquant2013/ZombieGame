@@ -68,7 +68,7 @@ function pause:keypressed(key)
  
  	------ ACTIVATE BUTTONS ------
 	-- Tells pause menu to resume game script
-	if key == "return" and pause.ResumeState == true then
+	if key == "return" and pause.ResumeState == true or key == " " and pause.ResumeState == true then
 		
 		-- play sound effect for enter
 		love.audio.play(pause.Enter)
@@ -77,7 +77,7 @@ function pause:keypressed(key)
 		Resume = true
 	end
 
-	if key == "return" and pause.OptionsState == true then
+	if key == "return" and pause.OptionsState == true or key == " " and pause.OptionsState == true then
 		
 		-- play sound effect for enter
 		love.audio.play(pause.Enter)
@@ -86,7 +86,7 @@ function pause:keypressed(key)
 		Gamestate.push(options)
 	end
   
-	if key == "return" and pause.MainMenuState == true then
+	if key == "return" and pause.MainMenuState == true or key == " " and pause.MainMenuState == true then
 		
 		-- play sound effect for enter
 		love.audio.play(pause.Enter)
@@ -94,6 +94,7 @@ function pause:keypressed(key)
 		-- Reset the game
 		GameReset = true
 		Paused = false
+		game.Welcome = true
 		
 		-- Tells the pause menu script to switch to the menu script
 		Gamestate.switch(menu)

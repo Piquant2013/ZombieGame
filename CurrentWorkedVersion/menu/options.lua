@@ -311,7 +311,7 @@ function options:keypressed(key)
 	end
 
 	-- If the arrow is on credits and return is true then display credits
-	if key == "return" and options.CrdState == true then
+	if key == "return" and options.CrdState == true or key == " " and options.CrdState == true then
 		Gamestate.push(credits)
 		love.audio.play(EnterOpt)
 		love.audio.stop(EnterCrd)
@@ -319,12 +319,12 @@ function options:keypressed(key)
 
 
 	-- If the arrow is on FPS and return is true then move FPS On & Off arrow
-	if key == "return" and options.FPSState == true then
+	if key == "return" and options.FPSState == true or key == " " and options.FPSState == true then
 		options.FPSArrowX = options.FPSArrowX + 118
 	end
 
 	-- If the arrow is on Mute and return is true then move Mute On & Off arrow
-	if key == "return" and options.MuteState == true then
+	if key == "return" and options.MuteState == true or key == " " and options.MuteState == true then
 		options.MuteArrowX = options.MuteArrowX + 118
 	end
 
@@ -334,17 +334,17 @@ function options:keypressed(key)
 	--end
 
 	-- If the arrow is on Mou and return is true then move Mou On & Off arrow
-	if key == "return" and options.MouState == true then
+	if key == "return" and options.MouState == true or key == " " and options.MouState == true then
 		options.MouArrowX = options.MouArrowX + 118
 	end
 
 	-- Plays audio for FPS On & Off buttons
-	if key == "return" and SetFPS == true then
+	if key == "return" and SetFPS == true or key == " " and SetFPS == true then
 		love.audio.play(options.EnterOpt1)
 		love.audio.stop(options.EnterOpt1a)
 	end
 
-	if key == "return" and SetFPS == false then
+	if key == "return" and SetFPS == false or key == " " and SetFPS == false then
 		love.audio.play(options.EnterOpt1a)
 		love.audio.stop(options.EnterOpt1)
 	end 
@@ -355,18 +355,18 @@ function options:keypressed(key)
 		--love.audio.stop(options.EnterOpt2a)
 	--end
 
-	if key == "return" and SetWin == false then
+	if key == "return" and SetWin == false or key == " " and SetWin == false then
 		love.audio.play(options.EnterOpt2a)
 		love.audio.stop(options.EnterOpt2)
 	end
 
 	-- Plays audio for Mou On & Off buttons
-	if key == "return" and SetMou == true then
+	if key == "return" and SetMou == true or key == " " and SetMou == true then
 		love.audio.play(options.EnterOpt4)
 		love.audio.stop(options.EnterOpt4a)
 	end
 
-	if key == "return" and SetMou == false then
+	if key == "return" and SetMou == false or key == " " and SetMou == false then
 		love.audio.play(options.EnterOpt4a)
 		love.audio.stop(options.EnterOpt4)
 	end

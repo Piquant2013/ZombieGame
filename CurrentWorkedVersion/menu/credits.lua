@@ -25,7 +25,7 @@ end
 function credits:keypressed(key)
 	
 	-- Takes you back to the main menu
-	if key == "escape" then
+	if key == "escape" or key == "return" or key == " " then
 		
 		-- Tells the game script to unload itslef and go back to previous gamestate in stack
 		Gamestate.pop()

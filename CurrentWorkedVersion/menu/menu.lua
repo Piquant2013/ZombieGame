@@ -133,7 +133,7 @@ function menu:keypressed(key)
 		menu.ArrowY = menu.ArrowY + 50
 	end
 
-	if key == "return" and menu.PlayState == true then
+	if key == "return" and menu.PlayState == true or key == " " and menu.PlayState == true then
 		
 		love.audio.play(menu.Enter)
 		Gamestate.switch(game)
@@ -142,11 +142,11 @@ function menu:keypressed(key)
 		love.audio.stop(MenuMusic)
 	end
 
-	if key == "return" and menu.ExitState == true then
+	if key == "return" and menu.ExitState == true or key == " " and menu.ExitState == true then
 		love.event.quit()
 	end
 
-	if key == "return" and menu.OptState == true then
+	if key == "return" and menu.OptState == true or key == " " and menu.OptState == true then
 		
 		love.audio.play(menu.Enter)
 		Gamestate.push(options)

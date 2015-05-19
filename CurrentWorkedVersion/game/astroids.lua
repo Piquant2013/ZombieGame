@@ -14,7 +14,7 @@ function astroids:initialize()
 	rocks = {}
 
 	SpawnTime = 0
-	SpawnTimePlus = 1.6
+	SpawnTimePlus = 0.38
 
 end
 
@@ -45,7 +45,8 @@ function astroids:collision(dt, shape_a, shape_b, mtv_x, mtv_y)
 				if o.health < 0 then
 					o.health = 0
 					game.score = game.score + 10
-					kills = kills + 1					
+					kills = kills + 1
+					zombies = zombies - 1					
 					Collider:remove(o.bb)
 					table.remove(rocks, i)
 				end
@@ -102,17 +103,17 @@ function astroids:spawn()
 		random = love.math.random(1, 4)
 
 		if random == 1 then
-			Rx = love.math.random(-26, -16)
-			Ry = love.math.random(369, 479)
+			Rx = love.math.random(100, 1100)
+			Ry = love.math.random(1, 10)
 		elseif random == 2 then
-			Rx = love.math.random(444, 554)
-			Ry = love.math.random(-26, -16)
+			Rx = love.math.random(1, 10)
+			Ry = love.math.random(100, 600)
 		elseif random == 3 then
-			Rx = love.math.random(451, 561)
-			Ry = love.math.random(860, 870)
+			Rx = love.math.random(1190, 1200)
+			Ry = love.math.random(100, 600)
 		elseif random == 4 then
-			Rx = love.math.random(607, 717)
-			Ry = love.math.random(372, 482)
+			Rx = love.math.random(100, 1100)
+			Ry = love.math.random(690, 700)
 		end
 
 		-- Rock table and its varibles

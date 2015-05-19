@@ -18,7 +18,7 @@ function gun:initialize()
 	
 	-- Bullet
 	ShotTime = 0
-	ShotTimePlus = 0.3
+	ShotTimePlus = 0.25
 	self.Bullets = {}
 	self.GunShot = false
 	self.GunShot1 = false

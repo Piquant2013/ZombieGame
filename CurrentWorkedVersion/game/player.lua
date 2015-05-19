@@ -20,12 +20,12 @@ function player:initialize()
 	plyr = self.plyr
 
 	-- The contents of the player table
-	plyr.y = 500
-	plyr.x = 400
+	plyr.y = 200
+	plyr.x = 600
 	plyr.w = 12
 	plyr.h = 16
 	plyr.health = 100
-	plyr.speed = 100
+	plyr.speed = 80
 	plyr.movementstop = false
 	plyr.sprite = love.graphics.newImage("images/man.png")
 	plyr.arm = love.graphics.newImage("images/arm.png")
@@ -71,13 +71,11 @@ function player:collision(dt, shape_a, shape_b, mtv_x, mtv_y)
     -- Rock
     for i, o in ipairs(rocks) do
     	if other == o.bb then
-    		
-    		plyr.health = plyr.health - 5
+    		plyr.health = plyr.health - 0.4
     		plyr.hurt = true
-    		hitrot = math.atan2(o.x - plyr.x, plyr.y - o.y) + math.pi / 2
-    		plyr.x = plyr.x + math.cos(hitrot) * hitmove * dt
-			plyr.y = plyr.y + math.sin(hitrot) * hitmove * dt
-    	
+    		--hitrot = math.atan2(o.x - plyr.x, plyr.y - o.y) + math.pi / 2
+    		--plyr.x = plyr.x + math.cos(hitrot) * hitmove * dt
+			--plyr.y = plyr.y + math.sin(hitrot) * hitmove * dt
     	end
     end
 end
@@ -86,7 +84,7 @@ function player:collisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
 	
 	-- turn to false when the collisions stop
 	plyr.hurt = false
-	plyr.speed = 100
+	plyr.speed = 80
 
 end
 
@@ -102,6 +100,26 @@ function player:health(dt)
 		game.GameOver = true
 		hitmove = 0
 	end
+
+	hurttimer = hurttimer + dt
+
+	if plyr.hurt == true then
+		hurttimer = 0
+		stopred = true
+	end
+
+	if hurttimer > 0.3 then
+		stopred = false
+	end
+
+	if hurttimer > 4 and plyr.hurt == false then
+		plyr.health = plyr.health + 1
+	end
+
+	if plyr.health > 100 then
+		plyr.health = 100
+	end
+
 end
 
 function player:movement(dt)
@@ -156,17 +174,6 @@ end
 
 function player:update(dt)
 	
-	hurttimer = hurttimer + dt
-
-	if plyr.hurt == true then
-		hurttimer = 0
-		stopred = true
-	end
-
-	if hurttimer > 0.3 then
-		stopred = false
-	end
-
 	-- update player
 	Collider:addToGroup("players", plyr.bb)
 	player:movement(dt)
