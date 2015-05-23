@@ -2,7 +2,7 @@
 function love.run() end
 
 -- Loads gamestate script
-local Gamestate = require 'libs/hump/gamestate'
+Gamestate = require 'libs/hump/gamestate'
 
 -- Loads logo script
 logo = require 'logo'
@@ -13,18 +13,24 @@ frame_limiter = require 'libs/fpslimter'
 
 function love.load()
 
-	FPSfont = love.graphics.newFont("fonts/PressStart.ttf", 20)
+	------ FONTS ------
+	fpsfont = love.graphics.newFont("fonts/PressStart.ttf", 20)
+	------ FONTS ------
 
+	------ CURSOR ------
 	crosshair = love.mouse.newCursor("images/crosshair.png", 14, 14)
+	------ CURSOR ------
 
-	-- FPS, Mute, Win, Deb and Mou states
-	SetFPS = false
-	SetMute = false
-	SetWin = true
-	SetMou = false
-	Paused = false
+	------ GOLBAL VARIABLES ------
+	setfps = false
+	setmute = false
+	setmouselock = false
+	paused = false
+	resume = false
+	gamereset = true
+	------ GOLBAL VARIABLES ------
 	
-	-- Tells game to continue onto the logo script
+	-- Tells game to start with the logo script
 	Gamestate.switch(logo)
 end
 
@@ -40,28 +46,21 @@ function love.update(dt)
 	frame_limiter.set(60)
 
 	-- Set game audio to 0 if the options script tells mute to be true
-	if SetMute == true then
+	if setmute == true then
 		love.audio.setVolume(0.0)
 	end
 
 	-- Set game audio back to default if the options script tells mute to be false
-	if SetMute == false then
+	if setmute == false then
 		love.audio.setVolume(1.0)
 	end
 
 	-- Locks the cursor to the screen
-	if SetMou == true then
+	if setmouselock == true then
 		love.mouse.setGrabbed( true )
-	elseif SetMou == false then
+	elseif setmouselock == false then
 		love.mouse.setGrabbed( false )
 	end
-
-	-- Sets if the game is in windowed mode or not
-    if SetWin == false then
-    	love.window.setFullscreen(true, "desktop")
-    elseif SetWin == true then
-    	love.window.setFullscreen(false, "desktop")
-    end
 
 	-- Sets up each individual script to use its own love.update, love.load, etc
 	Gamestate.update(dt)
@@ -82,26 +81,26 @@ end
 function love.draw()
 
 	------ FILTERS ------
-	FPSfont:setFilter( 'nearest', 'nearest' )
+	fpsfont:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
 	-- Sets up each individual script to use its own love.update, love.load, etc
 	Gamestate.draw()
 
-	-- Tells FPS to use FPSfont
-	love.graphics.setFont( FPSfont )
+	-- Set font for fps and mute
+	love.graphics.setFont( fpsfont )
 	
 	-- Displays FPS if the options script tells FPS to be true
-	if SetFPS == true then
+	if setfps == true then
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("FPS: " .. love.timer.getFPS(), (love.graphics.getWidth( ) - FPSfont:getWidth( "FPS: " .. love.timer.getFPS()) - 10), 40)
+		love.graphics.print("FPS: " .. love.timer.getFPS(), (love.graphics.getWidth( ) - fpsfont:getWidth( "FPS: " .. love.timer.getFPS()) - 10), 40)
 		love.graphics.setColor(255, 255, 255)
 	end
 
 	-- Displays "Mute: ON" if the options script tells mute to be true 
-	if SetMute == true then
+	if setmute == true then
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("MUTE: ON", (love.graphics.getWidth( ) - FPSfont:getWidth( "Mute: ON" ) - 200), 40)
+		love.graphics.print("MUTE: ON", (love.graphics.getWidth( ) - fpsfont:getWidth( "Mute: ON" ) - 200), 40)
 		love.graphics.setColor(255, 255, 255)
 	end
 end

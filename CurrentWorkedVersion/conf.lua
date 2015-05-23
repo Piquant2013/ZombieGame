@@ -8,7 +8,7 @@ function love.conf(t)
     t.window.title = "Zombie Game (Pre-Alpha 0.1.0)"
 
     -- Game icon
-    t.window.icon = "images/logozombie.png"
+    t.window.icon = "images/gameicon.png"
 
     -- Games window width
     t.window.width = 1280

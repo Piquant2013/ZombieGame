@@ -1,9 +1,6 @@
 -- Loads gamestate script
 local Gamestate = require 'libs/hump/gamestate'
 
--- Loads Hardon Collider script
-local HC = require 'libs/hardoncollider'
-
 -- Creates game as a new gamestate
 astroids = Gamestate.new()
 
@@ -120,7 +117,7 @@ function astroids:spawn()
 		rock = {}    
 
 		-- The contents of the rock table
-		rock.sprite = love.graphics.newImage("images/rock.png")
+		rock.sprite = love.graphics.newImage("images/zombies/zombie.png")
 		rock.health = zombhealth
 		rock.speed = zombspeed
 		rock.x = Rx

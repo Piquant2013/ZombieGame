@@ -8,16 +8,16 @@ local camera = require "libs/hump/camera"
 local HC = require 'libs/hardoncollider'
 
 -- Loads pause script
-pause = require 'game/pause'
+pause = require 'game/menus/pause'
 
 -- Loads player script
 player = require 'game/player'
 
 -- Loads player script
-gun = require 'game/gun'
+gun = require 'game/weapons/pistol'
 
 -- Loads astroids script
-astroids = require 'game/astroids'
+astroids = require 'game/zombies'
 
 -- Creates game as a new gamestate
 game = Gamestate.new()
@@ -77,15 +77,14 @@ function game:init()
 	------ VARIABLES ------
 
 	------ IMAGES ------
-	self.GameBG = love.graphics.newImage("images/largespacebg.png")
-	self.treesBG = love.graphics.newImage("images/trees.png")
-	self.bg = love.graphics.newImage("images/bg.png")
+	self.GameBG = love.graphics.newImage("images/maps/endless-layer1.png")
+	self.treesBG = love.graphics.newImage("images/maps/endless-layer2.png")
 	------ IMAGES ------
 
 	------ AUDIO ------
-	GameMusic = love.audio.newSource("audio/gamemusic.ogg")
-	self.GameSelect1M = love.audio.newSource("audio/sel.ogg")
-	self.GameEnter = love.audio.newSource("audio/enter.ogg")
+	GameMusic = love.audio.newSource("audio/music/game.ogg")
+	self.GameSelect1M = love.audio.newSource("audio/buttons/select.ogg")
+	self.GameEnter = love.audio.newSource("audio/buttons/enter.ogg")
 	------ AUDIO ------
 
 	------ FONTS ------
@@ -113,7 +112,7 @@ function game:keypressed(key)
   	if key == "return" and game.Welcome == true or key == " " and game.Welcome == true then
   		
   		-- turn game reset off
-  		GameReset = false
+  		gamereset = false
   		
   		-- turn welcome screen off
   		game.Welcome = false
@@ -136,7 +135,7 @@ function game:keypressed(key)
    		love.audio.stop(GameMusic)
     	
    		-- Reset the game
-    	GameReset = true
+    	gamereset = true
   	end
 
   	-- Pause the game
@@ -220,7 +219,7 @@ function game:update(dt)
 	end
 
 	-- Reset the game back to default for when you start a new game
-	if GameReset == true then
+	if gamereset == true then
 
 		-- Reset player
 		plyr.y = 200
@@ -446,7 +445,7 @@ function game:draw()
 
 	if game.GameOver == false then
 	
-		love.graphics.setFont( FPSfont )
+		love.graphics.setFont( start.font )
 	
 		love.graphics.setColor(0, 0, 0)
 		love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), 30)
@@ -511,31 +510,27 @@ function game:draw()
     	-- Welcome text, box and button
     	love.mouse.setCursor(cursor)
     	
-    	love.graphics.draw(self.bg, 0, -1000, 0, 3)
+    	love.graphics.draw(start.bg, 0, -1000, 0, 3)
     	
     	love.graphics.setColor(160, 47, 0)
-    	love.graphics.setFont( game.WelcomeFont )
+    	love.graphics.setFont( start.font )
 		
-		love.graphics.rectangle("fill", 500, game.BtnY - 8, 28, 28)
+		--love.graphics.rectangle("fill", 500, game.BtnY - 8, 28, 28)
 
-		love.graphics.print('WELCOME!', (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "WELCOME!" )/2), 50)
-		love.graphics.print("THANK YOU FOR TAKING THE TIME TO TEST", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "THANK YOU FOR TAKING THE TIME TO TEST" )/2), 80)
-		love.graphics.print("PIQUANT INTERACTIVE'S PROJECT, ZOMBIE GAME.", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "PIQUANT INTERACTIVE'S PROJECT, ZOMBIE GAME." )/2), 110)
-		love.graphics.print("THE CURRENT VERSION SOLELY INVOLVES A MINIGAME", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "THE CURRENT VERSION SOLELY INVOLVES A MINIGAME" )/2), 140)
-		love.graphics.print("WHICH HAS YOU BATTLE INANIMATE", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "WHICH HAS YOU BATTLE INANIMATE" )/2), 170)
-		love.graphics.print("ASTEROIDS IN A STAR FIELD. EXHILARATING, RIGHT??", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "ASTEROIDS IN A STAR FIELD. EXHILARATING, RIGHT??" )/2), 200)
-		love.graphics.print("LEAVE ANY FEEDBACK YOU MAY HAVE AT", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "LEAVE ANY FEEDBACK YOU MAY HAVE AT" )/2), 230)
-		love.graphics.print("[HTTP://WWW.REDDIT.COM/R/PIQUANT2013/] AS WE LOVE", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "[HTTP://WWW.REDDIT.COM/R/PIQUANT2013/] AS WE LOVE" )/2), 260)
-		love.graphics.print("PLAYER INTERACTION.", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "PLAYER INTERACTION." )/2), 290)
+		love.graphics.print('WELCOME!', (love.graphics.getWidth()/2 - start.font:getWidth( "WELCOME!" )/2), 80)
+		love.graphics.print("THANK YOU FOR TAKING THE TIME TO TEST", (love.graphics.getWidth()/2 - start.font:getWidth( "THANK YOU FOR TAKING THE TIME TO TEST" )/2), 180)
+		love.graphics.print("PIQUANT INTERACTIVE'S PROJECT,", (love.graphics.getWidth()/2 - start.font:getWidth( "PIQUANT INTERACTIVE'S PROJECT," )/2), 230)
+		love.graphics.print("ZOMBIE GAME. THIS GAME MODE HAS YOU", (love.graphics.getWidth()/2 - start.font:getWidth( "ZOMBIE GAME. THIS GAME MODE HAS YOU" )/2), 280)
+		love.graphics.print("BATTLING ZOMBIES IN AN ENDLESS, WAVE", (love.graphics.getWidth()/2 - start.font:getWidth( "BATTLING ZOMBIES IN AN ENDLESS, WAVE" )/2), 330)
+		love.graphics.print("BASED SURVIVAL SHOOTER WITH NAUGHT", (love.graphics.getWidth()/2 - start.font:getWidth( "BASED SURVIVAL SHOOTER WITH NAUGHT" )/2), 380)
+		love.graphics.print("BUT YOUR WIT AND YOUR PISTOL. DON'T DIE!", (love.graphics.getWidth()/2 - start.font:getWidth( "BUT YOUR WIT AND YOUR PISTOL. DON'T DIE!" )/2), 430)
 		
-		love.graphics.print("CONTROLS:", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "Controls:" )/2), 350)
-		love.graphics.print("MOVEMENT - W = UP, S = DOWN, A = LEFT, D = RIGHT", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "MOVEMENT - W = UP, S = DOWN, A = LEFT, D = RIGHT" )/2), 380)
-		love.graphics.print("GUN - MOUSE = AIM, LEFTCLICK = SHOOT", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "GUN - MOUSE = AIM, LEFTCLICK = SHOOT" )/2), 410)
-		love.graphics.print("CAMERA - X = ZOOM IN, Z = ZOOM OUT", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "CAMERA - X = ZOOM IN, Z = ZOOM OUT" )/2), 440)
-		love.graphics.print("INTERACTION - E = ACTIVATE, Q = DROP", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "INTERACTION - E = ACTIVATE, Q = DROP" )/2), 470)
-		love.graphics.print("OTHER - ESC = PAUSE, LEFTSHIFT = SPRINT/BOOST", (love.graphics.getWidth()/2 - game.WelcomeFont:getWidth( "OTHER - ESC = PAUSE, LEFTSHIFT = SPRINT/BOOST" )/2), 500)
-		love.graphics.setFont( game.BtnFont )
-		love.graphics.print('START', (love.graphics.getWidth()/2 - game.BtnFont:getWidth( "START" )/2), game.BtnY)
+		love.graphics.print("LEAVE ANY FEEDBACK YOU MAY HAVE AT", (love.graphics.getWidth()/2 - start.font:getWidth( "LEAVE ANY FEEDBACK YOU MAY HAVE AT" )/2), 530)
+		love.graphics.print("[HTTP://WWW.REDDIT.COM/R/PIQUANT2013/]", (love.graphics.getWidth()/2 - start.font:getWidth( "[HTTP://WWW.REDDIT.COM/R/PIQUANT2013/]" )/2), 580)
+		love.graphics.print("AS WE LOVE PLAYER INTERACTION.", (love.graphics.getWidth()/2 - start.font:getWidth( "AS WE LOVE PLAYER INTERACTION." )/2), 630)
+		
+		--love.graphics.setFont( start.font )
+		--love.graphics.print('START', (love.graphics.getWidth()/2 - start.font:getWidth( "START" )/2), game.BtnY)
 	end
 end
 

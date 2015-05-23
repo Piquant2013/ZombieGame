@@ -1,9 +1,6 @@
 -- Loads gamestate script
 local Gamestate = require 'libs/hump/gamestate'
 
--- Loads Hardon Collider script
-local HC = require 'libs/hardoncollider'
-
 -- Creates game as a new gamestate
 gun = Gamestate.new()
 
@@ -22,7 +19,7 @@ function gun:initialize()
 	self.Bullets = {}
 	self.GunShot = false
 	self.GunShot1 = false
-	self.Shot = love.graphics.newImage("images/shot.png")
+	self.Shot = love.graphics.newImage("images/weapons/bullet-pistol.png")
 	
 	-- Gun
 	pistol.GunY = plyr.y
@@ -30,14 +27,12 @@ function gun:initialize()
 	pistol.yes = false
 	pistol.itemx = 750
 	pistol.itemy = 380
-	pistol.sprite = love.graphics.newImage("images/gun.png")
+	pistol.sprite = love.graphics.newImage("images/weapons/pistol.png")
 	
 	------ AUDIO ------
-	self.GunSound = love.audio.newSource("audio/gun.ogg")
-	self.GunSound1 = love.audio.newSource("audio/gun.ogg")
+	self.GunSound = love.audio.newSource("audio/weapons/pistol.ogg")
+	self.GunSound1 = love.audio.newSource("audio/weapons/pistol.ogg")
 	------ AUDIO ------
-
-	self.InteractFont = love.graphics.newFont("fonts/xen3.ttf", 10)
 end
 
 function gun:update(dt)
@@ -66,7 +61,7 @@ function gun:update(dt)
 		bullet.Dir = self.Direction
 		bullet.Speed = 400
 		bullet.bb = Collider:addRectangle(bullet.x, bullet.y, 12, 1)
-		bullet.sound = love.audio.newSource("audio/gun.ogg")
+		bullet.sound = love.audio.newSource("audio/weapons/pistol.ogg")
 
 		table.insert(self.Bullets, bullet)
 		
@@ -131,7 +126,6 @@ function gun:draw()
 
 	------ FILTERS ------
 	pistol.sprite:setFilter( 'nearest', 'nearest' )
-	self.InteractFont:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
 	if game.GameOver == false then

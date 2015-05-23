@@ -1,176 +1,172 @@
 -- Loads gamestate script
 local Gamestate = require 'libs/hump/gamestate'
 
--- Creates menu as a new gamestate
-menu = Gamestate.new()
-
 -- Loads game script
-game = require 'game/game'
+selectmode = require 'game/menus/selectmode'
 
 -- Loads options script
 options = require 'menu/options'
+
+-- Creates menu as a new gamestate
+menu = Gamestate.new()
 
 
 function menu:init()
 
 	------ VARIABLES ------
 	-- Play Button Y & X
-	self.PlayBtnY = 442
-	self.PlayBtnX = 582
+	self.playbtny = 442
+	self.playbtnx = 582
 	
-	-- Quit Button Y & X
-	self.OptBtnY = 492
-	self.OptBtnX = 550
-
 	-- Option Button Y & X
-	self.QuitBtnY = 542
-	self.QuitBtnX = 592
+	self.optbtny = 492
+	self.optbtnx = 550
+
+	-- Quit Button Y & X
+	self.quitbtny = 542
+	self.quitbtnx = 592
 	
 	-- Button Selecter Y & X
-	self.ArrowY = (self.PlayBtnY)
-	self.ArrowX = 480
+	self.arrowy = (self.playbtny)
+	self.arrowx = 480
 
 	-- Menus state
-	self.PlayState = false
-	self.OptState = false
-	self.ExitState = false
-
-	-- Resets the game play when true
-	GameReset = true
-
-
-
-	logomove = 150
-
-
+	self.playstate = false
+	self.optstate = false
+	self.exitstate = false
 	------ VARIABLES ------
 
-	------ IMAGES ------
-	self.MenuTitle = love.graphics.newImage("images/menutext.png")
-	self.bg = love.graphics.newImage("images/bg.png")
-	------ IMAGES ------
-
 	------ AUDIO ------
-	self.Enter = love.audio.newSource("audio/enter.ogg")
-	self.Select1 = love.audio.newSource("audio/sel.ogg")
-	self.Select2 = love.audio.newSource("audio/sel.ogg")
-	self.Select3 = love.audio.newSource("audio/sel.ogg")
+	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
+	self.select1 = love.audio.newSource("audio/buttons/select.ogg")
+	self.select2 = love.audio.newSource("audio/buttons/select.ogg")
+	self.select3 = love.audio.newSource("audio/buttons/select.ogg")
 	------ AUDIO ------
-
-	-- Sets Menu fonts and size
-	self.MenuFont = love.graphics.newFont("fonts/PressStart.ttf", 30)
-
-	-- Set mouse visibility to true
-	love.mouse.setVisible(true)
 end
 
 function menu:update(dt)
-	 
-	logomove = logomove - dt - 4
-
-	if logomove < 100 then
-		logomove = 100
-	end
-
-
-
-	if menu.ArrowY == menu.PlayBtnY then
-		menu.ArrowX = love.graphics.getWidth()/2 - 540/2
-		menu.PlayState = true
-		menu.OptState = false
-		menu.ExitState = false
-		love.audio.stop(menu.Select2)
-		love.audio.stop(menu.Select3)
-	end
-
-	if menu.ArrowY == menu.QuitBtnY then
-		menu.ArrowX = love.graphics.getWidth()/2 - 240/2
-		menu.OptState = false
-		menu.PlayState = false
-		menu.ExitState = true
-		love.audio.stop(menu.Select1)
-		love.audio.stop(menu.Select3)
-	end
-
-	if menu.ArrowY < menu.QuitBtnY and menu.ArrowY > menu.PlayBtnY then
-		menu.ArrowX = love.graphics.getWidth()/2 - 360/2
-		menu.ArrowY = menu.OptBtnY
-		menu.ExitState = false
-		menu.PlayState = false
-		menu.OptState = true
-		love.audio.stop(menu.Select1)
-		love.audio.stop(menu.Select2)
-	end
 	
-	if menu.ArrowY > menu.QuitBtnY then
-		menu.ArrowY = menu.QuitBtnY
+	--- MOVE LOGO --- 
+	start.movelogo = start.movelogo - dt - 4
+
+	if start.movelogo < 100 then
+		start.movelogo = 100
+	end
+	--- MOVE LOGO ---
+
+	-- MENU STATES --
+	-- plays menu state
+	if self.arrowy == self.playbtny then
+		self.arrowx = love.graphics.getWidth()/2 - 540/2
+		self.playstate = true
+		self.optstate = false
+		self.exitstate = false
+		love.audio.stop(self.select2)
+		love.audio.stop(self.select3)
 	end
 
-	if menu.ArrowY < menu.PlayBtnY then
-		menu.ArrowY = menu.PlayBtnY
+	-- Options menu state
+	if self.arrowy < self.quitbtny and self.arrowy > self.playbtny then
+		self.arrowx = love.graphics.getWidth()/2 - 360/2
+		self.arrowy = self.optbtny
+		self.exitstate = false
+		self.playstate = false
+		self.optstate = true
+		love.audio.stop(self.select1)
+		love.audio.stop(self.select2)
+	end
+
+	-- Quits menu state
+	if self.arrowy == self.quitbtny then
+		self.arrowx = love.graphics.getWidth()/2 - 240/2
+		self.optstate = false
+		self.playstate = false
+		self.exitstate = true
+		love.audio.stop(self.select1)
+		love.audio.stop(self.select3)
+	end
+	-- MENU STATES --
+
+	-- Make sure the arrow doesnt go past play or quit
+	if self.arrowy > self.quitbtny then
+		self.arrowy = self.quitbtny
+	elseif self.arrowy < self.playbtny then
+		self.arrowy = self.playbtny
 	end
 end
 
 function menu:keypressed(key)
 
-	if key == "escape" then
-		Gamestate.pop()
-		logomovestart = 100
-		logomove = 150
-	end
-
+	-- SELECT BUTTONS --
+	-- Move arrow up through menu states
 	if key == "up" or key == "w" then
-		love.audio.play(menu.Select1)
-		love.audio.play(menu.Select2)
-		love.audio.play(menu.Select3)
-		menu.ArrowY = menu.ArrowY - 50
+		love.audio.play(self.select1)
+		love.audio.play(self.select2)
+		love.audio.play(self.select3)
+		self.arrowy = self.arrowy - 50
 	end
 
+	-- Move arrow down through menu states
 	if key == "down" or key == "s" then
-		love.audio.play(menu.Select1)
-		love.audio.play(menu.Select2)
-		love.audio.play(menu.Select3)
-		menu.ArrowY = menu.ArrowY + 50
+		love.audio.play(self.select1)
+		love.audio.play(self.select2)
+		love.audio.play(self.select3)
+		self.arrowy = self.arrowy + 50
+	end
+	-- SELECT BUTTONS --
+
+	-- ACTIVATE BUTTONS --
+	-- Launch game
+	if key == "return" and self.playstate == true or key == " " and self.playstate == true then
+		love.audio.play(self.entersound)
+		Gamestate.push(selectmode)
 	end
 
-	if key == "return" and menu.PlayState == true or key == " " and menu.PlayState == true then
-		
-		love.audio.play(menu.Enter)
-		Gamestate.switch(game)
-		love.audio.play(GameMusic)
-		GameMusic:setLooping(true)
-		love.audio.stop(MenuMusic)
-	end
-
-	if key == "return" and menu.ExitState == true or key == " " and menu.ExitState == true then
+	-- Quit game
+	if key == "return" and self.exitstate == true or key == " " and self.exitstate == true then
 		love.event.quit()
 	end
 
-	if key == "return" and menu.OptState == true or key == " " and menu.OptState == true then
-		
-		love.audio.play(menu.Enter)
+	-- Go to options menu
+	if key == "return" and self.optstate == true or key == " " and self.optstate == true then
+		love.audio.play(self.entersound)
 		Gamestate.push(options)
+	end
+	-- ACTIVATE BUTTONS --
+
+	-- Go back to the start screen
+	if key == "escape" then
+		Gamestate.pop()
+		start.movelogo = 100
+		love.audio.play(self.entersound)
 	end
 end
 
 function menu:draw()
 	
-	menu.MenuTitle:setFilter( 'nearest', 'nearest' )
-	menu.MenuFont:setFilter( 'nearest', 'nearest' )
+	------ FILTERS ------
+	start.gamelogo:setFilter( 'nearest', 'nearest' )
+	start.bg:setFilter( 'nearest', 'nearest' )
+	start.font:setFilter( 'nearest', 'nearest' )
+	------ FILTERS ------
 
-	love.graphics.draw(self.bg, -10, 0, 0, 1)
+	------ IMAGES ------
+	love.graphics.draw(start.bg, -10, 0, 0, 1)
+	love.graphics.draw(start.gamelogo, (love.graphics.getWidth()/2 - start.gamelogo:getWidth()/2), start.movelogo)
+	------ IMAGES ------
 
+	------ SHAPES ------
 	love.graphics.setColor(160, 47, 0)
-	love.graphics.rectangle("fill", menu.ArrowX, menu.ArrowY - 8, 28, 28 )
-	
-	love.graphics.setFont( menu.MenuFont )
-	love.graphics.print('START NEW GAME', (love.graphics.getWidth()/2 - menu.MenuFont:getWidth( "START NEW GAME" )/2), menu.PlayBtnY)
-	love.graphics.print('QUIT', (love.graphics.getWidth()/2 - menu.MenuFont:getWidth( "QUIT" )/2), menu.QuitBtnY)
-	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - menu.MenuFont:getWidth( "SETTINGS" )/2), menu.OptBtnY)
-	
+	love.graphics.rectangle("fill", self.arrowx, self.arrowy - 8, 28, 28 )
+	------ SHAPES ------
+
+	------ TEXT ------
+	love.graphics.setFont( start.font )
+	love.graphics.print('START NEW GAME', (love.graphics.getWidth()/2 - start.font:getWidth( "START NEW GAME" )/2), self.playbtny)
+	love.graphics.print('QUIT', (love.graphics.getWidth()/2 - start.font:getWidth( "QUIT" )/2), self.quitbtny)
+	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - start.font:getWidth( "SETTINGS" )/2), self.optbtny)
 	love.graphics.setColor(255, 255, 255, 255)
-	
-	love.graphics.draw(menu.MenuTitle, (love.graphics.getWidth()/2 - menu.MenuTitle:getWidth()/2), logomove)
+	------ TEXT ------
 end
 
 return menu

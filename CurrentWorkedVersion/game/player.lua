@@ -1,12 +1,6 @@
 -- Loads gamestate script
 local Gamestate = require 'libs/hump/gamestate'
 
--- Loads Hardon Collider script
-local HC = require 'libs/hardoncollider'
-
--- Loads player script
-gun = require 'game/gun'
-
 -- Creates game as a new gamestate
 player = Gamestate.new()
 
@@ -22,14 +16,13 @@ function player:initialize()
 	-- The contents of the player table
 	plyr.y = 200
 	plyr.x = 600
-	plyr.w = 12
 	plyr.h = 16
+	plyr.w = 12
 	plyr.health = 100
 	plyr.speed = 80
-	plyr.movementstop = false
-	plyr.sprite = love.graphics.newImage("images/man.png")
-	plyr.arm = love.graphics.newImage("images/arm.png")
 	plyr.bb = Collider:addRectangle(plyr.x, plyr.y, plyr.w, plyr.h)
+	plyr.sprite = love.graphics.newImage("images/player/player.png")
+	plyr.arm = love.graphics.newImage("images/player/arm.png")
 	
 	hitmove = 600
 	plyr.hurt = false
@@ -85,6 +78,7 @@ function player:collisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
 	-- turn to false when the collisions stop
 	plyr.hurt = false
 	plyr.speed = 80
+	plyr.movementstop = false
 
 end
 
@@ -124,7 +118,7 @@ end
 
 function player:movement(dt)
 
-	if love.keyboard.isDown("a") and plyr.movementstop == false then
+	if love.keyboard.isDown("a") then
 		
 		-- Move the player left
 		plyr.x = plyr.x - plyr.speed * dt
@@ -135,7 +129,7 @@ function player:movement(dt)
 		pistol.GunY = plyr.y
     end
 
-	if love.keyboard.isDown("d") and plyr.movementstop == false then
+	if love.keyboard.isDown("d") then
 		
 		-- Move the player right
 		plyr.x = plyr.x + plyr.speed * dt
@@ -146,7 +140,7 @@ function player:movement(dt)
 		pistol.GunY = plyr.y
     end
 
-	if love.keyboard.isDown("w") and plyr.movementstop == false then
+	if love.keyboard.isDown("w") then
 		
 		-- Move the player up
 		plyr.y = plyr.y - plyr.speed * dt
@@ -157,7 +151,7 @@ function player:movement(dt)
 		pistol.GunX = plyr.x
     end
 
-	if love.keyboard.isDown("s") and plyr.movementstop == false then
+	if love.keyboard.isDown("s") then
 		
 		-- Move the player down
 		plyr.y = plyr.y + plyr.speed * dt

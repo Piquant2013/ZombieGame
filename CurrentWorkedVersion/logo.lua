@@ -1,64 +1,67 @@
 -- Loads gamestate script
 local Gamestate = require 'libs/hump/gamestate'
 
+-- Loads start script
+start = require 'menu/start'
+
 -- Creates logo as a new gamestate
 logo = Gamestate.new()
-
--- Loads menu script
-startscreen = require 'menu/startscreen'
 
 
 function logo:init()
 	
-	-- Set mouse visibility to false
+	-- Set mouse visibility to false for the logo screen
 	love.mouse.setVisible(false)
 	
 	------ VARIABLES ------
-	self.Timer = 0
-	self.Alpha = 0
-	self.Fadein  = 3
-	self.Display = 3
-	self.Fadeout = 5
+	self.timer = 0
+	self.alpha = 0
+	self.fadein  = 3
+	self.display = 3
+	self.fadeout = 5
 	------ VARIABLES ------
 	
 	------ IMAGES ------
-	self.PiquantLogo = love.graphics.newImage("images/hdlogo.png")
+	self.image = love.graphics.newImage("images/teamlogo.png")
 	------ IMAGES ------
 
 	------ AUDIO ------
-	self.LogoChime = love.audio.newSource("audio/logochime.ogg")
-	love.audio.play(logo.LogoChime)
+	self.chime = love.audio.newSource("audio/teamchime.ogg")
+	love.audio.play(self.chime)
 	------ AUDIO ------
 end
 
 function logo:update(dt)
 	
-	-- Set audio to a lower volume for the games boot sound
+	-- Set audio to a lower volume for the games logo sound
 	love.audio.setVolume(0.5)
 
 	-- Start logo timer
-	logo.Timer = logo.Timer + dt
+	self.timer = self.timer + dt
 
 	-- Fades the logo in
-	if logo.Timer < logo.Fadein then logo.Alpha = logo.Timer / logo.Fadein
-		elseif logo.Timer < logo.Display then logo.Alpha = 1
-		else logo.Alpha = 1
+	if self.timer < self.fadein then 
+		self.alpha = self.timer / self.fadein
+	elseif self.timer < self.display then 
+		self.alpha = 1
+	else 
+		self.alpha = 1
 	end
 
-	-- unloads logo script, moves to the menu script and sets volume back to default
-	if  logo.Timer >= 8 then
-		Gamestate.switch(startscreen)
+	-- unloads logo script, moves to the start script and sets volume back to default
+	if  self.timer >= 8 then
+		Gamestate.switch(start)
 		love.audio.setVolume(1.0)
 	end	
 end
 
 function logo:keypressed(key)
 	
-	-- Skips to menu script if pressed
+	-- Skips to start script if pressed
 	if key == "enter" or "esc" or " " then
-		Gamestate.switch(startscreen)
+		Gamestate.switch(start)
 		love.graphics.setColor(255, 255, 255)
-		love.audio.stop(logo.LogoChime)
+		love.audio.stop(self.chime)
 		love.audio.setVolume(1.0)
 	end 
 end
@@ -66,12 +69,12 @@ end
 function logo:draw()
 	
 	------ FILTERS ------
-	logo.PiquantLogo:setFilter( 'nearest', 'nearest' )
+	self.image:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 	
 	-- Draw logo
-	love.graphics.setColor(255, 255, 255, logo.Alpha * 255)
-	love.graphics.draw(logo.PiquantLogo, (love.graphics.getWidth()/2 - logo.PiquantLogo:getWidth()/2), (love.graphics.getHeight()/2 - logo.PiquantLogo:getHeight()/2))
+	love.graphics.setColor(255, 255, 255, self.alpha * 255)
+	love.graphics.draw(self.image, (love.graphics.getWidth()/2 - self.image:getWidth()/2), (love.graphics.getHeight()/2 - self.image:getHeight()/2))
 end
 
 return logo

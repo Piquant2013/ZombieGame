@@ -1,446 +1,295 @@
 -- Loads gamestate script
 local Gamestate = require 'libs/hump/gamestate'
 
--- Creates options as a new gamestate
-options = Gamestate.new()
-
 -- Loads credits script
 credits = require 'menu/credits'
+
+-- Creates options as a new gamestate
+options = Gamestate.new()
 
 
 function options:init()
 
-
-	self.bg = love.graphics.newImage("images/bg.png")
-
-	------ AUDIO ------
-	EnterOpt = love.audio.newSource("audio/enter.ogg")
-	self.EnterOpt1 = love.audio.newSource("audio/enter.ogg")
-	self.EnterOpt1a = love.audio.newSource("audio/enter.ogg")
-	self.EnterOpt2 = love.audio.newSource("audio/enter.ogg")
-	self.EnterOpt2a = love.audio.newSource("audio/enter.ogg")
-	self.EnterOpt3 = love.audio.newSource("audio/enter.ogg")
-	self.EnterOpt3a = love.audio.newSource("audio/enter.ogg")
-	self.EnterOpt4 = love.audio.newSource("audio/enter.ogg")
-	self.EnterOpt4a = love.audio.newSource("audio/enter.ogg")
-	self.Select1 = love.audio.newSource("audio/sel.ogg")
-	self.Select2 = love.audio.newSource("audio/sel.ogg")
-	self.Select3 = love.audio.newSource("audio/sel.ogg")
-	self.Select4 = love.audio.newSource("audio/sel.ogg")
-	self.Select5 = love.audio.newSource("audio/sel.ogg")
-	self.Select6 = love.audio.newSource("audio/sel.ogg")
-	self.Select7 = love.audio.newSource("audio/sel.ogg")
-	self.Select8 = love.audio.newSource("audio/sel.ogg")
-	self.Select9 = love.audio.newSource("audio/sel.ogg")
-	self.Select10 = love.audio.newSource("audio/sel.ogg")
-	self.Select11 = love.audio.newSource("audio/sel.ogg")
-	------ AUDIO ------
-
 	------ VARIABLES ------
-	-- Option menu state
-	self.FPSState = false
-	self.MuteState = false
-	self.ChgState = false
-	self.CrdState = false
-	self.WinState = false
-	self.DebState = false
-	self.MouState = false
-	self.ConState = false
-	self.BackState = false
-
 	-- FPS Button Y & X
-	self.FPSBtnY = 442
-	self.MuteBtnY = 492
-	self.MouBtnY = 542
-	self.CrdBtnY = 592
-
-
-
-
-	self.FPSBtnX = 492
-	self.MuteBtnX = 502
-	self.CrdBtnX = 550
-	self.MouBtnX = 507
-
-
+	self.fpsbtny = 442
+	self.fpsbtnx = 492
+	
+	-- Mute Button Y & X
+	self.mutebtny = 492
+	self.mutebtnx = 502
+	
+	-- MouseLock Button Y & X
+	self.mouselockbtny = 542
+	self.creditsbtnx = 550
+	
+	-- Credits Button Y & X
+	self.creditsbtny = 592
+	self.mouselockbtnx = 507
 
 	-- Button Selecter Y & X
-	self.OptArrowY = (self.FPSBtnY)
-	self.OptArrowX = 480
+	self.arrowy = (self.fpsbtny)
+	self.arrowx = 480
 
 	-- FPS Selecter Y & X
-	self.FPSArrowY = 232
-	self.FPSArrowX = 665
-
-	-- FPS On & Off Button Y & X
-	self.FPSOnOffY = 232
-	self.FPSOnOffX = 647
+	self.fpsarrowy = 232
+	self.fpsarrowx = 665
 	
 	-- Mute Selecter Y & X
-	self.MuteArrowY = 347
-	self.MuteArrowX = 665
+	self.mutearrowy = 347
+	self.mutearrowx = 665
 
-	-- Mute On & Off Button Y & X
-	self.MuteOnOffY = 347
-	self.MuteOnOffX = 647
+	-- MouseLock Selecter Y & X
+	self.mouselockarrowy = 462
+	self.mouselockarrowx = 665
 
-	-- Windowed Mode Selecter Y & X
-	--self.WinArrowY = 232
-	--self.WinArrowX = 665
+	-- Option menu states
+	self.fpsstate = false
+	self.mutestate = false
+	self.mouselockstate = false
+	self.creditsstate = false
+	------ VARIABLES ------
 
-	-- Mouse Lock Selecter Y & X
-	self.MouArrowY = 462
-	self.MouArrowX = 665
-
-	-- Sets Menu font and size
-	self.OptFont = love.graphics.newFont("fonts/PressStart.ttf", 30)
+	------ AUDIO ------
+	self.entersound1 = love.audio.newSource("audio/buttons/enter.ogg")
+	self.entersound1a = love.audio.newSource("audio/buttons/enter.ogg")
+	self.entersound2 = love.audio.newSource("audio/buttons/enter.ogg")
+	self.entersound2a = love.audio.newSource("audio/buttons/enter.ogg")
+	self.select1 = love.audio.newSource("audio/buttons/select.ogg")
+	self.select2 = love.audio.newSource("audio/buttons/select.ogg")
+	self.select3 = love.audio.newSource("audio/buttons/select.ogg")
+	self.select4 = love.audio.newSource("audio/buttons/select.ogg")
+	------ AUDIO ------
 end
 
 function options:update(dt)
 
-	if Paused == true then
-		self.FPSBtnY = 242
-		self.MuteBtnY = 292
-		self.MouBtnY = 342
-		self.CrdBtnY = 392
-	end 
-
-	if Paused == false then
-		self.FPSBtnY = 442
-		self.MuteBtnY = 492
-		self.MouBtnY = 542
-		self.CrdBtnY = 592
+	-- Move options text depending on if its in menu or pasued
+	if paused == true then
+		self.fpsbtny = 242
+		self.mutebtny = 292
+		self.mouselockbtny = 342
+		self.creditsbtny = 392
+	elseif paused == false then
+		self.fpsbtny = 442
+		self.mutebtny = 492
+		self.mouselockbtny = 542
+		self.creditsbtny = 592
 	end 
 	
-	-- OPTION MENU STATES
-	if options.OptArrowY == options.FPSBtnY then
-		self.OptArrowX = love.graphics.getWidth()/2 + 10 /2
-		options.FPSState = true
-		options.MuteState = false
-		options.CrdState = false
-		--options.WinState = false
-		options.MouState = false
-		love.audio.stop(options.Select1)
-		love.audio.stop(options.Select2)
-		love.audio.stop(options.Select3)
-		love.audio.stop(options.Select4)
-		love.audio.stop(options.Select6)
-		love.audio.stop(options.Select7)
-		love.audio.stop(options.Select8)
-		love.audio.stop(options.Select9)
+	-- OPTION MENU STATES --
+	-- fps options menu state
+	if self.arrowy == self.fpsbtny then
+		self.arrowx = love.graphics.getWidth()/2 + 10 /2
+		self.fpsstate = true
+		self.mutestate = false
+		self.creditsstate = false
+		self.mouselockstate = false
+		love.audio.stop(self.select2)
+		love.audio.stop(self.select3)
+		love.audio.stop(self.select4)
 	end
 
-	if options.OptArrowY == options.CrdBtnY then
-		self.OptArrowX = love.graphics.getWidth()/2 + 170 /2
-		options.FPSState = false
-		options.MuteState = false
-		options.CrdState = true
-		--options.WinState = false
-		options.MouState = false
-		love.audio.stop(options.Select1)
-		love.audio.stop(options.Select2)
-		love.audio.stop(options.Select4)
-		love.audio.stop(options.Select5)
-		love.audio.stop(options.Select6)
-		love.audio.stop(options.Select7)
-		love.audio.stop(options.Select8)
-		love.audio.stop(options.Select9)
+	-- mute options menu state
+	if self.arrowy < self.mouselockbtny and self.arrowy > self.fpsbtny then
+		self.arrowx = love.graphics.getWidth()/2 + 40 /2
+		self.fpsstate = false
+		self.mutestate = true
+		self.creditsstate = false
+		self.mouselockstate = false
+		love.audio.stop(self.select1)
+		love.audio.stop(self.select2)
+		love.audio.stop(self.select4)
 	end
 
-	if options.OptArrowY < options.MouBtnY and options.OptArrowY > options.FPSBtnY then
-		self.OptArrowX = love.graphics.getWidth()/2 + 40 /2
-		options.FPSState = false
-		options.MuteState = true
-		options.CrdState = false
-		--options.WinState = false
-		options.MouState = false
-		love.audio.stop(options.Select2)
-		love.audio.stop(options.Select3)
-		love.audio.stop(options.Select4)
-		love.audio.stop(options.Select5)
-		love.audio.stop(options.Select6)
-		love.audio.stop(options.Select7)
-		love.audio.stop(options.Select8)
-		love.audio.stop(options.Select9)
+	-- mouselock options menu state
+	if self.arrowy < self.creditsbtny and self.arrowy > self.mutebtny then
+		self.arrowx = love.graphics.getWidth()/2 + 10 /2
+		self.fpsstate = false
+		self.mutestate = false
+		self.creditsstate = false
+		self.mouselockstate = true
+		love.audio.stop(self.select1)
+		love.audio.stop(self.select2)
+		love.audio.stop(self.select3)
 	end
 
-	--[[
+	-- credits options menu state
+	if self.arrowy == self.creditsbtny then
+		self.arrowx = love.graphics.getWidth()/2 + 170 /2
+		self.fpsstate = false
+		self.mutestate = false
+		self.creditsstate = true
+		self.mouselockstate = false
+		love.audio.stop(self.select1)
+		love.audio.stop(self.select3)
+		love.audio.stop(self.select4)
+	end
+	-- OPTION MENU STATES --
 
-	if options.OptArrowY < options.CrdBtnY and options.OptArrowY > options.MouBtnY then
-		self.OptArrowX = love.graphics.getWidth()/2 - 50 /2
-		options.FPSState = false
-		options.MuteState = false
-		options.CrdState = false
-		options.WinState = true
-		options.MouState = false
-		love.audio.stop(options.Select1)
-		love.audio.stop(options.Select2)
-		love.audio.stop(options.Select3)
-		love.audio.stop(options.Select4)
-		love.audio.stop(options.Select5)
-		love.audio.stop(options.Select7)
-		love.audio.stop(options.Select8)
-		love.audio.stop(options.Select9)
+	-- Make sure the arrow doesnt go past fps or credits
+	if self.arrowy < self.fpsbtny then
+		self.arrowy = self.fpsbtny
+	elseif self.arrowy > self.creditsbtny then
+		self.arrowy = self.creditsbtny
 	end
 
-	]]--
-	
-	if options.OptArrowY < options.CrdBtnY and options.OptArrowY > options.MuteBtnY then
-		self.OptArrowX = love.graphics.getWidth()/2 + 10 /2
-		options.FPSState = false
-		options.MuteState = false
-		options.CrdState = false
-		--options.WinState = false
-		options.MouState = true
-		love.audio.stop(options.Select1)
-		love.audio.stop(options.Select2)
-		love.audio.stop(options.Select3)
-		love.audio.stop(options.Select4)
-		love.audio.stop(options.Select5)
-		love.audio.stop(options.Select6)
-		love.audio.stop(options.Select7)
-		love.audio.stop(options.Select9)
+	-- Pushes FPS arrow back if it trys to pass off else turn setfps true or false
+	if self.fpsarrowx > self.fpsbtnx then
+		self.fpsarrowx = self.fpsbtnx - 118
+	elseif self.fpsarrowx == self.fpsbtnx - 118 then
+		setfps = false
+	elseif self.fpsarrowx == self.fpsbtnx then	
+		setfps = true
 	end
 
-	-- Makes sure the arrow doesnt go past FPS
-	if options.OptArrowY < options.FPSBtnY then
-		options.OptArrowY = options.FPSBtnY
+	-- Pushes mute arrow back if it trys to pass off else turn setmute true or false
+	if self.mutearrowx > self.mutebtnx then
+		self.mutearrowx = self.mutebtnx - 118
+	elseif self.mutearrowx == self.mutebtnx - 118 then
+		setmute = false
+	elseif self.mutearrowx == self.mutebtnx then	
+		setmute = true
 	end
 
-	if options.OptArrowY > options.CrdBtnY then
-		options.OptArrowY = options.CrdBtnY
-	end
-
-
-
-
-	-- Pushes FPS arrow back if it trys to pass off
-	if options.FPSArrowX > options.FPSBtnX then
-		options.FPSArrowX = options.FPSBtnX - 118
-	end
-
-	-- Sets FPS to Off
-	if options.FPSArrowX == options.FPSBtnX - 118 then
-		SetFPS = false
-	end
-
-	-- Sets FPS to On
-	if options.FPSArrowX == options.FPSBtnX then	
-		SetFPS = true
-	end
-
-	-- Pushes Mute arrow back if it trys to pass off
-	if options.MuteArrowX > options.MuteBtnX then
-		options.MuteArrowX = options.MuteBtnX - 118
-	end
-
-	-- Sets Mute to Off
-	if options.MuteArrowX == options.MuteBtnX - 118 then
-		SetMute = false
-	end
-
-	-- Sets Mute to On
-	if options.MuteArrowX == options.MuteBtnX then	
-		SetMute = true
-	end
-
-	-- Pushes Win arrow back if it trys to pass off
-	--if options.WinArrowX > options.WinBtnX then
-		--options.WinArrowX = options.WinBtnX - 118
-	--end
-
-	-- Sets Win to Off
-	--if options.WinArrowX == options.WinBtnX - 118 then
-		--SetWin = true
-	--end
-
-	-- Sets Win to On
-	--if options.WinArrowX == options.WinBtnX then	
-		--SetWin = false
-	--end
-
-	-- Pushes Mou arrow back if it trys to pass off
-	if options.MouArrowX > options.MouBtnX then
-		options.MouArrowX = options.MouBtnX - 118
-	end
-
-	-- Sets Mou to Off
-	if options.MouArrowX == options.MouBtnX - 118 then
-		SetMou = false
-	end
-
-	-- Sets Mou to On
-	if options.MouArrowX == options.MouBtnX then	
-		SetMou = true
+	-- Pushes mouselock arrow back if it trys to pass off else turn setmouselock true or false
+	if self.mouselockarrowx > self.mouselockbtnx then
+		self.mouselockarrowx = self.mouselockbtnx - 118
+	elseif self.mouselockarrowx == self.mouselockbtnx - 118 then
+		setmouselock = false
+	elseif self.mouselockarrowx == self.mouselockbtnx then	
+		setmouselock = true
 	end
 end
 
 function options:keypressed(key)
 	
-	------ SELECT BUTTONS ------
-	-- Moves arrow up and down through option menu states
+	-- SELECT BUTTONS --
+	-- Move arrow up through options menu states
 	if key == "up" or key == "w" then
-		love.audio.play(options.Select1)
-		love.audio.play(options.Select2)
-		love.audio.play(options.Select3)
-		love.audio.play(options.Select4)
-		love.audio.play(options.Select5)
-		love.audio.play(options.Select6)
-		love.audio.play(options.Select7)
-		love.audio.play(options.Select8)
-		love.audio.play(options.Select9)
-		options.OptArrowY = options.OptArrowY - 50
+		love.audio.play(self.select1)
+		love.audio.play(self.select2)
+		love.audio.play(self.select3)
+		love.audio.play(self.select4)
+		self.arrowy = self.arrowy - 50
 	end
 
+	-- Move arrow up through options menu states
 	if key == "down" or key == "s" then
-		love.audio.play(options.Select1)
-		love.audio.play(options.Select2)
-		love.audio.play(options.Select3)
-		love.audio.play(options.Select4)
-		love.audio.play(options.Select5)
-		love.audio.play(options.Select6)
-		love.audio.play(options.Select7)
-		love.audio.play(options.Select8)
-		love.audio.play(options.Select9)
-		options.OptArrowY = options.OptArrowY + 50
+		love.audio.play(self.select1)
+		love.audio.play(self.select2)
+		love.audio.play(self.select3)
+		love.audio.play(self.select4)
+		self.arrowy = self.arrowy + 50
 	end
+	-- SELECT BUTTONS --
 
-	if key == "escape" then
-		Gamestate.pop()
-		love.audio.play(EnterOpt)
-	end
-
-	-- If the arrow is on credits and return is true then display credits
-	if key == "return" and options.CrdState == true or key == " " and options.CrdState == true then
+	-- ACTIVATE BUTTONS --
+	-- go to credits screen
+	if key == "return" and self.creditsstate == true or key == " " and self.creditsstate == true then
 		Gamestate.push(credits)
-		love.audio.play(EnterOpt)
-		love.audio.stop(EnterCrd)
+		love.audio.play(self.entersound1)
+		love.audio.stop(credits.entersound)
+		love.audio.stop(start.music)
+		love.audio.play(credits.music)
+		credits.music:setLooping(true)
+		credits.slider = 740
 	end
 
-
-	-- If the arrow is on FPS and return is true then move FPS On & Off arrow
-	if key == "return" and options.FPSState == true or key == " " and options.FPSState == true then
-		options.FPSArrowX = options.FPSArrowX + 118
+	-- set fps on or off
+	if key == "return" and self.fpsstate == true or key == " " and self.fpsstate == true then
+		self.fpsarrowx = self.fpsarrowx + 118
 	end
 
-	-- If the arrow is on Mute and return is true then move Mute On & Off arrow
-	if key == "return" and options.MuteState == true or key == " " and options.MuteState == true then
-		options.MuteArrowX = options.MuteArrowX + 118
+	-- set mute on or off
+	if key == "return" and self.mutestate == true or key == " " and self.mutestate == true then
+		self.mutearrowx = self.mutearrowx + 118
 	end
 
-	-- If the arrow is on Win and return is true then move Win On & Off arrow
-	--if key == "return" and options.WinState == true then
-		--options.WinArrowX = options.WinArrowX + 118
-	--end
-
-	-- If the arrow is on Mou and return is true then move Mou On & Off arrow
-	if key == "return" and options.MouState == true or key == " " and options.MouState == true then
-		options.MouArrowX = options.MouArrowX + 118
+	-- set mouselock on or off
+	if key == "return" and self.mouselockstate == true or key == " " and self.mouselockstate == true then
+		self.mouselockarrowx = self.mouselockarrowx + 118
 	end
 
 	-- Plays audio for FPS On & Off buttons
-	if key == "return" and SetFPS == true or key == " " and SetFPS == true then
-		love.audio.play(options.EnterOpt1)
-		love.audio.stop(options.EnterOpt1a)
-	end
-
-	if key == "return" and SetFPS == false or key == " " and SetFPS == false then
-		love.audio.play(options.EnterOpt1a)
-		love.audio.stop(options.EnterOpt1)
+	if key == "return" and setfps == true or key == " " and setfps == true then
+		love.audio.play(self.entersound1)
+		love.audio.stop(self.entersound1a)
+	elseif key == "return" and setfps == false or key == " " and setfps == false then
+		love.audio.play(self.entersound1a)
+		love.audio.stop(self.entersound1)
 	end 
 
-	-- Plays audio for Win On & Off buttons
-	--if key == "return" and SetWin == true then
-		--love.audio.play(options.EnterOpt2)
-		--love.audio.stop(options.EnterOpt2a)
-	--end
-
-	if key == "return" and SetWin == false or key == " " and SetWin == false then
-		love.audio.play(options.EnterOpt2a)
-		love.audio.stop(options.EnterOpt2)
+	-- Plays audio for mouselock On & Off buttons
+	if key == "return" and setmouselock == true or key == " " and setmouselock == true then
+		love.audio.play(self.entersound2a)
+		love.audio.stop(self.entersound2)
+	elseif key == "return" and setmouselock == false or key == " " and setmouselock == false then
+		love.audio.play(self.entersound2)
+		love.audio.stop(self.entersound2a)
 	end
+	-- ACTIVATE BUTTONS --
 
-	-- Plays audio for Mou On & Off buttons
-	if key == "return" and SetMou == true or key == " " and SetMou == true then
-		love.audio.play(options.EnterOpt4)
-		love.audio.stop(options.EnterOpt4a)
-	end
-
-	if key == "return" and SetMou == false or key == " " and SetMou == false then
-		love.audio.play(options.EnterOpt4a)
-		love.audio.stop(options.EnterOpt4)
+	-- Go back to the menu screen
+	if key == "escape" then
+		Gamestate.pop()
+		love.audio.play(self.entersound1)
 	end
 end
 
 function options:draw()
 
-	options.OptFont:setFilter( 'nearest', 'nearest' )
-	FPSfont:setFilter( 'nearest', 'nearest' )
+	------ FILTERS ------
+	start.gamelogo:setFilter( 'nearest', 'nearest' )
+	start.bg:setFilter( 'nearest', 'nearest' )
+	start.font:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
-	if Paused == false then
-		love.graphics.draw(self.bg, -10, 0, 0, 1)
+	------ IMAGES ------
+	-- Sets image depending if in options menu or pasue
+	if paused == false then
+		love.graphics.draw(start.bg, -10, 0, 0, 1)
+		love.graphics.draw(start.gamelogo, (love.graphics.getWidth()/2 - start.gamelogo:getWidth()/2), start.movelogo)
+	elseif paused == true then
+		love.graphics.draw(start.bg, 0, -1000, 0, 3)
 	end
-
-	if Paused == true then
-		love.graphics.draw(self.bg, 0, -1000, 0, 3)
-	end
-
-	love.graphics.setColor(160, 47, 0)
+	------ IMAGES ------
 
 	------ SHAPES ------
-	love.graphics.rectangle("fill", options.OptArrowX - 250, options.OptArrowY - 8, 28, 28 )
+	love.graphics.setColor(160, 47, 0)
+	love.graphics.rectangle("fill", self.arrowx - 250, self.arrowy - 8, 28, 28 )
+	------ SHAPES ------
 
-	love.graphics.setFont( options.OptFont )
+	------ TEXT ------
+	love.graphics.setFont( start.font )
+	love.graphics.print('DISPLAY FPS:', (love.graphics.getWidth()/2 - start.font:getWidth( "DISPLAY FPS:" )/2), self.fpsbtny)
+	love.graphics.print('MUTE AUDIO:', (love.graphics.getWidth()/2 - start.font:getWidth( "MUTE AUDIO:" )/2), self.mutebtny)
+	love.graphics.print('WINDOW LOCK:', (love.graphics.getWidth()/2 - start.font:getWidth( "WINDOW LOCK:" )/2), self.mouselockbtny)
+	love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - start.font:getWidth( "CREDITS" )/2), self.creditsbtny)
 
-	love.graphics.print('DISPLAY FPS:', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "DISPLAY FPS:" )/2), options.FPSBtnY)
-	love.graphics.print('MUTE AUDIO:', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "MUTE AUDIO:" )/2), options.MuteBtnY)
-	love.graphics.print('WINDOW LOCK:', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "WINDOW LOCK:" )/2), options.MouBtnY)
-	--love.graphics.print('WINDOWED MODE:', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "WINDOWED MODE:" )/2), options.WinBtnY)
-	love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "CREDITS" )/2), options.CrdBtnY)
-
-	-- Puts the fade on the On & Off buttons for FPS
-	if SetFPS == true then
-		love.graphics.print('ON', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "ON" )/2) + 285, options.FPSBtnY)
+	-- changes text from on and off for fps
+	if setfps == true then
+		love.graphics.print('ON', (love.graphics.getWidth()/2 - start.font:getWidth( "ON" )/2) + 285, self.fpsbtny)
+	elseif setfps == false then
+		love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font:getWidth( "OFF" )/2) + 300, self.fpsbtny)
 	end
 
-	if SetFPS == false then
-		love.graphics.print('OFF', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "OFF" )/2) + 300, options.FPSBtnY)
+	-- changes text from on and off for mute
+	if setmute == true then
+		love.graphics.print('ON', (love.graphics.getWidth()/2 - start.font:getWidth( "ON" )/2) + 285, self.mutebtny)
+	elseif setmute == false then
+		love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font:getWidth( "OFF" )/2) + 300, self.mutebtny)
 	end
 
-	-- Puts the fade on the On & Off buttons for Mute
-	if SetMute == true then
-		love.graphics.print('ON', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "ON" )/2) + 285, options.MuteBtnY)
-	end
-
-	if SetMute == false then
-		love.graphics.print('OFF', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "OFF" )/2) + 300, options.MuteBtnY)
-	end
-
-	-- Puts the fade on the On & Off buttons for Win
-	--if SetWin == true then
-		--love.graphics.print('ON', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "ON" )/2) + 285, options.WinBtnY)
-	--end
-
-	--if SetWin == false then
-		--love.graphics.print('OFF', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "OFF" )/2) + 300, options.WinBtnY)
-	--end
-
-	-- Puts the fade on the On & Off buttons for Mou
-	if SetMou == true then
-		love.graphics.print('ON', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "ON" )/2) + 285, options.MouBtnY)
-	end
-
-	if SetMou == false then
-		love.graphics.print('OFF', (love.graphics.getWidth()/2 - options.OptFont:getWidth( "OFF" )/2) + 300, options.MouBtnY)
+	-- changes text from on and off for mouselock
+	if setmouselock == true then
+		love.graphics.print('ON', (love.graphics.getWidth()/2 - start.font:getWidth( "ON" )/2) + 285, self.mouselockbtny)
+	elseif setmouselock == false then
+		love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font:getWidth( "OFF" )/2) + 300, self.mouselockbtny)
 	end
 
 	love.graphics.setColor(255, 255, 255)
-
-	if Paused == false then
-		love.graphics.draw(menu.MenuTitle, (love.graphics.getWidth()/2 - menu.MenuTitle:getWidth()/2), logomove)
-	end
-
+	------ TEXT ------
 end
 
 return options
