@@ -66,10 +66,10 @@ function options:update(dt)
 
 	-- Move options text depending on if its in menu or pasued
 	if paused == true then
-		self.fpsbtny = 242
-		self.mutebtny = 292
-		self.mouselockbtny = 342
-		self.creditsbtny = 392
+		self.fpsbtny = 300
+		self.mutebtny = 350
+		self.mouselockbtny = 400
+		self.creditsbtny = 450
 	elseif paused == false then
 		self.fpsbtny = 442
 		self.mutebtny = 492
@@ -242,7 +242,7 @@ function options:draw()
 	------ FILTERS ------
 	start.gamelogo:setFilter( 'nearest', 'nearest' )
 	start.bg:setFilter( 'nearest', 'nearest' )
-	start.font:setFilter( 'nearest', 'nearest' )
+	start.font2:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
 	------ IMAGES ------
@@ -261,31 +261,31 @@ function options:draw()
 	------ SHAPES ------
 
 	------ TEXT ------
-	love.graphics.setFont( start.font )
-	love.graphics.print('DISPLAY FPS:', (love.graphics.getWidth()/2 - start.font:getWidth( "DISPLAY FPS:" )/2), self.fpsbtny)
-	love.graphics.print('MUTE AUDIO:', (love.graphics.getWidth()/2 - start.font:getWidth( "MUTE AUDIO:" )/2), self.mutebtny)
-	love.graphics.print('WINDOW LOCK:', (love.graphics.getWidth()/2 - start.font:getWidth( "WINDOW LOCK:" )/2), self.mouselockbtny)
-	love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - start.font:getWidth( "CREDITS" )/2), self.creditsbtny)
+	love.graphics.setFont( start.font2 )
+	love.graphics.print('DISPLAY FPS:', (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2), self.fpsbtny)
+	love.graphics.print('MUTE AUDIO:', (love.graphics.getWidth()/2 - start.font2:getWidth( "MUTE AUDIO:" )/2), self.mutebtny)
+	love.graphics.print('WINDOW LOCK:', (love.graphics.getWidth()/2 - start.font2:getWidth( "WINDOW LOCK:" )/2), self.mouselockbtny)
+	love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CREDITS" )/2), self.creditsbtny)
 
 	-- changes text from on and off for fps
 	if setfps == true then
-		love.graphics.print('ON', (love.graphics.getWidth()/2 - start.font:getWidth( "ON" )/2) + 285, self.fpsbtny)
+		love.graphics.print('ON', (love.graphics.getWidth()/2 - start.font2:getWidth( "ON" )/2) + 285, self.fpsbtny)
 	elseif setfps == false then
-		love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font:getWidth( "OFF" )/2) + 300, self.fpsbtny)
+		love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font2:getWidth( "OFF" )/2) + 300, self.fpsbtny)
 	end
 
 	-- changes text from on and off for mute
 	if setmute == true then
-		love.graphics.print('ON', (love.graphics.getWidth()/2 - start.font:getWidth( "ON" )/2) + 285, self.mutebtny)
+		love.graphics.print('ON', (love.graphics.getWidth()/2 - start.font2:getWidth( "ON" )/2) + 285, self.mutebtny)
 	elseif setmute == false then
-		love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font:getWidth( "OFF" )/2) + 300, self.mutebtny)
+		love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font2:getWidth( "OFF" )/2) + 300, self.mutebtny)
 	end
 
 	-- changes text from on and off for mouselock
 	if setmouselock == true then
-		love.graphics.print('ON', (love.graphics.getWidth()/2 - start.font:getWidth( "ON" )/2) + 285, self.mouselockbtny)
+		love.graphics.print('ON', (love.graphics.getWidth()/2 - start.font2:getWidth( "ON" )/2) + 285, self.mouselockbtny)
 	elseif setmouselock == false then
-		love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font:getWidth( "OFF" )/2) + 300, self.mouselockbtny)
+		love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font2:getWidth( "OFF" )/2) + 300, self.mouselockbtny)
 	end
 
 	love.graphics.setColor(255, 255, 255)

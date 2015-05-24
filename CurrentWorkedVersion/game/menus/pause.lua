@@ -42,17 +42,17 @@ function pause:update(dt)
 
 	-- Pause game music and set cursor
 	if resume == false then
-		love.audio.pause(GameMusic) -- CHANGE
+		love.audio.pause(endless.music)
 		love.mouse.setCursor(cursor)
 	end
 
 	-- Switch back to the game script
 	if resume == true then
-		Gamestate.switch(game)
+		Gamestate.switch(endless)
 		paused = false
 		love.mouse.setCursor(crosshair)
-		love.audio.resume(GameMusic) -- CHANGE
-		GameMusic:setLooping(true) -- CHANGE
+		love.audio.resume(endless.music)
+		endless.music:setLooping(true)
 	end 
 
 	-- PAUSE MENU STATES -- 
@@ -134,11 +134,11 @@ function pause:keypressed(key)
 		love.audio.play(self.entersound)
 		gamereset = true
 		paused = false
-		game.Welcome = true -- CHANGE
+		endless.welcomescreen = true
 		Gamestate.switch(menu)
 		love.audio.play(start.music)
 		start.music:setLooping(true)
-		love.audio.stop(GameMusic) -- CHANGE
+		love.audio.stop(endless.music)
 	end
 	-- ACTIVATE BUTTONS --
 
@@ -152,7 +152,7 @@ function pause:draw()
 	
 	------ FILTERS ------
 	start.bg:setFilter( 'nearest', 'nearest' )
-	start.font:setFilter( 'nearest', 'nearest' )
+	start.font2:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
 	------ IMAGES ------
@@ -165,10 +165,10 @@ function pause:draw()
 	------ SHAPES ------
 
 	------ TEXT ------
-	love.graphics.setFont( start.font )
-	love.graphics.print('RESUME', (love.graphics.getWidth()/2 - start.font:getWidth( "RESUME" )/2), self.resumebtny)
-	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - start.font:getWidth( "SETTINGS" )/2), self.optionsbtny)
-	love.graphics.print('MENU', (love.graphics.getWidth()/2 - start.font:getWidth( "MENU" )/2), self.mainmenubtny)
+	love.graphics.setFont( start.font2 )
+	love.graphics.print('RESUME', (love.graphics.getWidth()/2 - start.font2:getWidth( "RESUME" )/2), self.resumebtny)
+	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2), self.optionsbtny)
+	love.graphics.print('MENU', (love.graphics.getWidth()/2 - start.font2:getWidth( "MENU" )/2), self.mainmenubtny)
 	love.graphics.setColor(255, 255, 255)
 	------ TEXT ------
 end

@@ -12,15 +12,15 @@ function selectmode:init()
   
   	------ VARIABLES ------
 	-- survival Button Y & X 
-	self.survivalbtny = 250
+	self.survivalbtny = 150
 	self.survivalbtnx = 548
 
 	-- Arcade menu Button Y & X  
-	self.arcadebtny = 350
+	self.arcadebtny = 250
 	self.arcadebtnx = 512
 
 	-- Endless menu Button Y & X  
-	self.endlessbtny = 450
+	self.endlessbtny = 350
 	self.endlessbtnx = 476
  
 	-- Button Selecter Y & X 
@@ -65,14 +65,14 @@ function selectmode:update(dt)
 
 	-- Stop arrow from moving and sounds when in survival or arcade screens
 	if self.survival == true then
-		self.arrowy = 250
+		self.arrowy = self.survivalbtny
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
 	end
 
 	if self.arcade == true then
-		self.arrowy = 350
+		self.arrowy = self.arcadebtny
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
@@ -172,6 +172,9 @@ function selectmode:keypressed(key)
 	if key == "return" and self.endlessstate == true or key == " " and self.endlessstate == true then
 		Gamestate.switch(endless)
 		love.audio.play(self.entersound1)
+		love.audio.stop(start.music)
+		love.audio.play(endless.music)
+		endless.music:setLooping(true)
 	end
 
 	-- Plays audio for survival buttons
@@ -203,7 +206,8 @@ function selectmode:draw()
 	
 	------ FILTERS ------
 	start.bg:setFilter( 'nearest', 'nearest' )
-	start.font:setFilter( 'nearest', 'nearest' )
+	start.font1:setFilter( 'nearest', 'nearest' )
+	start.font2:setFilter( 'nearest', 'nearest' )
 	self.screenshot1:setFilter( 'nearest', 'nearest' )
 	self.screenshot2:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
@@ -233,28 +237,50 @@ function selectmode:draw()
 	------ TEXT ------
 	-- Only draw buttons if not in survival or arcade
 	if self.survival == false and self.arcade == false then
-		love.graphics.setFont( start.font )
+		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0, 100)
-		love.graphics.print('SURVIVAL MODE', (love.graphics.getWidth()/2 - start.font:getWidth( "SURVIVAL MODE" )/2), self.survivalbtny)
-		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font:getWidth( "(COMING SOON)" )/2), self.survivalbtny + 35)
-		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font:getWidth( "ARCADE MODE" )/2), self.arcadebtny)
-		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font:getWidth( "(COMING SOON)" )/2), self.arcadebtny + 35)
+		love.graphics.print('SURVIVAL MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2), self.survivalbtny)
+		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "(COMING SOON)" )/2), self.survivalbtny + 35)
+		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), self.arcadebtny)
+		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "(COMING SOON)" )/2), self.arcadebtny + 35)
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font:getWidth( "ENDLESS MODE" )/2), self.endlessbtny)
+		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), self.endlessbtny)
+		
+		-- Draw discription text for each gamemode
+		if self.survivalstate == true then
+			love.graphics.setFont( start.font1 )
+			love.graphics.print('SURVIVE! FIND FOOD, SHELTER,', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! FIND FOOD, SHELTER," )/2), 500)
+			love.graphics.print('WEAPONS, AMMUNITION AND TOOLS TO', (love.graphics.getWidth()/2 - start.font1:getWidth( "WEAPONS, AMMUNITION AND TOOLS TO" )/2), 535)
+			love.graphics.print('HELP YOU FEND OFF THE UNDEAD.', (love.graphics.getWidth()/2 - start.font1:getWidth( "HELP YOU FEND OFF THE UNDEAD." )/2), 570)
+		end
+
+		if self.arcadestate == true then
+			love.graphics.setFont( start.font1 )
+			love.graphics.print('SURVIVE! (UNTIL THE END) FIGHT WAVES', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (UNTIL THE END) FIGHT WAVES" )/2), 500)
+			love.graphics.print('OF UNDEAD AND UPGRADE YOUR ARSENAL', (love.graphics.getWidth()/2 - start.font1:getWidth( "OF UNDEAD AND UPGRADE YOUR ARSENAL" )/2), 535)
+			love.graphics.print('WHILE YOURE AT IT.', (love.graphics.getWidth()/2 - start.font1:getWidth( "WHILE YOURE AT IT." )/2), 570)
+		end
+
+		if self.endlessstate == true then
+			love.graphics.setFont( start.font1 )
+			love.graphics.print('SURVIVE! (AS LONG AS YOU CAN)', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (AS LONG AS YOU CAN)" )/2), 500)
+			love.graphics.print('DEFEND YOURSELF AGAINST AN ENDLESS HORDE', (love.graphics.getWidth()/2 - start.font1:getWidth( "DEFEND YOURSELF AGAINST AN ENDLESS HORDE" )/2), 535)
+			love.graphics.print('OF ZOMBIES FOR THAT SWEET HIGH SCORE.', (love.graphics.getWidth()/2 - start.font1:getWidth( "OF ZOMBIES FOR THAT SWEET HIGH SCORE." )/2), 570)
+		end
 	end
 	
 	-- Draw text if in survival
 	if self.survival == true then
-		love.graphics.setFont( start.font )
+		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print('SURVIVAL MODE (COMING SOON)', (love.graphics.getWidth()/2 - start.font:getWidth( "SURVIVAL MODE (COMING SOON)" )/2), 500)
+		love.graphics.print('SURVIVAL MODE (COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE (COMING SOON)" )/2), 500)
 	end
 
 	-- Draw text if in arcade
 	if self.arcade == true then
-		love.graphics.setFont( start.font )
+		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print('ARCADE MODE (COMING SOON)', (love.graphics.getWidth()/2 - start.font:getWidth( "ARCADE MODE (COMING SOON)" )/2), 500)
+		love.graphics.print('ARCADE MODE (COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE (COMING SOON)" )/2), 500)
 	end
 
 	love.graphics.setColor(255, 255, 255)

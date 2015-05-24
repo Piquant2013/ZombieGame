@@ -22,7 +22,9 @@ function start:init()
 	------ IMAGES ------
 
 	------ FONTS ------
-	self.font = love.graphics.newFont("fonts/PressStart.ttf", 30)
+	self.font1 = love.graphics.newFont("fonts/PressStart.ttf", 20)
+	self.font2 = love.graphics.newFont("fonts/PressStart.ttf", 30)
+	self.font3 = love.graphics.newFont("fonts/PressStart.ttf", 40)
 	------ FONTS ------
 	
 	------ AUDIO ------
@@ -79,7 +81,7 @@ function start:draw()
 	------ FILTERS ------
 	self.gamelogo:setFilter( 'nearest', 'nearest' )
 	self.bg:setFilter( 'nearest', 'nearest' )
-	self.font:setFilter( 'nearest', 'nearest' )
+	self.font2:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
 	------ IMAGES ------
@@ -88,11 +90,11 @@ function start:draw()
 	------ IMAGES ------
 
 	------ TEXT ------
-	love.graphics.setFont( self.font )
+	love.graphics.setFont( self.font2 )
 	love.graphics.setColor(160, 47, 0, self.textflash)
-	love.graphics.print('PUSH START BUTTON', (love.graphics.getWidth( )/2-self.font:getWidth("PUSH START BUTTON")/2), 480)
+	love.graphics.print('PUSH START BUTTON', (love.graphics.getWidth( )/2-self.font2:getWidth("PUSH START BUTTON")/2), 480)
 	love.graphics.setColor(160, 47, 0)
-	love.graphics.print('© 2015 PIQUANT INTERACTIVE', (love.graphics.getWidth( )/2-self.font:getWidth("© 2015 PIQUANT INTERACTIVE")/2), 540)
+	love.graphics.print('© 2015 PIQUANT INTERACTIVE', (love.graphics.getWidth( )/2-self.font2:getWidth("© 2015 PIQUANT INTERACTIVE")/2), 540)
 	love.graphics.setColor(255, 255, 255, 255)
 	------ TEXT ------
 end

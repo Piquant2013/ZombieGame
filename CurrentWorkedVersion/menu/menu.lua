@@ -136,7 +136,7 @@ function menu:keypressed(key)
 
 	-- Go back to the start screen
 	if key == "escape" then
-		Gamestate.pop()
+		Gamestate.switch(start)
 		start.movelogo = 100
 		love.audio.play(self.entersound)
 	end
@@ -147,7 +147,7 @@ function menu:draw()
 	------ FILTERS ------
 	start.gamelogo:setFilter( 'nearest', 'nearest' )
 	start.bg:setFilter( 'nearest', 'nearest' )
-	start.font:setFilter( 'nearest', 'nearest' )
+	start.font2:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
 	------ IMAGES ------
@@ -161,10 +161,10 @@ function menu:draw()
 	------ SHAPES ------
 
 	------ TEXT ------
-	love.graphics.setFont( start.font )
-	love.graphics.print('START NEW GAME', (love.graphics.getWidth()/2 - start.font:getWidth( "START NEW GAME" )/2), self.playbtny)
-	love.graphics.print('QUIT', (love.graphics.getWidth()/2 - start.font:getWidth( "QUIT" )/2), self.quitbtny)
-	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - start.font:getWidth( "SETTINGS" )/2), self.optbtny)
+	love.graphics.setFont( start.font2 )
+	love.graphics.print('START NEW GAME', (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2), self.playbtny)
+	love.graphics.print('QUIT', (love.graphics.getWidth()/2 - start.font2:getWidth( "QUIT" )/2), self.quitbtny)
+	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2), self.optbtny)
 	love.graphics.setColor(255, 255, 255, 255)
 	------ TEXT ------
 end
