@@ -173,8 +173,8 @@ function selectmode:keypressed(key)
 		Gamestate.switch(endless)
 		love.audio.play(self.entersound1)
 		love.audio.stop(start.music)
-		love.audio.play(endless.music)
-		endless.music:setLooping(true)
+		love.audio.play(endless.intromusic)
+		endless.intromusic:setLooping(true)
 	end
 
 	-- Plays audio for survival buttons

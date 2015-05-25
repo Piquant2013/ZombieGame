@@ -59,6 +59,7 @@ function endless:init()
 
 	------ AUDIO ------
 	self.music = love.audio.newSource("audio/music/game.ogg")
+	self.intromusic = love.audio.newSource("audio/music/gameintro.ogg")
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
 	------ AUDIO ------
 end
@@ -153,6 +154,9 @@ function endless:keypressed(key)
   		gamereset = false
   		self.welcomescreen = false
   		love.audio.play(self.entersound)
+		love.audio.stop(endless.intromusic)
+		love.audio.play(endless.music)
+		endless.music:setLooping(true)
   	end
 
   	-- dissmiss the game over message
