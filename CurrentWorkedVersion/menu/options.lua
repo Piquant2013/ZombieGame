@@ -191,6 +191,12 @@ function options:keypressed(key)
 		love.audio.play(self.entersound1)
 		love.audio.stop(credits.entersound)
 		love.audio.stop(start.music)
+		
+		-- pasue game music if its playing
+		if paused == true then
+			love.audio.pause(endless.music)
+		end
+
 		love.audio.play(credits.music)
 		credits.music:setLooping(true)
 		credits.slider = 740

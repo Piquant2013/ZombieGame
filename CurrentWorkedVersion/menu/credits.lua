@@ -26,9 +26,11 @@ function credits:keypressed(key)
 		love.audio.stop(options.entersound1)
 		love.audio.stop(self.music)
 		
-		-- only play the menu music if your in the menu
+		-- resume game music if its playing or play music if its not and not in pause
 		if paused == false then
 			love.audio.play(start.music)
+		elseif paused == true then
+			love.audio.resume(endless.music)
 		end
 	end
 end

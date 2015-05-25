@@ -174,6 +174,7 @@ function selectmode:keypressed(key)
 		love.audio.play(self.entersound1)
 		love.audio.stop(start.music)
 		love.audio.play(endless.intromusic)
+		endless.intromusic:setVolume(0.6)
 		endless.intromusic:setLooping(true)
 	end
 

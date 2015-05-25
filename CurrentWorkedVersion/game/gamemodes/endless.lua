@@ -156,6 +156,7 @@ function endless:keypressed(key)
   		love.audio.play(self.entersound)
 		love.audio.stop(endless.intromusic)
 		love.audio.play(endless.music)
+		endless.music:setVolume(1.0)
 		endless.music:setLooping(true)
   	end
 
