@@ -1,29 +1,15 @@
--- Loads gamestate script
 local Gamestate = require 'libs/hump/gamestate'
-
--- Loads camera script
 local camera = require "libs/hump/camera"
-
--- Loads Hardon Collider script
 local HC = require 'libs/hardoncollider'
-
--- Loads pause script
 pause = require 'game/menus/pause'
-
--- Loads player script
 player = require 'game/player'
-
--- Loads player script
 pistol = require 'game/weapons/pistol'
-
--- Loads astroids script
+clickratepistol = require 'game/weapons/clickrate-pistol'
 zombie = require 'game/zombie'
+game = Gamestate.new()
 
--- Creates game as a new gamestate
-endless = Gamestate.new()
-
-
-function endless:init()
+--[[
+function game:init()
 
 	------ VARIABLES ------
 	-- Set up hardon collider
@@ -32,164 +18,33 @@ function endless:init()
 	-- Load player and pistol vars
     player:initialize()
     pistol:initialize()
+    clickratepistol:initialize()
 	
 	-- Camera
 	self.Cam = camera(plyr.x, plyr.y, 2.5)
-
-	-- gameover or welcome screens
-	self.welcomescreen = true
-	self.gameover = false
-
-	-- scores
-	self.score = 0
-	self.time = 0
-	self.wave = 1
-
-	-- For the spawn system
-	self.kills = 0
-	self.wavedrawtime = 0
-	self.wavestart = true
-	self.wavezombiecount = 14
 	------ VARIABLES ------
 
-	------ IMAGES ------
-	self.layer1 = love.graphics.newImage("images/maps/endless-layer1.png")
-	self.layer2 = love.graphics.newImage("images/maps/endless-layer2.png")
-	------ IMAGES ------
-
 	------ AUDIO ------
-	self.music = love.audio.newSource("audio/music/game.ogg")
+	self.music1 = love.audio.newSource("audio/music/game.ogg")
 	self.intromusic = love.audio.newSource("audio/music/gameintro.ogg")
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
 	------ AUDIO ------
 end
 
 
-function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
-
-	-- set player to a shape
-	local other
-
-    if shape_a == plyr.bb then
-        other = shape_b
-    elseif shape_b == plyr.bb then
-        other = shape_a
-    else
-        return
-    end
-
-    -- when player hits a zombie lose health and get hurt
-    for i, o in ipairs(zombie.zombs) do
-    	if other == o.bb then
-    		plyr.health = plyr.health - 0.4
-    		plyr.hurt = true
-    	end
-    end
-end
-
-function playercollisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
-  
-	-- MAKE SO ONLY FOR PLAYER COLLISONS -- IMPORTANT! 
-	plyr.hurt = false
-	plyr.speed = 80
-end
-
-function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
-
-	for i, o in ipairs(zombie.zombs) do
-		for c, v in ipairs(pistol.bullets) do
-
-			-- Set zombie to a shape
-			local other
-
-			if shape_a == o.bb then
-				other = shape_b
-			elseif shape_b == o.bb then
-				other = shape_a
-			end
-
-			-- if a bullet hits a zombie
-			if other == v.bb then
-				o.health = o.health - 10
-				Collider:remove(v.bb)
-				table.remove(pistol.bullets, c)
-
-				if o.health < 0 then
-					o.health = 0
-					endless.score = endless.score + 10
-					endless.kills = endless.kills + 1
-					zombie.count = zombie.count - 1         
-					Collider:remove(o.bb)
-					table.remove(zombie.zombs, i)
-				end
-			end
-		end
-	end
-end
-
-function zombiecollisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
-	
-	-- MAKE SO ONLY FOR ZOMBIE COLLISONS -- IMPORTANT! 
-	for i, o in ipairs(zombie.zombs) do
-		o.speed = zombie.speed
-	end
-end
-
-function on_collision(dt, shape_a, shape_b, mtv_x, mtv_y)
-	playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
-	player:collision(dt, shape_a, shape_b, mtv_x, mtv_y)
-	zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
-end
-
-function collision_stop(dt, shape_a, shape_b, mtv_x, mtv_y)
-	playercollisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
-	player:collisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
-	zombiecollisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
-end
-
-function endless:keypressed(key)
-
-	-- dissmiss the welcome message
-  	if key == "return" and self.welcomescreen == true or key == " " and self.welcomescreen == true then
-  		gamereset = false
-  		self.welcomescreen = false
-  		love.audio.play(self.entersound)
-		love.audio.stop(endless.intromusic)
-		love.audio.play(endless.music)
-		endless.music:setVolume(1.0)
-		endless.music:setLooping(true)
-  	end
-
-  	-- dissmiss the game over message
-  	if key == "return" and self.gameover == true or key == " " and self.gameover == true then
-  		love.audio.play(self.entersound)
-    	Gamestate.switch(menu)
-    	love.audio.play(start.music)
-    	start.music:setLooping(true)
-   		love.audio.stop(self.music)
-    	gamereset = true
-  	end
-
-  	-- Pause the game
-  	if key == "escape" and paused == false and self.welcomescreen == false then
-   		paused = true
-   		resume = false
-   		love.mouse.setCursor(cursor)
-  	end
-end
-
 function endless:update(dt)
 
 	-- SET UP GAME --
 	-- Reset the game
-	if gamereset == true then
+	if setendless == true then
 
 		-- Player
 		plyr.y = 200
-		plyr.x = 600
+		plyr.x = 400
 		plyr.speed = 80
 		plyr.health = 100
 		plyr.hurt = false
+		plyr.colliding = false
 		player.hurttimer = 0
 		player.flashred = false
 
@@ -204,8 +59,8 @@ function endless:update(dt)
 		self.Cam = camera(plyr.x, plyr.y, 2.5)
 
 		-- gameover or welcome screens
-		self.welcomescreen = true
-		self.gameover = false
+		welcomescreen = true
+		gameover = false
 
 		-- scores
 		self.score = 0
@@ -250,9 +105,9 @@ function endless:update(dt)
 	self.Cam:move(dx/2, dy/2)
 
 	-- Zoom camera in when gameover but make sure it stays default when not
-    if self.gameover == true then
+    if gameover == true then
 		self.Cam:zoomTo(5)
-	elseif self.gameover == false then
+	elseif gameover == false then
 		self.Cam:zoomTo(3.2)
 	end
 	-- CAMERA --
@@ -292,16 +147,16 @@ function endless:update(dt)
 
     -- if game is paused switch to the pause screen
 	if paused == true then
-		Gamestate.switch(pause)
+		Gamestate.push(pause)
 	end
 
 	-- start the score time
-	if self.gameover == false then
+	if gameover == false then
 		self.time = self.time + dt
 	end
 
 	-- set vars for gameover
-	if endless.gameover == true then
+	if gameover == true then
 		pistol.cooldown = 0
 		pistol.cooldownplus = 0
 		pistol.bullets = {}
@@ -312,7 +167,7 @@ function endless:update(dt)
 
 	-- WAVE SYSTEM --
 	-- Start the wave draw timer
-	if self.gameover == false then
+	if gameover == false then
 		self.wavedrawtime = self.wavedrawtime + dt
 	end
 
@@ -356,7 +211,7 @@ function love.focus(f)
 	
 	-- pause the game if window loses focus
 	if not f then
-		if paused == false and self.welcomescreen == false then  
+		if paused == false and welcomescreen == false and setendless == false or gamereset == false then  
 			paused = true
 			resume = false
    			love.mouse.setCursor(cursor)
@@ -404,14 +259,14 @@ function endless:draw()
 	love.graphics.draw(self.layer2, 0, 0)
 
 	-- draw wall hitboxs
-	self.tree1:draw('line')
-	self.tree2:draw('line')
-	self.tree3:draw('line')
-	self.tree4:draw('line')
-	self.wallL:draw('line')
-	self.wallR:draw('line')
-	self.wallT:draw('line')
-	self.wallB:draw('line')
+	--self.tree1:draw('line')
+	--self.tree2:draw('line')
+	--self.tree3:draw('line')
+	--self.tree4:draw('line')
+	--self.wallL:draw('line')
+	--self.wallR:draw('line')
+	--self.wallT:draw('line')
+	--self.wallB:draw('line')
 
 	self.Cam:detach()
 	------ CAMERA ------
@@ -426,7 +281,7 @@ function endless:draw()
 	end
 
 	-- the hud and the hud text
-	if self.gameover == false then
+	if gameover == false then
 		love.graphics.setColor(0, 0, 0)
 		love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), 30)
 		love.graphics.setFont( start.font1 )
@@ -438,7 +293,7 @@ function endless:draw()
 		love.graphics.setColor(255, 255, 255)
 
 	-- Game over title and the scores at the end of the game
-	elseif self.gameover == true then
+	elseif gameover == true then
     	love.graphics.setFont( start.font3 )
     	love.graphics.setColor(160, 47, 0)
     	love.graphics.print('GAME OVER', (love.graphics.getWidth()/2 - start.font3:getWidth( "GAME OVER" )/2), 200)
@@ -449,21 +304,21 @@ function endless:draw()
 	end
 
 	-- draw the welcome text and bacground
-	 if self.welcomescreen == true then
+	 if welcomescreen == true then
     	love.mouse.setCursor(cursor)
     	love.graphics.draw(start.bg, 0, -1000, 0, 3)
     	love.graphics.setColor(160, 47, 0)
     	love.graphics.setFont( start.font2 )
-		love.graphics.print('WELCOME!', (love.graphics.getWidth()/2 - start.font2:getWidth( "WELCOME!" )/2), 80)
-		love.graphics.print("THANK YOU FOR TAKING THE TIME TO TEST", (love.graphics.getWidth()/2 - start.font2:getWidth( "THANK YOU FOR TAKING THE TIME TO TEST" )/2), 180)
-		love.graphics.print("PIQUANT INTERACTIVE'S PROJECT,", (love.graphics.getWidth()/2 - start.font2:getWidth( "PIQUANT INTERACTIVE'S PROJECT," )/2), 230)
-		love.graphics.print("ZOMBIE GAME. THIS GAME MODE HAS YOU", (love.graphics.getWidth()/2 - start.font2:getWidth( "ZOMBIE GAME. THIS GAME MODE HAS YOU" )/2), 280)
-		love.graphics.print("BATTLING ZOMBIES IN AN ENDLESS, WAVE", (love.graphics.getWidth()/2 - start.font2:getWidth( "BATTLING ZOMBIES IN AN ENDLESS, WAVE" )/2), 330)
-		love.graphics.print("BASED SURVIVAL SHOOTER WITH NAUGHT", (love.graphics.getWidth()/2 - start.font2:getWidth( "BASED SURVIVAL SHOOTER WITH NAUGHT" )/2), 380)
-		love.graphics.print("BUT YOUR WIT AND YOUR PISTOL. DON'T DIE!", (love.graphics.getWidth()/2 - start.font2:getWidth( "BUT YOUR WIT AND YOUR PISTOL. DON'T DIE!" )/2), 430)
-		love.graphics.print("LEAVE ANY FEEDBACK YOU MAY HAVE AT", (love.graphics.getWidth()/2 - start.font2:getWidth( "LEAVE ANY FEEDBACK YOU MAY HAVE AT" )/2), 530)
-		love.graphics.print("[HTTP://WWW.REDDIT.COM/R/PIQUANT2013/]", (love.graphics.getWidth()/2 - start.font2:getWidth( "[HTTP://WWW.REDDIT.COM/R/PIQUANT2013/]" )/2), 580)
-		love.graphics.print("AS WE LOVE PLAYER INTERACTION.", (love.graphics.getWidth()/2 - start.font2:getWidth( "AS WE LOVE PLAYER INTERACTION." )/2), 630)
+		love.graphics.print("WELCOME! THANK YOU FOR TAKING THE TIME", (love.graphics.getWidth()/2 - start.font2:getWidth( "WELCOME! THANK YOU FOR TAKING THE TIME" )/2), 80)
+		love.graphics.print("TO TEST PIQUANT INTERACTIVE'S PROJECT,", (love.graphics.getWidth()/2 - start.font2:getWidth( "TO TEST PIQUANT INTERACTIVE'S PROJECT," )/2), 130)
+		love.graphics.print("ZOMBIE GAME. THIS GAME MODE HAS YOU", (love.graphics.getWidth()/2 - start.font2:getWidth( "ZOMBIE GAME. THIS GAME MODE HAS YOU" )/2), 180)
+		love.graphics.print("BATTLING ZOMBIES IN AN ENDLESS, WAVE", (love.graphics.getWidth()/2 - start.font2:getWidth( "BATTLING ZOMBIES IN AN ENDLESS, WAVE" )/2), 230)
+		love.graphics.print("BASED SURVIVAL SHOOTER WITH NAUGHT BUT", (love.graphics.getWidth()/2 - start.font2:getWidth( "BASED SURVIVAL SHOOTER WITH NAUGHT BUT" )/2), 280)
+		love.graphics.print("YOUR WIT AND YOUR PISTOL. DON'T DIE!", (love.graphics.getWidth()/2 - start.font2:getWidth( "YOUR WIT AND YOUR PISTOL. DON'T DIE!" )/2), 330)
+		love.graphics.print("LEAVE ANY FEEDBACK YOU MAY HAVE AT", (love.graphics.getWidth()/2 - start.font2:getWidth( "LEAVE ANY FEEDBACK YOU MAY HAVE AT" )/2), 430)
+		love.graphics.print("[HTTP://WWW.REDDIT.COM/R/PIQUANT2013/]", (love.graphics.getWidth()/2 - start.font2:getWidth( "[HTTP://WWW.REDDIT.COM/R/PIQUANT2013/]" )/2), 480)
+		love.graphics.print("AS WE LOVE PLAYER INTERACTION.", (love.graphics.getWidth()/2 - start.font2:getWidth( "AS WE LOVE PLAYER INTERACTION." )/2), 530)
+		love.graphics.print("PRESS START BUTTON", (love.graphics.getWidth()/2 - start.font2:getWidth( "PRESS START BUTTON" )/2), 630)
 	end
 	------ TEXT ------
 
@@ -481,3 +336,168 @@ function endless:draw()
 end
 
 return endless
+--]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
+	local other
+
+    if shape_a == plyr.bb then
+        other = shape_b
+    elseif shape_b == plyr.bb then
+        other = shape_a
+    else
+        return
+    end
+
+    for i, o in ipairs(zombie.zombs) do
+    	if other == o.bb then
+    		plyr.health = plyr.health - 0.4
+    		plyr.hurt = true
+    	end
+    end
+end
+
+function playercollisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
+	plyr.hurt = false
+	
+	if setendless == false then
+		plyr.speed = 80
+	end
+end
+
+function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
+	if setendless == false then
+		for i, o in ipairs(zombie.zombs) do
+			for c, v in ipairs(pistol.bullets) do
+
+				local other
+
+				if shape_a == o.bb then
+					other = shape_b
+				elseif shape_b == o.bb then
+					other = shape_a
+				end
+
+				if other == v.bb then
+					o.health = o.health - 10
+					Collider:remove(v.bb)
+					table.remove(pistol.bullets, c)
+
+					if o.health < 0 then
+						o.health = 0
+						endless.score = endless.score + 10
+						endless.kills = endless.kills + 1
+						zombie.count = zombie.count - 1         
+						Collider:remove(o.bb)
+						table.remove(zombie.zombs, i)
+					end
+				end
+			end
+		end
+	end
+
+	if gamereset == false then
+		for i, o in ipairs(zombie.zombs) do
+			for c, v in ipairs(clickratepistol.bullets) do
+
+				local other
+
+				if shape_a == o.bb then
+					other = shape_b
+				elseif shape_b == o.bb then
+					other = shape_a
+				end
+
+				if other == v.bb then
+					o.health = o.health - 10
+					Collider:remove(v.bb)
+					table.remove(clickratepistol.bullets, c)
+
+					if o.health < 0 then
+						o.health = 0
+						stuckmode.score = stuckmode.score + 10
+						stuckmode.kills = stuckmode.kills + 1
+						zombie.count = zombie.count - 1         
+						Collider:remove(o.bb)
+						table.remove(zombie.zombs, i)
+					end
+				end
+			end
+		end
+	end
+end
+
+function zombiecollisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
+	for i, o in ipairs(zombie.zombs) do
+		o.speed = zombie.speed
+	end
+end
+
+
+function on_collision(dt, shape_a, shape_b, mtv_x, mtv_y)
+	player:collision(dt, shape_a, shape_b, mtv_x, mtv_y)
+	playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
+	zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
+end
+
+function collision_stop(dt, shape_a, shape_b, mtv_x, mtv_y)
+	player:collisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
+	playercollisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
+	zombiecollisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+return game

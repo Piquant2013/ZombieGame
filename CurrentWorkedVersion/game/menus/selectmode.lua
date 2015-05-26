@@ -4,6 +4,9 @@ local Gamestate = require 'libs/hump/gamestate'
 -- Loads gamestate script
 local endless = require 'game/gamemodes/endless'
 
+-- Loads gamestate script
+local stuckmode = require 'game/gamemodes/stuck'
+
 -- Creates pause as a new gamestate
 selectmode = Gamestate.new()
 
@@ -12,16 +15,20 @@ function selectmode:init()
   
   	------ VARIABLES ------
 	-- survival Button Y & X 
-	self.survivalbtny = 150
+	self.survivalbtny = 100
 	self.survivalbtnx = 548
 
 	-- Arcade menu Button Y & X  
-	self.arcadebtny = 250
+	self.arcadebtny = 200
 	self.arcadebtnx = 512
 
 	-- Endless menu Button Y & X  
-	self.endlessbtny = 350
+	self.endlessbtny = 300
 	self.endlessbtnx = 476
+
+	-- Stuck menu Button Y & X  
+	self.stuckbtny = 400
+	self.stuckbtnx = 476
  
 	-- Button Selecter Y & X 
 	self.arrowy = (self.survivalbtny)
@@ -39,6 +46,7 @@ function selectmode:init()
 	self.survivalstate = false
 	self.arcadestate = false
 	self.endlessstate = false
+	self.stuckstate = false
 
 	-- If in area
 	self.survival = false
@@ -58,6 +66,7 @@ function selectmode:init()
 	self.select1 = love.audio.newSource("audio/buttons/select.ogg")
 	self.select2 = love.audio.newSource("audio/buttons/select.ogg")
 	self.select3 = love.audio.newSource("audio/buttons/select.ogg")
+	self.select4 = love.audio.newSource("audio/buttons/select.ogg")
 	------ AUDIO ------
 end
 
@@ -69,6 +78,7 @@ function selectmode:update(dt)
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
+		love.audio.stop(self.select4)
 	end
 
 	if self.arcade == true then
@@ -76,6 +86,7 @@ function selectmode:update(dt)
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
+		love.audio.stop(self.select4)
 	end
 
 	-- SELECT MODE MENU STATES -- 
@@ -85,35 +96,52 @@ function selectmode:update(dt)
 		self.survivalstate = true
 		self.endlessstate = false
 		self.arcadestate = false
+		self.stuckstate = false
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select2)
+		love.audio.stop(self.select4)
 	end
 
 	-- Arcade pause menu state
 	if self.arrowy < self.endlessbtny and self.arrowy > self.survivalbtny then
 		self.arrowx = love.graphics.getWidth()/2 - 455 /2
-		self.arrowy = self.arcadebtny
 		self.survivalstate = false
 		self.endlessstate = false
 		self.arcadestate = true
+		self.stuckstate = false
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
+		love.audio.stop(self.select4)
 	end
 
 	-- Endless pause pause menu state
-	if self.arrowy == self.endlessbtny then
+	if self.arrowy > self.arcadebtny and self.arrowy < self.stuckbtny then
 		self.arrowx = love.graphics.getWidth()/2 - 490 /2
 		self.survivalstate = false
 		self.endlessstate = true
 		self.arcadestate = false
+		self.stuckstate = false
 		love.audio.stop(self.select1)
+		love.audio.stop(self.select3)
+		love.audio.stop(self.select4)
+	end
+
+	-- Stuck pause menu state
+	if self.arrowy == self.stuckbtny then
+		self.arrowx = love.graphics.getWidth()/2 - 515 /2
+		self.survivalstate = false
+		self.endlessstate = false
+		self.arcadestate = false
+		self.stuckstate = true
+		love.audio.stop(self.select1)
+		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
 	end
 	-- SELECT MODE MENU STATES --  
 
   	-- Make sure the arrow doesnt go past survival or endless
-	if self.arrowy > self.endlessbtny then
-		self.arrowy = self.endlessbtny
+	if self.arrowy > self.stuckbtny then
+		self.arrowy = self.stuckbtny
 	elseif self.arrowy < self.survivalbtny then
 		self.arrowy = self.survivalbtny
 	end
@@ -145,6 +173,7 @@ function selectmode:keypressed(key)
 		love.audio.play(self.select1)
 		love.audio.play(self.select2)
 		love.audio.play(self.select3)
+		love.audio.play(self.select4)
 		self.arrowy = self.arrowy - 100
 	end
 
@@ -153,6 +182,7 @@ function selectmode:keypressed(key)
 		love.audio.play(self.select1)
 		love.audio.play(self.select2)
 		love.audio.play(self.select3)
+		love.audio.play(self.select4)
 		self.arrowy = self.arrowy + 100
 	end
 	-- SELECT BUTTONS --
@@ -170,12 +200,17 @@ function selectmode:keypressed(key)
   
   	-- Go to the endless game mode
 	if key == "return" and self.endlessstate == true or key == " " and self.endlessstate == true then
-		Gamestate.switch(endless)
+		Gamestate.push(endless)
 		love.audio.play(self.entersound1)
 		love.audio.stop(start.music)
-		love.audio.play(endless.intromusic)
-		endless.intromusic:setVolume(0.6)
-		endless.intromusic:setLooping(true)
+		--love.audio.play(endless.intromusic)
+		--endless.intromusic:setVolume(0.6)
+		--endless.intromusic:setLooping(true)
+	end
+
+	if key == "return" and self.stuckstate == true or key == " " and self.stuckstate == true then
+		love.audio.play(self.entersound1)
+		Gamestate.push(stuckmode)
 	end
 
 	-- Plays audio for survival buttons
@@ -241,35 +276,47 @@ function selectmode:draw()
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0, 100)
 		love.graphics.print('SURVIVAL MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2), self.survivalbtny)
-		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "(COMING SOON)" )/2), self.survivalbtny + 35)
+		love.graphics.setFont( start.font1 )
+		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), self.survivalbtny + 35)
+		love.graphics.setFont( start.font2 )
 		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), self.arcadebtny)
-		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "(COMING SOON)" )/2), self.arcadebtny + 35)
+		love.graphics.setFont( start.font1 )
+		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), self.arcadebtny + 35)
+		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), self.endlessbtny)
+		love.graphics.print('STUCKINTHEMUD', (love.graphics.getWidth()/2 - start.font2:getWidth( "STUCKINTHEMUD" )/2), self.stuckbtny)
 		
 		-- Draw discription text for each gamemode
 		if self.survivalstate == true then
 			love.graphics.setFont( start.font1 )
-			love.graphics.print('SURVIVE! FIND FOOD, SHELTER,', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! FIND FOOD, SHELTER," )/2), 500)
-			love.graphics.print('WEAPONS, AMMUNITION AND TOOLS TO', (love.graphics.getWidth()/2 - start.font1:getWidth( "WEAPONS, AMMUNITION AND TOOLS TO" )/2), 535)
-			love.graphics.print('HELP YOU FEND OFF THE UNDEAD.', (love.graphics.getWidth()/2 - start.font1:getWidth( "HELP YOU FEND OFF THE UNDEAD." )/2), 570)
+			love.graphics.print('SURVIVE! FIND FOOD, SHELTER,', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! FIND FOOD, SHELTER," )/2), 535)
+			love.graphics.print('WEAPONS, AMMUNITION AND TOOLS TO', (love.graphics.getWidth()/2 - start.font1:getWidth( "WEAPONS, AMMUNITION AND TOOLS TO" )/2), 570)
+			love.graphics.print('HELP YOU FEND OFF THE UNDEAD.', (love.graphics.getWidth()/2 - start.font1:getWidth( "HELP YOU FEND OFF THE UNDEAD." )/2), 605)
 		end
 
 		if self.arcadestate == true then
 			love.graphics.setFont( start.font1 )
-			love.graphics.print('SURVIVE! (UNTIL THE END) FIGHT WAVES', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (UNTIL THE END) FIGHT WAVES" )/2), 500)
-			love.graphics.print('OF UNDEAD AND UPGRADE YOUR ARSENAL', (love.graphics.getWidth()/2 - start.font1:getWidth( "OF UNDEAD AND UPGRADE YOUR ARSENAL" )/2), 535)
-			love.graphics.print('WHILE YOURE AT IT.', (love.graphics.getWidth()/2 - start.font1:getWidth( "WHILE YOURE AT IT." )/2), 570)
+			love.graphics.print('SURVIVE! (UNTIL THE END) FIGHT WAVES', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (UNTIL THE END) FIGHT WAVES" )/2), 535)
+			love.graphics.print('OF UNDEAD AND UPGRADE YOUR ARSENAL', (love.graphics.getWidth()/2 - start.font1:getWidth( "OF UNDEAD AND UPGRADE YOUR ARSENAL" )/2), 570)
+			love.graphics.print('WHILE YOURE AT IT.', (love.graphics.getWidth()/2 - start.font1:getWidth( "WHILE YOURE AT IT." )/2), 605)
 		end
 
 		if self.endlessstate == true then
 			love.graphics.setFont( start.font1 )
-			love.graphics.print('SURVIVE! (AS LONG AS YOU CAN)', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (AS LONG AS YOU CAN)" )/2), 500)
-			love.graphics.print('DEFEND YOURSELF AGAINST AN ENDLESS HORDE', (love.graphics.getWidth()/2 - start.font1:getWidth( "DEFEND YOURSELF AGAINST AN ENDLESS HORDE" )/2), 535)
-			love.graphics.print('OF ZOMBIES FOR THAT SWEET HIGH SCORE.', (love.graphics.getWidth()/2 - start.font1:getWidth( "OF ZOMBIES FOR THAT SWEET HIGH SCORE." )/2), 570)
+			love.graphics.print('SURVIVE! (AS LONG AS YOU CAN)', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (AS LONG AS YOU CAN)" )/2), 535)
+			love.graphics.print('DEFEND YOURSELF AGAINST AN ENDLESS HORDE', (love.graphics.getWidth()/2 - start.font1:getWidth( "DEFEND YOURSELF AGAINST AN ENDLESS HORDE" )/2), 570)
+			love.graphics.print('OF ZOMBIES FOR THAT SWEET HIGH SCORE.', (love.graphics.getWidth()/2 - start.font1:getWidth( "OF ZOMBIES FOR THAT SWEET HIGH SCORE." )/2), 605)
+		end
+
+		if self.stuckstate == true then
+			love.graphics.setFont( start.font1 )
+			love.graphics.print('SURVIVE! (YOURE STUCK IN MUD, BY THE WAY.)', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (YOURE STUCK IN MUD, BY THE WAY.)" )/2), 535)
+			love.graphics.print('FAST REFLEXES AND A QUICK TRIGGER FINGER', (love.graphics.getWidth()/2 - start.font1:getWidth( "FAST REFLEXES AND A QUICK TRIGGER FINGER" )/2), 570)
+			love.graphics.print('ARE KEY TO SURVIVING IN THIS GAME MODE.', (love.graphics.getWidth()/2 - start.font1:getWidth( "ARE KEY TO SURVIVING IN THIS GAME MODE." )/2), 605)
 		end
 	end
-	
+
 	-- Draw text if in survival
 	if self.survival == true then
 		love.graphics.setFont( start.font2 )

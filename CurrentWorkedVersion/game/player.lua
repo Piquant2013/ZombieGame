@@ -23,10 +23,14 @@ function player:initialize()
 	plyr.w = 12
 	plyr.health = 0
 	plyr.speed = 0
+	plyr.colliding = false
 	plyr.bb = Collider:addRectangle(plyr.x, plyr.y, plyr.w, plyr.h)
 	plyr.sprite = love.graphics.newImage("images/player/player.png")
 	plyr.arm = love.graphics.newImage("images/player/arm.png")
 	plyr.hurt = false
+
+	weapony = 0
+	weaponx = 0
 	------ VARIABLES ------
 end
 
@@ -71,26 +75,26 @@ function player:health(dt)
 	-- Player death
 	if plyr.health <= 0 then
 		plyr.health = 0
-		endless.gameover = true
+		gameover = true
 	end
 end
 
 function player:movement(dt)
 
 	-- Player movement
-	if love.keyboard.isDown("a") and endless.gameover == false then
+	if love.keyboard.isDown("a") and gameover == false then
 		plyr.x = plyr.x - plyr.speed * dt
 	end
     
-    if love.keyboard.isDown("d") and endless.gameover == false then
+    if love.keyboard.isDown("d") and gameover == false then
 		plyr.x = plyr.x + plyr.speed * dt
     end
 
-    if love.keyboard.isDown("w") and endless.gameover == false then
+    if love.keyboard.isDown("w") and gameover == false then
 		plyr.y = plyr.y - plyr.speed * dt
     end
 
-    if love.keyboard.isDown("s") and endless.gameover == false then
+    if love.keyboard.isDown("s") and gameover == false then
 		plyr.y = plyr.y + plyr.speed * dt
     end
 
@@ -112,14 +116,24 @@ function player:draw()
 	plyr.arm:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
+	if setendless == false then
+		weapony = pis.y
+		weaponx = pis.x
+	end
+
+	if gamereset == false then
+		weapony = crp.y
+		weaponx = crp.x
+	end
+
 	------ IMAGES ------
-	if endless.gameover == false then
+	if gameover == false then
 		
 		-- Move the arm towards the crosshair if the crosshair is atleast 20 pixels away from the player
 		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
-			amx = mx1 - 6 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
-			amy = my1 + 6 * math.cos(math.atan2(my1 - pis.y, mx1 - pis.x))
-			self.armrot = math.atan2(amy - pis.y, amx - pis.x)
+			amx = mx1 - 6 * math.sin(math.atan2(my1 - weapony, mx1 - weaponx))
+			amy = my1 + 6 * math.cos(math.atan2(my1 - weapony, mx1 - weaponx))
+			self.armrot = math.atan2(amy - weapony, amx - weaponx)
 			love.graphics.draw(plyr.arm, plyr.x, plyr.y, self.armrot, 1, 1, plyr.sprite:getWidth() - 32, plyr.sprite:getHeight() - 24)
 		
 		-- Rotate the arm with normal player rotate when the crosshair is within 20 pixels of the player
@@ -133,7 +147,7 @@ function player:draw()
 		plyr.bb:setRotation(plyr.rotation)
 		plyr.deadrotation = math.atan2(mx1 - plyr.x, plyr.y - my1) - math.pi / 2
 
-	elseif endless.gameover == true then
+	elseif gameover == true then
 		
 		-- lock the players draw position when death
 		love.graphics.draw(plyr.sprite, plyr.x, plyr.y, plyr.deadrotation, 1, 1, plyr.sprite:getWidth()/2, plyr.sprite:getHeight()/2)

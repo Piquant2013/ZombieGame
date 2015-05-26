@@ -2,25 +2,25 @@
 local Gamestate = require 'libs/hump/gamestate'
 
 -- Creates game as a new gamestate
-pistol = Gamestate.new()
+clickratepistol = Gamestate.new()
 
 
-function pistol:initialize()
+function clickratepistol:initialize()
 
 	------ VARIABLES ------
 	-- Bullet
 	self.cooldown = 0
-	self.cooldownplus = 0.25
+	self.cooldownplus = 0
 
 	-- PISTOL --
 	-- pistol table
-	self.pis = {}
-	pis = self.pis
+	self.crp = {}
+	crp = self.crp
 
 	-- The contents of the pistol table
-	pis.y = plyr.y
-	pis.x = plyr.x
-	pis.sprite = love.graphics.newImage("images/weapons/pistol.png")
+	crp.y = plyr.y
+	crp.x = plyr.x
+	crp.sprite = love.graphics.newImage("images/weapons/pistol.png")
 	-- PISTOL --
 
 	-- BULLETS --
@@ -30,47 +30,50 @@ function pistol:initialize()
 	------ VARIABLES ------
 end
 
-function pistol:update(dt)
+function clickratepistol:shooting(mx, my, button)
 
-	if love.mouse.isDown('l') and self.cooldown <= 0 and gameover == false and welcomescreen == false then
+	if button == "l" and self.cooldown <= 0 and gameover == false and welcomescreen == false then
 		
 		-- rotates and shoots towards the crosshair if the crosshair is more then 20 pixels away from the player
 		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
-			gmx = mx1 - 6 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
-			gmy = my1 + 6 * math.cos(math.atan2(my1 - pis.y, mx1 - pis.x))
-			self.direction = math.atan2(gmy - pis.y, gmx - pis.x)
+			gmx = mx1 - 6 * math.sin(math.atan2(my1 - crp.y, mx1 - crp.x))
+			gmy = my1 + 6 * math.cos(math.atan2(my1 - crp.y, mx1 - crp.x))
+			self.direction = math.atan2(gmy - crp.y, gmx - crp.x)
 		
 		-- Rotate and shoot straght when the crosshair is within 20 pixels of the player
 		elseif (mx1 > (plyr.x - 20) or (mx1 < (plyr.x + 20 ))) or (my1 > (plyr.y - 20 ) or (my1 < (plyr.y + 20 ))) then
-			self.direction = math.atan2(my1 - pis.y, mx1 - pis.x)
+			self.direction = math.atan2(my1 - crp.y, mx1 - crp.x)
 		end
 
 		-- bullet tables
-		bullet = {}
+		self.bullet = {}
 
 		-- The contents of the bullets table
-		bullet.x = pis.x
-		bullet.y = pis.y
-		bullet.w = 1
-		bullet.h = 12
-		bullet.dir = self.direction
-		bullet.speed = 400
-		bullet.bb = Collider:addRectangle(bullet.x, bullet.y, bullet.h, bullet.w)
-		bullet.sound = love.audio.newSource("audio/weapons/pistol.ogg")
-		bullet.sprite = love.graphics.newImage("images/weapons/bullet-pistol.png")
+		self.bullet.x = crp.x
+		self.bullet.y = crp.y
+		self.bullet.w = 1
+		self.bullet.h = 12
+		self.bullet.dir = self.direction
+		self.bullet.speed = 400
+		self.bullet.bb = Collider:addRectangle(self.bullet.x, self.bullet.y, self.bullet.h, self.bullet.w)
+		self.bullet.sound = love.audio.newSource("audio/weapons/pistol.ogg")
+		self.bullet.sprite = love.graphics.newImage("images/weapons/bullet-pistol.png")
 
 		-- Insert the bullet
-		table.insert(self.bullets, bullet)
+		table.insert(self.bullets, self.bullet)
 		self.cooldown = self.cooldownplus
-		love.audio.play(bullet.sound)
+		love.audio.play(self.bullet.sound)
 	end
+end
+
+function clickratepistol:update(dt)
 
 	-- cool down pistol
 	self.cooldown = math.max(0, self.cooldown - dt)
 
 	-- keep gun with the player and set crosshair
-	pis.x = plyr.x
-    pis.y = plyr.y
+	crp.x = plyr.x
+    crp.y = plyr.y
 	love.mouse.setCursor(crosshair)
 	 	
 	for i, o in ipairs(self.bullets) do
@@ -91,7 +94,7 @@ function pistol:update(dt)
 	end
 end
 
-function pistol:bulletdraw()
+function clickratepistol:bulletdraw()
 
 	for i, o in ipairs(self.bullets) do
 		------ FILTERS ------
@@ -109,10 +112,10 @@ function pistol:bulletdraw()
 	end
 end
 
-function pistol:draw()
+function clickratepistol:draw()
 
 	------ FILTERS ------
-	pis.sprite:setFilter( 'nearest', 'nearest' )
+	crp.sprite:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
 	------ IMAGES ------
@@ -120,19 +123,19 @@ function pistol:draw()
 
 		-- Move the pistol towards the crosshair if the crosshair is atleast 20 pixels away from the player 
 		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
-			love.graphics.draw(pis.sprite, pis.x, pis.y, player.armrot, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
+			love.graphics.draw(crp.sprite, crp.x, crp.y, player.armrot, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
 
 		-- Rotate the pistol with normal player rotate when the crosshair is within 20 pixels of the player
 		elseif (mx1 > (plyr.x - 20) or (mx1 < (plyr.x + 20 ))) or (my1 > (plyr.y - 20 ) or (my1 < (plyr.y + 20 ))) then
-			love.graphics.draw(pis.sprite, pis.x, pis.y, plyr.rotation, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)	
+			love.graphics.draw(crp.sprite, crp.x, crp.y, plyr.rotation, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)	
 		end
 	
 	elseif gameover == true then
 		
 		-- lock the pistol draw position when death
-		love.graphics.draw(pis.sprite, pis.x, pis.y, plyr.deadrotation, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
+		love.graphics.draw(crp.sprite, crp.x, crp.y, plyr.deadrotation, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
 	end
 	------ IMAGES ------
 end
 
-return pistol
+return clickratepistol

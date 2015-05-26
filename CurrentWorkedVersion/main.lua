@@ -28,6 +28,10 @@ function love.load()
 	paused = false
 	resume = false
 	gamereset = true
+	setendless = true
+	gameover = false
+	welcomescreen = true
+	weapon = {}
 	------ GOLBAL VARIABLES ------
 	
 	-- Tells game to start with the logo script

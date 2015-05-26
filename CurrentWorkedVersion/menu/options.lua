@@ -194,7 +194,7 @@ function options:keypressed(key)
 		
 		-- pasue game music if its playing
 		if paused == true then
-			love.audio.pause(endless.music)
+			--love.audio.pause(endless.music)
 		end
 
 		love.audio.play(credits.music)
