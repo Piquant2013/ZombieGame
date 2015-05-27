@@ -134,12 +134,12 @@ end
 function player:update(dt)
 	
 	-- Set player weapon postion
-	if game.endless == false then
+	if game.endless == true then
 		self.weapony = pis.y
 		self.weaponx = pis.x
 	end
 
-	if game.stuck == false then
+	if game.stuck == true then
 		self.weapony = crp.y
 		self.weaponx = crp.x
 	end

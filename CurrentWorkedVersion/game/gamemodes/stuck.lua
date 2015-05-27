@@ -106,6 +106,9 @@ function stuckmode:update(dt)
 	end
 	-- SET UP GAME --
 
+	-- update gun
+	clickratepistol:update(dt)
+
 	-- set vars for gameover
 	if gameover == true then
 		clickratepistol.cooldown = 0

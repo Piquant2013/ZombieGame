@@ -108,6 +108,9 @@ function endless:update(dt)
 	end
 	-- SET UP GAME --
 
+	-- update the gun
+	pistol:update(dt)
+
 	-- set vars for gameover
 	if gameover == true then
 		pistol.cooldown = 0

@@ -82,7 +82,7 @@ function game:keypressed(key)
     	Gamestate.switch(menu)
     	love.audio.play(start.music)
     	start.music:setLooping(true)
-   		love.audio.stop(self.music)
+   		love.audio.stop(self.music1)
     	setendless = true
     	gamereset = true
     	self.endless = false
@@ -116,8 +116,6 @@ function game:update(dt)
 	-- Update player, pistol, hardon collider, etc
 	player:update(dt)
 	player:health(dt)
-	pistol:update(dt)
-	clickratepistol:update(dt)
 	Collider:update(dt)
 
     -- if game is paused switch to the pause screen
