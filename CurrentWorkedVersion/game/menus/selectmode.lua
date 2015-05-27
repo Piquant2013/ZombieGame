@@ -201,16 +201,23 @@ function selectmode:keypressed(key)
   	-- Go to the endless game mode
 	if key == "return" and self.endlessstate == true or key == " " and self.endlessstate == true then
 		Gamestate.push(endless)
+		game.endless = true
 		love.audio.play(self.entersound1)
 		love.audio.stop(start.music)
-		--love.audio.play(endless.intromusic)
-		--endless.intromusic:setVolume(0.6)
-		--endless.intromusic:setLooping(true)
+		love.audio.play(game.intromusic)
+		game.intromusic:setVolume(0.6)
+		game.intromusic:setLooping(true)
 	end
 
+	-- Go to the stuck game mode
 	if key == "return" and self.stuckstate == true or key == " " and self.stuckstate == true then
-		love.audio.play(self.entersound1)
 		Gamestate.push(stuckmode)
+		game.stuck = true
+		love.audio.play(self.entersound1)
+		love.audio.stop(start.music)
+		love.audio.play(game.intromusic)
+		game.intromusic:setVolume(0.6)
+		game.intromusic:setLooping(true)
 	end
 
 	-- Plays audio for survival buttons

@@ -8,9 +8,14 @@ player = Gamestate.new()
 function player:initialize()
 
 	------ VARIABLES ------
-	-- Player damage
+	-- Player damage and health
 	self.hurttimer = 0
 	self.flashred = false
+	player.autoheal = false
+
+	-- Players weapon position
+	self.weapony = 0
+	self.weaponx = 0
 
 	-- Player table
 	self.plyr = {}
@@ -28,9 +33,6 @@ function player:initialize()
 	plyr.sprite = love.graphics.newImage("images/player/player.png")
 	plyr.arm = love.graphics.newImage("images/player/arm.png")
 	plyr.hurt = false
-
-	weapony = 0
-	weaponx = 0
 	------ VARIABLES ------
 end
 
@@ -67,9 +69,6 @@ function player:collision(dt, shape_a, shape_b, mtv_x, mtv_y)
    	end
 end
 
-function player:collisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
-end
-
 function player:health(dt)
 
 	-- Player death
@@ -77,6 +76,36 @@ function player:health(dt)
 		plyr.health = 0
 		gameover = true
 	end
+
+	-- AUTO HEAL --
+	if player.autoheal == true then
+
+		-- start the hurt timer
+		player.hurttimer = player.hurttimer + dt
+
+		-- flash red is player is hurt
+  		if plyr.hurt == true then
+    		player.hurttimer = 0
+    		player.flashred = true
+  		end
+
+  		-- Stop the flashing
+  		if player.hurttimer > 0.3 then
+   		 	player.flashred = false
+  		end
+
+  		-- Autoheal the player if hasnt been hurt for 4secs
+  		if player.hurttimer > 4 and plyr.hurt == false then
+    		plyr.health = plyr.health + 1
+  		end
+
+  		-- stop player health at 100
+  		if plyr.health > 100 then
+    		plyr.health = 100
+   		 	player.hurttimer = 0
+  		end
+  	end
+  	-- AUTO HEAL --
 end
 
 function player:movement(dt)
@@ -104,6 +133,17 @@ end
 
 function player:update(dt)
 	
+	-- Set player weapon postion
+	if game.endless == false then
+		self.weapony = pis.y
+		self.weaponx = pis.x
+	end
+
+	if game.stuck == false then
+		self.weapony = crp.y
+		self.weaponx = crp.x
+	end
+
 	-- update player and add plyr.bb to players group
 	Collider:addToGroup("players", plyr.bb)
 	player:movement(dt)
@@ -116,24 +156,14 @@ function player:draw()
 	plyr.arm:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
-	if setendless == false then
-		weapony = pis.y
-		weaponx = pis.x
-	end
-
-	if gamereset == false then
-		weapony = crp.y
-		weaponx = crp.x
-	end
-
 	------ IMAGES ------
 	if gameover == false then
 		
 		-- Move the arm towards the crosshair if the crosshair is atleast 20 pixels away from the player
 		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
-			amx = mx1 - 6 * math.sin(math.atan2(my1 - weapony, mx1 - weaponx))
-			amy = my1 + 6 * math.cos(math.atan2(my1 - weapony, mx1 - weaponx))
-			self.armrot = math.atan2(amy - weapony, amx - weaponx)
+			amx = mx1 - 6 * math.sin(math.atan2(my1 - self.weapony, mx1 - self.weaponx))
+			amy = my1 + 6 * math.cos(math.atan2(my1 - self.weapony, mx1 - self.weaponx))
+			self.armrot = math.atan2(amy - self.weapony, amx - self.weaponx)
 			love.graphics.draw(plyr.arm, plyr.x, plyr.y, self.armrot, 1, 1, plyr.sprite:getWidth() - 32, plyr.sprite:getHeight() - 24)
 		
 		-- Rotate the arm with normal player rotate when the crosshair is within 20 pixels of the player

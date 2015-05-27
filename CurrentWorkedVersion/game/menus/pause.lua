@@ -42,7 +42,7 @@ function pause:update(dt)
 
 	-- Pause game music and set cursor
 	if resume == false then
-		--endless.music:setVolume(0.2)
+		game.music1:setVolume(0.2)
 		love.mouse.setCursor(cursor)
 	end
 
@@ -51,7 +51,7 @@ function pause:update(dt)
 		Gamestate.pop()
 		paused = false
 		love.mouse.setCursor(crosshair)
-		--endless.music:setVolume(1.0)
+		game.music1:setVolume(1.0)
 	end 
 
 	-- PAUSE MENU STATES -- 
@@ -133,12 +133,14 @@ function pause:keypressed(key)
 		love.audio.play(self.entersound)
 		setendless = true
 		gamereset = true
+		game.endless = false
+		game.stuck = false
 		paused = false
 		welcomescreen = true
 		Gamestate.switch(menu)
-		--love.audio.play(start.music)
-		--start.music:setLooping(true)
-		--love.audio.stop(endless.music)
+		love.audio.play(start.music)
+		start.music:setLooping(true)
+		love.audio.stop(game.music1)
 	end
 	-- ACTIVATE BUTTONS --
 

@@ -7,16 +7,16 @@ local HC = require 'libs/hardoncollider'
 -- Loads gamestate script
 game = require 'game/game'
 
--- Creates stuckmode as a new gamestate
-stuckmode = Gamestate.new()
+-- Creates endless as a new gamestate
+endless = Gamestate.new()
 
 
-function stuckmode:init()
+function endless:init()
 
 	------ VARIABLES ------
 	-- load main game mechanics
 	game:init()
-	
+
 	-- scores
 	self.score = 0
 	self.time = 0
@@ -35,31 +35,25 @@ function stuckmode:init()
 	------ IMAGES ------
 end
 
-function stuckmode:keypressed(key)
+function endless:keypressed(key)
 	
 	-- load game keyborad inputs for welcome screen, gameover, etc
 	game:keypressed(key)
 end
 
-function stuckmode:mousepressed(mx, my, button)
-	
-	-- load crpistol mouse input
-	clickratepistol:shooting(mx, my, button)
-end
-
-function stuckmode:update(dt)
+function endless:update(dt)
 
 	-- update main game mechanics
 	game:update(dt)
 
 	-- SET UP GAME --
 	-- Reset the game
-	if gamereset == true then
+	if setendless == true then
 
 		-- Player
-		plyr.y = 465
-		plyr.x = 800
-		plyr.speed = 0
+		plyr.y = 200
+		plyr.x = 400
+		plyr.speed = 80
 		plyr.health = 100
 		plyr.hurt = false
 		plyr.colliding = false
@@ -68,11 +62,11 @@ function stuckmode:update(dt)
 		player.autoheal = true
 
 		-- Pistol
-		clickratepistol.crp.y = plyr.y
-		clickratepistol.crp.x = plyr.x
-		clickratepistol.cooldown = 0
-		clickratepistol.cooldownplus = 0
-		clickratepistol.bullets = {}
+		pis.y = plyr.y
+		pis.x = plyr.x
+		pistol.cooldown = 0
+		pistol.cooldownplus = 0.25
+		pistol.bullets = {}
 
 		-- gameover or welcome screens
 		welcomescreen = true
@@ -99,18 +93,26 @@ function stuckmode:update(dt)
 		zombie.speed = 60
 		zombie.health = 1
 		zombie.count = 0
-
+		
 		-- hardon collider
 		Collider = HC(100, on_collision, collision_stop)
 		plyr.bb = Collider:addRectangle(plyr.x, plyr.y, plyr.w, plyr.h)
+		self.wallT = Collider:addRectangle(188, 120, 850, 16)
+    	self.wallB = Collider:addRectangle(188, 580, 850, 16)
+    	self.wallL = Collider:addRectangle(170, 120, 16, 476)
+    	self.wallR = Collider:addRectangle(1040, 120, 16, 476)
+    	self.tree1 = Collider:addCircle(334, 282, 10)
+    	self.tree2 = Collider:addCircle(817, 259, 10)
+    	self.tree3 = Collider:addCircle(900, 457, 10)
+    	self.tree4 = Collider:addCircle(610, 356, 80)
 	end
 	-- SET UP GAME --
 
 	-- set vars for gameover
 	if gameover == true then
-		clickratepistol.cooldown = 0
-		clickratepistol.cooldownplus = 0
-		clickratepistol.bullets = {}
+		pistol.cooldown = 0
+		pistol.cooldownplus = 0
+		pistol.bullets = {}
 		plyr.y = plyr.y
 		plyr.x = plyr.x
 		love.mouse.setCursor(cursor)
@@ -163,8 +165,8 @@ function stuckmode:update(dt)
 	zombie:update(dt)
 end
 
-function stuckmode:draw()
-	
+function endless:draw()
+
 	------ FILTERS ------
 	self.layer1:setFilter( 'nearest', 'nearest' )
 	self.layer2:setFilter( 'nearest', 'nearest' )
@@ -180,7 +182,7 @@ function stuckmode:draw()
 	love.graphics.draw(self.layer1, 0, 0)
 
 	-- bullet
-	clickratepistol:bulletdraw()
+	pistol:bulletdraw()
 
 	-- player (red flash when player is hurt)
 	if player.flashred == true then
@@ -194,7 +196,7 @@ function stuckmode:draw()
 	end
 
 	-- pistol
-	clickratepistol:draw()
+	pistol:draw()
 
 	-- zombies
 	zombie:draw()
@@ -254,4 +256,4 @@ function stuckmode:draw()
 	-- REMOVE LATER! ------ DEBUG ------ REMOVE LATER!
 end
 
-return stuckmode
+return endless

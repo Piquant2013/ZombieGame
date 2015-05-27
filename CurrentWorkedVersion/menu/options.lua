@@ -190,11 +190,11 @@ function options:keypressed(key)
 		Gamestate.push(credits)
 		love.audio.play(self.entersound1)
 		love.audio.stop(credits.entersound)
-		love.audio.stop(start.music)
+		love.audio.pause(start.music)
 		
 		-- pasue game music if its playing
 		if paused == true then
-			--love.audio.pause(endless.music)
+			love.audio.pause(game.music1)
 		end
 
 		love.audio.play(credits.music)

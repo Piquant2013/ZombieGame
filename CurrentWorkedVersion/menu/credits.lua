@@ -28,9 +28,9 @@ function credits:keypressed(key)
 		
 		-- resume game music if its playing or play music if its not and not in pause
 		if paused == false then
-			--love.audio.play(start.music)
+			love.audio.resume(start.music)
 		elseif paused == true then
-			--love.audio.resume(endless.music)
+			love.audio.resume(game.music1)
 		end
 	end
 end
