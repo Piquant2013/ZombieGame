@@ -25,13 +25,23 @@ function endless:init()
 	-- For the spawn system
 	self.kills = 0
 	self.wavedrawtime = 0
+	self.wavebreaktimer = 0
+	self.wavebreak = false
 	self.wavestart = true
 	self.wavezombiecount = 14
+
+	-- Gameover vars
+	self.gameovery = 800
+	self.fadebg = 0
+	self.bgtimer = 0
 	------ VARIABLES ------
 
 	------ IMAGES ------
 	self.layer1 = love.graphics.newImage("images/maps/endless-layer1.png")
 	self.layer2 = love.graphics.newImage("images/maps/endless-layer2.png")
+	self.hud1 = love.graphics.newImage("images/hud/hud1.png")
+	self.hud2 = love.graphics.newImage("images/hud/hud2.png")
+	self.hud3 = love.graphics.newImage("images/hud/hud3.png")
 	------ IMAGES ------
 end
 
@@ -39,6 +49,29 @@ function endless:keypressed(key)
 	
 	-- load game keyborad inputs for welcome screen, gameover, etc
 	game:keypressed(key)
+
+	-- dissmiss the game over message
+  	if key == "return" and gameover == true and self.bgtimer > 12 or key == " " and gameover == true and self.bgtimer > 12 then
+  		love.audio.play(game.entersound)
+    	Gamestate.switch(menu)
+    	love.audio.play(start.music)
+    	start.music:setLooping(true)
+   		love.audio.stop(game.music1)
+    	setendless = true
+    	gamereset = true
+    	game.endless = false
+    	game.stuck = false
+    	love.audio.stop(plyr.deathaudio)
+    	love.audio.stop(plyr.hurtaudio)
+    	love.audio.stop(game.music2)
+  	end
+
+  	-- skip the game over animation
+  	if key == "return" and gameover == true and endless.bgtimer < 12 or key == " " and gameover == true and endless.bgtimer < 12 then
+  		self.bgtimer = 13
+  		self.fadebg = 255
+		self.gameovery = 200
+  	end
 end
 
 function endless:update(dt)
@@ -80,8 +113,15 @@ function endless:update(dt)
 		-- For the spawn system
 		self.kills = 0
 		self.wavedrawtime = 0
+		self.wavebreaktimer = 0
+		self.wavebreak = false
 		self.wavestart = true
 		self.wavezombiecount = 50
+
+		-- Gameover vars
+		self.gameovery = 800
+		self.fadebg = 0
+		self.bgtimer = 0
 
 		-- Globals
 		paused = false
@@ -105,6 +145,10 @@ function endless:update(dt)
     	self.tree2 = Collider:addCircle(817, 259, 10)
     	self.tree3 = Collider:addCircle(900, 457, 10)
     	self.tree4 = Collider:addCircle(610, 356, 80)
+
+    	-- stop audio
+    	love.audio.stop(plyr.hurtaudio)
+    	love.audio.stop(plyr.deathaudio)
 	end
 	-- SET UP GAME --
 
@@ -119,12 +163,18 @@ function endless:update(dt)
 		plyr.y = plyr.y
 		plyr.x = plyr.x
 		love.mouse.setCursor(cursor)
+		love.audio.stop(plyr.hurtaudio)
+		love.audio.play(plyr.deathaudio)
+		love.audio.stop(game.music1)
+		love.audio.play(game.music2)
+		self.wavestart = false
 	end
 
 	-- WAVE SYSTEM --
 	-- start the score time
 	if gameover == false then
 		self.time = self.time + dt
+		self.wavebreaktimer = self.wavebreaktimer + dt
 	end
 
 	-- Start the wave draw timer
@@ -138,10 +188,22 @@ function endless:update(dt)
 	end
 
 	-- stop spawning if zombie.count gets to high 
-	if zombie.count == self.wavezombiecount then
-		self.wavestart = false
-	elseif zombie.count < self.wavezombiecount then
-		self.wavestart = true
+	if self.wavebreak == false then
+		if zombie.count == self.wavezombiecount then
+			self.wavestart = false
+		elseif zombie.count < self.wavezombiecount then
+			self.wavestart = true
+		end
+	end
+
+	-- small break between waves
+	if self.wavebreak == true then
+		if self.wavebreaktimer < 5 then
+			self.wavestart = false
+		elseif self.wavebreaktimer > 5 then
+			self.wavestart = true
+			self.wavebreak = false
+		end
 	end
 
 	-- when you kill 100 go to next wave, increase spawn rate, increase spawn amount
@@ -151,6 +213,8 @@ function endless:update(dt)
 		self.wavedrawtime = 0
 		self.wave = self.wave + 1
 		self.wavezombiecount = self.wavezombiecount + 6
+		self.wavebreaktimer = 0
+		self.wavebreak = true
 	end
 
 	-- lock the spawn rate
@@ -166,6 +230,41 @@ function endless:update(dt)
 
 	-- update zombies
 	zombie:update(dt)
+
+	--- MOVE GAMEOVER TEXT ---
+	if gameover == true then
+		
+		-- set timer and title mover
+		self.gameovery = self.gameovery + dt - 2
+		self.bgtimer = self.bgtimer + dt
+
+		-- fade in the background after 10secs
+		if self.bgtimer > 10 then
+			self.fadebg = self.fadebg + dt + 3
+		end
+
+		-- stop death audio
+		if self.bgtimer > 3 then
+			love.audio.stop(plyr.deathaudio)
+		end
+
+		-- unspawn zombies
+		if self.bgtimer > 12 then
+			Collider:remove(zombie.bb)
+			table.remove(zombie.zombs)
+		end
+
+		-- keep fade on the background off once its faded in
+		if self.fadebg > 255 then
+			self.fadebg = 255
+		end
+
+		-- move title to 200 and stop
+		if self.gameovery < 200 then
+			self.gameovery = 200
+		end
+	end
+	--- MOVE GAMEOVER TEXT ---
 end
 
 function endless:draw()
@@ -173,9 +272,14 @@ function endless:draw()
 	------ FILTERS ------
 	self.layer1:setFilter( 'nearest', 'nearest' )
 	self.layer2:setFilter( 'nearest', 'nearest' )
+	self.hud1:setFilter( 'nearest', 'nearest' )
+	self.hud2:setFilter( 'nearest', 'nearest' )
+	self.hud3:setFilter( 'nearest', 'nearest' )
 	start.font1:setFilter( 'nearest', 'nearest' )
 	start.font2:setFilter( 'nearest', 'nearest' )
 	start.font3:setFilter( 'nearest', 'nearest' )
+	start.font4:setFilter( 'nearest', 'nearest' )
+	start.font5:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 	
 	------ CAMERA ------
@@ -212,34 +316,55 @@ function endless:draw()
 	
 	------ TEXT ------
 	-- wave title
-	if self.wavedrawtime < 3 then
+	if self.wavedrawtime < 3 and gameover == false then
 		love.graphics.setFont( start.font3 )
    		love.graphics.setColor(160, 47, 0)
 		love.graphics.print("WAVE "..tostring(self.wave), (love.graphics.getWidth()/2 - start.font3:getWidth("WAVE "..tostring(self.wave))/2), 200)
 		love.graphics.setColor(255, 255, 255)
 	end
 
-	-- the hud and the hud text
+	-- the hud text and images
 	if gameover == false then
+		love.graphics.draw(self.hud1, 0, 0, 0, 0.5)
+		love.graphics.draw(self.hud2, 0, 635, 0, 0.5)
+		love.graphics.draw(self.hud3, 500 - 6, 665, 0, 0.5)
 		love.graphics.setColor(0, 0, 0)
-		love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), 30)
 		love.graphics.setFont( start.font1 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("HP:"..tostring(math.floor(plyr.health)), 100, 10)
-		love.graphics.print("TIME:"..tostring(math.floor(self.time)), 350, 10)
-		love.graphics.print("SCORE:"..tostring(self.score), 710, 10)
-		love.graphics.print("WAVE:"..tostring(self.wave), 1020, 10)
+		love.graphics.print("HEALTH:", 20, 20)
+		love.graphics.print(tostring(math.floor(plyr.health)), 20, 50)
+		love.graphics.print("SCORE:", 1100, 20)
+		love.graphics.print(tostring(self.score), 1100, 50)
+		love.graphics.print("AMMO: ∞", 20, 656)
+		love.graphics.print("PISTOL", 20, 686)
+		love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font1:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 686)
+		love.graphics.setFont( start.font2 )
+		love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font2:getWidth("WAVE:")/2), 20)
 		love.graphics.setColor(255, 255, 255)
 
 	-- Game over title and the scores at the end of the game
 	elseif gameover == true then
-    	love.graphics.setFont( start.font3 )
-    	love.graphics.setColor(160, 47, 0)
-    	love.graphics.print('GAME OVER', (love.graphics.getWidth()/2 - start.font3:getWidth( "GAME OVER" )/2), 200)
-		love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font3:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 300)
-		love.graphics.print("SCORE:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(self.score))/2), 350)
-		love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font3:getWidth("WAVE:"..tostring(self.wave))/2), 400)
+    	
+		-- darw game over backgorund
+    	love.graphics.setColor(160, 47, 0, self.fadebg)
+		love.graphics.draw(start.bg, 0, -1000, 0, 3)
 		love.graphics.setColor(255, 255, 255)
+
+		-- draw game over title
+    	love.graphics.setFont( start.font5 )
+    	love.graphics.setColor(160, 47, 0)
+    	love.graphics.print('GAME OVER', (love.graphics.getWidth()/2 - start.font5:getWidth( "GAME OVER" )/2), self.gameovery)
+    	love.graphics.setColor(255, 255, 255)
+		
+		-- display game score
+    	if self.bgtimer > 12 then
+			love.graphics.setFont( start.font3 )
+    		love.graphics.setColor(160, 47, 0)
+			love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font3:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 300)
+			love.graphics.print("SCORE:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(self.score))/2), 350)
+			love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font3:getWidth("WAVE:"..tostring(self.wave))/2), 400)
+			love.graphics.setColor(255, 255, 255)
+		end
 	end
 
 	-- draw game welcome messages

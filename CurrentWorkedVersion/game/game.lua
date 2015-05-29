@@ -17,7 +17,7 @@ player = require 'game/player'
 pistol = require 'game/weapons/pistol'
 
 -- Loads crpistol script
-clickratepistol = require 'game/weapons/clickrate-pistol'
+crpistol = require 'game/weapons/clickrate-pistol'
 
 -- Loads zombie script
 zombie = require 'game/zombie'
@@ -35,7 +35,7 @@ function game:init()
 	-- Load player, pistol, etc vars
     player:initialize()
     pistol:initialize()
-    clickratepistol:initialize()
+    crpistol:initialize()
 
     -- gamemodes
     self.endless = false
@@ -47,6 +47,7 @@ function game:init()
 
 	------ AUDIO ------
 	self.music1 = love.audio.newSource("audio/music/game.ogg")
+	self.music2 = love.audio.newSource("audio/music/credits.ogg")
 	self.intromusic = love.audio.newSource("audio/music/gameintro.ogg")
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
 	------ AUDIO ------
@@ -74,19 +75,6 @@ function game:keypressed(key)
 		love.audio.play(self.music1)
 		self.music1:setVolume(1.0)
 		self.music1:setLooping(true)
-  	end
-
-  	-- dissmiss the game over message
-  	if key == "return" and gameover == true or key == " " and gameover == true then
-  		love.audio.play(self.entersound)
-    	Gamestate.switch(menu)
-    	love.audio.play(start.music)
-    	start.music:setLooping(true)
-   		love.audio.stop(self.music1)
-    	setendless = true
-    	gamereset = true
-    	self.endless = false
-    	self.stuck = false
   	end
 
   	-- Pause the game
@@ -128,7 +116,7 @@ function love.focus(f)
 	
 	-- pause the game if window loses focus
 	if not f then
-		if paused == false and welcomescreen == false and self.endless == true or self.stuck == true then  
+		if paused == false and welcomescreen == false and game.endless == true or game.stuck == true then  
 			paused = true
 			resume = false
    			love.mouse.setCursor(cursor)
@@ -243,6 +231,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     	if other == o.bb then
     		plyr.health = plyr.health - 0.4
     		plyr.hurt = true
+    		love.audio.play(plyr.hurtaudio)
     	end
     end
 end
@@ -270,6 +259,7 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 
 				if other == v.bb then
 					o.health = o.health - 10
+					love.audio.play(o.damageaudio)
 					Collider:remove(v.bb)
 					table.remove(pistol.bullets, c)
 
@@ -288,7 +278,7 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 
 	if gamereset == false then
 		for i, o in ipairs(zombie.zombs) do
-			for c, v in ipairs(clickratepistol.bullets) do
+			for c, v in ipairs(crpistol.bullets) do
 
 				local other
 
@@ -300,8 +290,9 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 
 				if other == v.bb then
 					o.health = o.health - 10
+					love.audio.play(o.damageaudio)
 					Collider:remove(v.bb)
-					table.remove(clickratepistol.bullets, c)
+					table.remove(crpistol.bullets, c)
 
 					if o.health < 0 then
 						o.health = 0

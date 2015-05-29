@@ -28,7 +28,7 @@ function menu:init()
 	
 	-- Button Selecter Y & X
 	self.arrowy = (self.playbtny)
-	self.arrowx = 480
+	self.arrowx = 370
 
 	-- Menus state
 	self.playstate = false

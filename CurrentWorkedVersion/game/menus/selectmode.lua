@@ -297,30 +297,30 @@ function selectmode:draw()
 		-- Draw discription text for each gamemode
 		if self.survivalstate == true then
 			love.graphics.setFont( start.font1 )
-			love.graphics.print('SURVIVE! FIND FOOD, SHELTER,', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! FIND FOOD, SHELTER," )/2), 535)
-			love.graphics.print('WEAPONS, AMMUNITION AND TOOLS TO', (love.graphics.getWidth()/2 - start.font1:getWidth( "WEAPONS, AMMUNITION AND TOOLS TO" )/2), 570)
-			love.graphics.print('HELP YOU FEND OFF THE UNDEAD.', (love.graphics.getWidth()/2 - start.font1:getWidth( "HELP YOU FEND OFF THE UNDEAD." )/2), 605)
+			love.graphics.print("SURVIVE! FIND FOOD, SHELTER,", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! FIND FOOD, SHELTER," )/2), 535)
+			love.graphics.print("WEAPONS, AMMUNITION AND TOOLS TO", (love.graphics.getWidth()/2 - start.font1:getWidth( "WEAPONS, AMMUNITION AND TOOLS TO" )/2), 570)
+			love.graphics.print("HELP YOU FEND OFF THE UNDEAD.", (love.graphics.getWidth()/2 - start.font1:getWidth( "HELP YOU FEND OFF THE UNDEAD." )/2), 605)
 		end
 
 		if self.arcadestate == true then
 			love.graphics.setFont( start.font1 )
-			love.graphics.print('SURVIVE! (UNTIL THE END) FIGHT WAVES', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (UNTIL THE END) FIGHT WAVES" )/2), 535)
-			love.graphics.print('OF UNDEAD AND UPGRADE YOUR ARSENAL', (love.graphics.getWidth()/2 - start.font1:getWidth( "OF UNDEAD AND UPGRADE YOUR ARSENAL" )/2), 570)
-			love.graphics.print('WHILE YOURE AT IT.', (love.graphics.getWidth()/2 - start.font1:getWidth( "WHILE YOURE AT IT." )/2), 605)
+			love.graphics.print("SURVIVE! (UNTIL THE END) FIGHT WAVES", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (UNTIL THE END) FIGHT WAVES" )/2), 535)
+			love.graphics.print("OF UNDEAD AND UPGRADE YOUR ARSENAL", (love.graphics.getWidth()/2 - start.font1:getWidth( "OF UNDEAD AND UPGRADE YOUR ARSENAL" )/2), 570)
+			love.graphics.print("WHILE YOURE AT IT.", (love.graphics.getWidth()/2 - start.font1:getWidth( "WHILE YOURE AT IT." )/2), 605)
 		end
 
 		if self.endlessstate == true then
 			love.graphics.setFont( start.font1 )
-			love.graphics.print('SURVIVE! (AS LONG AS YOU CAN)', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (AS LONG AS YOU CAN)" )/2), 535)
-			love.graphics.print('DEFEND YOURSELF AGAINST AN ENDLESS HORDE', (love.graphics.getWidth()/2 - start.font1:getWidth( "DEFEND YOURSELF AGAINST AN ENDLESS HORDE" )/2), 570)
-			love.graphics.print('OF ZOMBIES FOR THAT SWEET HIGH SCORE.', (love.graphics.getWidth()/2 - start.font1:getWidth( "OF ZOMBIES FOR THAT SWEET HIGH SCORE." )/2), 605)
+			love.graphics.print("SURVIVE! (AS LONG AS YOU CAN)", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (AS LONG AS YOU CAN)" )/2), 535)
+			love.graphics.print("DEFEND YOURSELF AGAINST AN ENDLESS HORDE", (love.graphics.getWidth()/2 - start.font1:getWidth( "DEFEND YOURSELF AGAINST AN ENDLESS HORDE" )/2), 570)
+			love.graphics.print("OF ZOMBIES FOR THAT SWEET HIGH SCORE.", (love.graphics.getWidth()/2 - start.font1:getWidth( "OF ZOMBIES FOR THAT SWEET HIGH SCORE." )/2), 605)
 		end
 
 		if self.stuckstate == true then
 			love.graphics.setFont( start.font1 )
-			love.graphics.print('SURVIVE! (YOURE STUCK IN MUD, BY THE WAY.)', (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (YOURE STUCK IN MUD, BY THE WAY.)" )/2), 535)
-			love.graphics.print('FAST REFLEXES AND A QUICK TRIGGER FINGER', (love.graphics.getWidth()/2 - start.font1:getWidth( "FAST REFLEXES AND A QUICK TRIGGER FINGER" )/2), 570)
-			love.graphics.print('ARE KEY TO SURVIVING IN THIS GAME MODE.', (love.graphics.getWidth()/2 - start.font1:getWidth( "ARE KEY TO SURVIVING IN THIS GAME MODE." )/2), 605)
+			love.graphics.print("SURVIVE! (YOU'RE STUCK IN MUD, BY THE WAY.)", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (YOU'RE STUCK IN MUD, BY THE WAY.)" )/2), 535)
+			love.graphics.print("FAST REFLEXES AND A QUICK TRIGGER FINGER", (love.graphics.getWidth()/2 - start.font1:getWidth( "FAST REFLEXES AND A QUICK TRIGGER FINGER" )/2), 570)
+			love.graphics.print("ARE KEY TO SURVIVING IN THIS GAME MODE.", (love.graphics.getWidth()/2 - start.font1:getWidth( "ARE KEY TO SURVIVING IN THIS GAME MODE." )/2), 605)
 		end
 	end
 

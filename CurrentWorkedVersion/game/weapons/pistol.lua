@@ -11,6 +11,7 @@ function pistol:initialize()
 	-- Bullet
 	self.cooldown = 0
 	self.cooldownplus = 0.25
+	self.aimresize = 0
 
 	-- PISTOL --
 	-- pistol table
@@ -21,6 +22,7 @@ function pistol:initialize()
 	pis.y = plyr.y
 	pis.x = plyr.x
 	pis.sprite = love.graphics.newImage("images/weapons/pistol.png")
+	pis.aim = love.graphics.newImage("images/aim.png")
 	-- PISTOL --
 
 	-- BULLETS --
@@ -54,7 +56,7 @@ function pistol:update(dt)
 		bullet.w = 1
 		bullet.h = 12
 		bullet.dir = self.direction
-		bullet.speed = 400
+		bullet.speed = 500
 		bullet.bb = Collider:addRectangle(bullet.x, bullet.y, bullet.h, bullet.w)
 		bullet.sound = love.audio.newSource("audio/weapons/pistol.ogg")
 		bullet.sprite = love.graphics.newImage("images/weapons/bullet-pistol.png")
@@ -113,6 +115,7 @@ function pistol:draw()
 
 	------ FILTERS ------
 	pis.sprite:setFilter( 'nearest', 'nearest' )
+	pis.aim:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
 	------ IMAGES ------
@@ -121,6 +124,16 @@ function pistol:draw()
 		-- Move the pistol towards the crosshair if the crosshair is atleast 20 pixels away from the player 
 		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
 			love.graphics.draw(pis.sprite, pis.x, pis.y, player.armrot, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
+
+
+
+
+			--self.aimresize = love.graphics.getWidth()/2 + mx1 - love.graphics.getWidth()/2
+			--love.graphics.draw(pis.aim, pis.x, pis.y, player.armrot, self.aimresize, 1, 0, plyr.sprite:getHeight() - 25)
+
+
+
+
 
 		-- Rotate the pistol with normal player rotate when the crosshair is within 20 pixels of the player
 		elseif (mx1 > (plyr.x - 20) or (mx1 < (plyr.x + 20 ))) or (my1 > (plyr.y - 20 ) or (my1 < (plyr.y + 20 ))) then

@@ -25,6 +25,8 @@ function start:init()
 	self.font1 = love.graphics.newFont("fonts/PressStart.ttf", 20)
 	self.font2 = love.graphics.newFont("fonts/PressStart.ttf", 30)
 	self.font3 = love.graphics.newFont("fonts/PressStart.ttf", 40)
+	self.font4 = love.graphics.newFont("fonts/PressStart.ttf", 50)
+	self.font5 = love.graphics.newFont("fonts/PressStart.ttf", 50)
 	------ FONTS ------
 	
 	------ AUDIO ------

@@ -54,6 +54,7 @@ function zombie:spawn()
 		zomb.speed = self.speed
 		zomb.bb = Collider:addRectangle(zomb.x, zomb.y, zomb.w, zomb.h)
 		zomb.sprite = love.graphics.newImage("images/zombies/zombie.png")
+		zomb.damageaudio = love.audio.newSource("audio/zombie/damage.ogg")
 
 		-- Insert Zombie
 		table.insert(self.zombs, zomb)

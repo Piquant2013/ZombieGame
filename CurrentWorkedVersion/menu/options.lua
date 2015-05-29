@@ -29,7 +29,7 @@ function options:init()
 
 	-- Button Selecter Y & X
 	self.arrowy = (self.fpsbtny)
-	self.arrowx = 480
+	self.arrowx = 645
 
 	-- FPS Selecter Y & X
 	self.fpsarrowy = 232

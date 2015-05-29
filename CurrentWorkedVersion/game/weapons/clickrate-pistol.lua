@@ -2,10 +2,10 @@
 local Gamestate = require 'libs/hump/gamestate'
 
 -- Creates game as a new gamestate
-clickratepistol = Gamestate.new()
+crpistol = Gamestate.new()
 
 
-function clickratepistol:initialize()
+function crpistol:initialize()
 
 	------ VARIABLES ------
 	-- Bullet
@@ -30,7 +30,7 @@ function clickratepistol:initialize()
 	------ VARIABLES ------
 end
 
-function clickratepistol:shooting(mx, my, button)
+function crpistol:shooting(mx, my, button)
 
 	if button == "l" and self.cooldown <= 0 and gameover == false and welcomescreen == false then
 		
@@ -66,7 +66,7 @@ function clickratepistol:shooting(mx, my, button)
 	end
 end
 
-function clickratepistol:update(dt)
+function crpistol:update(dt)
 
 	-- cool down pistol
 	self.cooldown = math.max(0, self.cooldown - dt)
@@ -94,7 +94,7 @@ function clickratepistol:update(dt)
 	end
 end
 
-function clickratepistol:bulletdraw()
+function crpistol:bulletdraw()
 
 	for i, o in ipairs(self.bullets) do
 		------ FILTERS ------
@@ -112,7 +112,7 @@ function clickratepistol:bulletdraw()
 	end
 end
 
-function clickratepistol:draw()
+function crpistol:draw()
 
 	------ FILTERS ------
 	crp.sprite:setFilter( 'nearest', 'nearest' )
@@ -138,4 +138,4 @@ function clickratepistol:draw()
 	------ IMAGES ------
 end
 
-return clickratepistol
+return crpistol

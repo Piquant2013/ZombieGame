@@ -29,10 +29,12 @@ function player:initialize()
 	plyr.health = 0
 	plyr.speed = 0
 	plyr.colliding = false
+	plyr.hurt = false
 	plyr.bb = Collider:addRectangle(plyr.x, plyr.y, plyr.w, plyr.h)
 	plyr.sprite = love.graphics.newImage("images/player/player.png")
 	plyr.arm = love.graphics.newImage("images/player/arm.png")
-	plyr.hurt = false
+	plyr.hurtaudio = love.audio.newSource("audio/player/hurt.ogg")
+	plyr.deathaudio = love.audio.newSource("audio/player/death.ogg")
 	------ VARIABLES ------
 end
 

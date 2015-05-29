@@ -22,7 +22,7 @@ function pause:init()
  
 	-- Button Selecter Y & X 
 	self.arrowy = (self.resumebtny)
-	self.arrowx = 450
+	self.arrowx = 480
 
 	-- Pause menu state  
 	self.resumestate = false
@@ -126,6 +126,7 @@ function pause:keypressed(key)
 	if key == "return" and self.optionsstate == true or key == " " and self.optionsstate == true then
 		love.audio.play(self.entersound)
 		Gamestate.push(options)
+		options.arrowy = 300
 	end
   
   	-- Go to the main menu
@@ -141,6 +142,7 @@ function pause:keypressed(key)
 		love.audio.play(start.music)
 		start.music:setLooping(true)
 		love.audio.stop(game.music1)
+		love.audio.stop(game.music2)
 	end
 	-- ACTIVATE BUTTONS --
 
