@@ -40,7 +40,7 @@ function player:initialize()
 
 
 
-	plyr.speed1 = 30
+	plyr.speed1 = 28
 	plyr.xvel = 0
 	plyr.yvel = 0
 	plyr.friction = 20
@@ -122,7 +122,7 @@ end
 function player:movement(dt)
 
 
-
+	
 	plyr.x = plyr.x + plyr.xvel
 	plyr.y = plyr.y + plyr.yvel
 
@@ -144,7 +144,7 @@ function player:movement(dt)
     if love.keyboard.isDown("s") and plyr.yvel < 100 and gameover == false then
 		plyr.yvel = plyr.yvel + plyr.speed1 * dt
     end
-
+	
 
 
 

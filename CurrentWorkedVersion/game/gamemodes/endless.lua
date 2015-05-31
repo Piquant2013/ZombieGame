@@ -120,7 +120,7 @@ function endless:update(dt)
 		self.wavebreak = false
 		self.wavestart = true
 		self.flashwave = true
-		self.wavezombiecount = 1--50
+		self.wavezombiecount = 50
 
 		-- Gameover vars
 		self.gameovery = 800
