@@ -22,6 +22,7 @@ function start:init()
 	------ IMAGES ------
 
 	------ FONTS ------
+	self.font0 = love.graphics.newFont("fonts/PressStart.ttf", 15)
 	self.font1 = love.graphics.newFont("fonts/PressStart.ttf", 20)
 	self.font2 = love.graphics.newFont("fonts/PressStart.ttf", 30)
 	self.font3 = love.graphics.newFont("fonts/PressStart.ttf", 40)

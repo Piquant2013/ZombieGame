@@ -26,8 +26,10 @@ function endless:init()
 	self.kills = 0
 	self.wavedrawtime = 0
 	self.wavebreaktimer = 0
+	self.waveflash = 2
 	self.wavebreak = false
 	self.wavestart = true
+	self.flashwave = true
 	self.wavezombiecount = 14
 
 	-- Gameover vars
@@ -114,9 +116,11 @@ function endless:update(dt)
 		self.kills = 0
 		self.wavedrawtime = 0
 		self.wavebreaktimer = 0
+		self.waveflash = 2
 		self.wavebreak = false
 		self.wavestart = true
-		self.wavezombiecount = 50
+		self.flashwave = true
+		self.wavezombiecount = 1--50
 
 		-- Gameover vars
 		self.gameovery = 800
@@ -211,10 +215,12 @@ function endless:update(dt)
 		self.kills = 0
 		zombie.spawnrateplus = zombie.spawnrateplus - 0.01
 		self.wavedrawtime = 0
+		self.waveflash = 2
 		self.wave = self.wave + 1
 		self.wavezombiecount = self.wavezombiecount + 6
 		self.wavebreaktimer = 0
 		self.wavebreak = true
+		self.flashwave = true
 	end
 
 	-- lock the spawn rate
@@ -226,6 +232,21 @@ function endless:update(dt)
 	if self.wavezombiecount > 150 then
 		self.wavezombiecount = 150
 	end
+
+	-- flash the wave title in hud when a new wave is starting
+	if self.wavedrawtime < 5 then
+		if self.flashwave == true then
+			self.waveflash = self.waveflash + dt + 3
+		elseif self.flashwave == false then
+			self.waveflash = self.waveflash + dt - 3
+		end
+	
+		if self.waveflash > 150 then
+			self.flashwave = false
+		elseif self.waveflash < 2 then
+			self.flashwave = true
+		end
+	end
 	-- WAVE SYSTEM --
 
 	-- update zombies
@@ -235,7 +256,7 @@ function endless:update(dt)
 	if gameover == true then
 		
 		-- set timer and title mover
-		self.gameovery = self.gameovery + dt - 2
+		self.gameovery = self.gameovery + dt - 1
 		self.bgtimer = self.bgtimer + dt
 
 		-- fade in the background after 10secs
@@ -275,6 +296,7 @@ function endless:draw()
 	self.hud1:setFilter( 'nearest', 'nearest' )
 	self.hud2:setFilter( 'nearest', 'nearest' )
 	self.hud3:setFilter( 'nearest', 'nearest' )
+	start.font0:setFilter( 'nearest', 'nearest' )
 	start.font1:setFilter( 'nearest', 'nearest' )
 	start.font2:setFilter( 'nearest', 'nearest' )
 	start.font3:setFilter( 'nearest', 'nearest' )
@@ -325,22 +347,30 @@ function endless:draw()
 
 	-- the hud text and images
 	if gameover == false then
-		love.graphics.draw(self.hud1, 0, 0, 0, 0.5)
-		love.graphics.draw(self.hud2, 0, 635, 0, 0.5)
-		love.graphics.draw(self.hud3, 500 - 6, 665, 0, 0.5)
+		love.graphics.draw(self.hud1, 0, -25, 0, 0.5)
+		love.graphics.draw(self.hud2, -30, 665, 0, 0.5)
+		love.graphics.draw(self.hud3, 500 - 6, 685, 0, 0.5)
 		love.graphics.setColor(0, 0, 0)
-		love.graphics.setFont( start.font1 )
+		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("HEALTH:", 20, 20)
-		love.graphics.print(tostring(math.floor(plyr.health)), 20, 50)
-		love.graphics.print("SCORE:", 1100, 20)
-		love.graphics.print(tostring(self.score), 1100, 50)
-		love.graphics.print("AMMO: ∞", 20, 656)
-		love.graphics.print("PISTOL", 20, 686)
-		love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font1:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 686)
-		love.graphics.setFont( start.font2 )
-		love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font2:getWidth("WAVE:")/2), 20)
+		love.graphics.print("HEALTH:", 10, 10)
+		love.graphics.print(tostring(math.floor(plyr.health)), 10, 30)
+		love.graphics.print("SCORE:", 1150, 10)
+		love.graphics.print(tostring(self.score), 1150, 30)
+		love.graphics.print("AMMO: ∞", 10, 680)
+		love.graphics.print("PISTOL", 10, 700)
+		love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font0:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 700)
+		love.graphics.setFont( start.font1 )
+		love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font1:getWidth("WAVE:")/2), 10)
 		love.graphics.setColor(255, 255, 255)
+
+		-- flash the wave text in hud white when the next wave is coming
+		if self.wavedrawtime < 5 then
+			love.graphics.setFont( start.font1 )
+			love.graphics.setColor(255, 255, 255, self.waveflash)
+			love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font1:getWidth("WAVE:")/2), 10)
+			love.graphics.setColor(255, 255, 255)
+		end
 
 	-- Game over title and the scores at the end of the game
 	elseif gameover == true then

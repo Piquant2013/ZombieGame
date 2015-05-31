@@ -35,6 +35,15 @@ function player:initialize()
 	plyr.arm = love.graphics.newImage("images/player/arm.png")
 	plyr.hurtaudio = love.audio.newSource("audio/player/hurt.ogg")
 	plyr.deathaudio = love.audio.newSource("audio/player/death.ogg")
+
+
+
+
+
+	plyr.speed1 = 30
+	plyr.xvel = 0
+	plyr.yvel = 0
+	plyr.friction = 20
 	------ VARIABLES ------
 end
 
@@ -112,6 +121,36 @@ end
 
 function player:movement(dt)
 
+
+
+	plyr.x = plyr.x + plyr.xvel
+	plyr.y = plyr.y + plyr.yvel
+
+	plyr.xvel = plyr.xvel * (1 - math.min(dt * plyr.friction, 1))
+	plyr.yvel = plyr.yvel * (1 - math.min(dt * plyr.friction, 1))
+
+	if love.keyboard.isDown("a") and plyr.xvel > -100 and gameover == false then
+		plyr.xvel = plyr.xvel - plyr.speed1 * dt
+	end
+    
+    if love.keyboard.isDown("d") and plyr.xvel < 100 and gameover == false then
+		plyr.xvel = plyr.xvel + plyr.speed1 * dt
+    end
+
+    if love.keyboard.isDown("w") and plyr.yvel > -100 and gameover == false then
+		plyr.yvel = plyr.yvel - plyr.speed1 * dt
+	end
+    
+    if love.keyboard.isDown("s") and plyr.yvel < 100 and gameover == false then
+		plyr.yvel = plyr.yvel + plyr.speed1 * dt
+    end
+
+
+
+
+
+
+	--[[
 	-- Player movement
 	if love.keyboard.isDown("a") and gameover == false then
 		plyr.x = plyr.x - plyr.speed * dt
@@ -128,6 +167,7 @@ function player:movement(dt)
     if love.keyboard.isDown("s") and gameover == false then
 		plyr.y = plyr.y + plyr.speed * dt
     end
+	]]--
 
     -- Player rotation
 	plyr.rotation = math.atan2(mx1 - plyr.x, plyr.y - my1) - math.pi / 2

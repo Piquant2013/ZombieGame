@@ -97,14 +97,14 @@ function love.draw()
 	-- Displays FPS if the options script tells FPS to be true
 	if setfps == true then
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("FPS: " .. love.timer.getFPS(), (love.graphics.getWidth( ) - fpsfont:getWidth( "FPS: " .. love.timer.getFPS()) - 10), 40)
+		love.graphics.print("FPS: " .. love.timer.getFPS(), (love.graphics.getWidth( ) - fpsfont:getWidth( "FPS: " .. love.timer.getFPS()) - 10), 686)
 		love.graphics.setColor(255, 255, 255)
 	end
 
 	-- Displays "Mute: ON" if the options script tells mute to be true 
 	if setmute == true then
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("MUTE: ON", (love.graphics.getWidth( ) - fpsfont:getWidth( "Mute: ON" ) - 200), 40)
+		love.graphics.print("MUTE: ON", (love.graphics.getWidth( ) - fpsfont:getWidth( "Mute: ON" ) - 200), 686)
 		love.graphics.setColor(255, 255, 255)
 	end
 end

@@ -260,12 +260,12 @@ function selectmode:draw()
 	
 	-- Draws screenshot if in survival
 	if self.survival == true then
-		love.graphics.draw(self.screenshot2, 0, 0, 0, 0.51)
+		love.graphics.draw(self.screenshot2, 0, -50, 0, 0.6)
 	end
 
 	-- Draws screenshot if in arcade
 	if self.arcade == true then
-		love.graphics.draw(self.screenshot1, 0, 0, 0, 0.51)
+		love.graphics.draw(self.screenshot1, 0, -50, 0, 0.6)
 	end
 	------ IMAGES ------
 

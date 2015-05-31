@@ -23,6 +23,7 @@ function logo:init()
 	
 	------ IMAGES ------
 	self.image = love.graphics.newImage("images/teamlogo.png")
+	self.bg = love.graphics.newImage("images/bg-logo.png")
 	------ IMAGES ------
 
 	------ AUDIO ------
@@ -70,10 +71,12 @@ function logo:draw()
 	
 	------ FILTERS ------
 	self.image:setFilter( 'nearest', 'nearest' )
+	self.bg:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
-	
-	-- Draw logo
+
+	-- Draw logo and background
 	love.graphics.setColor(255, 255, 255, self.alpha * 255)
+	love.graphics.draw(self.bg, 0, 0, 0, 1.1)
 	love.graphics.draw(self.image, (love.graphics.getWidth()/2 - self.image:getWidth()/2), (love.graphics.getHeight()/2 - self.image:getHeight()/2))
 end
 

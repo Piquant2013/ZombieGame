@@ -83,6 +83,15 @@ function game:keypressed(key)
    		resume = false
    		love.mouse.setCursor(cursor)
   	end
+
+  	-- for debug
+  	--if key == "z" then
+  		--self.Cam:zoom(0.5)
+  	--end
+
+  	--if key == "x" then
+  		--self.Cam:zoom(2)
+  	--end
 end
 
 function game:update(dt)

@@ -13,6 +13,15 @@ function pistol:initialize()
 	self.cooldownplus = 0.25
 	self.aimresize = 0
 
+
+	--aim = {
+		--x = 400,
+		--y = 300,
+		--w = 16,
+		--h = 2,
+	--}
+
+
 	-- PISTOL --
 	-- pistol table
 	self.pis = {}
@@ -128,8 +137,19 @@ function pistol:draw()
 
 
 
-			--self.aimresize = love.graphics.getWidth()/2 + mx1 - love.graphics.getWidth()/2
-			--love.graphics.draw(pis.aim, pis.x, pis.y, player.armrot, self.aimresize, 1, 0, plyr.sprite:getHeight() - 25)
+
+			--love.graphics.push()
+			--love.graphics.translate( aim.x, aim.y )
+			--love.graphics.rotate( player.armrot )
+			--love.graphics.rectangle( 'fill', -aim.w/2, -aim.h/2, plyr.y - mx1, aim.h )
+			--love.graphics.pop()
+
+			--love.graphics.draw(pis.aim, pis.x, pis.y, player.armrot, 1, 1, 0, plyr.sprite:getHeight() - 25)
+			--love.graphics.push()
+			--love.graphics.rotate(player.armrot)
+			--love.graphics.translate(0, plyr.sprite:getHeight()/2)
+			--love.graphics.rectangle("fill", pis.x, pis.y, plyr.x - mx1, 2)
+			--love.graphics.pop()
 
 
 
