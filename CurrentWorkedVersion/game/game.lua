@@ -53,6 +53,147 @@ function game:init()
 	------ AUDIO ------
 end
 
+function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
+
+	-- Set player hitbox to a shape
+	local other
+
+    if shape_a == plyr.bb then
+        other = shape_b
+    elseif shape_b == plyr.bb then
+        other = shape_a
+    else
+        return
+    end
+
+    -- Temp collision resposne for walls around map
+   	if other == endless.wallT then
+   		plyr.yvel = 0
+   		plyr.y = plyr.y + 5 + mtv_y
+   	elseif other == endless.wallB then
+   		plyr.yvel = 0
+   		plyr.y = plyr.y - 5 - mtv_y
+   	elseif other == endless.wallL then
+   		plyr.xvel = 0
+   		plyr.x = plyr.x + 5 + mtv_x
+   	elseif other == endless.wallR then
+   		plyr.xvel = 0
+   		plyr.x = plyr.x - 5 - mtv_x
+   	end
+
+   	-- If zombie hits player
+   	for i, o in ipairs(zombie.zombs) do
+    	if other == o.bb then
+    		plyr.health = plyr.health - 0.4
+    		plyr.hurt = true
+    		love.audio.play(plyr.hurtaudio)
+    	end
+    end
+end
+
+function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
+	
+	-- COLLISIONS FOR ENDLESS --
+	if setendless == false then
+		for i, o in ipairs(zombie.zombs) do
+			for c, v in ipairs(pistol.bullets) do
+
+				local other
+
+				if shape_a == o.bb then
+					other = shape_b
+				elseif shape_b == o.bb then
+					other = shape_a
+				end
+
+				-- Zombie hit
+				if other == v.bb then
+					o.health = o.health - 10
+					love.audio.play(o.damageaudio)
+					Collider:remove(v.bb)
+					table.remove(pistol.bullets, c)
+
+					-- Kill zombie
+					if o.health < 0 then
+						o.health = 0
+						endless.score = endless.score + 10
+						endless.kills = endless.kills + 1
+						zombie.count = zombie.count - 1         
+						Collider:remove(o.bb)
+						table.remove(zombie.zombs, i)
+					end
+				end
+			end
+		end
+	end
+	-- COLLISIONS FOR ENDLESS --
+
+	-- COLLISIONS FOR STUCK --
+	if gamereset == false then
+		for i, o in ipairs(zombie.zombs) do
+			for c, v in ipairs(crpistol.bullets) do
+
+				local other
+
+				if shape_a == o.bb then
+					other = shape_b
+				elseif shape_b == o.bb then
+					other = shape_a
+				end
+
+				-- Zombie Hit
+				if other == v.bb then
+					o.health = o.health - 10
+					love.audio.play(o.damageaudio)
+					Collider:remove(v.bb)
+					table.remove(crpistol.bullets, c)
+
+					-- Kill zombie
+					if o.health < 0 then
+						o.health = 0
+						stuckmode.score = stuckmode.score + 10
+						stuckmode.kills = stuckmode.kills + 1
+						zombie.count = zombie.count - 1         
+						Collider:remove(o.bb)
+						table.remove(zombie.zombs, i)
+					end
+				end
+			end
+		end
+	end
+	-- COLLISIONS FOR STUCK --
+end
+
+function playercollisionstopped(dt, shape_a, shape_b)
+	
+	-- Set player hitbox to a shape
+	local other
+
+    if shape_a == plyr.bb then
+        other = shape_b
+    elseif shape_b == plyr.bb then
+        other = shape_a
+    else
+        return
+    end
+
+    -- Turn player hurt off
+	plyr.hurt = false
+end
+
+function zombiecollisionstopped(dt, shape_a, shape_b)
+end
+
+function on_collision(dt, shape_a, shape_b, mtv_x, mtv_y)
+	playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
+	zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
+end
+
+function collision_stop(dt, shape_a, shape_b, mtv_x, mtv_y)
+	playercollisionstopped(dt, shape_a, shape_b)
+	zombiecollisionstopped(dt, shape_a, shape_b)
+end
+
 function game:keypressed(key)
 
 	-- dissmiss the welcome message for endless mode
@@ -89,7 +230,7 @@ function game:keypressed(key)
   		--self.Cam:zoom(0.5)
   	--end
 
-  	--if key == "x" then
+  	-- key == "x" then
   		--self.Cam:zoom(2)
   	--end
 end
@@ -181,169 +322,5 @@ function game:draw()
 	end
 	------ TEXT ------
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
-	local other
-
-    if shape_a == plyr.bb then
-        other = shape_b
-    elseif shape_b == plyr.bb then
-        other = shape_a
-    else
-        return
-    end
-
-    for i, o in ipairs(zombie.zombs) do
-    	if other == o.bb then
-    		plyr.health = plyr.health - 0.4
-    		plyr.hurt = true
-    		love.audio.play(plyr.hurtaudio)
-    	end
-    end
-end
-
-function playercollisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
-	plyr.hurt = false
-	
-	if setendless == false then
-		plyr.speed = 80
-	end
-end
-
-function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
-	if setendless == false then
-		for i, o in ipairs(zombie.zombs) do
-			for c, v in ipairs(pistol.bullets) do
-
-				local other
-
-				if shape_a == o.bb then
-					other = shape_b
-				elseif shape_b == o.bb then
-					other = shape_a
-				end
-
-				if other == v.bb then
-					o.health = o.health - 10
-					love.audio.play(o.damageaudio)
-					Collider:remove(v.bb)
-					table.remove(pistol.bullets, c)
-
-					if o.health < 0 then
-						o.health = 0
-						endless.score = endless.score + 10
-						endless.kills = endless.kills + 1
-						zombie.count = zombie.count - 1         
-						Collider:remove(o.bb)
-						table.remove(zombie.zombs, i)
-					end
-				end
-			end
-		end
-	end
-
-	if gamereset == false then
-		for i, o in ipairs(zombie.zombs) do
-			for c, v in ipairs(crpistol.bullets) do
-
-				local other
-
-				if shape_a == o.bb then
-					other = shape_b
-				elseif shape_b == o.bb then
-					other = shape_a
-				end
-
-				if other == v.bb then
-					o.health = o.health - 10
-					love.audio.play(o.damageaudio)
-					Collider:remove(v.bb)
-					table.remove(crpistol.bullets, c)
-
-					if o.health < 0 then
-						o.health = 0
-						stuckmode.score = stuckmode.score + 10
-						stuckmode.kills = stuckmode.kills + 1
-						zombie.count = zombie.count - 1         
-						Collider:remove(o.bb)
-						table.remove(zombie.zombs, i)
-					end
-				end
-			end
-		end
-	end
-end
-
-function zombiecollisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
-	for i, o in ipairs(zombie.zombs) do
-		o.speed = zombie.speed
-	end
-end
-
-
-function on_collision(dt, shape_a, shape_b, mtv_x, mtv_y)
-	player:collision(dt, shape_a, shape_b, mtv_x, mtv_y)
-	playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
-	zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
-end
-
-function collision_stop(dt, shape_a, shape_b, mtv_x, mtv_y)
-	playercollisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
-	zombiecollisionstopped(dt, shape_a, shape_b, mtv_x, mtv_y)
-end
-
-
-
-
-
-
-
-
-
-
-
 
 return game

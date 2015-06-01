@@ -13,15 +13,6 @@ function pistol:initialize()
 	self.cooldownplus = 0.25
 	self.aimresize = 0
 
-
-	--aim = {
-		--x = 400,
-		--y = 300,
-		--w = 16,
-		--h = 2,
-	--}
-
-
 	-- PISTOL --
 	-- pistol table
 	self.pis = {}
@@ -133,27 +124,6 @@ function pistol:draw()
 		-- Move the pistol towards the crosshair if the crosshair is atleast 20 pixels away from the player 
 		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
 			love.graphics.draw(pis.sprite, pis.x, pis.y, player.armrot, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
-
-
-
-
-
-			--love.graphics.push()
-			--love.graphics.translate( aim.x, aim.y )
-			--love.graphics.rotate( player.armrot )
-			--love.graphics.rectangle( 'fill', -aim.w/2, -aim.h/2, plyr.y - mx1, aim.h )
-			--love.graphics.pop()
-
-			--love.graphics.draw(pis.aim, pis.x, pis.y, player.armrot, 1, 1, 0, plyr.sprite:getHeight() - 25)
-			--love.graphics.push()
-			--love.graphics.rotate(player.armrot)
-			--love.graphics.translate(0, plyr.sprite:getHeight()/2)
-			--love.graphics.rectangle("fill", pis.x, pis.y, plyr.x - mx1, 2)
-			--love.graphics.pop()
-
-
-
-
 
 		-- Rotate the pistol with normal player rotate when the crosshair is within 20 pixels of the player
 		elseif (mx1 > (plyr.x - 20) or (mx1 < (plyr.x + 20 ))) or (my1 > (plyr.y - 20 ) or (my1 < (plyr.y + 20 ))) then

@@ -26,6 +26,9 @@ function player:initialize()
 	plyr.x = 0
 	plyr.h = 16
 	plyr.w = 12
+	plyr.xvel = 0
+	plyr.yvel = 0
+	plyr.friction = 20
 	plyr.health = 0
 	plyr.speed = 0
 	plyr.colliding = false
@@ -35,49 +38,7 @@ function player:initialize()
 	plyr.arm = love.graphics.newImage("images/player/arm.png")
 	plyr.hurtaudio = love.audio.newSource("audio/player/hurt.ogg")
 	plyr.deathaudio = love.audio.newSource("audio/player/death.ogg")
-
-
-
-
-
-	plyr.speed1 = 28
-	plyr.xvel = 0
-	plyr.yvel = 0
-	plyr.friction = 20
 	------ VARIABLES ------
-end
-
-function player:collision(dt, shape_a, shape_b, mtv_x, mtv_y)
-
-	-- Set player hitbox to a shape
-	local other
-
-    if shape_a == plyr.bb then
-        other = shape_b
-    elseif shape_b == plyr.bb then
-        other = shape_a
-    else
-        return
-    end
-
-    -- Temp collision resposne for walls around map
-    if other == endless.wallT then
-    	plyr.bb:move(mtv_x, mtv_y)
-   		plyr.y = plyr.y + 5 + mtv_y
-   		plyr.speed = 0
-   	elseif other == endless.wallB then
-    	plyr.bb:move(mtv_x, mtv_y)
-   		plyr.y = plyr.y - 5 + mtv_y
-   		plyr.speed = 0
-   	elseif other == endless.wallL then
-   		plyr.bb:move(mtv_x, mtv_y)
-   		plyr.x = plyr.x + 5 + mtv_x
-   		plyr.speed = 0
-   	elseif other == endless.wallR then
-   		plyr.bb:move(mtv_x, mtv_y)
-   		plyr.x = plyr.x - 5 + mtv_x
-   		plyr.speed = 0
-   	end
 end
 
 function player:health(dt)
@@ -120,54 +81,32 @@ function player:health(dt)
 end
 
 function player:movement(dt)
-
-
 	
+	-- set movement
 	plyr.x = plyr.x + plyr.xvel
 	plyr.y = plyr.y + plyr.yvel
 
+	-- set friction
 	plyr.xvel = plyr.xvel * (1 - math.min(dt * plyr.friction, 1))
 	plyr.yvel = plyr.yvel * (1 - math.min(dt * plyr.friction, 1))
 
+
+	-- player movement with keys
 	if love.keyboard.isDown("a") and plyr.xvel > -100 and gameover == false then
-		plyr.xvel = plyr.xvel - plyr.speed1 * dt
+		plyr.xvel = plyr.xvel - plyr.speed * dt
 	end
     
     if love.keyboard.isDown("d") and plyr.xvel < 100 and gameover == false then
-		plyr.xvel = plyr.xvel + plyr.speed1 * dt
+		plyr.xvel = plyr.xvel + plyr.speed * dt
     end
 
     if love.keyboard.isDown("w") and plyr.yvel > -100 and gameover == false then
-		plyr.yvel = plyr.yvel - plyr.speed1 * dt
+		plyr.yvel = plyr.yvel - plyr.speed * dt
 	end
     
     if love.keyboard.isDown("s") and plyr.yvel < 100 and gameover == false then
-		plyr.yvel = plyr.yvel + plyr.speed1 * dt
+		plyr.yvel = plyr.yvel + plyr.speed * dt
     end
-	
-
-
-
-
-
-	--[[
-	-- Player movement
-	if love.keyboard.isDown("a") and gameover == false then
-		plyr.x = plyr.x - plyr.speed * dt
-	end
-    
-    if love.keyboard.isDown("d") and gameover == false then
-		plyr.x = plyr.x + plyr.speed * dt
-    end
-
-    if love.keyboard.isDown("w") and gameover == false then
-		plyr.y = plyr.y - plyr.speed * dt
-    end
-
-    if love.keyboard.isDown("s") and gameover == false then
-		plyr.y = plyr.y + plyr.speed * dt
-    end
-	]]--
 
     -- Player rotation
 	plyr.rotation = math.atan2(mx1 - plyr.x, plyr.y - my1) - math.pi / 2

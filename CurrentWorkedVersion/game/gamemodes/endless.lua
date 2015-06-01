@@ -88,7 +88,7 @@ function endless:update(dt)
 		-- Player
 		plyr.y = 200
 		plyr.x = 400
-		plyr.speed = 80
+		plyr.speed = 28
 		plyr.health = 100
 		plyr.hurt = false
 		plyr.colliding = false
@@ -332,6 +332,15 @@ function endless:draw()
 
 	-- layer2 of the map
 	love.graphics.draw(self.layer2, 0, 0)
+
+	self.wallT:draw('line')
+	self.wallB:draw('line')
+	self.wallL:draw('line')
+	self.wallR:draw('line')
+	self.tree1:draw('line')
+	self.tree2:draw('line')
+	self.tree3:draw('line')
+	self.tree4:draw('line')
 
 	game.Cam:detach()
 	------ CAMERA ------
