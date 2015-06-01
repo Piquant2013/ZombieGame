@@ -56,7 +56,7 @@ function pistol:update(dt)
 		bullet.w = 1
 		bullet.h = 12
 		bullet.dir = self.direction
-		bullet.speed = 500
+		bullet.speed = 600
 		bullet.bb = Collider:addRectangle(bullet.x, bullet.y, bullet.h, bullet.w)
 		bullet.sound = love.audio.newSource("audio/weapons/pistol.ogg")
 		bullet.sprite = love.graphics.newImage("images/weapons/bullet-pistol.png")

@@ -68,7 +68,7 @@ function player:health(dt)
 
   		-- Autoheal the player if hasnt been hurt for 4secs
   		if player.hurttimer > 4 and plyr.hurt == false then
-    		plyr.health = plyr.health + 1
+    		plyr.health = plyr.health + 0.5
   		end
 
   		-- stop player health at 100

@@ -54,7 +54,7 @@ function crpistol:shooting(mx, my, button)
 		self.bullet.w = 1
 		self.bullet.h = 12
 		self.bullet.dir = self.direction
-		self.bullet.speed = 400
+		self.bullet.speed = 600
 		self.bullet.bb = Collider:addRectangle(self.bullet.x, self.bullet.y, self.bullet.h, self.bullet.w)
 		self.bullet.sound = love.audio.newSource("audio/weapons/pistol.ogg")
 		self.bullet.sprite = love.graphics.newImage("images/weapons/bullet-pistol.png")
