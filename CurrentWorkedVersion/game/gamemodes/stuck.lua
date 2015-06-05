@@ -273,23 +273,26 @@ function stuckmode:update(dt)
 		zombie.spawnrateplus = 0.3
 		zombie.speed = 120
 	elseif self.score > 1399 and self.score < 1401 then
-		zombie.spawnrateplus = 0.28
-		zombie.speed = 125
+		zombie.spawnrateplus = 0.29
+		zombie.speed = 123
 	elseif self.score > 1499 and self.score < 1501 then
-		zombie.spawnrateplus = 0.26
-		zombie.speed = 130
+		zombie.spawnrateplus = 0.28
+		zombie.speed = 126
 	elseif self.score > 1599 and self.score < 1601 then
-		zombie.spawnrateplus = 0.24
-		zombie.speed = 135
+		zombie.spawnrateplus = 0.27
+		zombie.speed = 129
 	elseif self.score > 1699 and self.score < 1701 then
-		zombie.spawnrateplus = 0.22
-		zombie.speed = 140
+		zombie.spawnrateplus = 0.26
+		zombie.speed = 132
 	elseif self.score > 1799 and self.score < 1801 then
-		zombie.spawnrateplus = 0.2
-		zombie.speed = 145
+		zombie.spawnrateplus = 0.25
+		zombie.speed = 135
 	elseif self.score > 1899 and self.score < 1901 then
-		zombie.spawnrateplus = 0.18
-		zombie.speed = 150
+		zombie.spawnrateplus = 0.24
+		zombie.speed = 138
+	elseif self.score > 1999 and self.score < 2001 then
+		zombie.spawnrateplus = 0.2
+		zombie.speed = 141
 	end
 
 

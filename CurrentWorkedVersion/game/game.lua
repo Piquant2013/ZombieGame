@@ -160,9 +160,12 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 						elseif stuckmode.score > 300 and stuckmode.score < 700 then
 							zombie.spawnrateplus = zombie.spawnrateplus - 0.003
 							zombie.speed = zombie.speed + 0.3
-						elseif stuckmode.score > 700 then
+						elseif stuckmode.score > 700 and stuckmode.score < 1200 then
 							zombie.spawnrateplus = zombie.spawnrateplus - 0.0015
 							zombie.speed = zombie.speed + 0.15
+						elseif stuckmode.score > 1200 then
+							zombie.spawnrateplus = zombie.spawnrateplus - 0.0012
+							zombie.speed = zombie.speed + 0.12
 						end
 
 						--zombie.count = zombie.count - 1         
