@@ -8,6 +8,9 @@ crpistol = Gamestate.new()
 function crpistol:initialize()
 
 	------ VARIABLES ------
+	-- aim
+	self.aimassist = false
+
 	-- Bullet
 	self.cooldown = 0
 	self.cooldownplus = 0
@@ -21,6 +24,7 @@ function crpistol:initialize()
 	crp.y = plyr.y
 	crp.x = plyr.x
 	crp.sprite = love.graphics.newImage("images/weapons/pistol.png")
+	crp.aim = love.graphics.newImage("images/aim.png")
 	-- PISTOL --
 
 	-- BULLETS --
@@ -63,6 +67,13 @@ function crpistol:shooting(mx, my, button)
 		table.insert(self.bullets, self.bullet)
 		self.cooldown = self.cooldownplus
 		love.audio.play(self.bullet.sound)
+	end
+
+	-- turn aim on and off
+	if button == "r" and gameover == false and welcomescreen == false and self.aimassist == false then
+		self.aimassist = true
+	elseif button == "r" and gameover == false and welcomescreen == false and self.aimassist == true then
+		self.aimassist = false
 	end
 end
 
@@ -125,8 +136,43 @@ function crpistol:draw()
 		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
 			love.graphics.draw(crp.sprite, crp.x, crp.y, player.armrot, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
 
+
+
+
+
+
+			if self.aimassist == true then
+				
+				--love.graphics.setColor(255, 255, 255, 120)
+				--love.graphics.draw(crp.aim, crp.x, crp.y, player.armrot, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
+				--love.graphics.setColor(255, 255, 255)
+
+				love.graphics.push()
+				love.graphics.setColor(160, 47, 0, 120)
+				--love.graphics.translate())
+				--love.graphics.rotate()
+				love.graphics.setLineWidth(1)
+				love.graphics.line( crp.x, crp.y, mx1, my1)
+				love.graphics.setColor(255, 255, 255)
+				love.graphics.pop()
+			
+			end
+
+
+
+
+
 		-- Rotate the pistol with normal player rotate when the crosshair is within 20 pixels of the player
 		elseif (mx1 > (plyr.x - 20) or (mx1 < (plyr.x + 20 ))) or (my1 > (plyr.y - 20 ) or (my1 < (plyr.y + 20 ))) then
+			
+			-- the laser
+			if self.aimassist == true then
+				love.graphics.setColor(255, 255, 255, 120)
+				love.graphics.draw(crp.aim, crp.x, crp.y, plyr.rotation, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
+				love.graphics.setColor(255, 255, 255)
+			end
+
+			-- the gun
 			love.graphics.draw(crp.sprite, crp.x, crp.y, plyr.rotation, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)	
 		end
 	

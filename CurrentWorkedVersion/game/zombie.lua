@@ -26,20 +26,40 @@ function zombie:spawn()
 
 	if self.spawnrate <= 0 then
 		
-		-- Sets the random spawn points for the zombies
-		self.postion = love.math.random(1, 4)
-		if self.postion == 1 then
-			self.zrx = love.math.random(100, 1100)
-			self.zry = love.math.random(1, 10)
-		elseif self.postion == 2 then
-			self.zrx = love.math.random(1, 10)
-			self.zry = love.math.random(100, 600)
-		elseif self.postion == 3 then
-			self.zrx = love.math.random(1190, 1200)
-			self.zry = love.math.random(100, 600)
-		elseif self.postion == 4 then
-			self.zrx = love.math.random(100, 1100)
-			self.zry = love.math.random(690, 700)
+		-- Sets the random spawn points for the zombies in endless
+		if game.endless == true then
+			self.postion = love.math.random(1, 4)
+			if self.postion == 1 then
+				self.zrx = love.math.random(100, 1100)
+				self.zry = love.math.random(1, 10)
+			elseif self.postion == 2 then
+				self.zrx = love.math.random(1, 10)
+				self.zry = love.math.random(100, 600)
+			elseif self.postion == 3 then
+				self.zrx = love.math.random(1190, 1200)
+				self.zry = love.math.random(100, 600)
+			elseif self.postion == 4 then
+				self.zrx = love.math.random(100, 1100)
+				self.zry = love.math.random(690, 700)
+			end
+		end
+
+		-- Sets the random spawn points for the zombies in stuck
+		if game.stuck == true then
+			self.postion = love.math.random(1, 4)
+			if self.postion == 1 then
+				self.zrx = love.math.random(530, 540)
+				self.zry = love.math.random(290, 640)
+			elseif self.postion == 2 then
+				self.zrx = love.math.random(530, 1060)
+				self.zry = love.math.random(290, 300)
+			elseif self.postion == 3 then
+				self.zrx = love.math.random(530, 1060)
+				self.zry = love.math.random(630, 640)
+			elseif self.postion == 4 then
+				self.zrx = love.math.random(1060, 1070)
+				self.zry = love.math.random(290, 640)
+			end
 		end
 
 		-- zombs table

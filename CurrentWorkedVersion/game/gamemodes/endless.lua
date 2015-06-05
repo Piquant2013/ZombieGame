@@ -53,7 +53,7 @@ function endless:keypressed(key)
 	game:keypressed(key)
 
 	-- dissmiss the game over message
-  	if key == "return" and gameover == true and self.bgtimer > 12 or key == " " and gameover == true and self.bgtimer > 12 then
+  	if key == "return" and gameover == true and self.bgtimer > 12 or key == " " and gameover == true and self.bgtimer > 12 or key == "escape" and gameover == true and self.bgtimer > 12 then
   		love.audio.play(game.entersound)
     	Gamestate.switch(menu)
     	love.audio.play(start.music)
@@ -69,11 +69,17 @@ function endless:keypressed(key)
   	end
 
   	-- skip the game over animation
-  	if key == "return" and gameover == true and endless.bgtimer < 12 or key == " " and gameover == true and endless.bgtimer < 12 then
+  	if key == "return" and gameover == true and endless.bgtimer < 12 or key == " " and gameover == true and endless.bgtimer < 12 or key == "escape" and gameover == true and endless.bgtimer < 12 then
   		self.bgtimer = 13
   		self.fadebg = 255
 		self.gameovery = 200
   	end
+end
+
+function endless:mousepressed(mx, my, button)
+	
+	-- aim assit for pistol
+	pistol:aim(mx, my, button)
 end
 
 function endless:update(dt)
@@ -229,8 +235,8 @@ function endless:update(dt)
 	end
 
 	-- lock the wave count
-	if self.wavezombiecount > 150 then
-		self.wavezombiecount = 150
+	if self.wavezombiecount > 170 then
+		self.wavezombiecount = 170
 	end
 
 	-- flash the wave title in hud when a new wave is starting
@@ -409,18 +415,6 @@ function endless:draw()
 	-- draw game welcome messages
 	game:draw()
 	------ TEXT ------
-
-	-- REMOVE LATER! ------ DEBUG ------ REMOVE LATER!
-	if setfps == true then
-		love.graphics.setFont( start.font1 )
-		love.graphics.print("ZOMBS "..tostring(zombie.count), 1000, 200)
-		love.graphics.print("COUNT "..tostring(self.wavezombiecount), 1000, 250)
-		love.graphics.print("KILLS "..tostring(self.kills), 1000, 300)
-		love.graphics.print("SPEED "..tostring(zombie.speed), 1000, 350)
-		love.graphics.print("HEALH "..tostring(zombie.health), 1000, 400)
-		love.graphics.print("SPAWN "..tostring(zombie.spawnrateplus), 1000, 450)
-	end
-	-- REMOVE LATER! ------ DEBUG ------ REMOVE LATER!
 end
 
 return endless

@@ -151,9 +151,21 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 					-- Kill zombie
 					if o.health < 0 then
 						o.health = 0
-						stuckmode.score = stuckmode.score + 10
+						stuckmode.score = stuckmode.score + 1
 						stuckmode.kills = stuckmode.kills + 1
-						zombie.count = zombie.count - 1         
+
+						if stuckmode.score < 300 then
+							zombie.spawnrateplus = zombie.spawnrateplus - 0.004
+							zombie.speed = zombie.speed + 0.4
+						elseif stuckmode.score > 300 and stuckmode.score < 700 then
+							zombie.spawnrateplus = zombie.spawnrateplus - 0.003
+							zombie.speed = zombie.speed + 0.3
+						elseif stuckmode.score > 700 then
+							zombie.spawnrateplus = zombie.spawnrateplus - 0.0015
+							zombie.speed = zombie.speed + 0.15
+						end
+
+						--zombie.count = zombie.count - 1         
 						Collider:remove(o.bb)
 						table.remove(zombie.zombs, i)
 					end
@@ -219,7 +231,7 @@ function game:keypressed(key)
   	end
 
   	-- Pause the game
-  	if key == "escape" and paused == false and welcomescreen == false then
+  	if key == "escape" and paused == false and welcomescreen == false and gameover == false then
    		paused = true
    		resume = false
    		love.mouse.setCursor(cursor)
@@ -266,7 +278,7 @@ function love.focus(f)
 	
 	-- pause the game if window loses focus
 	if not f then
-		if paused == false and welcomescreen == false and game.endless == true or game.stuck == true then  
+		if paused == false and welcomescreen == false and game.endless == true or game.stuck == true and gameover == false then  
 			paused = true
 			resume = false
    			love.mouse.setCursor(cursor)

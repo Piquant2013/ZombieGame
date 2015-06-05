@@ -8,10 +8,12 @@ pistol = Gamestate.new()
 function pistol:initialize()
 
 	------ VARIABLES ------
+	-- aim
+	self.aimassist = false
+
 	-- Bullet
 	self.cooldown = 0
 	self.cooldownplus = 0.25
-	self.aimresize = 0
 
 	-- PISTOL --
 	-- pistol table
@@ -30,6 +32,16 @@ function pistol:initialize()
 	self.bullets = {}
 	-- BULLETS --
 	------ VARIABLES ------
+end
+
+function pistol:aim(mx, my, button)
+	
+	-- turn aim on and off
+	if button == "r" and gameover == false and welcomescreen == false and self.aimassist == false then
+		self.aimassist = true
+	elseif button == "r" and gameover == false and welcomescreen == false and self.aimassist == true then
+		self.aimassist = false
+	end
 end
 
 function pistol:update(dt)
@@ -125,9 +137,39 @@ function pistol:draw()
 		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
 			love.graphics.draw(pis.sprite, pis.x, pis.y, player.armrot, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
 
+
+
+
+			if self.aimassist == true then
+				love.graphics.setColor(255, 255, 255, 120)
+				love.graphics.draw(pis.aim, pis.x, pis.y, player.armrot, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
+				love.graphics.setColor(255, 255, 255)
+
+				--love.graphics.push()
+				--love.graphics.setColor(160, 47, 0, 120)
+				--love.graphics.translate())
+				--love.graphics.rotate()
+				--love.graphics.setLineWidth(1)
+				--love.graphics.line( pis.x, pis.y, mx1, my1)
+				--love.graphics.setColor(255, 255, 255)
+				--love.graphics.pop()
+			end
+
+
+
+
 		-- Rotate the pistol with normal player rotate when the crosshair is within 20 pixels of the player
 		elseif (mx1 > (plyr.x - 20) or (mx1 < (plyr.x + 20 ))) or (my1 > (plyr.y - 20 ) or (my1 < (plyr.y + 20 ))) then
-			love.graphics.draw(pis.sprite, pis.x, pis.y, plyr.rotation, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)	
+
+			-- the laser
+			if self.aimassist == true then
+				love.graphics.setColor(255, 255, 255, 120)
+				love.graphics.draw(pis.aim, pis.x, pis.y, plyr.rotation, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
+				love.graphics.setColor(255, 255, 255)
+			end
+
+			-- the gun
+			love.graphics.draw(pis.sprite, pis.x, pis.y, plyr.rotation, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
 		end
 	
 	elseif gameover == true then

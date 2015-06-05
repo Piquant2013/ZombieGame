@@ -53,7 +53,7 @@ function stuckmode:keypressed(key)
 	game:keypressed(key)
 
 	-- dissmiss the game over message
-  	if key == "return" and gameover == true and self.bgtimer > 12 or key == " " and gameover == true and self.bgtimer > 12 then
+  	if key == "return" and gameover == true and self.bgtimer > 12 or key == " " and gameover == true and self.bgtimer > 12 or key == "escape" and gameover == true and self.bgtimer > 12 then
   		love.audio.play(game.entersound)
     	Gamestate.switch(menu)
     	love.audio.play(start.music)
@@ -69,7 +69,7 @@ function stuckmode:keypressed(key)
   	end
 
   	-- skip the game over animation
-  	if key == "return" and gameover == true and self.bgtimer < 12 or key == " " and gameover == true and self.bgtimer < 12 then
+  	if key == "return" and gameover == true and self.bgtimer < 12 or key == " " and gameover == true and self.bgtimer < 12 or key == "escape" and gameover == true and self.bgtimer < 12 then
   		self.bgtimer = 13
   		self.fadebg = 255
 		self.gameovery = 200
@@ -126,7 +126,7 @@ function stuckmode:update(dt)
 		self.wavebreak = false
 		self.wavestart = true
 		self.flashwave = true
-		self.wavezombiecount = 50
+		self.wavezombiecount = 100--8
 
 		-- Gameover vars
 		self.gameovery = 800
@@ -139,8 +139,8 @@ function stuckmode:update(dt)
 		-- Zombie
     	zombie.zombs = {}
     	zombie.spawnrate = 0
-		zombie.spawnrateplus = 0.4
-		zombie.speed = 60
+		zombie.spawnrateplus = 0.8
+		zombie.speed = 10
 		zombie.health = 1
 		zombie.count = 0
 
@@ -171,6 +171,15 @@ function stuckmode:update(dt)
 		love.audio.play(game.music2)
 		self.wavestart = false
 	end
+
+
+
+
+
+
+
+
+
 
 	-- WAVE SYSTEM --
 	-- start the score time
@@ -209,27 +218,102 @@ function stuckmode:update(dt)
 	end
 
 	-- when you kill 100 go to next wave, increase spawn rate, increase spawn amount
-	if self.kills > 100 then
+	if self.kills > 99 then
 		self.kills = 0
-		zombie.spawnrateplus = zombie.spawnrateplus - 0.01
+		
+		zombie.count = 0
+		
 		self.wavedrawtime = 0
 		self.waveflash = 2
-		self.wave = self.wave + 1
-		self.wavezombiecount = self.wavezombiecount + 6
+		--self.wave = self.wave + 1
+		--self.wavezombiecount = self.wavezombiecount + 6
 		self.wavebreaktimer = 0
 		self.wavebreak = true
 		self.flashwave = true
 	end
 
-	-- lock the spawn rate
-	if zombie.spawnrateplus < 0.1 then
-		zombie.spawnrateplus = 0.1
+
+	if self.score > 99 and self.score < 101 then
+		zombie.spawnrateplus = 0.75
+		zombie.speed = 20
+	elseif self.score > 199 and self.score < 201 then
+		zombie.spawnrateplus = 0.7
+		zombie.speed = 30
+	elseif self.score > 299 and self.score < 301 then
+		zombie.spawnrateplus = 0.65
+		zombie.speed = 40
+	elseif self.score > 399 and self.score < 401 then
+		zombie.spawnrateplus = 0.6
+		zombie.speed = 50
+	elseif self.score > 499 and self.score < 501 then
+		zombie.spawnrateplus = 0.55
+		zombie.speed = 60
+	elseif self.score > 599 and self.score < 601 then
+		zombie.spawnrateplus = 0.5
+		zombie.speed = 70
+	elseif self.score > 699 and self.score < 701 then
+		zombie.spawnrateplus = 0.45
+		zombie.speed = 80
+	elseif self.score > 799 and self.score < 801 then
+		zombie.spawnrateplus = 0.4
+		zombie.speed = 90
+	elseif self.score > 899 and self.score < 901 then
+		zombie.spawnrateplus = 0.38
+		zombie.speed = 95
+	elseif self.score > 999 and self.score < 1001 then
+		zombie.spawnrateplus = 0.36
+		zombie.speed = 100
+	elseif self.score > 1099 and self.score < 1101 then
+		zombie.spawnrateplus = 0.34
+		zombie.speed = 105
+	elseif self.score > 1199 and self.score < 1201 then
+		zombie.spawnrateplus = 0.32
+		zombie.speed = 115
+	elseif self.score > 1299 and self.score < 1301 then
+		zombie.spawnrateplus = 0.3
+		zombie.speed = 120
+	elseif self.score > 1399 and self.score < 1401 then
+		zombie.spawnrateplus = 0.28
+		zombie.speed = 125
+	elseif self.score > 1499 and self.score < 1501 then
+		zombie.spawnrateplus = 0.26
+		zombie.speed = 130
+	elseif self.score > 1599 and self.score < 1601 then
+		zombie.spawnrateplus = 0.24
+		zombie.speed = 135
+	elseif self.score > 1699 and self.score < 1701 then
+		zombie.spawnrateplus = 0.22
+		zombie.speed = 140
+	elseif self.score > 1799 and self.score < 1801 then
+		zombie.spawnrateplus = 0.2
+		zombie.speed = 145
+	elseif self.score > 1899 and self.score < 1901 then
+		zombie.spawnrateplus = 0.18
+		zombie.speed = 150
 	end
 
+
+
+
+
+
+
+
+	--if self.score == 30
+		--zombie.speed = zombie.speed + 0.5
+		----stuckmode.wavezombiecount = stuckmode.wavezombiecount + 1
+		--zombie.spawnrateplus = zombie.spawnrateplus - 0.01
+	--end
+
+	-- lock the spawn rate
+	--if zombie.spawnrateplus < 0.1 then
+		--zombie.spawnrateplus = 0.1
+	--end
+
 	-- lock the wave count
-	if self.wavezombiecount > 150 then
-		self.wavezombiecount = 150
-	end
+	--if self.wavezombiecount > 150 then
+		--self.wavezombiecount = 150
+	--end
 
 	-- flash the wave title in hud when a new wave is starting
 	if self.wavedrawtime < 5 then
@@ -246,6 +330,15 @@ function stuckmode:update(dt)
 		end
 	end
 	-- WAVE SYSTEM --
+
+
+
+
+
+
+
+
+
 
 	-- update zombies
 	zombie:update(dt)
@@ -336,37 +429,34 @@ function stuckmode:draw()
 	
 	------ TEXT ------
 	-- wave title
-	if self.wavedrawtime < 3 then
-		love.graphics.setFont( start.font3 )
-   		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("WAVE "..tostring(self.wave), (love.graphics.getWidth()/2 - start.font3:getWidth("WAVE "..tostring(self.wave))/2), 200)
-		love.graphics.setColor(255, 255, 255)
-	end
-
+	--if self.wavedrawtime < 3 then
+		--love.graphics.setFont( start.font3 )
+   		--love.graphics.setColor(160, 47, 0)
+		--love.graphics.print("WAVE "..tostring(self.wave), (love.graphics.getWidth()/2 - start.font3:getWidth("WAVE "..tostring(self.wave))/2), 200)
+		--love.graphics.setColor(255, 255, 255)
+	--end
+--
 	-- the hud and the hud text
 	if gameover == false and gameover == false then
 		love.graphics.draw(self.hud1, 0, -25, 0, 0.5)
-		love.graphics.draw(self.hud2, -30, 665, 0, 0.5)
-		love.graphics.draw(self.hud3, 500 - 6, 685, 0, 0.5)
 		love.graphics.setColor(0, 0, 0)
 		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.print("HEALTH:", 10, 10)
 		love.graphics.print(tostring(math.floor(plyr.health)), 10, 30)
-		love.graphics.print("SCORE:", 1150, 10)
-		love.graphics.print(tostring(self.score), 1150, 30)
-		love.graphics.print("AMMO: ∞", 10, 680)
-		love.graphics.print("CRPISTOL", 10, 700)
-		love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font0:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 700)
+		
+		love.graphics.print("TIME:", 1150, 10)
+		love.graphics.print(tostring(math.floor(self.time)), 1150, 30)
+		
 		love.graphics.setFont( start.font1 )
-		love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font1:getWidth("WAVE:")/2), 10)
+		love.graphics.print("SCORE:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font1:getWidth("SCORE:"..tostring(self.score))/2), 10)
 		love.graphics.setColor(255, 255, 255)
 
 		-- flash the wave text in hud white when the next wave is coming
 		if self.wavedrawtime < 5 then
 			love.graphics.setFont( start.font1 )
 			love.graphics.setColor(255, 255, 255, self.waveflash)
-			love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font1:getWidth("WAVE:")/2), 10)
+			love.graphics.print("SCORE:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font1:getWidth("SCORE:"..tostring(self.score))/2), 10)
 			love.graphics.setColor(255, 255, 255)
 		end
 
@@ -390,7 +480,6 @@ function stuckmode:draw()
     		love.graphics.setColor(160, 47, 0)
 			love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font3:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 300)
 			love.graphics.print("SCORE:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(self.score))/2), 350)
-			love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font3:getWidth("WAVE:"..tostring(self.wave))/2), 400)
 			love.graphics.setColor(255, 255, 255)
 		end
 	end
@@ -398,18 +487,6 @@ function stuckmode:draw()
 	-- draw game welcome messages
 	game:draw()
 	------ TEXT ------
-
-	-- REMOVE LATER! ------ DEBUG ------ REMOVE LATER!
-	if setfps == true then
-		love.graphics.setFont( start.font1 )
-		love.graphics.print("ZOMBS "..tostring(zombie.count), 1000, 200)
-		love.graphics.print("COUNT "..tostring(self.wavezombiecount), 1000, 250)
-		love.graphics.print("KILLS "..tostring(self.kills), 1000, 300)
-		love.graphics.print("SPEED "..tostring(zombie.speed), 1000, 350)
-		love.graphics.print("HEALH "..tostring(zombie.health), 1000, 400)
-		love.graphics.print("SPAWN "..tostring(zombie.spawnrateplus), 1000, 450)
-	end
-	-- REMOVE LATER! ------ DEBUG ------ REMOVE LATER!
 end
 
 return stuckmode
