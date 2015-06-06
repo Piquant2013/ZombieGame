@@ -169,7 +169,7 @@ function stuckmode:update(dt)
 		love.audio.play(plyr.deathaudio)
 		love.audio.stop(game.music1)
 		love.audio.play(game.music2)
-		self.wavestart = false
+		self.wavezombiecount = 100
 	end
 
 

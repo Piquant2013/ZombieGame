@@ -127,7 +127,7 @@ function crpistol:aimdraw()
 
 	-- Draw the aim assist for when the mouse is away from the player
 	if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
-		if self.aimassist == true then
+		if self.aimassist == true and gameover == false then
 			love.graphics.push()
 			love.graphics.setColor(160, 47, 0, 120)
 			love.graphics.setLineWidth(0.8)
@@ -139,7 +139,7 @@ function crpistol:aimdraw()
 	
 	-- draw the aim assist when the mouse is close to the player
 	elseif (mx1 > (plyr.x - 20) or (mx1 < (plyr.x + 20 ))) or (my1 > (plyr.y - 20 ) or (my1 < (plyr.y + 20 ))) then
-		if self.aimassist == true then
+		if self.aimassist == true and gameover == false then
 			love.graphics.setColor(255, 255, 255, 120)
 			love.graphics.draw(crp.aim, crp.x, crp.y, plyr.rotation, 1, 1, plyr.sprite:getWidth() - 40, plyr.sprite:getHeight() - 25)
 			love.graphics.setColor(255, 255, 255)
