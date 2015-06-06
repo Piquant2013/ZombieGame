@@ -208,9 +208,9 @@ function endless:update(dt)
 
 	-- small break between waves
 	if self.wavebreak == true then
-		if self.wavebreaktimer < 5 then
+		if self.wavebreaktimer < 8 then
 			self.wavestart = false
-		elseif self.wavebreaktimer > 5 then
+		elseif self.wavebreaktimer > 8 then
 			self.wavestart = true
 			self.wavebreak = false
 		end
@@ -318,6 +318,9 @@ function endless:draw()
 
 	-- bullet
 	pistol:bulletdraw()
+
+	-- Aim
+	pistol:aimdraw()
 
 	-- player (red flash when player is hurt)
 	if player.flashred == true then
