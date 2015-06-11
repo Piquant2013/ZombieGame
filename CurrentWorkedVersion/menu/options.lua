@@ -41,7 +41,7 @@ function options:init()
 
 	-- MouseLock Selecter Y & X
 	self.mouselockarrowy = 462
-	self.mouselockarrowx = 665
+	self.mouselockarrowx = 507
 
 	-- Option menu states
 	self.fpsstate = false

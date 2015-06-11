@@ -163,6 +163,18 @@ function endless:update(dt)
 		zombie.speed = 60
 		zombie.health = 1
 		zombie.count = 0
+
+		-- Smg
+		smg.smgs = {}
+    	smg.spawnrate = 0
+		smg.spawnrateplus = 1
+		smg.count = 0
+
+		-- Minigun
+		minigun.miniguns = {}
+		minigun.spawnrate = 0
+		minigun.spawnrateplus = 1
+		minigun.count = 0
 		
 		-- hardon collider
 		Collider = HC(100, on_collision, collision_stop)
@@ -179,18 +191,6 @@ function endless:update(dt)
     	-- stop audio
     	love.audio.stop(plyr.hurtaudio)
     	love.audio.stop(plyr.deathaudio)
-
-    	smg.smgs = {}
-    	smg.spawnrate = 0
-		smg.spawnrateplus = 1
-		smg.count = 0
-
-		minigun.miniguns = {}
-		minigun.spawnrate = 0
-		minigun.spawnrateplus = 1
-		minigun.count = 0
-
-
 	end
 	-- SET UP GAME --
 
@@ -214,6 +214,8 @@ function endless:update(dt)
 
 	-- SPECIAL WEAPONS --
 	if self.wave > 1 then
+		
+		-- if ammo is 0 player loses smg
 		for i, o in ipairs(smg.smgs) do
 			if self.smghave == true and o.ammo == 0 then
 				self.smghave = false
@@ -221,6 +223,7 @@ function endless:update(dt)
 			end
 		end
 
+		-- if ammo is 0 player loses minigun
 		for i, o in ipairs(minigun.miniguns) do
 			if self.minihave == true and o.ammo == 0 then
 				self.minihave = false
@@ -228,6 +231,7 @@ function endless:update(dt)
 			end
 		end
 
+		-- Set fire rates
 		if self.smghave == true then
 			pistol.cooldownplus = 0.065
 			self.minihave = false
@@ -244,6 +248,7 @@ function endless:update(dt)
 			pistol.cooldownplus = 0.25
 		end
 
+		-- Set ammo
 		if self.minihave == false then
 			for i, o in ipairs(minigun.miniguns) do
 				o.ammo = 150
@@ -260,6 +265,7 @@ function endless:update(dt)
 			self.pistolhave = true
 		end
 
+		-- Spawn special weapons
 		if self.spawnsmg == true then
 			smg:spawn()
 		end
@@ -268,6 +274,7 @@ function endless:update(dt)
 			minigun:spawn()
 		end
 
+		-- spawning
 		if self.wavebreak == false then
 			if minigun.count == self.minicount then
 				self.spawnmini = false
@@ -299,6 +306,7 @@ function endless:update(dt)
 			end
 		end
 
+		-- Flash special weapons
 		if self.flashguns == true then
 			self.gunsflash = self.gunsflash + dt + 1.5
 		elseif self.flashguns == false then
@@ -398,10 +406,11 @@ function endless:update(dt)
 	-- update zombies
 	zombie:update(dt)
 
-
+	-- update minigun
 	minigun:update(dt)
+	
+	-- update smg
 	smg:update(dt)
-
 
 	--- MOVE GAMEOVER TEXT ---
 	if gameover == true then
@@ -478,7 +487,10 @@ function endless:draw()
 		love.graphics.setColor(255, 255, 255)
 	end
 
+	-- minigun
 	minigun:draw()
+	
+	-- smg
 	smg:draw()
 
 	-- pistol
@@ -489,16 +501,6 @@ function endless:draw()
 
 	-- layer2 of the map
 	love.graphics.draw(self.layer2, 0, 0)
-
-	--plyr.bb:draw('line')
-	--self.wallT:draw('line')
-	--self.wallB:draw('line')
-	--self.wallL:draw('line')
-	--self.wallR:draw('line')
-	--self.tree1:draw('line')
-	--self.tree2:draw('line')
-	--self.tree3:draw('line')
-	--self.tree4:draw('line')
 
 	game.Cam:detach()
 	------ CAMERA ------
@@ -524,11 +526,12 @@ function endless:draw()
 		love.graphics.print(tostring(math.floor(plyr.health)).."%", 10, 30)
 		love.graphics.print("SCORE:", 1150, 10)
 		love.graphics.print(tostring(self.score), 1150, 30)
-		
+		love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font0:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 700)
+		love.graphics.setFont( start.font1 )
+		love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font1:getWidth("WAVE:")/2), 10)
+		love.graphics.setColor(255, 255, 255)
 
-
-
-
+		-- draw text for ammo for differnt guns
 		if self.smghave == false and self.minihave == false then
 			love.graphics.print("AMMO: ∞", 10, 680)
 			love.graphics.print("PISTOL", 10, 700)
@@ -547,14 +550,6 @@ function endless:draw()
 				love.graphics.print("AMMO:"..tostring(o.ammo), 10, 680)
 			end
 		end
-
-
-
-
-		love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font0:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 700)
-		love.graphics.setFont( start.font1 )
-		love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font1:getWidth("WAVE:")/2), 10)
-		love.graphics.setColor(255, 255, 255)
 
 		-- flash the wave text in hud white when the next wave is coming
 		if self.wavedrawtime < 5 then
@@ -592,35 +587,6 @@ function endless:draw()
 	-- draw game welcome messages
 	game:draw()
 	------ TEXT ------
-
-
-
-
-	-- REMOVE LATER! ------ DEBUG ------ REMOVE LATER!
-	if setfps == true then
-		--love.graphics.setFont( start.font1 )
-		--love.graphics.print("ZOMBS "..tostring(zombie.count), 1000, 200)
-		--love.graphics.print("COUNT "..tostring(self.wavezombiecount), 1000, 250)
-		--love.graphics.print("KILLS "..tostring(self.kills), 1000, 300)
-		--love.graphics.print("SPEED "..tostring(zombie.speed), 1000, 350)
-		--love.graphics.print("HEALH "..tostring(zombie.health), 1000, 400)
-		--love.graphics.print("SPAWN "..tostring(zombie.spawnrateplus), 1000, 450)
-
-		--love.graphics.setFont( start.font1 )
-		--love.graphics.print("smgs "..tostring(smg.count), 1000, 200)
-		--love.graphics.print("count "..tostring(self.smgcount), 1000, 250)
-		--love.graphics.print("miniguns "..tostring(minigun.count), 1000, 300)
-		--love.graphics.print("count "..tostring(self.minicount), 1000, 350)
-		
-		--love.graphics.print("KILLS "..tostring(self.kills), 1000, 300)
-		--love.graphics.print("SPEED "..tostring(zombie.speed), 1000, 350)
-		--love.graphics.print("HEALH "..tostring(zombie.health), 1000, 400)
-		--love.graphics.print("SPAWN "..tostring(zombie.spawnrateplus), 1000, 450)
-	end
-	-- REMOVE LATER! ------ DEBUG ------ REMOVE LATER!
-
-
-
 end
 
 return endless

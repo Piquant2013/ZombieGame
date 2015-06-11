@@ -60,7 +60,7 @@ function credits:draw()
 	love.graphics.draw(start.bg, 0, -1000, 0, 3)
 	love.graphics.draw(start.gamelogo, (love.graphics.getWidth()/2 - start.gamelogo:getWidth()/2), self.slider)
 	love.graphics.setColor(160, 47, 0)
-	love.graphics.draw(logo.image, (love.graphics.getWidth()/2 - 249.75), self.slider + 2150, 0 ,0.5)
+	love.graphics.draw(logo.image, (love.graphics.getWidth()/2 - 249.75), self.slider + 2200, 0 ,0.5)
 	------ IMAGES ------
 
 	------ TEXT ------
@@ -81,12 +81,13 @@ function credits:draw()
 	love.graphics.print("WOJAK", (love.graphics.getWidth( )/2-start.font2:getWidth("WOJAK")/2), self.slider + 1400)
 	love.graphics.print("PIQUANT TEAM", (love.graphics.getWidth( )/2-start.font2:getWidth("PIQUANT TEAM")/2), self.slider + 1500)
 	love.graphics.print("BRYCE DUNN", (love.graphics.getWidth( )/2-start.font2:getWidth("BRYCE DUNN")/2), self.slider + 1550)
-	love.graphics.print("TYRONNE CRISFIELD", (love.graphics.getWidth( )/2-start.font2:getWidth("TTYRONNE CRISFIELD")/2), self.slider + 1600)
-	love.graphics.print("TOBY LOWE", (love.graphics.getWidth( )/2-start.font2:getWidth("TOBY LOWE")/2), self.slider + 1650)
-	love.graphics.print("THOMAS WILTSHIRE", (love.graphics.getWidth( )/2-start.font2:getWidth("THOMAS WILTSHIRE")/2), self.slider + 1700)
-	love.graphics.print("CREATED WITH", (love.graphics.getWidth( )/2-start.font2:getWidth("CREATED WITH")/2), self.slider + 1800)
-	love.graphics.print("LöVE (LOVE2D)", (love.graphics.getWidth( )/2-start.font2:getWidth("LöVE (LOVE2D)")/2), self.slider + 1850)
-	love.graphics.print("BROUGHT TO YOU BY", (love.graphics.getWidth( )/2-start.font2:getWidth("BROUGHT TO YOU BY")/2), self.slider + 2100)
+	love.graphics.print("BRAYDEN WATTS", (love.graphics.getWidth( )/2-start.font2:getWidth("BRAYDEN WATTS")/2), self.slider + 1600)
+	love.graphics.print("TYRONNE CRISFIELD", (love.graphics.getWidth( )/2-start.font2:getWidth("TTYRONNE CRISFIELD")/2), self.slider + 1650)
+	love.graphics.print("TOBY LOWE", (love.graphics.getWidth( )/2-start.font2:getWidth("TOBY LOWE")/2), self.slider + 1700)
+	love.graphics.print("THOMAS WILTSHIRE", (love.graphics.getWidth( )/2-start.font2:getWidth("THOMAS WILTSHIRE")/2), self.slider + 1750)
+	love.graphics.print("CREATED WITH", (love.graphics.getWidth( )/2-start.font2:getWidth("CREATED WITH")/2), self.slider + 1850)
+	love.graphics.print("LöVE (LOVE2D)", (love.graphics.getWidth( )/2-start.font2:getWidth("LöVE (LOVE2D)")/2), self.slider + 1900)
+	love.graphics.print("BROUGHT TO YOU BY", (love.graphics.getWidth( )/2-start.font2:getWidth("BROUGHT TO YOU BY")/2), self.slider + 2150)
 	love.graphics.setColor(255, 255, 225)
 	------ TEXT ------
 end

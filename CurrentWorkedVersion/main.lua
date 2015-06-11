@@ -24,7 +24,7 @@ function love.load()
 	------ GOLBAL VARIABLES ------
 	setfps = false
 	setmute = false
-	setmouselock = false
+	setmouselock = true
 	paused = false
 	resume = false
 	gamereset = true

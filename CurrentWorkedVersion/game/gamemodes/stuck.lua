@@ -162,8 +162,8 @@ function stuckmode:update(dt)
 		crpistol.cooldown = 0
 		crpistol.cooldownplus = 0
 		crpistol.bullets = {}
-		plyr.y = plyr.y
-		plyr.x = plyr.x
+		plyr.y = 465
+		plyr.x = 800
 		love.mouse.setCursor(cursor)
 		love.audio.stop(plyr.hurtaudio)
 		love.audio.play(plyr.deathaudio)
@@ -172,28 +172,11 @@ function stuckmode:update(dt)
 		self.wavezombiecount = 100
 	end
 
-
-
-
-
-
-
-
+	-- keep player in place
 	if gameover == false then
 		plyr.y = 465
 		plyr.x = 800
 	end
-
-	if gameover == true then
-		plyr.y = 465
-		plyr.x = 800
-	end
-
-
-
-
-
-
 
 	-- WAVE SYSTEM --
 	-- start the score time
@@ -232,23 +215,19 @@ function stuckmode:update(dt)
 		end
 	end
 
-	-- when you kill 100 go to next wave, increase spawn rate, increase spawn amount
+	-- when you kill 100 go to next wave
 	if self.kills > 99 then
 		self.kills = 0
-		
 		zombie.count = 0
-		
 		self.wavedrawtime = 0
 		self.waveflash = 2
-		--self.wave = self.wave + 1
-		--self.wavezombiecount = self.wavezombiecount + 6
 		self.wavebreaktimer = 0
 		self.wavebreak = true
 		self.flashwave = true
 		love.audio.play(game.wavestart)
 	end
 
-
+	-- difficulty increases
 	if self.score > 99 and self.score < 101 then
 		zombie.spawnrateplus = 0.75
 		zombie.speed = 20
@@ -341,29 +320,6 @@ function stuckmode:update(dt)
 		zombie.speed = 154
 	end
 
-
-
-
-
-
-
-
-	--if self.score == 30
-		--zombie.speed = zombie.speed + 0.5
-		----stuckmode.wavezombiecount = stuckmode.wavezombiecount + 1
-		--zombie.spawnrateplus = zombie.spawnrateplus - 0.01
-	--end
-
-	-- lock the spawn rate
-	--if zombie.spawnrateplus < 0.1 then
-		--zombie.spawnrateplus = 0.1
-	--end
-
-	-- lock the wave count
-	--if self.wavezombiecount > 150 then
-		--self.wavezombiecount = 150
-	--end
-
 	-- flash the wave title in hud when a new wave is starting
 	if self.wavedrawtime < 5 then
 		if self.flashwave == true then
@@ -379,10 +335,6 @@ function stuckmode:update(dt)
 		end
 	end
 	-- WAVE SYSTEM --
-
-
-
-
 
 	-- update zombies
 	zombie:update(dt)
@@ -475,14 +427,6 @@ function stuckmode:draw()
 	------ CAMERA ------
 	
 	------ TEXT ------
-	-- wave title
-	--if self.wavedrawtime < 3 then
-		--love.graphics.setFont( start.font3 )
-   		--love.graphics.setColor(160, 47, 0)
-		--love.graphics.print("WAVE "..tostring(self.wave), (love.graphics.getWidth()/2 - start.font3:getWidth("WAVE "..tostring(self.wave))/2), 200)
-		--love.graphics.setColor(255, 255, 255)
-	--end
---
 	-- the hud and the hud text
 	if gameover == false and gameover == false then
 		love.graphics.draw(self.hud1, 0, -25, 0, 0.5)

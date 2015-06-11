@@ -24,7 +24,7 @@ function crpistol:initialize()
 	crp.y = plyr.y
 	crp.x = plyr.x
 	crp.sprite = love.graphics.newImage("images/weapons/pistol.png")
-	crp.aim = love.graphics.newImage("images/aim.png")
+	crp.aim = love.graphics.newImage("images/weapons/aim.png")
 	-- PISTOL --
 
 	-- BULLETS --

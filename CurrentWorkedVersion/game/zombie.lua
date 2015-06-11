@@ -119,8 +119,6 @@ function zombie:draw()
 		v.sprite:setFilter( 'nearest', 'nearest' )
 		------ FILTERS ------
 
-		--v.bb:draw('line')
-
 		------ IMAGES ------
 		-- Set the rotation of the zombies, movement of zomb.bb, rotate zomb.bb and draw zombie
 		self.drawrotation = math.atan2(v.x - plyr.x, plyr.y - v.y) + math.pi / 2

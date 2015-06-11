@@ -24,7 +24,7 @@ function pistol:initialize()
 	pis.y = plyr.y
 	pis.x = plyr.x
 	pis.sprite = love.graphics.newImage("images/weapons/pistol.png")
-	pis.aim = love.graphics.newImage("images/aim.png")
+	pis.aim = love.graphics.newImage("images/weapons/aim.png")
 	-- PISTOL --
 
 	-- BULLETS --
@@ -78,12 +78,7 @@ function pistol:update(dt)
 		self.cooldown = self.cooldownplus
 		love.audio.play(bullet.sound)
 
-
-
-
-
-
-
+		-- Take off ammo while you fire for special weapons in endless mode
 		for i, o in ipairs(smg.smgs) do
 			o.ammo = o.ammo - 1
 
@@ -99,12 +94,6 @@ function pistol:update(dt)
 				o.ammo = 0
 			end
 		end
-
-
-
-
-
-
 	end
 
 	-- cool down pistol
