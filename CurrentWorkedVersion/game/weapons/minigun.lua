@@ -22,7 +22,7 @@ function minigun:spawn()
 		gunmini.x = self.minizrx
 		gunmini.y = self.minizry
 		gunmini.ammo = 200
-		gunmini.bb = Collider:addRectangle(gunmini.x, gunmini.y, 10, 10)
+		gunmini.bb = Collider:addRectangle(gunmini.x, gunmini.y, 20, 20)
 		gunmini.sprite = love.graphics.newImage("images/weapons/minigun.png")
 		gunmini.sprite2 = love.graphics.newImage("images/weapons/fademini.png")
 		table.insert(self.miniguns, gunmini)

@@ -213,7 +213,7 @@ function endless:update(dt)
 	end
 
 	-- SPECIAL WEAPONS --
-	--if self.wave > 2 then
+	if self.wave > 1 then
 		for i, o in ipairs(smg.smgs) do
 			if self.smghave == true and o.ammo == 0 then
 				self.smghave = false
@@ -229,13 +229,13 @@ function endless:update(dt)
 		end
 
 		if self.smghave == true then
-			pistol.cooldownplus = 0.060
+			pistol.cooldownplus = 0.065
 			self.minihave = false
 			self.pistolhave = false
 		end
 
 		if self.minihave == true then
-			pistol.cooldownplus = 0.035
+			pistol.cooldownplus = 0.030
 			self.smghave = false
 			self.pistolhave = false
 		end
@@ -246,7 +246,7 @@ function endless:update(dt)
 
 		if self.minihave == false then
 			for i, o in ipairs(minigun.miniguns) do
-				o.ammo = 200
+				o.ammo = 150
 			end
 
 			self.pistolhave = true
@@ -254,7 +254,7 @@ function endless:update(dt)
 
 		if self.smghave == false then		
 			for i, o in ipairs(smg.smgs) do
-				o.ammo = 160
+				o.ammo = 80
 			end
 
 			self.pistolhave = true
@@ -310,7 +310,7 @@ function endless:update(dt)
 		elseif self.gunsflash < 2 then
 			self.flashguns = true
 		end
-	--end
+	end
 	-- SPECIAL WEAPONS --
 
 	-- WAVE SYSTEM --
@@ -361,7 +361,7 @@ function endless:update(dt)
 		self.wavebreaktimer = 0
 		self.wavebreak = true
 		self.flashwave = true
-		love.audio.play(game.waveend)
+		love.audio.play(game.wavestart)
 	end
 
 	-- lock the spawn rate
