@@ -77,6 +77,34 @@ function pistol:update(dt)
 		table.insert(self.bullets, bullet)
 		self.cooldown = self.cooldownplus
 		love.audio.play(bullet.sound)
+
+
+
+
+
+
+
+		for i, o in ipairs(smg.smgs) do
+			o.ammo = o.ammo - 1
+
+			if o.ammo < 0 then
+				o.ammo = 0
+			end
+		end
+
+		for i, o in ipairs(minigun.miniguns) do
+			o.ammo = o.ammo - 1
+			
+			if o.ammo < 0 then
+				o.ammo = 0
+			end
+		end
+
+
+
+
+
+
 	end
 
 	-- cool down pistol

@@ -68,7 +68,7 @@ function zombie:spawn()
 		-- The contents of the rock table
 		zomb.x = self.zrx
 		zomb.y = self.zry
-		zomb.w = 16
+		zomb.w = 15
 		zomb.h = 16
 		zomb.health = self.health
 		zomb.speed = self.speed
@@ -118,6 +118,8 @@ function zombie:draw()
 		------ FILTERS ------
 		v.sprite:setFilter( 'nearest', 'nearest' )
 		------ FILTERS ------
+
+		--v.bb:draw('line')
 
 		------ IMAGES ------
 		-- Set the rotation of the zombies, movement of zomb.bb, rotate zomb.bb and draw zombie

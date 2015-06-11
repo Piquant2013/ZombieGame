@@ -14,6 +14,7 @@ function credits:init()
 	------ AUDIO ------
 	self.music = love.audio.newSource("audio/music/credits.ogg")
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
+	self.backsound = love.audio.newSource("audio/buttons/back.ogg")
 	------ AUDIO ------
 end
 
@@ -22,7 +23,7 @@ function credits:keypressed(key)
 	-- Takes you back to the main menu
 	if key == "escape" or key == "return" or key == " " then
 		Gamestate.pop()
-		love.audio.play(self.entersound)
+		love.audio.play(self.backsound)
 		love.audio.stop(options.entersound1)
 		love.audio.stop(self.music)
 		

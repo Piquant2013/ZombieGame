@@ -60,9 +60,7 @@ function selectmode:init()
 
 	------ AUDIO ------
 	self.entersound1 = love.audio.newSource("audio/buttons/enter.ogg")
-	self.entersound1a = love.audio.newSource("audio/buttons/enter.ogg")
-	self.entersound2 = love.audio.newSource("audio/buttons/enter.ogg")
-	self.entersound2a = love.audio.newSource("audio/buttons/enter.ogg")
+	self.backsound = love.audio.newSource("audio/buttons/back.ogg")
 	self.select1 = love.audio.newSource("audio/buttons/select.ogg")
 	self.select2 = love.audio.newSource("audio/buttons/select.ogg")
 	self.select3 = love.audio.newSource("audio/buttons/select.ogg")
@@ -220,28 +218,29 @@ function selectmode:keypressed(key)
 		game.intromusic:setLooping(true)
 	end
 
-	-- Plays audio for survival buttons
-	if key == "return" and self.survival == true or key == " " and self.survival == true or key == 'escape' and self.survival == true then
+	-- Enter sounds for survial and arcade
+	if key == "return" and self.survivalstate == true and self.survival == false or key == " " and self.survivalstate == true and self.survival == false then
 		love.audio.play(self.entersound1)
-		love.audio.stop(self.entersound1a)
-	elseif key == "return" and self.survival == false or key == " " and self.survival == false or key == 'escape' and self.survival == false then
-		love.audio.play(self.entersound1a)
-		love.audio.stop(self.entersound1)
-	end 
+	end	
 
-	-- Plays audio for arcade buttons
-	if key == "return" and self.arcade == true or key == " " and self.arcade == true or key == 'escape' and self.arcade == true then
-		love.audio.play(self.entersound2)
-		love.audio.stop(self.entersound2a)
-	elseif key == "return" and self.arcade == false or key == " " and self.arcade == false or key == 'escape' and self.arcade == false then
-		love.audio.play(self.entersound2a)
-		love.audio.stop(self.entersound2)
-	end 
+	if key == "return" and self.arcadestate == true and self.arcade == false or key == " " and self.arcadestate == true and self.arcade == false then
+		love.audio.play(self.entersound1)
+	end
+
+	-- Exit sounds for survival and arcade
+	if key == "return" and self.survivalstate == true and self.survival == true or key == " " and self.survivalstate == true and self.survival == true or key == 'escape' and self.survivalstate == true and self.survival == true then
+		love.audio.play(self.backsound)
+	end	
+
+	if key == "return" and self.arcadestate == true and self.arcade == true or key == " " and self.arcadestate == true and self.arcade == true or key == 'escape' and self.arcadestate == true and self.arcade == true then
+		love.audio.play(self.backsound)
+	end
 	-- ACTIVATE BUTTONS --
 
 	-- Go back to main menu
 	if key == 'escape' and self.survival == false and self.arcade == false then
 		Gamestate.pop()
+		love.audio.play(self.backsound)
 	end
 end
 

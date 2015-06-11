@@ -179,6 +179,20 @@ function stuckmode:update(dt)
 
 
 
+	if gameover == false then
+		plyr.y = 465
+		plyr.x = 800
+	end
+
+	if gameover == true then
+		plyr.y = 465
+		plyr.x = 800
+	end
+
+
+
+
+
 
 
 	-- WAVE SYSTEM --
@@ -214,6 +228,7 @@ function stuckmode:update(dt)
 		elseif self.wavebreaktimer > 5 then
 			self.wavestart = true
 			self.wavebreak = false
+			love.audio.play(game.waveend)
 		end
 	end
 
@@ -230,6 +245,7 @@ function stuckmode:update(dt)
 		self.wavebreaktimer = 0
 		self.wavebreak = true
 		self.flashwave = true
+		love.audio.play(game.wavestart)
 	end
 
 
@@ -311,6 +327,18 @@ function stuckmode:update(dt)
 	elseif self.score > 2599 and self.score < 2601 then
 		zombie.spawnrateplus = 0.18
 		zombie.speed = 146
+	elseif self.score > 2699 and self.score < 2701 then
+		zombie.spawnrateplus = 0.17
+		zombie.speed = 148
+	elseif self.score > 2799 and self.score < 2801 then
+		zombie.spawnrateplus = 0.16
+		zombie.speed = 150
+	elseif self.score > 2899 and self.score < 2901 then
+		zombie.spawnrateplus = 0.15
+		zombie.speed = 152
+	elseif self.score > 2999 and self.score < 3001 then
+		zombie.spawnrateplus = 0.14
+		zombie.speed = 154
 	end
 
 
@@ -351,11 +379,6 @@ function stuckmode:update(dt)
 		end
 	end
 	-- WAVE SYSTEM --
-
-
-
-
-
 
 
 
@@ -467,7 +490,7 @@ function stuckmode:draw()
 		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.print("HEALTH:", 10, 10)
-		love.graphics.print(tostring(math.floor(plyr.health)), 10, 30)
+		love.graphics.print(tostring(math.floor(plyr.health)).."%", 10, 30)
 		
 		love.graphics.print("TIME:", 1150, 10)
 		love.graphics.print(tostring(math.floor(self.time)), 1150, 30)

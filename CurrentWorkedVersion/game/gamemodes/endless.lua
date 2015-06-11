@@ -31,6 +31,16 @@ function endless:init()
 	self.wavestart = true
 	self.flashwave = true
 	self.wavezombiecount = 14
+	self.minicount = 1
+	self.smgcount = 1
+	self.spawnsmg = false
+	self.spawnmini = false
+	self.minihave = false
+	self.smghave = false
+	self.minihad = false
+	self.smghad = false
+	self.gunsflash = 2
+	self.flashguns = true
 
 	-- Gameover vars
 	self.gameovery = 800
@@ -127,6 +137,16 @@ function endless:update(dt)
 		self.wavestart = true
 		self.flashwave = true
 		self.wavezombiecount = 50
+		self.minicount = 1
+		self.smgcount = 1
+		self.spawnsmg = false
+		self.spawnmini = false
+		self.minihave = false
+		self.smghave = false
+		self.minihad = false
+		self.smghad = false
+		self.gunsflash = 2
+		self.flashguns = true
 
 		-- Gameover vars
 		self.gameovery = 800
@@ -159,6 +179,18 @@ function endless:update(dt)
     	-- stop audio
     	love.audio.stop(plyr.hurtaudio)
     	love.audio.stop(plyr.deathaudio)
+
+    	smg.smgs = {}
+    	smg.spawnrate = 0
+		smg.spawnrateplus = 1
+		smg.count = 0
+
+		minigun.miniguns = {}
+		minigun.spawnrate = 0
+		minigun.spawnrateplus = 1
+		minigun.count = 0
+
+
 	end
 	-- SET UP GAME --
 
@@ -179,6 +211,107 @@ function endless:update(dt)
 		love.audio.play(game.music2)
 		self.wavestart = false
 	end
+
+	-- SPECIAL WEAPONS --
+	--if self.wave > 2 then
+		for i, o in ipairs(smg.smgs) do
+			if self.smghave == true and o.ammo == 0 then
+				self.smghave = false
+				love.audio.play(menu.backsound)
+			end
+		end
+
+		for i, o in ipairs(minigun.miniguns) do
+			if self.minihave == true and o.ammo == 0 then
+				self.minihave = false
+				love.audio.play(menu.backsound)
+			end
+		end
+
+		if self.smghave == true then
+			pistol.cooldownplus = 0.060
+			self.minihave = false
+			self.pistolhave = false
+		end
+
+		if self.minihave == true then
+			pistol.cooldownplus = 0.035
+			self.smghave = false
+			self.pistolhave = false
+		end
+
+		if self.pistolhave == true then
+			pistol.cooldownplus = 0.25
+		end
+
+		if self.minihave == false then
+			for i, o in ipairs(minigun.miniguns) do
+				o.ammo = 200
+			end
+
+			self.pistolhave = true
+		end
+
+		if self.smghave == false then		
+			for i, o in ipairs(smg.smgs) do
+				o.ammo = 160
+			end
+
+			self.pistolhave = true
+		end
+
+		if self.spawnsmg == true then
+			smg:spawn()
+		end
+
+		if self.spawnmini == true then
+			minigun:spawn()
+		end
+
+		if self.wavebreak == false then
+			if minigun.count == self.minicount then
+				self.spawnmini = false
+			elseif minigun.count < self.minicount then
+				self.spawnmini = true
+			end
+
+			if smg.count == self.smgcount then
+				self.spawnsmg = false
+			elseif smg.count < self.smgcount then
+				self.spawnsmg = true
+			end
+		end
+
+		if self.wavebreak == true then
+			self.spawnmini = false
+			self.spawnsmg = false
+		
+			if self.smghad == true and self.smghave == false then
+				smg.count = 0
+				table.remove(smg.smgs, i)
+				self.smghad = false
+			end
+
+			if self.minihad == true and self.minihave == false then
+				minigun.count = 0
+				table.remove(minigun.miniguns, i)
+				self.minihad = false
+			end
+		end
+
+		if self.flashguns == true then
+			self.gunsflash = self.gunsflash + dt + 1.5
+		elseif self.flashguns == false then
+			self.gunsflash = self.gunsflash + dt - 1.5
+		end
+	
+		if self.gunsflash > 100 then
+			self.flashguns = false
+		elseif self.gunsflash < 2 then
+			self.flashguns = true
+		end
+	--end
+	-- SPECIAL WEAPONS --
 
 	-- WAVE SYSTEM --
 	-- start the score time
@@ -219,24 +352,31 @@ function endless:update(dt)
 	-- when you kill 100 go to next wave, increase spawn rate, increase spawn amount
 	if self.kills > 100 then
 		self.kills = 0
-		zombie.spawnrateplus = zombie.spawnrateplus - 0.01
+		zombie.spawnrateplus = zombie.spawnrateplus - 0.05
+		zombie.speed = zombie.speed + 1.5
 		self.wavedrawtime = 0
 		self.waveflash = 2
 		self.wave = self.wave + 1
-		self.wavezombiecount = self.wavezombiecount + 6
+		self.wavezombiecount = self.wavezombiecount + 8
 		self.wavebreaktimer = 0
 		self.wavebreak = true
 		self.flashwave = true
+		love.audio.play(game.waveend)
 	end
 
 	-- lock the spawn rate
-	if zombie.spawnrateplus < 0.1 then
-		zombie.spawnrateplus = 0.1
+	if zombie.spawnrateplus < 0.05 then
+		zombie.spawnrateplus = 0.05
 	end
 
 	-- lock the wave count
-	if self.wavezombiecount > 170 then
-		self.wavezombiecount = 170
+	if zombie.speed > 100 then
+		zombie.speed = 100
+	end
+
+	-- lock the wave count
+	if self.wavezombiecount > 150 then
+		self.wavezombiecount = 150
 	end
 
 	-- flash the wave title in hud when a new wave is starting
@@ -257,6 +397,11 @@ function endless:update(dt)
 
 	-- update zombies
 	zombie:update(dt)
+
+
+	minigun:update(dt)
+	smg:update(dt)
+
 
 	--- MOVE GAMEOVER TEXT ---
 	if gameover == true then
@@ -333,6 +478,9 @@ function endless:draw()
 		love.graphics.setColor(255, 255, 255)
 	end
 
+	minigun:draw()
+	smg:draw()
+
 	-- pistol
 	pistol:draw()
 
@@ -342,14 +490,15 @@ function endless:draw()
 	-- layer2 of the map
 	love.graphics.draw(self.layer2, 0, 0)
 
-	self.wallT:draw('line')
-	self.wallB:draw('line')
-	self.wallL:draw('line')
-	self.wallR:draw('line')
-	self.tree1:draw('line')
-	self.tree2:draw('line')
-	self.tree3:draw('line')
-	self.tree4:draw('line')
+	--plyr.bb:draw('line')
+	--self.wallT:draw('line')
+	--self.wallB:draw('line')
+	--self.wallL:draw('line')
+	--self.wallR:draw('line')
+	--self.tree1:draw('line')
+	--self.tree2:draw('line')
+	--self.tree3:draw('line')
+	--self.tree4:draw('line')
 
 	game.Cam:detach()
 	------ CAMERA ------
@@ -372,11 +521,36 @@ function endless:draw()
 		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.print("HEALTH:", 10, 10)
-		love.graphics.print(tostring(math.floor(plyr.health)), 10, 30)
+		love.graphics.print(tostring(math.floor(plyr.health)).."%", 10, 30)
 		love.graphics.print("SCORE:", 1150, 10)
 		love.graphics.print(tostring(self.score), 1150, 30)
-		love.graphics.print("AMMO: ∞", 10, 680)
-		love.graphics.print("PISTOL", 10, 700)
+		
+
+
+
+
+		if self.smghave == false and self.minihave == false then
+			love.graphics.print("AMMO: ∞", 10, 680)
+			love.graphics.print("PISTOL", 10, 700)
+		end
+		
+		if self.smghave == true then
+			for i, o in ipairs(smg.smgs) do
+				love.graphics.print("SMG", 10, 700)
+				love.graphics.print("AMMO:"..tostring(o.ammo), 10, 680)
+			end
+		end
+
+		if self.minihave == true then
+			for i, o in ipairs(minigun.miniguns) do
+				love.graphics.print("MINIGUN", 10, 700)
+				love.graphics.print("AMMO:"..tostring(o.ammo), 10, 680)
+			end
+		end
+
+
+
+
 		love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font0:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 700)
 		love.graphics.setFont( start.font1 )
 		love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font1:getWidth("WAVE:")/2), 10)
@@ -418,6 +592,35 @@ function endless:draw()
 	-- draw game welcome messages
 	game:draw()
 	------ TEXT ------
+
+
+
+
+	-- REMOVE LATER! ------ DEBUG ------ REMOVE LATER!
+	if setfps == true then
+		--love.graphics.setFont( start.font1 )
+		--love.graphics.print("ZOMBS "..tostring(zombie.count), 1000, 200)
+		--love.graphics.print("COUNT "..tostring(self.wavezombiecount), 1000, 250)
+		--love.graphics.print("KILLS "..tostring(self.kills), 1000, 300)
+		--love.graphics.print("SPEED "..tostring(zombie.speed), 1000, 350)
+		--love.graphics.print("HEALH "..tostring(zombie.health), 1000, 400)
+		--love.graphics.print("SPAWN "..tostring(zombie.spawnrateplus), 1000, 450)
+
+		--love.graphics.setFont( start.font1 )
+		--love.graphics.print("smgs "..tostring(smg.count), 1000, 200)
+		--love.graphics.print("count "..tostring(self.smgcount), 1000, 250)
+		--love.graphics.print("miniguns "..tostring(minigun.count), 1000, 300)
+		--love.graphics.print("count "..tostring(self.minicount), 1000, 350)
+		
+		--love.graphics.print("KILLS "..tostring(self.kills), 1000, 300)
+		--love.graphics.print("SPEED "..tostring(zombie.speed), 1000, 350)
+		--love.graphics.print("HEALH "..tostring(zombie.health), 1000, 400)
+		--love.graphics.print("SPAWN "..tostring(zombie.spawnrateplus), 1000, 450)
+	end
+	-- REMOVE LATER! ------ DEBUG ------ REMOVE LATER!
+
+
+
 end
 
 return endless

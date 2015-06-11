@@ -19,6 +19,12 @@ pistol = require 'game/weapons/pistol'
 -- Loads crpistol script
 crpistol = require 'game/weapons/clickrate-pistol'
 
+-- Loads smg script
+smg = require 'game/weapons/smg'
+
+-- Loads minigun script
+minigun = require 'game/weapons/minigun'
+
 -- Loads zombie script
 zombie = require 'game/zombie'
 
@@ -40,6 +46,9 @@ function game:init()
     -- gamemodes
     self.endless = false
     self.stuck = false
+
+    DebugB = false
+    DebugA = false
 	
 	-- Camera
 	self.Cam = camera(plyr.x, plyr.y, 2.5)
@@ -50,38 +59,66 @@ function game:init()
 	self.music2 = love.audio.newSource("audio/music/credits.ogg")
 	self.intromusic = love.audio.newSource("audio/music/gameintro.ogg")
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
+	self.pickupsound = love.audio.newSource("audio/weapons/pickup.ogg")
+	self.wavestart = love.audio.newSource("audio/wave/start.ogg")
+	self.waveend = love.audio.newSource("audio/wave/end.ogg")
 	------ AUDIO ------
 end
 
 function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 
-	-- Set player hitbox to a shape
 	local other
 
     if shape_a == plyr.bb then
+        
         other = shape_b
+        DebugA = true
+
+        if gameover == false then
+        	if other == endless.wallT or other == endless.wallB or other == endless.wallL or other == endless.wallR then
+        		plyr.yvel = 0
+        		plyr.xvel = 0
+        		shape_a:move(mtv_x, mtv_y)
+        		plyr.y = plyr.y + mtv_y
+        		plyr.x = plyr.x + mtv_x
+      		end
+
+      		if other == endless.tree1 or other == endless.tree2 or other == endless.tree3 or other == endless.tree4 then
+        		plyr.yvel = 0
+        		plyr.xvel = 0
+        		shape_a:move(mtv_x, mtv_y)
+        		plyr.y = plyr.y + mtv_y
+        		plyr.x = plyr.x + mtv_x
+      		end
+      	end
+    
     elseif shape_b == plyr.bb then
+        
         other = shape_a
+        DebugB = true
+       	
+       	if gameover == false then
+       		if other == endless.wallT or other == endless.wallB or other == endless.wallL or other == endless.wallR then
+       			plyr.yvel = 0
+        		plyr.xvel = 0
+       			shape_b:move(-mtv_x, -mtv_y)
+       			plyr.y = plyr.y + -mtv_y
+        		plyr.x = plyr.x + -mtv_x
+    		end
+
+    		if other == endless.tree1 or other == endless.tree2 or other == endless.tree3 or other == endless.tree4 then
+       			plyr.yvel = 0
+        		plyr.xvel = 0
+       			shape_b:move(-mtv_x, -mtv_y)
+       			plyr.y = plyr.y + -mtv_y
+        		plyr.x = plyr.x + -mtv_x
+    		end
+    	end
+    
     else
         return
     end
 
-    -- Temp collision resposne for walls around map
-   	if other == endless.wallT then
-   		plyr.yvel = 0
-   		plyr.y = plyr.y + 5 + mtv_y
-   	elseif other == endless.wallB then
-   		plyr.yvel = 0
-   		plyr.y = plyr.y - 5 - mtv_y
-   	elseif other == endless.wallL then
-   		plyr.xvel = 0
-   		plyr.x = plyr.x + 5 + mtv_x
-   	elseif other == endless.wallR then
-   		plyr.xvel = 0
-   		plyr.x = plyr.x - 5 - mtv_x
-   	end
-
-   	-- If zombie hits player
    	for i, o in ipairs(zombie.zombs) do
     	if other == o.bb then
     		plyr.health = plyr.health - 0.4
@@ -89,13 +126,117 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     		love.audio.play(plyr.hurtaudio)
     	end
     end
+
+
+
+
+    for i, o in ipairs(smg.smgs) do
+    	if other == o.bb then
+    		endless.smghad = true
+    		endless.smghave = true
+    		endless.minihave = false
+    		Collider:remove(o.bb)
+    		love.audio.play(game.pickupsound)
+    	end
+    end
+
+    for i, o in ipairs(minigun.miniguns) do
+    	if other == o.bb then
+    		endless.minihad = true
+    		endless.minihave = true
+    		endless.smghave = false
+    		Collider:remove(o.bb)
+    		love.audio.play(game.pickupsound)
+    	end
+    end
+
+
+
+
 end
 
 function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
-	
-	-- COLLISIONS FOR ENDLESS --
+
+	--for i = 1, #zombie.zombs do
+		--for j = i + 1, #zombie.zombs do
+
+			--local other
+
+			--if shape_a == zombie.zombs[i].bb then
+					
+				--other = shape_b
+
+				--if other == zombie.zombs[j].bb then
+					--shape_a:move(mtv_x, mtv_y)
+        			--zombie.zombs[i].y = zombie.zombs[i].y + mtv_y
+        			--zombie.zombs[i].x = zombie.zombs[i].x + mtv_x
+				--end
+
+			--elseif shape_b == zombie.zombs[i].bb then
+				
+				--other = shape_a
+
+				--if other == zombie.zombs[j].bb then
+					--shape_a:move(-mtv_x, -mtv_y)
+        			--zombie.zombs[i].y = zombie.zombs[i].y + -mtv_y
+        			--zombie.zombs[i].x = zombie.zombs[i].x + -mtv_x
+				--end
+			--end
+		--end
+	--end
+
 	if setendless == false then
+		
 		for i, o in ipairs(zombie.zombs) do
+
+			local other
+
+			if shape_a == o.bb then
+					
+				other = shape_b
+
+      			if other == endless.tree1 or other == endless.tree2 or other == endless.tree3 or other == endless.tree4 then
+        			shape_a:move(mtv_x, mtv_y)
+        			o.y = o.y + mtv_y
+        			o.x = o.x + mtv_x
+      			end
+
+      			if gameover == false then
+      				if other == plyr.bb then
+        				shape_a:move(mtv_x, mtv_y)
+        				o.y = o.y + mtv_y
+        				o.x = o.x + mtv_x
+      				end
+      			end
+
+			elseif shape_b == o.bb then
+					
+				other = shape_a
+
+				if other == endless.tree1 or other == endless.tree2 or other == endless.tree3 or other == endless.tree4 then
+        			shape_b:move(-mtv_x, -mtv_y)
+        			o.y = o.y + -mtv_y
+        			o.x = o.x + -mtv_x
+      			end
+
+      			if gameover == false then
+      				if other == plyr.bb then
+        				shape_a:move(-mtv_x, -mtv_y)
+        				o.y = o.y + -mtv_y
+        				o.x = o.x + -mtv_x
+      				end
+      			end
+			
+			end
+		
+		end
+	
+	end
+
+	if setendless == false then
+		
+		for i, o in ipairs(zombie.zombs) do
+			
 			for c, v in ipairs(pistol.bullets) do
 
 				local other
@@ -106,14 +247,12 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 					other = shape_a
 				end
 
-				-- Zombie hit
 				if other == v.bb then
 					o.health = o.health - 10
 					love.audio.play(o.damageaudio)
 					Collider:remove(v.bb)
 					table.remove(pistol.bullets, c)
 
-					-- Kill zombie
 					if o.health < 0 then
 						o.health = 0
 						endless.score = endless.score + 10
@@ -122,15 +261,19 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 						Collider:remove(o.bb)
 						table.remove(zombie.zombs, i)
 					end
+				
 				end
+			
 			end
+		
 		end
+	
 	end
-	-- COLLISIONS FOR ENDLESS --
 
-	-- COLLISIONS FOR STUCK --
 	if gamereset == false then
+		
 		for i, o in ipairs(zombie.zombs) do
+			
 			for c, v in ipairs(crpistol.bullets) do
 
 				local other
@@ -141,14 +284,12 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 					other = shape_a
 				end
 
-				-- Zombie Hit
 				if other == v.bb then
 					o.health = o.health - 10
 					love.audio.play(o.damageaudio)
 					Collider:remove(v.bb)
 					table.remove(crpistol.bullets, c)
 
-					-- Kill zombie
 					if o.health < 0 then
 						o.health = 0
 						stuckmode.score = stuckmode.score + 1
@@ -164,24 +305,26 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 							zombie.spawnrateplus = zombie.spawnrateplus - 0.0015
 							zombie.speed = zombie.speed + 0.15
 						elseif stuckmode.score > 1200 then
-							--zombie.spawnrateplus = zombie.spawnrateplus - 0.001
 							zombie.speed = zombie.speed + 0.12
 						end
-
-						--zombie.count = zombie.count - 1         
+       
 						Collider:remove(o.bb)
 						table.remove(zombie.zombs, i)
 					end
+				
 				end
+			
 			end
+		
 		end
+	
 	end
-	-- COLLISIONS FOR STUCK --
+
 end
 
+
 function playercollisionstopped(dt, shape_a, shape_b)
-	
-	-- Set player hitbox to a shape
+
 	local other
 
     if shape_a == plyr.bb then
@@ -192,11 +335,27 @@ function playercollisionstopped(dt, shape_a, shape_b)
         return
     end
 
-    -- Turn player hurt off
 	plyr.hurt = false
+	DebugA = false
+	DebugB = false
+
 end
 
 function zombiecollisionstopped(dt, shape_a, shape_b)
+
+	for i, o in ipairs(zombie.zombs) do
+		local other
+
+    	if shape_a == o.bb then
+    	    other = shape_b
+    	elseif shape_b == o.bb then
+    	    other = shape_a
+    	else
+     	   return
+    	end
+
+	end
+
 end
 
 function on_collision(dt, shape_a, shape_b, mtv_x, mtv_y)
@@ -239,15 +398,6 @@ function game:keypressed(key)
    		resume = false
    		love.mouse.setCursor(cursor)
   	end
-
-  	-- for debug
-  	--if key == "z" then
-  		--self.Cam:zoom(0.5)
-  	--end
-
-  	-- key == "x" then
-  		--self.Cam:zoom(2)
-  	--end
 end
 
 function game:update(dt)
@@ -265,6 +415,11 @@ function game:update(dt)
 		self.Cam:zoomTo(3.2)
 	end
 	-- CAMERA --
+
+	-- add to the the crpistol bullet to players group
+	for i, o in ipairs(crpistol.bullets) do
+		Collider:addToGroup("players", o.bb)
+	end
 
 	-- Update player, pistol, hardon collider, etc
 	player:update(dt)
@@ -291,6 +446,16 @@ end
 
 function game:draw()
 	
+	-- DEBUG --
+	--if DebugB == true then
+		--love.graphics.print("SHAPE B", 60, 70)
+	--end
+
+	--if DebugA == true then
+		--love.graphics.print("SHAPE A", 60, 70)
+	--end
+	-- DEBUG --
+
 	------ FILTERS ------
 	start.font1:setFilter( 'nearest', 'nearest' )
 	start.font2:setFilter( 'nearest', 'nearest' )

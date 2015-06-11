@@ -55,6 +55,7 @@ function options:init()
 	self.entersound1a = love.audio.newSource("audio/buttons/enter.ogg")
 	self.entersound2 = love.audio.newSource("audio/buttons/enter.ogg")
 	self.entersound2a = love.audio.newSource("audio/buttons/enter.ogg")
+	self.backsound = love.audio.newSource("audio/buttons/back.ogg")
 	self.select1 = love.audio.newSource("audio/buttons/select.ogg")
 	self.select2 = love.audio.newSource("audio/buttons/select.ogg")
 	self.select3 = love.audio.newSource("audio/buttons/select.ogg")
@@ -239,7 +240,7 @@ function options:keypressed(key)
 	-- Go back to the menu screen
 	if key == "escape" then
 		Gamestate.pop()
-		love.audio.play(self.entersound1)
+		love.audio.play(self.backsound)
 	end
 end
 

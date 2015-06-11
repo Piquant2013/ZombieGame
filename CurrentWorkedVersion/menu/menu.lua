@@ -38,6 +38,7 @@ function menu:init()
 
 	------ AUDIO ------
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
+	self.backsound = love.audio.newSource("audio/buttons/back.ogg")
 	self.select1 = love.audio.newSource("audio/buttons/select.ogg")
 	self.select2 = love.audio.newSource("audio/buttons/select.ogg")
 	self.select3 = love.audio.newSource("audio/buttons/select.ogg")
@@ -138,7 +139,7 @@ function menu:keypressed(key)
 	if key == "escape" then
 		Gamestate.switch(start)
 		start.movelogo = 100
-		love.audio.play(self.entersound)
+		love.audio.play(self.backsound)
 	end
 end
 
