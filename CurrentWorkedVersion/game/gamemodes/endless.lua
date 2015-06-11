@@ -527,10 +527,7 @@ function endless:draw()
 		love.graphics.print("SCORE:", 1150, 10)
 		love.graphics.print(tostring(self.score), 1150, 30)
 		love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font0:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 700)
-		love.graphics.setFont( start.font1 )
-		love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font1:getWidth("WAVE:")/2), 10)
-		love.graphics.setColor(255, 255, 255)
-
+		
 		-- draw text for ammo for differnt guns
 		if self.smghave == false and self.minihave == false then
 			love.graphics.print("AMMO: ∞", 10, 680)
@@ -550,6 +547,11 @@ function endless:draw()
 				love.graphics.print("AMMO:"..tostring(o.ammo), 10, 680)
 			end
 		end
+
+		-- Wave title in hud
+		love.graphics.setFont( start.font1 )
+		love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font1:getWidth("WAVE:")/2), 10)
+		love.graphics.setColor(255, 255, 255)
 
 		-- flash the wave text in hud white when the next wave is coming
 		if self.wavedrawtime < 5 then
