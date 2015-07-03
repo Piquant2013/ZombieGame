@@ -14,17 +14,19 @@ frame_limiter = require 'libs/fpslimter'
 function love.load()
 
 	------ FONTS ------
-	fpsfont = love.graphics.newFont("fonts/PressStart.ttf", 20)
+	fpsfont = love.graphics.newFont("fonts/PressStart.ttf", 15)
 	------ FONTS ------
 
 	------ CURSOR ------
 	crosshair = love.mouse.newCursor("images/crosshair.png", 14, 14)
+	cursor = love.mouse.newCursor("images/cursor.png", 2, 2)
 	------ CURSOR ------
 
 	------ GOLBAL VARIABLES ------
 	setfps = false
 	setmute = false
 	setmouselock = true
+	setfull = false
 	paused = false
 	resume = false
 	gamereset = true
@@ -66,6 +68,13 @@ function love.update(dt)
 		love.mouse.setGrabbed( false )
 	end
 
+	-- Set game fullscreen
+	if setfull == true then
+		love.window.setFullscreen(true, "desktop")
+	elseif setfull == false then
+		love.window.setFullscreen(false, "desktop")
+	end
+
 	-- Sets up each individual script to use its own love.update, love.load, etc
 	Gamestate.update(dt)
 end
@@ -97,14 +106,14 @@ function love.draw()
 	-- Displays FPS if the options script tells FPS to be true
 	if setfps == true then
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("FPS: " .. love.timer.getFPS(), (love.graphics.getWidth( ) - fpsfont:getWidth( "FPS: " .. love.timer.getFPS()) - 10), 686)
+		love.graphics.print("FPS: " .. love.timer.getFPS(), (love.graphics.getWidth( ) - fpsfont:getWidth( "FPS: " .. love.timer.getFPS()) - 15), (love.graphics.getHeight( ) - fpsfont:getHeight(  "FPS: " .. love.timer.getFPS()) - 10))
 		love.graphics.setColor(255, 255, 255)
 	end
 
 	-- Displays "Mute: ON" if the options script tells mute to be true 
 	if setmute == true then
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("MUTE: ON", (love.graphics.getWidth( ) - fpsfont:getWidth( "Mute: ON" ) - 200), 686)
+		love.graphics.print("MUTE: ON", (love.graphics.getWidth( ) - fpsfont:getWidth( "Mute: ON" ) - 150), (love.graphics.getHeight( ) - fpsfont:getHeight( "Mute: ON" ) - 10))
 		love.graphics.setColor(255, 255, 255)
 	end
 end

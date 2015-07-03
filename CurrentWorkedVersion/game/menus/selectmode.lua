@@ -42,6 +42,9 @@ function selectmode:init()
 	self.arcadearrowy = 347
 	self.arcadearrowx = 665
 
+	-- back arrow
+	self.backy = -100
+
 	-- Select mode menu state  
 	self.survivalstate = false
 	self.arcadestate = false
@@ -203,6 +206,8 @@ function selectmode:keypressed(key)
 		love.audio.play(self.entersound1)
 		love.audio.stop(start.music)
 		love.audio.play(game.intromusic)
+		start.easteregg = false
+		love.audio.stop(start.colorgoeshere)
 		game.intromusic:setVolume(0.6)
 		game.intromusic:setLooping(true)
 	end
@@ -214,6 +219,8 @@ function selectmode:keypressed(key)
 		love.audio.play(self.entersound1)
 		love.audio.stop(start.music)
 		love.audio.play(game.intromusic)
+		start.easteregg = false
+		love.audio.stop(start.colorgoeshere)
 		game.intromusic:setVolume(0.6)
 		game.intromusic:setLooping(true)
 	end
@@ -272,7 +279,7 @@ function selectmode:draw()
 	-- Only draw arrow if not in survival or arcade
 	if self.survival == false and self.arcade == false then
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.rectangle("fill", self.arrowx, self.arrowy - 8, 28, 28 )
+		love.graphics.rectangle("fill", self.arrowx, (love.graphics.getHeight()/2 - 28/2) + self.arrowy - 8 - 345, 28, 28 )
 	end
 	------ SHAPES ------
 
@@ -281,45 +288,55 @@ function selectmode:draw()
 	if self.survival == false and self.arcade == false then
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0, 100)
-		love.graphics.print('SURVIVAL MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2), self.survivalbtny)
+		love.graphics.print('SURVIVAL MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 245))
 		love.graphics.setFont( start.font1 )
-		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), self.survivalbtny + 35)
+		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 - 245) + 35)
 		love.graphics.setFont( start.font2 )
-		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), self.arcadebtny)
+		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 145))
 		love.graphics.setFont( start.font1 )
-		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), self.arcadebtny + 35)
+		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 - 145) + 35)
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), self.endlessbtny)
-		love.graphics.print('STUCKINTHEMUD', (love.graphics.getWidth()/2 - start.font2:getWidth( "STUCKINTHEMUD" )/2), self.stuckbtny)
+		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 45))
+		love.graphics.print('STUCKINTHEMUD', (love.graphics.getWidth()/2 - start.font2:getWidth( "STUCKINTHEMUD" )/2), (love.graphics.getHeight()/2 - 30/2 + 55))
+
+
+
+
+
+
+		love.graphics.print('<', (love.graphics.getWidth()/2 - 320), (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy)
+
+
+
 		
 		-- Draw discription text for each gamemode
 		if self.survivalstate == true then
 			love.graphics.setFont( start.font1 )
-			love.graphics.print("SURVIVE! FIND FOOD, SHELTER,", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! FIND FOOD, SHELTER," )/2), 535)
-			love.graphics.print("WEAPONS, AMMUNITION AND TOOLS TO", (love.graphics.getWidth()/2 - start.font1:getWidth( "WEAPONS, AMMUNITION AND TOOLS TO" )/2), 570)
-			love.graphics.print("HELP YOU FEND OFF THE UNDEAD.", (love.graphics.getWidth()/2 - start.font1:getWidth( "HELP YOU FEND OFF THE UNDEAD." )/2), 605)
+			love.graphics.print("SURVIVE! FIND FOOD, SHELTER,", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! FIND FOOD, SHELTER," )/2), (love.graphics.getHeight()/2 - 30/2 + 190))
+			love.graphics.print("WEAPONS, AMMUNITION AND TOOLS TO", (love.graphics.getWidth()/2 - start.font1:getWidth( "WEAPONS, AMMUNITION AND TOOLS TO" )/2), (love.graphics.getHeight()/2 - 30/2 + 225))
+			love.graphics.print("HELP YOU FEND OFF THE UNDEAD.", (love.graphics.getWidth()/2 - start.font1:getWidth( "HELP YOU FEND OFF THE UNDEAD." )/2), (love.graphics.getHeight()/2 - 30/2 + 260))
 		end
 
 		if self.arcadestate == true then
 			love.graphics.setFont( start.font1 )
-			love.graphics.print("SURVIVE! (UNTIL THE END) FIGHT WAVES", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (UNTIL THE END) FIGHT WAVES" )/2), 535)
-			love.graphics.print("OF UNDEAD AND UPGRADE YOUR ARSENAL", (love.graphics.getWidth()/2 - start.font1:getWidth( "OF UNDEAD AND UPGRADE YOUR ARSENAL" )/2), 570)
-			love.graphics.print("WHILE YOURE AT IT.", (love.graphics.getWidth()/2 - start.font1:getWidth( "WHILE YOURE AT IT." )/2), 605)
+			love.graphics.print("SURVIVE! (UNTIL THE END) FIGHT WAVES", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (UNTIL THE END) FIGHT WAVES" )/2), (love.graphics.getHeight()/2 - 30/2 + 190))
+			love.graphics.print("OF UNDEAD AND UPGRADE YOUR ARSENAL", (love.graphics.getWidth()/2 - start.font1:getWidth( "OF UNDEAD AND UPGRADE YOUR ARSENAL" )/2), (love.graphics.getHeight()/2 - 30/2 + 225))
+			love.graphics.print("WHILE YOURE AT IT.", (love.graphics.getWidth()/2 - start.font1:getWidth( "WHILE YOURE AT IT." )/2), (love.graphics.getHeight()/2 - 30/2 + 260))
 		end
 
 		if self.endlessstate == true then
 			love.graphics.setFont( start.font1 )
-			love.graphics.print("SURVIVE! (AS LONG AS YOU CAN)", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (AS LONG AS YOU CAN)" )/2), 535)
-			love.graphics.print("DEFEND YOURSELF AGAINST AN ENDLESS HORDE", (love.graphics.getWidth()/2 - start.font1:getWidth( "DEFEND YOURSELF AGAINST AN ENDLESS HORDE" )/2), 570)
-			love.graphics.print("OF ZOMBIES FOR THAT SWEET HIGH SCORE.", (love.graphics.getWidth()/2 - start.font1:getWidth( "OF ZOMBIES FOR THAT SWEET HIGH SCORE." )/2), 605)
+			love.graphics.print("SURVIVE! (AS LONG AS YOU CAN)", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (AS LONG AS YOU CAN)" )/2), (love.graphics.getHeight()/2 - 30/2 + 190))
+			love.graphics.print("DEFEND YOURSELF AGAINST AN ENDLESS HORDE", (love.graphics.getWidth()/2 - start.font1:getWidth( "DEFEND YOURSELF AGAINST AN ENDLESS HORDE" )/2), (love.graphics.getHeight()/2 - 30/2 + 225))
+			love.graphics.print("OF ZOMBIES FOR THAT SWEET HIGH SCORE.", (love.graphics.getWidth()/2 - start.font1:getWidth( "OF ZOMBIES FOR THAT SWEET HIGH SCORE." )/2), (love.graphics.getHeight()/2 - 30/2 + 260))
 		end
 
 		if self.stuckstate == true then
 			love.graphics.setFont( start.font1 )
-			love.graphics.print("SURVIVE! (YOU'RE STUCK IN MUD, BY THE WAY.)", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (YOU'RE STUCK IN MUD, BY THE WAY.)" )/2), 535)
-			love.graphics.print("FAST REFLEXES AND A QUICK TRIGGER FINGER", (love.graphics.getWidth()/2 - start.font1:getWidth( "FAST REFLEXES AND A QUICK TRIGGER FINGER" )/2), 570)
-			love.graphics.print("ARE KEY TO SURVIVING IN THIS GAME MODE.", (love.graphics.getWidth()/2 - start.font1:getWidth( "ARE KEY TO SURVIVING IN THIS GAME MODE." )/2), 605)
+			love.graphics.print("SURVIVE! (YOU'RE STUCK IN MUD, BY THE WAY.)", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (YOU'RE STUCK IN MUD, BY THE WAY.)" )/2), (love.graphics.getHeight()/2 - 30/2 + 190))
+			love.graphics.print("FAST REFLEXES AND A QUICK TRIGGER FINGER", (love.graphics.getWidth()/2 - start.font1:getWidth( "FAST REFLEXES AND A QUICK TRIGGER FINGER" )/2), (love.graphics.getHeight()/2 - 30/2 + 225))
+			love.graphics.print("ARE KEY TO SURVIVING IN THIS GAME MODE.", (love.graphics.getWidth()/2 - start.font1:getWidth( "ARE KEY TO SURVIVING IN THIS GAME MODE." )/2), (love.graphics.getHeight()/2 - 30/2 + 260))
 		end
 	end
 
@@ -327,14 +344,14 @@ function selectmode:draw()
 	if self.survival == true then
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print('SURVIVAL MODE (COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE (COMING SOON)" )/2), 500)
+		love.graphics.print('SURVIVAL MODE (COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE (COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 + 150))
 	end
 
 	-- Draw text if in arcade
 	if self.arcade == true then
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print('ARCADE MODE (COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE (COMING SOON)" )/2), 500)
+		love.graphics.print('ARCADE MODE (COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE (COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 + 150))
 	end
 
 	love.graphics.setColor(255, 255, 255)

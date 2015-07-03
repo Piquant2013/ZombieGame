@@ -15,15 +15,15 @@ function menu:init()
 
 	------ VARIABLES ------
 	-- Play Button Y & X
-	self.playbtny = 442
+	self.playbtny = 100
 	self.playbtnx = 582
 	
 	-- Option Button Y & X
-	self.optbtny = 492
+	self.optbtny = 150
 	self.optbtnx = 550
 
 	-- Quit Button Y & X
-	self.quitbtny = 542
+	self.quitbtny = 200
 	self.quitbtnx = 592
 	
 	-- Button Selecter Y & X
@@ -48,10 +48,10 @@ end
 function menu:update(dt)
 	
 	--- MOVE LOGO --- 
-	start.movelogo = start.movelogo - dt - 4
+	start.movelogo = start.movelogo + dt + 4
 
-	if start.movelogo < 100 then
-		start.movelogo = 100
+	if start.movelogo > 128 then
+		start.movelogo = 128
 	end
 	--- MOVE LOGO ---
 
@@ -94,6 +94,9 @@ function menu:update(dt)
 	elseif self.arrowy < self.playbtny then
 		self.arrowy = self.playbtny
 	end
+
+	-- Update easter egg
+	start:colorupdate(dt)
 end
 
 function menu:keypressed(key)
@@ -138,9 +141,12 @@ function menu:keypressed(key)
 	-- Go back to the start screen
 	if key == "escape" then
 		Gamestate.switch(start)
-		start.movelogo = 100
+		start.movelogo = 128
 		love.audio.play(self.backsound)
 	end
+
+	-- Keypressed for easter egg
+	start:colorkeypressed(key)
 end
 
 function menu:draw()
@@ -153,19 +159,24 @@ function menu:draw()
 
 	------ IMAGES ------
 	love.graphics.draw(start.bg, -10, 0, 0, 1)
-	love.graphics.draw(start.gamelogo, (love.graphics.getWidth()/2 - start.gamelogo:getWidth()/2), start.movelogo)
+	love.graphics.draw(start.gamelogo, (love.graphics.getWidth()/2 - start.gamelogo:getWidth()/2), (love.graphics.getHeight()/2 - start.gamelogo:getHeight()/2 - start.movelogo))
 	------ IMAGES ------
 
 	------ SHAPES ------
 	love.graphics.setColor(160, 47, 0)
-	love.graphics.rectangle("fill", self.arrowx, self.arrowy - 8, 28, 28 )
+	love.graphics.rectangle("fill", self.arrowx, (love.graphics.getHeight()/2 - 28/2) + self.arrowy - 8, 28, 28 )
 	------ SHAPES ------
 
 	------ TEXT ------
 	love.graphics.setFont( start.font2 )
-	love.graphics.print('START NEW GAME', (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2), self.playbtny)
-	love.graphics.print('QUIT', (love.graphics.getWidth()/2 - start.font2:getWidth( "QUIT" )/2), self.quitbtny)
-	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2), self.optbtny)
+	love.graphics.print('START NEW GAME', (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "START NEW GAME" )/2) + self.playbtny)
+	love.graphics.print('QUIT', (love.graphics.getWidth()/2 - start.font2:getWidth( "QUIT" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "QUIT" )/2) + self.quitbtny)
+	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2) + self.optbtny)
+	love.graphics.setColor(255, 255, 255, 255)
+
+	love.graphics.setFont( start.font0 )
+	love.graphics.setColor(160, 47, 0)
+	love.graphics.print('Pre-Alpha 0.1.1', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.1") - 10))
 	love.graphics.setColor(255, 255, 255, 255)
 	------ TEXT ------
 end

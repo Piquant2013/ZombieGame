@@ -7,6 +7,9 @@ local HC = require 'libs/hardoncollider'
 -- Loads gamestate script
 game = require 'game/game'
 
+-- Loads diggingsim2015 script
+diggingsim2015 = require 'game/diggingsim/menu/start'
+
 -- Creates stuckmode as a new gamestate
 stuckmode = Gamestate.new()
 
@@ -36,6 +39,10 @@ function stuckmode:init()
 	self.gameovery = 800
 	self.fadebg = 0
 	self.bgtimer = 0
+
+	-- easter egg vars
+	self.digeggcount = 0
+	self.digeasteregg = false
 	------ VARIABLES ------
 
 	------ IMAGES ------
@@ -44,6 +51,7 @@ function stuckmode:init()
 	self.hud1 = love.graphics.newImage("images/hud/hud1.png")
 	self.hud2 = love.graphics.newImage("images/hud/hud2.png")
 	self.hud3 = love.graphics.newImage("images/hud/hud3.png")
+	self.digeggimage = love.graphics.newImage("game/diggingsim/images/game/ach.png")
 	------ IMAGES ------
 end
 
@@ -73,6 +81,27 @@ function stuckmode:keypressed(key)
   		self.bgtimer = 13
   		self.fadebg = 255
 		self.gameovery = 200
+  	end
+
+  	-- activate digging easter egg
+  	if key == "f" and gameover == false then
+  		self.digeggcount = self.digeggcount + 1
+  	end
+
+  	-- Swap to Digging Sim 2015
+  	if key == "y" and gameover == false and self.digeasteregg == true then
+  		Gamestate.switch(diggingsim2015)
+  		love.audio.stop(game.music1)
+		love.audio.play(diggingsim2015.music)
+		diggingsim2015.music:setLooping(true)
+		love.mouse.setCursor(cursor)
+		setfull = false
+  	end
+
+  	-- Dismis dig promt
+  	if key == "n" and gameover == false and self.digeasteregg == true then
+  		self.digeasteregg = false 
+  		self.digeggcount = 0
   	end
 end
 
@@ -133,6 +162,10 @@ function stuckmode:update(dt)
 		self.fadebg = 0
 		self.bgtimer = 0
 
+		-- easter egg vars
+		self.digeggcount = 0
+		self.digeasteregg = false
+
 		-- Globals
 		paused = false
 		
@@ -153,6 +186,11 @@ function stuckmode:update(dt)
     	love.audio.stop(plyr.deathaudio)
 	end
 	-- SET UP GAME --
+
+	-- set digging easter egg to true if you have 10 in the count
+	if self.digeggcount == 10 then
+		self.digeasteregg = true
+	end
 
 	-- update gun
 	crpistol:update(dt)
@@ -473,6 +511,14 @@ function stuckmode:draw()
 			love.graphics.print("SCORE:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(self.score))/2), 350)
 			love.graphics.setColor(255, 255, 255)
 		end
+	end
+
+	-- Draw digging easter egg image
+	if self.digeasteregg == true then
+		love.graphics.setFont( start.font6 )
+		love.graphics.draw(self.digeggimage, 10, 10)
+		love.graphics.print("WANNA GO FOR A DIG?", 30, 50)
+		love.graphics.print("Y = YES, N = NO", 30, 70)
 	end
 
 	-- draw game welcome messages

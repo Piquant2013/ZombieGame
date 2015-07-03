@@ -9,15 +9,15 @@ function pause:init()
   
   	------ VARIABLES ------
 	-- Resume Button Y & X 
-	self.resumebtny = 300
+	self.resumebtny = 50
 	self.resumebtnx = 548
 
 	-- Main menu Button Y & X  
-	self.optionsbtny = 350
+	self.optionsbtny = 100
 	self.optionsbtnx = 512
 
 	-- Main menu Button Y & X  
-	self.mainmenubtny = 400
+	self.mainmenubtny = 150
 	self.mainmenubtnx = 476
  
 	-- Button Selecter Y & X 
@@ -126,7 +126,7 @@ function pause:keypressed(key)
 	if key == "return" and self.optionsstate == true or key == " " and self.optionsstate == true then
 		love.audio.play(self.entersound)
 		Gamestate.push(options)
-		options.arrowy = 300
+		options.arrowy = -50
 	end
   
   	-- Go to the main menu
@@ -165,14 +165,14 @@ function pause:draw()
 
 	------ SHAPES ------
 	love.graphics.setColor(160, 47, 0)
-	love.graphics.rectangle("fill", self.arrowx, self.arrowy - 8, 28, 28 )
+	love.graphics.rectangle("fill", self.arrowx, (love.graphics.getHeight()/2 - 28/2) + self.arrowy - 8 - 100, 28, 28 )
 	------ SHAPES ------
 
 	------ TEXT ------
 	love.graphics.setFont( start.font2 )
-	love.graphics.print('RESUME', (love.graphics.getWidth()/2 - start.font2:getWidth( "RESUME" )/2), self.resumebtny)
-	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2), self.optionsbtny)
-	love.graphics.print('MENU', (love.graphics.getWidth()/2 - start.font2:getWidth( "MENU" )/2), self.mainmenubtny)
+	love.graphics.print('RESUME', (love.graphics.getWidth()/2 - start.font2:getWidth( "RESUME" )/2), (love.graphics.getHeight()/2 - 30/2 - 50))
+	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2), (love.graphics.getHeight()/2 - 30/2))
+	love.graphics.print('MENU', (love.graphics.getWidth()/2 - start.font2:getWidth( "MENU" )/2), (love.graphics.getHeight()/2 - 30/2 + 50))
 	love.graphics.setColor(255, 255, 255)
 	------ TEXT ------
 end

@@ -132,27 +132,30 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     	end
     end
 
-    -- if player hits smg
-    for i, o in ipairs(smg.smgs) do
-    	if other == o.bb then
-    		endless.smghad = true
-    		endless.smghave = true
-    		endless.minihave = false
-    		Collider:remove(o.bb)
-    		love.audio.play(game.pickupsound)
+    if setendless == false then
+    
+    	-- if player hits smg
+    	for i, o in ipairs(smg.smgs) do
+    		if other == o.bb then
+    			endless.smghad = true
+    			endless.smghave = true
+    			endless.minihave = false
+    			Collider:remove(o.bb)
+    			love.audio.play(game.pickupsound)
+    		end
     	end
-    end
 
-    -- if player hits minigun
-    for i, o in ipairs(minigun.miniguns) do
-    	if other == o.bb then
-    		endless.minihad = true
-    		endless.minihave = true
-    		endless.smghave = false
-    		Collider:remove(o.bb)
-    		love.audio.play(game.pickupsound)
+    	-- if player hits minigun
+    	for i, o in ipairs(minigun.miniguns) do
+    		if other == o.bb then
+    			endless.minihad = true
+    			endless.minihave = true
+    			endless.smghave = false
+    			Collider:remove(o.bb)
+    			love.audio.play(game.pickupsound)
+    		end
     	end
-    end
+	end
 end
 
 function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
