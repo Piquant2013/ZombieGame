@@ -54,6 +54,62 @@ function selectmode:init()
 	-- If in area
 	self.survival = false
 	self.arcade = false
+
+
+
+
+
+
+
+
+
+
+
+	self.scalesurvival = 1
+	self.scalearcade = 1
+	self.scaleendless = 1
+	self.scalestuck = 1
+	self.scaleback = 1
+
+	self.flashbuttonsurvival = true
+	self.buttonflashsurvival = 0
+
+	self.flashbuttonarcade = true
+	self.buttonflasharcade = 0
+
+	self.flashbuttonendless = true
+	self.buttonflashendless = 0
+
+	self.flashbuttonstuck = true
+	self.buttonflashstuck = 0
+
+	self.flashbuttonback = true
+	self.buttonflashback = 0
+
+	self.survivalstatemouse = false
+	self.arcadestatemouse = false
+	self.endlessstatemouse = false
+	self.stuckstatemouse = false
+	self.stuckstateback = false
+
+	self.mouseover = false
+	self.mouseoverback = false
+	self.mousedetect1 = 0
+	self.mousedetect2 = 0
+	self.mousedetect3 = 0
+	self.mousedetect4 = 0
+	self.mousedetect5 = 0
+
+
+
+
+
+
+
+
+
+
+
 	------ VARIABLES ------
 	
 	------ IMAGES ------
@@ -68,6 +124,11 @@ function selectmode:init()
 	self.select2 = love.audio.newSource("audio/buttons/select.ogg")
 	self.select3 = love.audio.newSource("audio/buttons/select.ogg")
 	self.select4 = love.audio.newSource("audio/buttons/select.ogg")
+	self.mouseover1 = love.audio.newSource("audio/buttons/select.ogg")
+	self.mouseover2 = love.audio.newSource("audio/buttons/select.ogg")
+	self.mouseover3 = love.audio.newSource("audio/buttons/select.ogg")
+	self.mouseover4 = love.audio.newSource("audio/buttons/select.ogg")
+	self.mouseover5 = love.audio.newSource("audio/buttons/select.ogg")
 	------ AUDIO ------
 end
 
@@ -101,6 +162,11 @@ function selectmode:update(dt)
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select4)
+		self.scalesurvival = 1.1
+		self.scalearcade = 1
+		self.scaleendless = 1
+		self.scalestuck = 1
+		self.scaleback = 1
 	end
 
 	-- Arcade pause menu state
@@ -113,6 +179,11 @@ function selectmode:update(dt)
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
 		love.audio.stop(self.select4)
+		self.scalesurvival = 1
+		self.scalearcade = 1.1
+		self.scaleendless = 1
+		self.scalestuck = 1
+		self.scaleback = 1
 	end
 
 	-- Endless pause pause menu state
@@ -125,6 +196,11 @@ function selectmode:update(dt)
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select3)
 		love.audio.stop(self.select4)
+		self.scalesurvival = 1
+		self.scalearcade = 1
+		self.scaleendless = 1.1
+		self.scalestuck = 1
+		self.scaleback = 1
 	end
 
 	-- Stuck pause menu state
@@ -137,6 +213,11 @@ function selectmode:update(dt)
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
+		self.scalesurvival = 1
+		self.scalearcade = 1
+		self.scaleendless = 1
+		self.scalestuck = 1.1
+		self.scaleback = 1
 	end
 	-- SELECT MODE MENU STATES --  
 
@@ -164,6 +245,408 @@ function selectmode:update(dt)
 	elseif self.arcadearrowx == self.arcadebtnx then	
 		self.arcade = true
 	end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250
+	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50
+	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "SURVIVAL MODE" )/2 - 250) 
+	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "SURVIVAL MODE" )/2 - 250) + start.font2:getHeight( "SURVIVAL MODE" ) then
+		self.survivalstatemouse = true
+		self.arcadestatemouse = false
+		self.endlessstatemouse = false
+		self.stuckstatemouse = false
+		self.backstatemouse = false
+		self.arrowx = love.graphics.getWidth()/2 - 510 /2
+		self.arrowy = self.survivalbtny
+		self.scalesurvival = 1.1
+		self.scalearcade = 1
+		self.scaleendless = 1
+		self.scalestuck = 1
+		self.scaleback = 1
+		self.mouseover = true
+		self.mouseoverback = false
+		self.mousedetect1 = self.mousedetect1 + 1
+		self.mousedetect2 = 0
+		self.mousedetect3 = 0
+		self.mousedetect4 = 0
+		self.mousedetect5 = 0
+	end
+
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250
+	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50
+	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "ARCADE MODE" )/2 - 150) 
+	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "ARCADE MODE" )/2 - 150) + start.font2:getHeight( "ARCADE MODE" ) then
+		self.survivalstatemouse = false
+		self.arcadestatemouse = true
+		self.endlessstatemouse = false
+		self.stuckstatemouse = false
+		self.backstatemouse = false
+		self.arrowx = love.graphics.getWidth()/2 - 455 /2
+		self.arrowy = self.arcadebtny
+		self.scalesurvival = 1
+		self.scalearcade = 1.1
+		self.scaleendless = 1
+		self.scalestuck = 1
+		self.scaleback = 1
+		self.mouseover = true
+		self.mouseoverback = false
+		self.mousedetect1 = 0
+		self.mousedetect2 = self.mousedetect2 + 1
+		self.mousedetect3 = 0
+		self.mousedetect4 = 0
+		self.mousedetect5 = 0
+	end
+
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250
+	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50
+	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "ENDLESS MODE" )/2 - 50) 
+	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "ENDLESS MODE" )/2 - 50) + start.font2:getHeight( "ENDLESS MODE" ) then
+		self.survivalstatemouse = false
+		self.arcadestatemouse = false
+		self.endlessstatemouse = true
+		self.stuckstatemouse = false
+		self.backstatemouse = false
+		self.arrowx = love.graphics.getWidth()/2 - 490 /2
+		self.arrowy = self.endlessbtny
+		self.scalesurvival = 1
+		self.scalearcade = 1
+		self.scaleendless = 1.1
+		self.scalestuck = 1
+		self.scaleback = 1
+		self.mouseover = true
+		self.mouseoverback = false
+		self.mousedetect1 = 0
+		self.mousedetect2 = 0
+		self.mousedetect3 = self.mousedetect3 + 1
+		self.mousedetect4 = 0
+		self.mousedetect5 = 0
+	end
+
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250
+	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50
+	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "STUCKINTHEMUD" )/2 + 50) 
+	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "STUCKINTHEMUD" )/2 + 50) + start.font2:getHeight( "STUCKINTHEMUD" ) then
+		self.survivalstatemouse = false
+		self.arcadestatemouse = false
+		self.endlessstatemouse = false
+		self.stuckstatemouse = true
+		self.backstatemouse = false
+		self.arrowx = love.graphics.getWidth()/2 - 515 /2
+		self.arrowy = self.stuckbtny
+		self.scalesurvival = 1
+		self.scalearcade = 1
+		self.scaleendless = 1
+		self.scalestuck = 1.1
+		self.scaleback = 1
+		self.mouseover = true
+		self.mouseoverback = false
+		self.mousedetect1 = 0
+		self.mousedetect2 = 0
+		self.mousedetect3 = 0
+		self.mousedetect4 = self.mousedetect4 + 1
+		self.mousedetect5 = 0
+	end
+
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - 290) - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" )
+	and love.mouse.getX() > (love.graphics.getWidth()/2 - 310) - start.font2:getWidth( "<" )/2
+	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy -20
+	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy + start.font2:getHeight( "<" ) then
+		self.survivalstatemouse = false
+		self.arcadestatemouse = false
+		self.endlessstatemouse = false
+		self.stuckstatemouse = false
+		self.backstatemouse = true
+		self.scaleback = 1.4
+		self.mouseover = false
+		self.mouseoverback = true
+		self.mousedetect1 = 0
+		self.mousedetect2 = 0
+		self.mousedetect3 = 0
+		self.mousedetect4 = 0
+		self.mousedetect5 = self.mousedetect5 + 1
+	end
+
+
+
+
+
+
+
+	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )) + 250 then
+		self.survivalstatemouse = false
+		self.arcadestatemouse = false
+		self.endlessstatemouse = false
+		self.stuckstatemouse = false
+		self.mouseover = false
+	end
+	
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50 then
+		self.survivalstatemouse = false
+		self.arcadestatemouse = false
+		self.endlessstatemouse = false
+		self.stuckstatemouse = false
+		self.mouseover = false
+	end
+	
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "SURVIVAL MODE" )/2 - 245) then
+		self.survivalstatemouse = false
+		self.arcadestatemouse = false
+		self.endlessstatemouse = false
+		self.stuckstatemouse = false
+		self.mouseover = false
+	end
+
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "STUCKINTHEMUD" )/2 + 55 + start.font2:getHeight( "STUCKINTHEMUD" )) then
+		self.survivalstatemouse = false
+		self.arcadestatemouse = false
+		self.endlessstatemouse = false
+		self.stuckstatemouse = false
+		self.mouseover = false
+	end
+
+
+	if love.mouse.getX() > (love.graphics.getWidth()/2 - 290) - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" ) then
+		self.backstatemouse = false
+		self.mouseoverback = false
+	end 
+	
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - 310) - start.font2:getWidth( "<" )/2 then
+		self.backstatemouse = false
+		self.mouseoverback = false
+	end
+
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy -20 then
+		self.backstatemouse = false
+		self.mouseoverback = false
+	end 
+
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy + start.font2:getHeight( "<" ) then
+		self.backstatemouse = false
+		self.mouseoverback = false
+	end
+
+
+
+
+
+
+
+	if self.survivalstatemouse == true or self.survivalstate == true then
+		if self.flashbuttonsurvival == true then
+			self.buttonflashsurvival = self.buttonflashsurvival + dt + 2
+		elseif self.flashbuttonsurvival == false then
+			self.buttonflashsurvival = self.buttonflashsurvival + dt - 2
+		end
+	
+		if self.buttonflashsurvival > 100 then
+			self.flashbuttonsurvival = false
+		elseif self.buttonflashsurvival < 2 then
+			self.flashbuttonsurvival = true
+		end
+	
+	elseif self.survivalstatemouse == false or self.survivalstate == false then
+		self.flashbuttonsurvival = true
+		self.buttonflashsurvival = 0
+	end
+
+
+
+
+	if self.arcadestatemouse == true or self.arcadestate == true then
+		if self.flashbuttonarcade == true then
+			self.buttonflasharcade = self.buttonflasharcade + dt + 2
+		elseif self.flashbuttonarcade == false then
+			self.buttonflasharcade = self.buttonflasharcade + dt - 2
+		end
+	
+		if self.buttonflasharcade > 100 then
+			self.flashbuttonarcade = false
+		elseif self.buttonflasharcade < 2 then
+			self.flashbuttonarcade = true
+		end
+	
+	elseif self.arcadestatemouse == false or self.arcadestate == false then
+		self.flashbuttonarcade = true
+		self.buttonflasharcade = 0
+	end
+
+
+
+
+	if self.endlessstatemouse == true or self.endlessstate == true then
+		if self.flashbuttonendless == true then
+			self.buttonflashendless = self.buttonflashendless + dt + 2
+		elseif self.flashbuttonendless == false then
+			self.buttonflashendless = self.buttonflashendless + dt - 2
+		end
+	
+		if self.buttonflashendless > 100 then
+			self.flashbuttonendless = false
+		elseif self.buttonflashendless < 2 then
+			self.flashbuttonendless = true
+		end
+	
+	elseif self.endlessstatemouse == false or self.endlessstate == false then
+		self.flashbuttonendless = true
+		self.buttonflashendless = 0
+	end
+
+
+
+
+	if self.stuckstatemouse == true or self.stuckstate == true then
+		if self.flashbuttonstuck == true then
+			self.buttonflashstuck = self.buttonflashstuck + dt + 2
+		elseif self.flashbuttonstuck == false then
+			self.buttonflashstuck = self.buttonflashstuck + dt - 2
+		end
+	
+		if self.buttonflashstuck > 100 then
+			self.flashbuttonstuck = false
+		elseif self.buttonflashstuck < 2 then
+			self.flashbuttonstuck = true
+		end
+	
+	elseif self.stuckstatemouse == false or self.stuckstate == false then
+		self.flashbuttonstuck = true
+		self.buttonflashstuck = 0
+	end
+
+
+
+
+	if self.backstatemouse == true or self.backstate == true then
+		if self.flashbuttonback == true then
+			self.buttonflashback = self.buttonflashback + dt + 2
+		elseif self.flashbuttonback == false then
+			self.buttonflashback = self.buttonflashback + dt - 2
+		end
+	
+		if self.buttonflashback > 100 then
+			self.flashbuttonback = false
+		elseif self.buttonflashback < 2 then
+			self.flashbuttonback = true
+		end
+	
+	elseif self.backstatemouse == false or self.backstate == false then
+		self.flashbuttonback = true
+		self.buttonflashback = 0
+	end
+
+
+
+
+
+
+
+	
+
+
+	if self.mouseover == false then
+		self.mousedetect1 = 0
+		self.mousedetect2 = 0
+		self.mousedetect3 = 0
+		self.mousedetect4 = 0
+		love.audio.stop(self.mouseover1)
+		love.audio.stop(self.mouseover2)
+		love.audio.stop(self.mouseover3)
+		love.audio.stop(self.mouseover4)
+	end
+
+	if self.mousedetect1 == 1 then
+		love.audio.play(self.mouseover1)
+		love.audio.stop(self.mouseover2)
+		love.audio.stop(self.mouseover3)
+		love.audio.stop(self.mouseover4)
+		love.audio.stop(self.mouseover5)
+	end
+
+	if self.mousedetect2 == 1 then
+		love.audio.stop(self.mouseover1)
+		love.audio.play(self.mouseover2)
+		love.audio.stop(self.mouseover3)
+		love.audio.stop(self.mouseover4)
+		love.audio.stop(self.mouseover5)
+	end
+
+	if self.mousedetect3 == 1 then
+		love.audio.stop(self.mouseover1)
+		love.audio.stop(self.mouseover2)
+		love.audio.play(self.mouseover3)
+		love.audio.stop(self.mouseover4)
+		love.audio.stop(self.mouseover5)
+	end
+
+	if self.mousedetect4 == 1 then
+		love.audio.stop(self.mouseover1)
+		love.audio.stop(self.mouseover2)
+		love.audio.stop(self.mouseover3)
+		love.audio.play(self.mouseover4)
+		love.audio.stop(self.mouseover5)
+	end
+
+
+
+
+
+	if self.mouseoverback == false then
+		self.mousedetect5 = 0
+		love.audio.stop(self.mouseover5)
+	end
+
+	if self.mousedetect5 == 1 then
+		love.audio.stop(self.mouseover1)
+		love.audio.stop(self.mouseover2)
+		love.audio.stop(self.mouseover3)
+		love.audio.stop(self.mouseover4)
+		love.audio.play(self.mouseover5)
+	end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 end
 
 function selectmode:keypressed(key)
@@ -176,6 +659,10 @@ function selectmode:keypressed(key)
 		love.audio.play(self.select3)
 		love.audio.play(self.select4)
 		self.arrowy = self.arrowy - 100
+
+		if self.mouseover == true then
+			love.mouse.setX((love.graphics.getWidth()/2 - 459/2) + 500)
+		end
 	end
 
 	-- Move arrow up through select mode menu states
@@ -185,6 +672,10 @@ function selectmode:keypressed(key)
 		love.audio.play(self.select3)
 		love.audio.play(self.select4)
 		self.arrowy = self.arrowy + 100
+
+		if self.mouseover == true then
+			love.mouse.setX((love.graphics.getWidth()/2 - 459/2) + 500)
+		end
 	end
 	-- SELECT BUTTONS --
  
@@ -251,6 +742,100 @@ function selectmode:keypressed(key)
 	end
 end
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function selectmode:mousepressed(mx, my, button)
+
+	if button == "l" and self.survivalstate == true and self.backstatemouse == false or button == "r" and self.survivalstate == true and self.backstatemouse == false then
+		self.survivalarrowx = self.survivalarrowx + 118
+	end
+
+	if button == "l" and self.arcadestate == true and self.backstatemouse == false or button == "r" and self.arcadestate == true and self.backstatemouse == false then
+		self.arcadearrowx = self.arcadearrowx + 118
+	end
+
+	if button == "l" and self.endlessstatemouse == true and self.backstatemouse == false then
+		Gamestate.push(endless)
+		game.endless = true
+		love.audio.play(self.entersound1)
+		love.audio.stop(start.music)
+		love.audio.play(game.intromusic)
+		start.easteregg = false
+		love.audio.stop(start.colorgoeshere)
+		game.intromusic:setVolume(0.6)
+		game.intromusic:setLooping(true)
+	end
+
+	if button == "l" and self.stuckstatemouse == true and self.backstatemouse == false then
+		Gamestate.push(stuckmode)
+		game.stuck = true
+		love.audio.play(self.entersound1)
+		love.audio.stop(start.music)
+		love.audio.play(game.intromusic)
+		start.easteregg = false
+		love.audio.stop(start.colorgoeshere)
+		game.intromusic:setVolume(0.6)
+		game.intromusic:setLooping(true)
+	end
+
+	if button == "l" and self.survivalstate == true and self.survival == false and self.backstatemouse == false or button == "r" and self.survivalstate == true and self.survival == false and self.backstatemouse == false then
+		love.audio.play(self.entersound1)
+	end
+	
+	if button == "l" and self.arcadestate == true and self.arcade == false and self.backstatemouse == false or button == "r" and self.arcadestate == true and self.arcade == false and self.backstatemouse == false then
+		love.audio.play(self.entersound1)
+	end
+	
+	if button == "l" and self.survivalstate == true and self.survival == true and self.backstatemouse == false or button == "r" and self.survivalstate == true and self.survival == true and self.backstatemouse == false then
+		love.audio.play(self.backsound)
+	end
+	
+	if button == "l" and self.arcadestate == true and self.arcade == true and self.backstatemouse == false or button == "r" and self.arcadestate == true and self.arcade == true and self.backstatemouse == false then
+		love.audio.play(self.backsound)
+	end
+
+	if button == "l" and self.backstatemouse == true then
+		Gamestate.pop()
+		love.audio.play(self.backsound)
+	end
+
+	if button == "r" and self.survival == false and self.arcade == false then
+		Gamestate.pop()
+		love.audio.play(self.backsound)
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function selectmode:draw()
 	
 	------ FILTERS ------
@@ -288,28 +873,39 @@ function selectmode:draw()
 	if self.survival == false and self.arcade == false then
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0, 100)
-		love.graphics.print('SURVIVAL MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 245))
+		love.graphics.print('SURVIVAL MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 245), 0, self.scalesurvival)
+		love.graphics.setColor(255, 255, 255, self.buttonflashsurvival)
+		love.graphics.print('SURVIVAL MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 245), 0, self.scalesurvival)
+		love.graphics.setColor(160, 47, 0, 255)
 		love.graphics.setFont( start.font1 )
-		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 - 245) + 35)
+		love.graphics.setColor(160, 47, 0, 100)
+		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 - 245 + 35))
 		love.graphics.setFont( start.font2 )
-		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 145))
+		love.graphics.setColor(160, 47, 0, 100)
+		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 145), 0, self.scalearcade)
+		love.graphics.setColor(255, 255, 255, self.buttonflasharcade)
+		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 145), 0, self.scalearcade)
+		love.graphics.setColor(160, 47, 0, 255)
 		love.graphics.setFont( start.font1 )
-		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 - 145) + 35)
+		love.graphics.setColor(160, 47, 0, 100)
+		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 - 145 + 35))
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 45))
-		love.graphics.print('STUCKINTHEMUD', (love.graphics.getWidth()/2 - start.font2:getWidth( "STUCKINTHEMUD" )/2), (love.graphics.getHeight()/2 - 30/2 + 55))
+		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 45), 0, self.scaleendless)
+		love.graphics.setColor(255, 255, 255, self.buttonflashendless)
+		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 45), 0, self.scaleendless)
+		love.graphics.setColor(160, 47, 0, 255)
+		love.graphics.print('STUCKINTHEMUD', (love.graphics.getWidth()/2 - start.font2:getWidth( "STUCKINTHEMUD" )/2), (love.graphics.getHeight()/2 - 30/2 + 55), 0, self.scalestuck)
+		love.graphics.setColor(255, 255, 255, self.buttonflashstuck)
+		love.graphics.print('STUCKINTHEMUD', (love.graphics.getWidth()/2 - start.font2:getWidth( "STUCKINTHEMUD" )/2), (love.graphics.getHeight()/2 - 30/2 + 55), 0, self.scalestuck)
+		love.graphics.setColor(160, 47, 0, 255)
 
+		-- Back arrow for mouse
+		love.graphics.print('<', (love.graphics.getWidth()/2 - 320), (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy, 0, self.scaleback)
+		love.graphics.setColor(255, 255, 255, self.buttonflashback)
+		love.graphics.print('<', (love.graphics.getWidth()/2 - 320), (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy, 0, self.scaleback)
+		love.graphics.setColor(160, 47, 0, 255)
 
-
-
-
-
-		love.graphics.print('<', (love.graphics.getWidth()/2 - 320), (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy)
-
-
-
-		
 		-- Draw discription text for each gamemode
 		if self.survivalstate == true then
 			love.graphics.setFont( start.font1 )

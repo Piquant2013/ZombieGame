@@ -59,13 +59,34 @@ end
 function logo:keypressed(key)
 	
 	-- Skips to start script if pressed
-	if key == "enter" or "esc" or " " then
+	if key == "return" or "escape" or " " then
 		Gamestate.switch(start)
 		love.graphics.setColor(255, 255, 255)
 		love.audio.stop(self.chime)
 		love.audio.setVolume(1.0)
 	end 
 end
+
+
+
+
+
+
+function logo:mousepressed(mx, my, button)
+
+	if button == "l" then
+		Gamestate.switch(start)
+		love.graphics.setColor(255, 255, 255)
+		love.audio.stop(self.chime)
+		love.audio.setVolume(1.0)
+	end
+end
+
+
+
+
+
+
 
 function logo:draw()
 	

@@ -90,6 +90,9 @@ function endless:mousepressed(mx, my, button)
 	
 	-- aim assit for pistol
 	pistol:aim(mx, my, button)
+
+	-- load game mousepressed inputs for welcome screen, gameover, etc
+	game:mousepressed(mx, my, button)
 end
 
 function endless:update(dt)

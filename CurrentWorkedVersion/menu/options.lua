@@ -461,19 +461,19 @@ function options:keypressed(key)
 
 	-- set mute on or off
 	if key == "return" and self.controlsstate == true and self.page2 == true or key == " " and self.controlsstate == true and self.page2 == true then
-		love.audio.play(self.entersound1)
+		--love.audio.play(self.entersound1)
 		Gamestate.push(controls)
 	end
 
 	-- set mouselock on or off
 	if key == "return" and self.changelogstate == true and self.page2 == true or key == " " and self.changelogstate == true and self.page2 == true then
-		love.audio.play(self.entersound1)
+		--love.audio.play(self.entersound1)
 		Gamestate.push(changelog)
 	end
 
 	-- go to credits screen
 	if key == "return" and self.moregamesstate == true and self.page2 == true or key == " " and self.moregamesstate == true and self.page2 == true then
-		love.audio.play(self.entersound1)
+		--love.audio.play(self.entersound1)
 		Gamestate.push(moregames)
 	end
 
@@ -504,6 +504,27 @@ function options:keypressed(key)
 		love.audio.play(self.backsound)
 	end
 end
+
+
+
+
+
+
+
+function options:mousepressed(mx, my, button)
+
+	-- Go back to the start screen
+	if button == "r" then
+		Gamestate.pop()
+		love.audio.play(self.backsound)
+	end
+end
+
+
+
+
+
+
 
 function options:draw()
 

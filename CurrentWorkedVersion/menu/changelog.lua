@@ -23,6 +23,24 @@ function changelog:keypressed(key)
 	end
 end
 
+
+
+
+function changelog:mousepressed(mx, my, button)
+
+	-- Go back to the start screen
+	if button == "l" or button == "r" then
+		Gamestate.pop()
+		love.audio.play(self.backsound)
+		love.audio.stop(options.entersound1)
+	end
+end
+
+
+
+
+
+
 function changelog:update(dt)
 end
 

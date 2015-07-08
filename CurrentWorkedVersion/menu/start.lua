@@ -143,6 +143,24 @@ function start:keypressed(key)
 	start:colorkeypressed(key)
 end
 
+
+
+
+
+function start:mousepressed(mx, my, button)
+
+	if button == "l" then
+		Gamestate.push(menu)
+		love.audio.play(self.entersound)
+		paused = false
+	end
+end
+
+
+
+
+
+
 function start:draw()
 
 	------ FILTERS ------

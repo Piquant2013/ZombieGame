@@ -35,6 +35,9 @@ function love.load()
 	welcomescreen = true
 	weapon = {}
 	------ GOLBAL VARIABLES ------
+
+	-- Set system cursor
+	love.mouse.setCursor(cursor)
 	
 	-- Tells game to start with the logo script
 	Gamestate.switch(logo)

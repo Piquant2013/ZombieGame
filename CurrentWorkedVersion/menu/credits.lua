@@ -41,6 +41,38 @@ function credits:keypressed(key)
 	end
 end
 
+
+
+
+
+function credits:mousepressed(mx, my, button)
+
+	-- Go back to the start screen
+	if button == "l" or button == "r" then
+		Gamestate.pop()
+		love.audio.play(self.backsound)
+		love.audio.stop(options.entersound1)
+		love.audio.stop(self.music)
+		
+		-- resume game music if its playing or play music if its not and not in pause
+		if paused == false then
+			love.audio.resume(start.music)
+		elseif paused == true then
+			love.audio.resume(game.music1)
+		end
+
+		-- resume easteregg music if its paused
+		if start.easteregg == true then
+			love.audio.resume(start.colorgoeshere)
+		end
+	end
+end
+
+
+
+
+
+
 function credits:update(dt)
 
 	-- SCROLL CREDITS --

@@ -109,6 +109,9 @@ function stuckmode:mousepressed(mx, my, button)
 	
 	-- load crpistol mouse input
 	crpistol:shooting(mx, my, button)
+
+	-- load game mousepressed inputs for welcome screen, gameover, etc
+	game:mousepressed(mx, my, button)
 end
 
 function stuckmode:update(dt)

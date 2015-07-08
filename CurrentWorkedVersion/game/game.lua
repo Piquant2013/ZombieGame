@@ -395,6 +395,31 @@ function game:keypressed(key)
   	end
 end
 
+function game:mousepressed(mx, my, button)
+
+	-- dissmiss the welcome message for endless mode
+  	if button == "l" and welcomescreen == true and self.endless == true then
+  		welcomescreen = false
+  		setendless = false
+  		love.audio.play(self.entersound)
+		love.audio.stop(self.intromusic)
+		love.audio.play(self.music1)
+		self.music1:setVolume(1.0)
+		self.music1:setLooping(true)
+  	end
+
+  	-- dissmiss the welcome message for stuck mode
+  	if button == "l" and welcomescreen == true and self.stuck == true then
+		welcomescreen = false
+  		gamereset = false
+  		love.audio.play(self.entersound)
+		love.audio.stop(self.intromusic)
+		love.audio.play(self.music1)
+		self.music1:setVolume(1.0)
+		self.music1:setLooping(true)
+  	end
+end
+
 function game:update(dt)
 
 	-- CAMERA --

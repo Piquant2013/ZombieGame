@@ -48,6 +48,26 @@ function moregames:keypressed(key)
 	end
 end
 
+
+
+
+
+
+function moregames:mousepressed(mx, my, button)
+
+	-- Go back to the start screen
+	if button == "r" then
+		Gamestate.pop()
+		love.audio.play(self.backsound)
+		love.audio.stop(options.entersound1)
+	end
+end
+
+
+
+
+
+
 function moregames:update(dt)
 end
 
@@ -62,6 +82,8 @@ function moregames:draw()
 	self.screendig:setFilter( 'nearest', 'nearest' )
 	start.font7:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
+
+
 
 	if self.page2 == false then
 		
@@ -114,6 +136,8 @@ function moregames:draw()
 		love.graphics.setColor(255, 255, 255, 255)
 		------ TEXT ------
 	end
+
+	love.graphics.print('< BACK', (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565, (love.graphics.getHeight()/2 - 25/2) - 322)
 
 end
 
