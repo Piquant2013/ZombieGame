@@ -15,6 +15,7 @@ function love.load()
 
 	------ FONTS ------
 	fpsfont = love.graphics.newFont("fonts/PressStart.ttf", 15)
+	fpsfont1 = love.graphics.newFont("fonts/xen3.ttf", 20)
 	------ FONTS ------
 
 	------ CURSOR ------
@@ -27,6 +28,7 @@ function love.load()
 	setmute = false
 	setmouselock = true
 	setfull = false
+	setgamefull = false
 	paused = false
 	resume = false
 	gamereset = true
@@ -104,19 +106,19 @@ function love.draw()
 	Gamestate.draw()
 
 	-- Set font for fps and mute
-	love.graphics.setFont( fpsfont )
+	love.graphics.setFont( fpsfont1 )
 	
 	-- Displays FPS if the options script tells FPS to be true
 	if setfps == true then
-		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("FPS: " .. love.timer.getFPS(), (love.graphics.getWidth( ) - fpsfont:getWidth( "FPS: " .. love.timer.getFPS()) - 15), (love.graphics.getHeight( ) - fpsfont:getHeight(  "FPS: " .. love.timer.getFPS()) - 10))
+		love.graphics.setColor(255, 255, 255)
+		love.graphics.print("FPS: " .. love.timer.getFPS(), (love.graphics.getWidth( ) - fpsfont:getWidth( "FPS: " .. love.timer.getFPS()) + 15), 5)
 		love.graphics.setColor(255, 255, 255)
 	end
 
 	-- Displays "Mute: ON" if the options script tells mute to be true 
 	if setmute == true then
-		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("MUTE: ON", (love.graphics.getWidth( ) - fpsfont:getWidth( "Mute: ON" ) - 150), (love.graphics.getHeight( ) - fpsfont:getHeight( "Mute: ON" ) - 10))
+		love.graphics.setColor(255, 255, 255)
+		love.graphics.print("MUTE: ON", (love.graphics.getWidth( ) - fpsfont:getWidth( "Mute: ON" ) - 100), 5)
 		love.graphics.setColor(255, 255, 255)
 	end
 end

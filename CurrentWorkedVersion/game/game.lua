@@ -25,6 +25,9 @@ smg = require 'game/weapons/smg'
 -- Loads minigun script
 minigun = require 'game/weapons/minigun'
 
+-- Loads inv script
+inv = require 'game/weapons/inv'
+
 -- Loads zombie script
 zombie = require 'game/zombie'
 
@@ -49,6 +52,10 @@ function game:init()
 	
 	-- Camera
 	self.Cam = camera(plyr.x, plyr.y, 2.5)
+
+	-- Flashing text vars
+	self.flashbutton = true
+	self.buttonflash = 0
 	------ VARIABLES ------
 
 	------ AUDIO ------
@@ -126,9 +133,28 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     -- if player hits zombie
    	for i, o in ipairs(zombie.zombs) do
     	if other == o.bb then
-    		plyr.health = plyr.health - 0.4
-    		plyr.hurt = true
-    		love.audio.play(plyr.hurtaudio)
+    		
+    		if endless.invhave == false then
+    			plyr.health = plyr.health - 0.4
+    			plyr.hurt = true
+    			love.audio.play(plyr.hurtaudio)
+    		end
+
+    		if endless.invhave == true then
+				o.health = o.health - 10
+				love.audio.play(o.damageaudio)
+				Collider:remove(o.bb)
+
+				-- kill zombies
+				if o.health < 0 then
+					o.health = 0
+					endless.score = endless.score + 10
+					endless.kills = endless.kills + 1
+					zombie.count = zombie.count - 1         
+					Collider:remove(o.bb)
+					table.remove(zombie.zombs, i)
+				end
+			end
     	end
     end
 
@@ -140,6 +166,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.smghad = true
     			endless.smghave = true
     			endless.minihave = false
+    			endless.invhave = false
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
     		end
@@ -151,6 +178,19 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.minihad = true
     			endless.minihave = true
     			endless.smghave = false
+    			endless.invhave = false
+    			Collider:remove(o.bb)
+    			love.audio.play(game.pickupsound)
+    		end
+    	end
+
+    	-- if player hits inv
+    	for i, o in ipairs(inv.invs) do
+    		if other == o.bb then
+    			endless.invhad = true
+    			endless.invhave = true
+    			endless.smghave = false
+    			endless.minihave = false
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
     		end
@@ -450,6 +490,19 @@ function game:update(dt)
 	if paused == true then
 		Gamestate.push(pause)
 	end
+
+	-- Flash start button text
+	if self.flashbutton == true then
+		self.buttonflash = self.buttonflash + dt + 2
+	elseif self.flashbutton == false then
+		self.buttonflash = self.buttonflash + dt - 2
+	end
+	
+	if self.buttonflash > 100 then
+		self.flashbutton = false
+	elseif self.buttonflash < 2 then
+		self.flashbutton = true
+	end
 end
 
 function love.focus(f)
@@ -499,6 +552,9 @@ function game:draw()
 		love.graphics.setFont( start.font2 )
 		love.graphics.print("PRESS START", 765, 465)
 		love.graphics.print("BUTTON", 765 + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, 505)
+		love.graphics.setColor(255, 255, 255, self.buttonflash)
+		love.graphics.print("PRESS START", 765, 465)
+		love.graphics.print("BUTTON", 765 + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, 505)
 		love.graphics.setColor(255, 255, 255)
 	end
 
@@ -526,6 +582,9 @@ function game:draw()
 		love.graphics.print("AS WE LOVE PLAYER", 60, 610)
 		love.graphics.print("INTERACTION.", 60, 635)
 		love.graphics.setFont( start.font2 )
+		love.graphics.print("PRESS START", 765, 465)
+		love.graphics.print("BUTTON", 765 + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, 505)
+		love.graphics.setColor(255, 255, 255, self.buttonflash)
 		love.graphics.print("PRESS START", 765, 465)
 		love.graphics.print("BUTTON", 765 + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, 505)
 		love.graphics.setColor(255, 255, 255)

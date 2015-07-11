@@ -59,11 +59,6 @@ function options:init()
 	self.moregamesbtny = 250
 	self.moregamesbtnx = 507
 
-
-
-
-
-
 	-- FPS Selecter Y & X
 	self.fullscreenarrowy = 232
 	self.fullscreenarrowx = 665
@@ -105,6 +100,53 @@ function options:init()
 	self.controlsstate = false
 	self.changelogstate = false
 	self.moregamesstate = false
+
+
+
+
+
+
+
+
+
+
+
+
+	self.scalefps = 1
+	self.scalemute = 1
+	self.scalemouselock = 1
+	self.scalecredits = 1
+
+	self.flashbuttonfps = true
+	self.buttonflashfps = 0
+
+	self.flashbuttonmute = true
+	self.buttonflashmute = 0
+
+	self.flashbuttonmouselock = true
+	self.buttonflashmouselock = 0
+
+	self.flashbuttoncredits = true
+	self.buttonflashcredits = 0
+
+	self.fpsstatemouse = false
+	self.mutestatemouse = false
+	self.mouselockstatemouse = false
+	self.creditsstatemouse = false
+
+	self.mouseover = false
+	self.mousedetect1 = 0
+	self.mousedetect2 = 0
+	self.mousedetect3 = 0
+	self.mousedetect3 = 0
+
+
+
+
+
+
+
+
 	------ VARIABLES ------
 
 	------ AUDIO ------
@@ -121,6 +163,12 @@ function options:init()
 	self.select4 = love.audio.newSource("audio/buttons/select.ogg")
 	self.select5 = love.audio.newSource("audio/buttons/select.ogg")
 	self.select6 = love.audio.newSource("audio/buttons/select.ogg")
+	self.mouseover1 = love.audio.newSource("audio/buttons/select.ogg")
+	self.mouseover2 = love.audio.newSource("audio/buttons/select.ogg")
+	self.mouseover3 = love.audio.newSource("audio/buttons/select.ogg")
+	self.mouseover4 = love.audio.newSource("audio/buttons/select.ogg")
+	self.mouseover5 = love.audio.newSource("audio/buttons/select.ogg")
+	self.mouseover6 = love.audio.newSource("audio/buttons/select.ogg")
 	------ AUDIO ------
 end
 
@@ -160,6 +208,10 @@ function options:update(dt)
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
 		love.audio.stop(self.select4)
+		self.scalefps = 1.1
+		self.scalemute = 1
+		self.scalemouselock = 1
+		self.scalecredits = 1
 	end
 
 	-- mute options menu state
@@ -172,6 +224,10 @@ function options:update(dt)
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select4)
+		self.scalefps = 1
+		self.scalemute = 1.1
+		self.scalemouselock = 1
+		self.scalecredits = 1
 	end
 
 	-- mouselock options menu state
@@ -184,6 +240,10 @@ function options:update(dt)
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
+		self.scalefps = 1
+		self.scalemute = 1
+		self.scalemouselock = 1.1
+		self.scalecredits = 1
 	end
 
 	-- credits options menu state
@@ -196,6 +256,10 @@ function options:update(dt)
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select3)
 		love.audio.stop(self.select4)
+		self.scalefps = 1
+		self.scalemute = 1
+		self.scalemouselock = 1
+		self.scalecredits = 1.1
 	end
 
 
@@ -259,17 +323,6 @@ function options:update(dt)
 		love.audio.stop(self.select4)
 	end
 
-
-
-
-
-
-
-
-
-
-
-
 	-- OPTION MENU STATES --
 
 	-- Make sure the arrow doesnt go past fps or credits
@@ -307,20 +360,267 @@ function options:update(dt)
 	end
 
 
-
-
-
-
-
-
 	-- Pushes mouselock arrow back if it trys to pass off else turn setmouselock true or false
 	if self.fullscreenarrowx > self.fullscreenbtnx then
 		self.fullscreenarrowx = self.fullscreenbtnx - 118
-	elseif self.fullscreenarrowx == self.fullscreenbtnx - 118 then
+	elseif self.fullscreenarrowx == self.fullscreenbtnx - 118 and setgamefull == true then
 		setfull = false
-	elseif self.fullscreenarrowx == self.fullscreenbtnx then	
+		setgamefull = false
+	elseif self.fullscreenarrowx == self.fullscreenbtnx and setgamefull == false then	
 		setfull = true
+		setgamefull = true
 	end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	--[[
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "RESUME" )/2 - 60) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "RESUME" )/2 - 60 + start.font2:getHeight( "RESUME" )) then
+		
+		self.resumestatemouse = true
+		self.optionsstatemouse = false
+		self.mainmenustatemouse = false
+		self.arrowy = self.resumebtny
+		self.arrowx = love.graphics.getWidth()/2 - 320 /2
+		self.scaleresume = 1.1
+		self.scaleoptions = 1
+		self.scalemainmenu = 1
+		self.mouseover = true
+		self.mousedetect1 = self.mousedetect1 + 1
+		self.mousedetect2 = 0
+		self.mousedetect3 = 0
+	end
+
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 - 10 + start.font2:getHeight( "SETTINGS" )) then
+		
+		self.resumestatemouse = false
+		self.optionsstatemouse = true
+		self.mainmenustatemouse = false
+		self.arrowx = love.graphics.getWidth()/2 - 380 /2
+		self.arrowy = self.optionsbtny
+		self.scaleresume = 1
+		self.scaleoptions = 1.1
+		self.scalemainmenu = 1
+		self.mouseover = true
+		self.mousedetect1 = 0
+		self.mousedetect2 = self.mousedetect2 + 1
+		self.mousedetect3 = 0
+	end
+
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MENU" )/2 + 40) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MENU" )/2 + 40 + start.font2:getHeight( "MENU" )) then
+		
+		self.resumestatemouse = false
+		self.optionsstatemouse = false
+		self.mainmenustatemouse = true
+		self.arrowy = self.mainmenubtny
+		self.arrowx = love.graphics.getWidth()/2 - 260 /2
+		self.scaleresume = 1
+		self.scaleoptions = 1
+		self.scalemainmenu = 1.1
+		self.mouseover = true
+		self.mousedetect1 = 0
+		self.mousedetect2 = 0
+		self.mousedetect3 = self.mousedetect3 + 1
+	end
+
+
+
+
+
+
+	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) then
+		self.resumestatemouse = false
+		self.optionsstatemouse = false
+		self.mainmenustatemouse = false
+		self.mouseover = false
+	end
+	
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2) then
+		self.resumestatemouse = false
+		self.optionsstatemouse = false
+		self.mainmenustatemouse = false
+		self.mouseover = false
+	end
+	
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "RESUME" )/2 - 60) then
+		self.resumestatemouse = false
+		self.optionsstatemouse = false
+		self.mainmenustatemouse = false
+		self.mouseover = false
+	end
+
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MENU" )/2 + 40 + start.font2:getHeight( "MENU" )) then
+		self.resumestatemouse = false
+		self.optionsstatemouse = false
+		self.mainmenustatemouse = false
+		self.mouseover = false
+	end
+	--]]
+
+
+
+
+	if self.fpsstatemouse == true or self.fpsstate == true then
+		
+		if self.flashbuttonfps == true then
+			self.buttonflashfps = self.buttonflashfps + dt + 2
+		elseif self.flashbuttonfps == false then
+			self.buttonflashfps = self.buttonflashfps + dt - 2
+		end
+	
+		if self.buttonflashfps > 100 then
+			self.flashbuttonfps = false
+		elseif self.buttonflashfps < 2 then
+			self.flashbuttonfps = true
+		end
+	
+	elseif self.fpsstatemouse == false or self.fpsstate == false then
+		
+		self.flashbuttonfps = true
+		self.buttonflashfps = 0
+	end
+
+
+
+
+	if self.mutestatemouse == true or self.mutestate == true then
+		
+		if self.flashbuttonmute == true then
+			self.buttonflashmute = self.buttonflashmute + dt + 2
+		elseif self.flashbuttonmute == false then
+			self.buttonflashmute = self.buttonflashmute + dt - 2
+		end
+	
+		if self.buttonflashmute > 100 then
+			self.flashbuttonmute = false
+		elseif self.buttonflashmute < 2 then
+			self.flashbuttonmute = true
+		end
+	
+	elseif self.mutestatemouse == false or self.mutestate == false then
+	
+		self.flashbuttonmute = true
+		self.buttonflashmute = 0
+	end
+
+
+
+
+	if self.mouselockstatemouse == true or self.mouselockstate == true then
+		
+		if self.flashbuttonmouselock == true then
+			self.buttonflashmouselock = self.buttonflashmouselock + dt + 2
+		elseif self.flashbuttonmouselock == false then
+			self.buttonflashmouselock = self.buttonflashmouselock + dt - 2
+		end
+	
+		if self.buttonflashmouselock > 100 then
+			self.flashbuttonmouselock = false
+		elseif self.buttonflashmouselock < 2 then
+			self.flashbuttonmouselock = true
+		end
+	
+	elseif self.mouselockstatemouse == false or self.mouselockstate == false then
+		
+		self.flashbuttonmouselock = true
+		self.buttonflashmouselock = 0
+	end
+
+
+
+
+	if self.creditsstatemouse == true or self.creditsstate == true then
+		
+		if self.flashbuttoncredits == true then
+			self.buttonflashcredits = self.buttonflashcredits + dt + 2
+		elseif self.flashbuttoncredits == false then
+			self.buttonflashcredits = self.buttonflashcredits + dt - 2
+		end
+	
+		if self.buttonflashcredits > 100 then
+			self.flashbuttoncredits = false
+		elseif self.buttonflashcredits < 2 then
+			self.flashbuttoncredits = true
+		end
+	
+	elseif self.creditsstatemouse == false or self.creditsstate == false then
+		
+		self.flashbuttoncredits = true
+		self.buttonflashcredits = 0
+	end
+
+
+
+
+
+
+	if self.mouseover == false then
+		self.mousedetect1 = 0
+		self.mousedetect2 = 0
+		self.mousedetect3 = 0
+		self.mousedetect4 = 0
+		love.audio.stop(self.mouseover1)
+		love.audio.stop(self.mouseover2)
+		love.audio.stop(self.mouseover3)
+		love.audio.stop(self.mouseover4)
+	end
+
+	if self.mousedetect1 == 1 then
+		love.audio.play(self.mouseover1)
+		love.audio.stop(self.mouseover2)
+		love.audio.stop(self.mouseover3)
+		love.audio.stop(self.mouseover4)
+	end
+
+	if self.mousedetect2 == 1 then
+		love.audio.stop(self.mouseover1)
+		love.audio.play(self.mouseover2)
+		love.audio.stop(self.mouseover3)
+		love.audio.stop(self.mouseover4)
+	end
+
+	if self.mousedetect3 == 1 then
+		love.audio.stop(self.mouseover1)
+		love.audio.stop(self.mouseover2)
+		love.audio.play(self.mouseover3)
+		love.audio.stop(self.mouseover4)
+	end
+
+	if self.mousedetect4 == 1 then
+		love.audio.stop(self.mouseover1)
+		love.audio.stop(self.mouseover2)
+		love.audio.stop(self.mouseover3)
+		love.audio.play(self.mouseover4)
+	end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -553,10 +853,26 @@ function options:draw()
 	love.graphics.setFont( start.font2 )
 	
 	if self.page2 == false then
-		love.graphics.print('DISPLAY FPS:', (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2) + self.fpsbtny)
-		love.graphics.print('MUTE AUDIO:', (love.graphics.getWidth()/2 - start.font2:getWidth( "MUTE AUDIO:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "MUTE AUDIO:" )/2) + self.mutebtny)
-		love.graphics.print('WINDOW LOCK:', (love.graphics.getWidth()/2 - start.font2:getWidth( "WINDOW LOCK:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "WINDOW LOCK:" )/2) + self.mouselockbtny)
-		love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CREDITS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2) + self.creditsbtny)
+		love.graphics.print('DISPLAY FPS:', (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2) + self.fpsbtny, 0, self.scalefps)
+		love.graphics.setColor(255, 255, 255, self.buttonflashfps)
+		love.graphics.print('DISPLAY FPS:', (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2) + self.fpsbtny, 0, self.scalefps)
+		love.graphics.setColor(160, 47, 0, 255)
+
+		love.graphics.print('MUTE AUDIO:', (love.graphics.getWidth()/2 - start.font2:getWidth( "MUTE AUDIO:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "MUTE AUDIO:" )/2) + self.mutebtny, 0, self.scalemute)
+		love.graphics.setColor(255, 255, 255, self.buttonflashmute)
+		love.graphics.print('MUTE AUDIO:', (love.graphics.getWidth()/2 - start.font2:getWidth( "MUTE AUDIO:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "MUTE AUDIO:" )/2) + self.mutebtny, 0, self.scalemute)
+		love.graphics.setColor(160, 47, 0, 255)
+
+		love.graphics.print('WINDOW LOCK:', (love.graphics.getWidth()/2 - start.font2:getWidth( "WINDOW LOCK:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "WINDOW LOCK:" )/2) + self.mouselockbtny, 0, self.scalemouselock)
+		love.graphics.setColor(255, 255, 255, self.buttonflashmouselock)
+		love.graphics.print('WINDOW LOCK:', (love.graphics.getWidth()/2 - start.font2:getWidth( "WINDOW LOCK:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "WINDOW LOCK:" )/2) + self.mouselockbtny, 0, self.scalemouselock)
+		love.graphics.setColor(160, 47, 0, 255)
+
+		love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CREDITS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2) + self.creditsbtny, 0, self.scalecredits)
+		love.graphics.setColor(255, 255, 255, self.buttonflashcredits)
+		love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CREDITS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2) + self.creditsbtny, 0, self.scalecredits)
+		love.graphics.setColor(160, 47, 0, 255)
+
 		love.graphics.print('< 1/2 >', (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2) +  300, (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + self.creditsbtny + 60)
 	end
 

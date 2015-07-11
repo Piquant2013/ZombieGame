@@ -12,6 +12,8 @@ function moregames:init()
 	self.select2 = love.audio.newSource("audio/buttons/select.ogg")
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
 	self.backsound = love.audio.newSource("audio/buttons/back.ogg")
+	self.mouseover1 = love.audio.newSource("audio/buttons/select.ogg")
+	self.mouseover2 = love.audio.newSource("audio/buttons/select.ogg")
 	------ AUDIO ------
 
 	self.page2 = false
@@ -24,6 +26,49 @@ function moregames:init()
 	self.screenspace1 = love.graphics.newImage("images/menu/screenspace1.png")
 	self.screenspace2 = love.graphics.newImage("images/menu/screenspace2.png")
 	self.spacebg = love.graphics.newImage("images/menu/spacebg.png")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	self.scalenext = 1
+	self.scaleback = 1
+
+	self.flashbuttonnext = true
+	self.buttonflashnext = 0
+
+	self.flashbuttonback = true
+	self.buttonflashback = 0
+
+	self.nextstatemouse = false
+	self.backstatemouse = false
+
+	self.mouseovernext = false
+	self.mouseoverback = false
+	self.mousedetect1 = 0
+	self.mousedetect2 = 0
+
+
+	self.space = true
+	self.dig = false
+
+
+
+
+
+
+
+
+
 end
 
 function moregames:keypressed(key)
@@ -55,8 +100,25 @@ end
 
 function moregames:mousepressed(mx, my, button)
 
-	-- Go back to the start screen
 	if button == "r" then
+		Gamestate.pop()
+		love.audio.play(self.backsound)
+		love.audio.stop(options.entersound1)
+	end
+
+	if button == "l" and self.mouseovernext == true and self.dig == false then
+		love.audio.stop(self.select1)
+		love.audio.play(self.select2)
+		self.page2 = true
+	end
+
+	if button == "l" and self.mouseovernext == true and self.space == false then
+		love.audio.play(self.select1)
+		love.audio.stop(self.select2)
+		self.page2 = false
+	end
+	
+	if button == "l" and self.mouseoverback == true then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 		love.audio.stop(options.entersound1)
@@ -69,6 +131,192 @@ end
 
 
 function moregames:update(dt)
+
+
+
+
+
+	if self.page2 == true then
+		self.space = false
+		self.dig = true
+	end
+
+	if self.page2 == false then
+		self.dig = false
+		self.space = true
+	end
+
+
+
+
+
+
+
+
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 440 + start.font2:getWidth( "< 1/2 >" ) 
+	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 565
+	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322
+	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 + start.font2:getHeight( "< 1/2 >" ) then
+		
+		self.nextstatemouse = true
+		self.backstatemouse = false
+		self.scaleback = 1
+		self.scalenext = 1.2
+		self.mouseovernext = true
+		self.mouseoverback = false
+		self.mousedetect1 = self.mousedetect1 + 1
+		self.mousedetect2 = 0
+	end
+
+
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 660 + start.font2:getWidth( "< BACK" ) 
+	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565 
+	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295
+	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 + start.font2:getHeight( "< BACK" ) then
+	
+		self.nextstatemouse = false
+		self.backstatemouse = true
+		self.scaleback = 1.2
+		self.scalenext = 1
+		self.mouseovernext = false
+		self.mouseoverback = true
+		self.mousedetect1 = 0
+		self.mousedetect2 = self.mousedetect2 + 1
+	end
+
+
+
+
+
+
+	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 660 + start.font2:getWidth( "< BACK" ) then
+		self.backstatemouse = false
+		self.mouseoverback = false
+		self.scaleback = 1
+	end 
+	
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565 then
+		self.backstatemouse = false
+		self.mouseoverback = false
+		self.scaleback = 1
+	end
+
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 then
+		self.backstatemouse = false
+		self.mouseoverback = false
+		self.scaleback = 1
+	end 
+
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 + start.font2:getHeight( "< BACK" ) then
+		self.backstatemouse = false
+		self.mouseoverback = false
+		self.scaleback = 1
+	end
+
+
+
+	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 440 + start.font2:getWidth( "< 1/2 >" ) then
+		self.nextstatemouse = false
+		self.mouseovernext = false
+		self.scalenext = 1
+	end 
+	
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 565 then
+		self.nextstatemouse = false
+		self.mouseovernext = false
+		self.scalenext = 1
+	end
+
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 then
+		self.nextstatemouse = false
+		self.mouseovernext = false
+		self.scalenext = 1
+	end 
+
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 + start.font2:getHeight( "< 1/2 >" ) then
+		self.nextstatemouse = false
+		self.mouseovernext = false
+		self.scalenext = 1
+	end
+
+
+
+
+
+	if self.backstatemouse == true then
+		if self.flashbuttonback == true then
+			self.buttonflashback = self.buttonflashback + dt + 2
+		elseif self.flashbuttonback == false then
+			self.buttonflashback = self.buttonflashback + dt - 2
+		end
+	
+		if self.buttonflashback > 100 then
+			self.flashbuttonback = false
+		elseif self.buttonflashback < 2 then
+			self.flashbuttonback = true
+		end
+	
+	elseif self.backstatemouse == false then
+		self.flashbuttonback = true
+		self.buttonflashback = 0
+	end
+
+
+	if self.nextstatemouse == true then
+		if self.flashbuttonnext == true then
+			self.buttonflashnext = self.buttonflashnext + dt + 2
+		elseif self.flashbuttonnext == false then
+			self.buttonflashnext = self.buttonflashnext + dt - 2
+		end
+	
+		if self.buttonflashnext > 100 then
+			self.flashbuttonnext = false
+		elseif self.buttonflashnext < 2 then
+			self.flashbuttonnext = true
+		end
+	
+	elseif self.nextstatemouse == false then
+		self.flashbuttonnext = true
+		self.buttonflashnext = 0
+	end
+
+
+
+
+
+
+	if self.mouseovernext == false then
+		self.mousedetect1 = 0
+		love.audio.stop(self.mouseover1)
+	end
+
+	if self.mouseoverback == false then
+		self.mousedetect2 = 0
+		love.audio.stop(self.mouseover2)
+	end
+
+	if self.mousedetect1 == 1 then
+		love.audio.play(self.mouseover1)
+		love.audio.stop(self.mouseover2)
+	end
+
+	if self.mousedetect2 == 1 then
+		love.audio.stop(self.mouseover1)
+		love.audio.play(self.mouseover2)
+	end
+
+
+
+
+
+
+
+
+
+
+
+
+
 end
 
 function moregames:draw()
@@ -80,15 +328,16 @@ function moregames:draw()
 	self.screenspace1:setFilter( 'nearest', 'nearest' )
 	self.screenspace2:setFilter( 'nearest', 'nearest' )
 	self.screendig:setFilter( 'nearest', 'nearest' )
+	start.bg:setFilter( 'nearest', 'nearest' )
 	start.font7:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
-
+	love.graphics.draw(start.bg, 0, -1000, 0, 3)
 
 	if self.page2 == false then
 		
 		------ IMAGE ------
-		love.graphics.draw(self.spacebg, -100, 0, 0, 1.1)
+		love.graphics.draw(self.spacebg, (love.graphics.getWidth()/2 - self.spacebg:getWidth()/2), (love.graphics.getHeight()/2 - self.spacebg:getHeight()/2), 0)
 		love.graphics.draw(self.logospace, (love.graphics.getWidth()/2 - 300/2) - 440, (love.graphics.getHeight()/2 - 300/2) - 160, 0, 0.2)
 		love.graphics.draw(self.screenspace1, (love.graphics.getWidth()/2 - self.screenspace1:getWidth()/2) - 400, (love.graphics.getHeight()/2 - self.screenspace1:getHeight()/2) + 193)
 		love.graphics.draw(self.screenspace2, (love.graphics.getWidth()/2 - self.screenspace2:getWidth()/2) - 117, (love.graphics.getHeight()/2 - self.screenspace2:getHeight()/2) + 193)
@@ -109,7 +358,10 @@ function moregames:draw()
 		love.graphics.print('Try it out here:', (love.graphics.getWidth()/2 - start.font7:getWidth( "Try it out here:" )/2) + 300, (love.graphics.getHeight()/2 - 25/2) + 152)
 		love.graphics.print('http://teampiquant.com/games/spacegame', (love.graphics.getWidth()/2 - start.font7:getWidth( "http://teampiquant.com/games/spacegame" )/2) + 300, (love.graphics.getHeight()/2 - 25/2) + 177)
 		love.graphics.print('http://reddit/r/piquant2013', (love.graphics.getWidth()/2 - start.font7:getWidth( "http://reddit/r/piquant2013" )/2) + 300, (love.graphics.getHeight()/2 - 25/2) + 202)
-		love.graphics.print('< 1/2 >', (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 565, (love.graphics.getHeight()/2 - 25/2) + 322)
+		
+		love.graphics.print('< 1/2 >', (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 565, (love.graphics.getHeight()/2 - 25/2) + 322, 0, self.scalenext)
+		love.graphics.setColor(160, 47, 0, self.buttonflashnext)
+		love.graphics.print('< 1/2 >', (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 565, (love.graphics.getHeight()/2 - 25/2) + 322, 0, self.scalenext)
 		love.graphics.setColor(255, 255, 255, 255)
 		------ TEXT ------
 	end
@@ -117,7 +369,7 @@ function moregames:draw()
 	if self.page2 == true then
 		
 		------ IMAGE ------
-		love.graphics.draw(self.screendig, -220, 0, 0, 1.1)
+		love.graphics.draw(self.screendig, (love.graphics.getWidth()/2 - self.screendig:getWidth()/2), (love.graphics.getHeight()/2 - self.screendig:getHeight()/2), 0)
 		love.graphics.draw(self.logodig, (love.graphics.getWidth()/2 - 300/2) - 440, (love.graphics.getHeight()/2 - 300/2) - 160, 0, 0.2)
 		------ IMAGE ------
 
@@ -132,12 +384,18 @@ function moregames:draw()
 		love.graphics.print('Try it out here:', (love.graphics.getWidth()/2 - start.font7:getWidth( "Try it out here:" )/2) + 300, (love.graphics.getHeight()/2 - 25/2) + 152)
 		love.graphics.print('http://teampiquant.com/games/diggingsim', (love.graphics.getWidth()/2 - start.font7:getWidth( "http://teampiquant.com/games/diggingsim" )/2) + 300, (love.graphics.getHeight()/2 - 25/2) + 177)
 		love.graphics.print('http://reddit/r/piquant2013', (love.graphics.getWidth()/2 - start.font7:getWidth( "http://reddit/r/piquant2013" )/2) + 300, (love.graphics.getHeight()/2 - 25/2) + 202)
-		love.graphics.print('< 2/2 >', (love.graphics.getWidth()/2 - start.font7:getWidth( "< 2/2 >" )/2) + 565, (love.graphics.getHeight()/2 - 25/2) + 322)
+		
+		love.graphics.print('< 2/2 >', (love.graphics.getWidth()/2 - start.font7:getWidth( "< 2/2 >" )/2) + 565, (love.graphics.getHeight()/2 - 25/2) + 322, 0, self.scalenext)
+		love.graphics.setColor(160, 47, 0, self.buttonflashnext)
+		love.graphics.print('< 2/2 >', (love.graphics.getWidth()/2 - start.font7:getWidth( "< 2/2 >" )/2) + 565, (love.graphics.getHeight()/2 - 25/2) + 322, 0, self.scalenext)
 		love.graphics.setColor(255, 255, 255, 255)
 		------ TEXT ------
 	end
 
-	love.graphics.print('< BACK', (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565, (love.graphics.getHeight()/2 - 25/2) - 322)
+	love.graphics.print('< BACK', (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565, (love.graphics.getHeight()/2 - 25/2) - 322, 0, self.scaleback)
+	love.graphics.setColor(160, 47, 0, self.buttonflashback)
+	love.graphics.print('< BACK', (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565, (love.graphics.getHeight()/2 - 25/2) - 322, 0, self.scaleback)
+	love.graphics.setColor(255, 255, 255, 255)
 
 end
 

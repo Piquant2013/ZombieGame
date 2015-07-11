@@ -331,7 +331,9 @@ function menu:update(dt)
 
 
 
-
+	if setfull == false and setgamefull == true then
+		setfull = true
+	end
 
 
 

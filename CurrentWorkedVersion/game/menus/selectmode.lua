@@ -62,8 +62,7 @@ function selectmode:init()
 
 
 
-
-
+	--self.gamefullscreen = true
 
 	self.scalesurvival = 1
 	self.scalearcade = 1
@@ -254,6 +253,7 @@ function selectmode:update(dt)
 
 
 
+	--and self.survival == false and self.arcade == false
 
 
 
@@ -265,11 +265,7 @@ function selectmode:update(dt)
 
 
 
-
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "SURVIVAL MODE" )/2 - 250) 
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "SURVIVAL MODE" )/2 - 250) + start.font2:getHeight( "SURVIVAL MODE" ) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250 and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "SURVIVAL MODE" )/2 - 250) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "SURVIVAL MODE" )/2 - 250) + start.font2:getHeight( "SURVIVAL MODE" ) and self.survival == false and self.arcade == false then
 		self.survivalstatemouse = true
 		self.arcadestatemouse = false
 		self.endlessstatemouse = false
@@ -291,10 +287,7 @@ function selectmode:update(dt)
 		self.mousedetect5 = 0
 	end
 
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "ARCADE MODE" )/2 - 150) 
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "ARCADE MODE" )/2 - 150) + start.font2:getHeight( "ARCADE MODE" ) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250 and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "ARCADE MODE" )/2 - 150) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "ARCADE MODE" )/2 - 150) + start.font2:getHeight( "ARCADE MODE" ) and self.survival == false and self.arcade == false then
 		self.survivalstatemouse = false
 		self.arcadestatemouse = true
 		self.endlessstatemouse = false
@@ -316,10 +309,7 @@ function selectmode:update(dt)
 		self.mousedetect5 = 0
 	end
 
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "ENDLESS MODE" )/2 - 50) 
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "ENDLESS MODE" )/2 - 50) + start.font2:getHeight( "ENDLESS MODE" ) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250 and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "ENDLESS MODE" )/2 - 50) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "ENDLESS MODE" )/2 - 50) + start.font2:getHeight( "ENDLESS MODE" ) and self.survival == false and self.arcade == false then
 		self.survivalstatemouse = false
 		self.arcadestatemouse = false
 		self.endlessstatemouse = true
@@ -341,10 +331,7 @@ function selectmode:update(dt)
 		self.mousedetect5 = 0
 	end
 
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "STUCKINTHEMUD" )/2 + 50) 
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "STUCKINTHEMUD" )/2 + 50) + start.font2:getHeight( "STUCKINTHEMUD" ) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250 and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "STUCKINTHEMUD" )/2 + 50) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "STUCKINTHEMUD" )/2 + 50) + start.font2:getHeight( "STUCKINTHEMUD" ) and self.survival == false and self.arcade == false then
 		self.survivalstatemouse = false
 		self.arcadestatemouse = false
 		self.endlessstatemouse = false
@@ -366,10 +353,7 @@ function selectmode:update(dt)
 		self.mousedetect5 = 0
 	end
 
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - 290) - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" )
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - 310) - start.font2:getWidth( "<" )/2
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy -20
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy + start.font2:getHeight( "<" ) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - 290) - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" ) and love.mouse.getX() > (love.graphics.getWidth()/2 - 310) - start.font2:getWidth( "<" )/2 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy -20 and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy + start.font2:getHeight( "<" ) and self.survival == false and self.arcade == false then
 		self.survivalstatemouse = false
 		self.arcadestatemouse = false
 		self.endlessstatemouse = false
@@ -661,7 +645,12 @@ function selectmode:keypressed(key)
 		self.arrowy = self.arrowy - 100
 
 		if self.mouseover == true then
-			love.mouse.setX((love.graphics.getWidth()/2 - 459/2) + 500)
+			love.mouse.setX((love.graphics.getWidth()/2 - 459/2) + 520)
+			self.survivalstatemouse = false
+			self.arcadestatemouse = false
+			self.endlessstatemouse = false
+			self.stuckstatemouse = false
+			self.mouseover = false
 		end
 	end
 
@@ -674,7 +663,12 @@ function selectmode:keypressed(key)
 		self.arrowy = self.arrowy + 100
 
 		if self.mouseover == true then
-			love.mouse.setX((love.graphics.getWidth()/2 - 459/2) + 500)
+			love.mouse.setX((love.graphics.getWidth()/2 - 459/2) + 520)
+			self.survivalstatemouse = false
+			self.arcadestatemouse = false
+			self.endlessstatemouse = false
+			self.stuckstatemouse = false
+			self.mouseover = false
 		end
 	end
 	-- SELECT BUTTONS --
@@ -701,6 +695,7 @@ function selectmode:keypressed(key)
 		love.audio.stop(start.colorgoeshere)
 		game.intromusic:setVolume(0.6)
 		game.intromusic:setLooping(true)
+		setfull = false
 	end
 
 	-- Go to the stuck game mode
@@ -714,6 +709,8 @@ function selectmode:keypressed(key)
 		love.audio.stop(start.colorgoeshere)
 		game.intromusic:setVolume(0.6)
 		game.intromusic:setLooping(true)
+		self.gamefullscreen = false
+		setfull = false
 	end
 
 	-- Enter sounds for survial and arcade
@@ -759,15 +756,15 @@ end
 
 function selectmode:mousepressed(mx, my, button)
 
-	if button == "l" and self.survivalstate == true and self.backstatemouse == false or button == "r" and self.survivalstate == true and self.backstatemouse == false then
+	if button == "l" and self.survivalstatemouse == true and self.backstatemouse == false and self.mouseover == true or button == "r" and self.survivalstatemouse == true and self.backstatemouse == false and self.mouseover == true then
 		self.survivalarrowx = self.survivalarrowx + 118
 	end
 
-	if button == "l" and self.arcadestate == true and self.backstatemouse == false or button == "r" and self.arcadestate == true and self.backstatemouse == false then
+	if button == "l" and self.arcadestatemouse == true and self.backstatemouse == false and self.mouseover == true or button == "r" and self.arcadestatemouse == true and self.backstatemouse == false and self.mouseover == true then
 		self.arcadearrowx = self.arcadearrowx + 118
 	end
 
-	if button == "l" and self.endlessstatemouse == true and self.backstatemouse == false then
+	if button == "l" and self.endlessstatemouse == true and self.backstatemouse == false and self.mouseover == true then
 		Gamestate.push(endless)
 		game.endless = true
 		love.audio.play(self.entersound1)
@@ -777,9 +774,10 @@ function selectmode:mousepressed(mx, my, button)
 		love.audio.stop(start.colorgoeshere)
 		game.intromusic:setVolume(0.6)
 		game.intromusic:setLooping(true)
+		setfull = false
 	end
 
-	if button == "l" and self.stuckstatemouse == true and self.backstatemouse == false then
+	if button == "l" and self.stuckstatemouse == true and self.backstatemouse == false and self.mouseover == true then
 		Gamestate.push(stuckmode)
 		game.stuck = true
 		love.audio.play(self.entersound1)
@@ -789,25 +787,26 @@ function selectmode:mousepressed(mx, my, button)
 		love.audio.stop(start.colorgoeshere)
 		game.intromusic:setVolume(0.6)
 		game.intromusic:setLooping(true)
+		setfull = false
 	end
 
-	if button == "l" and self.survivalstate == true and self.survival == false and self.backstatemouse == false or button == "r" and self.survivalstate == true and self.survival == false and self.backstatemouse == false then
+	if button == "l" and self.survivalstatemouse == true and self.survival == false and self.backstatemouse == false and self.mouseover == true or button == "r" and self.survivalstatemouse == true and self.survival == false and self.backstatemouse == false and self.mouseover == true then
 		love.audio.play(self.entersound1)
 	end
 	
-	if button == "l" and self.arcadestate == true and self.arcade == false and self.backstatemouse == false or button == "r" and self.arcadestate == true and self.arcade == false and self.backstatemouse == false then
+	if button == "l" and self.arcadestatemouse == true and self.arcade == false and self.backstatemouse == false and self.mouseover == true or button == "r" and self.arcadestatemouse == true and self.arcade == false and self.backstatemouse == false and self.mouseover == true then
 		love.audio.play(self.entersound1)
 	end
 	
-	if button == "l" and self.survivalstate == true and self.survival == true and self.backstatemouse == false or button == "r" and self.survivalstate == true and self.survival == true and self.backstatemouse == false then
+	if button == "l" and self.survivalstatemouse == true and self.survival == true and self.backstatemouse == false and self.mouseover == true or button == "r" and self.survivalstatemouse == true and self.survival == true and self.backstatemouse == false and self.mouseover == true then
 		love.audio.play(self.backsound)
 	end
 	
-	if button == "l" and self.arcadestate == true and self.arcade == true and self.backstatemouse == false or button == "r" and self.arcadestate == true and self.arcade == true and self.backstatemouse == false then
+	if button == "l" and self.arcadestatemouse == true and self.arcade == true and self.backstatemouse == false and self.mouseover == true or button == "r" and self.arcadestatemouse == true and self.arcade == true and self.backstatemouse == false and self.mouseover == true then
 		love.audio.play(self.backsound)
 	end
 
-	if button == "l" and self.backstatemouse == true then
+	if button == "l" and self.backstatemouse == true and self.mouseover == false then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 	end
@@ -851,12 +850,12 @@ function selectmode:draw()
 	
 	-- Draws screenshot if in survival
 	if self.survival == true then
-		love.graphics.draw(self.screenshot2, 0, -50, 0, 0.6)
+		love.graphics.draw(self.screenshot2, (love.graphics.getWidth()/2 - self.screenshot2:getWidth()/2), (love.graphics.getHeight()/2 - self.screenshot2:getHeight()/2))
 	end
 
 	-- Draws screenshot if in arcade
 	if self.arcade == true then
-		love.graphics.draw(self.screenshot1, 0, -50, 0, 0.6)
+		love.graphics.draw(self.screenshot1, (love.graphics.getWidth()/2 - self.screenshot1:getWidth()/2), (love.graphics.getHeight()/2 - self.screenshot1:getHeight()/2))
 	end
 	------ IMAGES ------
 

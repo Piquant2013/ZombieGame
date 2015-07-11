@@ -95,7 +95,6 @@ function stuckmode:keypressed(key)
 		love.audio.play(diggingsim2015.music)
 		diggingsim2015.music:setLooping(true)
 		love.mouse.setCursor(cursor)
-		setfull = false
   	end
 
   	-- Dismis dig promt
@@ -106,7 +105,23 @@ function stuckmode:keypressed(key)
 end
 
 function stuckmode:mousepressed(mx, my, button)
-	
+
+	-- dissmiss the game over message
+  	if button == "l" and gameover == true and self.bgtimer > 12 or button == "r" and gameover == true and self.bgtimer > 12 then
+  		love.audio.play(game.entersound)
+    	Gamestate.switch(menu)
+    	love.audio.play(start.music)
+    	start.music:setLooping(true)
+   		love.audio.stop(game.music1)
+    	setendless = true
+    	gamereset = true
+    	game.endless = false
+    	game.stuck = false
+    	love.audio.stop(plyr.deathaudio)
+    	love.audio.stop(plyr.hurtaudio)
+    	love.audio.stop(game.music2)
+  	end
+
 	-- load crpistol mouse input
 	crpistol:shooting(mx, my, button)
 

@@ -33,12 +33,17 @@ function endless:init()
 	self.wavezombiecount = 14
 	self.minicount = 1
 	self.smgcount = 1
+	self.invcount = 1
 	self.spawnsmg = false
 	self.spawnmini = false
+	self.spawninv = false
 	self.minihave = false
 	self.smghave = false
+	self.invhave = false
 	self.minihad = false
 	self.smghad = false
+	self.invhad = false
+	self.invtimer = 10
 	self.gunsflash = 2
 	self.flashguns = true
 
@@ -88,6 +93,22 @@ end
 
 function endless:mousepressed(mx, my, button)
 	
+	-- dissmiss the game over message
+  	if button == "l" and gameover == true and self.bgtimer > 12 or button == "r" and gameover == true and self.bgtimer > 12 then
+  		love.audio.play(game.entersound)
+    	Gamestate.switch(menu)
+    	love.audio.play(start.music)
+    	start.music:setLooping(true)
+   		love.audio.stop(game.music1)
+    	setendless = true
+    	gamereset = true
+    	game.endless = false
+    	game.stuck = false
+    	love.audio.stop(plyr.deathaudio)
+    	love.audio.stop(plyr.hurtaudio)
+    	love.audio.stop(game.music2)
+  	end
+
 	-- aim assit for pistol
 	pistol:aim(mx, my, button)
 
@@ -139,15 +160,20 @@ function endless:update(dt)
 		self.wavebreak = false
 		self.wavestart = true
 		self.flashwave = true
-		self.wavezombiecount = 50
+		self.wavezombiecount = 14
 		self.minicount = 1
 		self.smgcount = 1
+		self.invcount = 1
 		self.spawnsmg = false
 		self.spawnmini = false
+		self.spawninv = false
 		self.minihave = false
 		self.smghave = false
+		self.invhave = false
 		self.minihad = false
 		self.smghad = false
+		self.invhad = false
+		self.invtimer = 10
 		self.gunsflash = 2
 		self.flashguns = true
 
@@ -178,6 +204,12 @@ function endless:update(dt)
 		minigun.spawnrate = 0
 		minigun.spawnrateplus = 1
 		minigun.count = 0
+
+		-- Minigun
+		inv.invs = {}
+		inv.spawnrate = 0
+		inv.spawnrateplus = 1
+		inv.count = 0
 		
 		-- hardon collider
 		Collider = HC(100, on_collision, collision_stop)
@@ -215,21 +247,29 @@ function endless:update(dt)
 		self.wavestart = false
 	end
 
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
 	-- SPECIAL WEAPONS --
 	if self.wave > 1 then
-		
-		-- if ammo is 0 player loses smg
+
 		for i, o in ipairs(smg.smgs) do
 			if self.smghave == true and o.ammo == 0 then
 				self.smghave = false
-				love.audio.play(menu.backsound)
-			end
-		end
-
-		-- if ammo is 0 player loses minigun
-		for i, o in ipairs(minigun.miniguns) do
-			if self.minihave == true and o.ammo == 0 then
-				self.minihave = false
 				love.audio.play(menu.backsound)
 			end
 		end
@@ -238,26 +278,12 @@ function endless:update(dt)
 		if self.smghave == true then
 			pistol.cooldownplus = 0.065
 			self.minihave = false
-			self.pistolhave = false
-		end
-
-		if self.minihave == true then
-			pistol.cooldownplus = 0.030
-			self.smghave = false
+			self.invhave = false
 			self.pistolhave = false
 		end
 
 		if self.pistolhave == true then
 			pistol.cooldownplus = 0.25
-		end
-
-		-- Set ammo
-		if self.minihave == false then
-			for i, o in ipairs(minigun.miniguns) do
-				o.ammo = 150
-			end
-
-			self.pistolhave = true
 		end
 
 		if self.smghave == false then		
@@ -279,12 +305,6 @@ function endless:update(dt)
 
 		-- spawning
 		if self.wavebreak == false then
-			if minigun.count == self.minicount then
-				self.spawnmini = false
-			elseif minigun.count < self.minicount then
-				self.spawnmini = true
-			end
-
 			if smg.count == self.smgcount then
 				self.spawnsmg = false
 			elseif smg.count < self.smgcount then
@@ -293,19 +313,13 @@ function endless:update(dt)
 		end
 
 		if self.wavebreak == true then
-			self.spawnmini = false
+
 			self.spawnsmg = false
 		
 			if self.smghad == true and self.smghave == false then
 				smg.count = 0
 				table.remove(smg.smgs, i)
 				self.smghad = false
-			end
-
-			if self.minihad == true and self.minihave == false then
-				minigun.count = 0
-				table.remove(minigun.miniguns, i)
-				self.minihad = false
 			end
 		end
 
@@ -323,6 +337,132 @@ function endless:update(dt)
 		end
 	end
 	-- SPECIAL WEAPONS --
+
+
+
+
+
+
+
+
+	if self.wave > 2 then
+		
+		for i, o in ipairs(minigun.miniguns) do
+			
+			if self.minihave == true and o.ammo == 0 then
+				self.minihave = false
+				love.audio.play(menu.backsound)
+			end
+		end
+
+		if self.minihave == true then
+			pistol.cooldownplus = 0.030
+			self.smghave = false
+			self.invhave = false
+			self.pistolhave = false
+		end
+
+		if self.minihave == false then
+			
+			for i, o in ipairs(minigun.miniguns) do
+				o.ammo = 150
+			end
+
+			self.pistolhave = true
+		end
+
+		if self.spawnmini == true then
+			minigun:spawn()
+		end
+
+		if self.wavebreak == false then
+			
+			if minigun.count == self.minicount then
+				self.spawnmini = false
+			elseif minigun.count < self.minicount then
+				self.spawnmini = true
+			end
+		end
+
+		if self.wavebreak == true then
+			self.spawnmini = false
+
+			if self.minihad == true and self.minihave == false then
+				minigun.count = 0
+				table.remove(minigun.miniguns, i)
+				self.minihad = false
+			end
+		end
+	end
+
+
+
+
+
+
+
+
+
+
+	
+	if self.wave > 5 then
+		
+		if self.invhave == true and self.invtimer < 0 then
+			self.invhave = false
+			love.audio.play(menu.backsound)
+		end
+
+		if self.invhave == true then
+			pistol.cooldownplus = 0.25
+			self.smghave = false
+			self.minihave = false
+			self.pistolhave = false
+			self.invtimer = self.invtimer - dt
+		end
+
+		if self.invhave == false then		
+			self.invtimer = 10
+			self.pistolhave = true
+		end
+
+		if self.spawninv == true then
+			inv:spawn()
+		end
+
+		if inv.count == self.invcount then
+			self.spawninv = false
+		elseif inv.count < self.invcount then
+			self.spawninv = true
+		end
+
+		if self.wavebreak == true then
+			
+			self.spawninv = false
+
+			if self.invhad == true and self.invhave == false then
+				inv.count = 0
+				table.remove(inv.invs, i)
+				self.invhad = false
+			end
+		end
+	end
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	-- WAVE SYSTEM --
 	-- start the score time
@@ -415,6 +555,9 @@ function endless:update(dt)
 	-- update smg
 	smg:update(dt)
 
+	-- update inv
+	inv:update(dt)
+
 	--- MOVE GAMEOVER TEXT ---
 	if gameover == true then
 		
@@ -495,6 +638,9 @@ function endless:draw()
 	
 	-- smg
 	smg:draw()
+
+	-- inv
+	inv:draw()
 
 	-- pistol
 	pistol:draw()

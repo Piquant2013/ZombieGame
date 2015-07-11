@@ -77,6 +77,19 @@ function start:update(dt)
 	end
 	--- TEXT FLASH ---
 
+
+
+
+
+	if setfull == false and setgamefull == true then
+		setfull = true
+	end
+
+
+
+
+
+
 	-- Update easter egg
 	start:colorupdate(dt)
 end
