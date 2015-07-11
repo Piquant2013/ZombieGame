@@ -130,35 +130,53 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
         return
     end
 
-    -- if player hits zombie
-   	for i, o in ipairs(zombie.zombs) do
-    	if other == o.bb then
-    		
-    		if endless.invhave == false then
+
+
+
+    if gamereset == false then
+       		
+       	-- if player hits zombie
+   		for i, o in ipairs(zombie.zombs) do
+    		if other == o.bb then
     			plyr.health = plyr.health - 0.4
     			plyr.hurt = true
     			love.audio.play(plyr.hurtaudio)
     		end
-
-    		if endless.invhave == true then
-				o.health = o.health - 10
-				love.audio.play(o.damageaudio)
-				Collider:remove(o.bb)
-
-				-- kill zombies
-				if o.health < 0 then
-					o.health = 0
-					endless.score = endless.score + 10
-					endless.kills = endless.kills + 1
-					zombie.count = zombie.count - 1         
-					Collider:remove(o.bb)
-					table.remove(zombie.zombs, i)
-				end
-			end
     	end
     end
 
-    if setendless == false then
+
+
+
+  	if setendless == false then
+
+   		-- if player hits zombie
+   		for i, o in ipairs(zombie.zombs) do
+    		if other == o.bb then
+    		
+    			if endless.invhave == false then
+    				plyr.health = plyr.health - 0.4
+    				plyr.hurt = true
+    				love.audio.play(plyr.hurtaudio)
+    			end
+
+    			if endless.invhave == true then
+					o.health = o.health - 10
+					love.audio.play(o.damageaudio)
+					Collider:remove(o.bb)
+
+					-- kill zombies
+					if o.health < 0 then
+						o.health = 0
+						endless.score = endless.score + 10
+						endless.kills = endless.kills + 1
+						zombie.count = zombie.count - 1         
+						Collider:remove(o.bb)
+						table.remove(zombie.zombs, i)
+					end
+				end
+    		end
+    	end
     
     	-- if player hits smg
     	for i, o in ipairs(smg.smgs) do
