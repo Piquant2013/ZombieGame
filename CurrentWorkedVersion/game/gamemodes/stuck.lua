@@ -148,6 +148,7 @@ function stuckmode:update(dt)
 		player.hurttimer = 0
 		player.flashred = false
 		player.autoheal = true
+		player.maxhealth = 100
 
 		-- Pistol
 		crpistol.crp.y = plyr.y
@@ -398,6 +399,10 @@ function stuckmode:update(dt)
 	--- MOVE GAMEOVER TEXT ---
 	if gameover == true then
 		
+		for i, o in ipairs(zombie.zombs) do
+			o.speed = 10
+		end
+
 		-- set timer and title mover
 		self.gameovery = self.gameovery + dt - 1
 		self.bgtimer = self.bgtimer + dt

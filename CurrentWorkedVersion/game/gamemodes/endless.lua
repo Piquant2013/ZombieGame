@@ -55,7 +55,12 @@ function endless:init()
 	self.spawnshoe = false
 	self.shoehave = false
 	self.shoehad = false
-	self.shoetimer = 1.5
+	self.shoetimer = 1
+	self.heartcount = 1
+	self.spawnheart = false
+	self.hearthave = false
+	self.hearthad = false
+	self.hearttimer = 1
 
 	self.killallflash = 0
 	self.flashkillall = true
@@ -148,6 +153,7 @@ function endless:update(dt)
 		player.hurttimer = 0
 		player.flashred = false
 		player.autoheal = true
+		player.maxhealth = 100
 
 		-- Pistol
 		pis.y = plyr.y
@@ -198,7 +204,12 @@ function endless:update(dt)
 		self.spawnshoe = false
 		self.shoehave = false
 		self.shoehad = false
-		self.shoetimer = 1.5
+		self.shoetimer = 1
+		self.heartcount = 1
+		self.spawnheart = false
+		self.hearthave = false
+		self.hearthad = false
+		self.hearttimer = 1
 
 		self.killallflash = 0
 		self.flashkillall = true
@@ -248,6 +259,12 @@ function endless:update(dt)
 		shoe.spawnrate = 0
 		shoe.spawnrateplus = 1
 		shoe.count = 0
+
+		-- heart
+		heart.hearts = {}
+		heart.spawnrate = 0
+		heart.spawnrateplus = 1
+		heart.count = 0
 		
 		-- hardon collider
 		Collider = HC(100, on_collision, collision_stop)
@@ -365,13 +382,12 @@ function endless:update(dt)
 			self.pistolhave = true
 		end
 
-		-- Spawn special weapons
-		if self.spawnsmg == true and self.wave > 1 then
-			smg:spawn()
-		end
+		if self.wavebreak == false then
+			if self.spawnsmg == true and self.wave > 0 then
+				smg:spawn()
+			end
 
 		-- spawning
-		if self.wavebreak == false then
 			if smg.count == self.smgcount then
 				self.spawnsmg = false
 			elseif smg.count < self.smgcount then
@@ -388,7 +404,6 @@ function endless:update(dt)
 				self.smghad = false
 			end
 		end
-	--end
 	-- SPECIAL WEAPONS --
 
 
@@ -398,7 +413,6 @@ function endless:update(dt)
 
 
 
-	--if self.wave > 2 then
 		
 		for i, o in ipairs(minigun.miniguns) do
 			
@@ -423,11 +437,11 @@ function endless:update(dt)
 			self.pistolhave = true
 		end
 
-		if self.spawnmini == true and self.wave == 3 or self.spawnmini == true and self.wave == 5 or self.spawnmini == true and self.wave > 6 then
-			minigun:spawn()
-		end
-
 		if self.wavebreak == false then
+			if self.spawnmini == true and self.wave == 3 or self.spawnmini == true and self.wave == 6 or self.spawnmini == true and self.wave > 8 then
+				minigun:spawn()
+			end
+
 			if minigun.count == self.minicount then
 				self.spawnmini = false
 			elseif minigun.count < self.minicount then
@@ -444,7 +458,6 @@ function endless:update(dt)
 				self.minihad = false
 			end
 		end
-	--end
 
 
 
@@ -456,7 +469,6 @@ function endless:update(dt)
 
 
 	
-	--if self.wave == 5 or self.wave == 7 or self.wave > 8 then
 		
 		if self.invhave == true and self.invtimer < 0 then
 			self.invhave = false
@@ -476,18 +488,19 @@ function endless:update(dt)
 			self.pistolhave = true
 		end
 
-		if self.spawninv == true and self.wave == 5 or self.spawninv == true and self.wave == 8 or self.spawninv == true and self.wave == 11 or self.spawninv == true and self.wave > 14 then
-			inv:spawn()
-		end
+		if self.wavebreak == false then
+			if self.spawninv == true and self.wave == 5 or self.spawninv == true and self.wave == 8 or self.spawninv == true and self.wave == 11 or self.spawninv == true and self.wave == 14 or self.spawninv == true and self.wave == 17 or self.spawninv == true and self.wave > 19 then
+				inv:spawn()
+			end
 
-		if inv.count == self.invcount then
-			self.spawninv = false
-		elseif inv.count < self.invcount then
-			self.spawninv = true
+			if inv.count == self.invcount then
+				self.spawninv = false
+			elseif inv.count < self.invcount then
+				self.spawninv = true
+			end
 		end
 
 		if self.wavebreak == true then
-			
 			self.spawninv = false
 
 			if self.invhad == true and self.invhave == false then
@@ -496,7 +509,6 @@ function endless:update(dt)
 				self.invhad = false
 			end
 		end
-	--end
 	
 
 
@@ -506,7 +518,6 @@ function endless:update(dt)
 
 
 
-	--if self.wave == 8 or self.wave == 10 or self.wave == 12 or self.wave == 14 or self.wave == 16 or self.wave == 18 or self.wave > 20 then
 		
 		if self.killallhave == true and self.killalltimer < 0 then
 			self.killallhave = false
@@ -521,18 +532,19 @@ function endless:update(dt)
 			self.killalltimer = 1.5
 		end
 
-		if self.spawnkillall == true and self.wave == 8 or self.spawnkillall == true and self.wave == 12 or self.spawnkillall == true and self.wave == 16 or self.spawnkillall == true and self.wave == 20 or self.spawnkillall == true and self.wave == 24 or self.spawnkillall == true and self.wave == 28 or self.spawnkillall == true and self.wave > 30 then
-			killall:spawn()
-		end
+		if self.wavebreak == false then
+			if self.spawnkillall == true and self.wave == 8 or self.spawnkillall == true and self.wave == 16 or self.spawnkillall == true and self.wave == 20 or self.spawnkillall == true and self.wave == 28 or self.spawnkillall == true and self.wave == 36 or self.spawnkillall == true and self.wave == 40 or self.spawnkillall == true and self.wave > 49 then
+				killall:spawn()
+			end
 
-		if killall.count == self.killallcount then
-			self.spawnkillall = false
-		elseif killall.count < self.killallcount then
-			self.spawnkillall = true
+			if killall.count == self.killallcount then
+				self.spawnkillall = false
+			elseif killall.count < self.killallcount then
+				self.spawnkillall = true
+			end
 		end
 
 		if self.wavebreak == true then
-			
 			self.spawnkillall = false
 
 			if self.killallhad == true and self.killallhave == false then
@@ -546,7 +558,7 @@ function endless:update(dt)
 			for i, o in ipairs(zombie.zombs) do
 				o.health = o.health - 10
 				love.audio.play(o.damageaudio)
-				o.damageaudio:setVolume(0.4)
+				o.damageaudio:setVolume(0.3)
 				Collider:remove(o.bb)
 
 				-- kill zombies
@@ -560,7 +572,6 @@ function endless:update(dt)
 				end
 			end
 		end
-	--end
 
 
 
@@ -572,31 +583,31 @@ function endless:update(dt)
 
 
 
-
-	if self.shoehave == true and self.shoetimer > 1 then
+		if self.shoehave == true and self.shoetimer < 0 then
 			self.shoehave = false
 		end
 
 		if self.shoehave == true then
-			self.shoetimer = 2
+			self.shoetimer = self.shoetimer - dt
 		end
 
 		if self.shoehave == false then		
 			self.shoetimer = 1
 		end
 
-		if self.spawnshoe == true and self.wave == 3 or self.spawnshoe == true and self.wave == 6 or self.spawnshoe == true and self.wave == 10 or self.spawnshoe == true and self.wave == 15 or self.spawnshoe == true and self.wave == 25 or self.spawnshoe == true and self.wave == 35 or self.spawnshoe == true and self.wave > 50 then
-			shoe:spawn()
-		end
+		if self.wavebreak == false then
+			if self.spawnshoe == true and self.wave == 3 or self.spawnshoe == true and self.wave == 6 or self.spawnshoe == true and self.wave == 10 or self.spawnshoe == true and self.wave == 15 or self.spawnshoe == true and self.wave == 20 or self.spawnshoe == true and self.wave == 25 or self.spawnshoe == true and self.wave == 30 or self.spawnshoe == true and self.wave == 35 then
+				shoe:spawn()
+			end
 
-		if shoe.count == self.shoecount then
-			self.spawnshoe = false
-		elseif shoe.count < self.shoecount then
-			self.spawnshoe = true
+			if shoe.count == self.shoecount then
+				self.spawnshoe = false
+			elseif shoe.count < self.shoecount then
+				self.spawnshoe = true
+			end
 		end
 
 		if self.wavebreak == true then
-			
 			self.spawnshoe = false
 
 			if self.shoehad == true and self.shoehave == false then
@@ -605,9 +616,51 @@ function endless:update(dt)
 				self.shoehad = false
 			end
 		end
-	
-		if self.shoehave == true then
-			plyr.speed = plyr.speed + 2.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+		if self.hearthave == true and self.hearttimer < 0 then
+			self.hearthave = false
+		end
+
+		if self.hearthave == true then
+			self.hearttimer = self.hearttimer - dt
+		end
+
+		if self.hearthave == false then		
+			self.hearttimer = 1
+		end
+
+		if self.wavebreak == false then
+			if self.spawnheart == true and self.wave == 10 or self.spawnheart == true and self.wave == 20 or self.spawnheart == true and self.wave == 30 or self.spawnheart == true and self.wave == 40 or self.spawnheart == true and self.wave == 50 or self.spawnheart == true and self.wave == 60 then
+				heart:spawn()
+			end
+
+			if heart.count == self.heartcount then
+				self.spawnheart = false
+			elseif heart.count < self.heartcount then
+				self.spawnheart = true
+			end
+		end
+
+		if self.wavebreak == true then
+			self.spawnheart = false
+
+			if self.hearthad == true and self.hearthave == false then
+				heart.count = 0
+				table.remove(heart.hearts, i)
+				self.hearthad = false
+			end
 		end
 
 
@@ -678,13 +731,13 @@ function endless:update(dt)
 	end
 
 	-- lock the wave count
-	if zombie.speed > 100 then
-		zombie.speed = 100
+	if zombie.speed > 200 then
+		zombie.speed = 200
 	end
 
 	-- lock the wave count
-	if self.wavezombiecount > 150 then
-		self.wavezombiecount = 150
+	if self.wavezombiecount > 300 then
+		self.wavezombiecount = 300
 	end
 
 	-- flash the wave title in hud when a new wave is starting
@@ -718,12 +771,20 @@ function endless:update(dt)
 	-- update inv
 	killall:update(dt)
 
-	-- update inv
+	-- update shoe
 	shoe:update(dt)
+
+	-- update heart
+	heart:update(dt)
 
 	--- MOVE GAMEOVER TEXT ---
 	if gameover == true then
 		
+		
+		for i, o in ipairs(zombie.zombs) do
+			o.speed = 10
+		end
+
 		-- set timer and title mover
 		self.gameovery = self.gameovery + dt - 1
 		self.bgtimer = self.bgtimer + dt
@@ -810,6 +871,9 @@ function endless:draw()
 
 	-- killall
 	shoe:draw()
+
+	-- heart
+	heart:draw()
 
 	-- pistol
 	pistol:draw()

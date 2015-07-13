@@ -11,7 +11,8 @@ function player:initialize()
 	-- Player damage and health
 	self.hurttimer = 0
 	self.flashred = false
-	player.autoheal = false
+	self.autoheal = false
+	self.maxhealth = 100
 
 	-- Players weapon position
 	self.weapony = 0
@@ -72,8 +73,8 @@ function player:health(dt)
   		end
 
   		-- stop player health at 100
-  		if plyr.health > 100 then
-    		plyr.health = 100
+  		if plyr.health > self.maxhealth then
+    		plyr.health = self.maxhealth
    		 	player.hurttimer = 0
   		end
   	end

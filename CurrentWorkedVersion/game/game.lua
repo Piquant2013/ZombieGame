@@ -34,6 +34,9 @@ killall = require 'game/weapons/killall'
 -- Loads shoe script
 shoe = require 'game/weapons/shoe'
 
+-- Loads heart script
+heart = require 'game/weapons/heart'
+
 -- Loads zombie script
 zombie = require 'game/zombie'
 
@@ -238,6 +241,26 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     		if other == o.bb then
     			endless.shoehad = true
     			endless.shoehave = true
+
+    			if plyr.speed < 50 then
+					plyr.speed = plyr.speed + 2	
+				end
+    		
+    			Collider:remove(o.bb)
+    			love.audio.play(game.pickupsound)
+    		end
+    	end
+
+    	-- if player hits heart
+    	for i, o in ipairs(heart.hearts) do
+    		if other == o.bb then
+    			endless.hearthad = true
+    			endless.hearthave = true
+
+    			if plyr.health < 160 then
+					player.maxhealth = player.maxhealth	+ 10
+				end
+
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
     		end
