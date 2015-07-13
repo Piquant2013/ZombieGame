@@ -250,7 +250,7 @@ function moregames:update(dt)
 			self.buttonflashback = self.buttonflashback + dt - 2
 		end
 	
-		if self.buttonflashback > 100 then
+		if self.buttonflashback > 150 then
 			self.flashbuttonback = false
 		elseif self.buttonflashback < 2 then
 			self.flashbuttonback = true
@@ -269,7 +269,7 @@ function moregames:update(dt)
 			self.buttonflashnext = self.buttonflashnext + dt - 2
 		end
 	
-		if self.buttonflashnext > 100 then
+		if self.buttonflashnext > 150 then
 			self.flashbuttonnext = false
 		elseif self.buttonflashnext < 2 then
 			self.flashbuttonnext = true

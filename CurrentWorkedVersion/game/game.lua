@@ -28,6 +28,12 @@ minigun = require 'game/weapons/minigun'
 -- Loads inv script
 inv = require 'game/weapons/inv'
 
+-- Loads killall script
+killall = require 'game/weapons/killall'
+
+-- Loads shoe script
+shoe = require 'game/weapons/shoe'
+
 -- Loads zombie script
 zombie = require 'game/zombie'
 
@@ -185,6 +191,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.smghave = true
     			endless.minihave = false
     			endless.invhave = false
+    			endless.killallhave = false
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
     		end
@@ -197,6 +204,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.minihave = true
     			endless.smghave = false
     			endless.invhave = false
+    			endless.killallhave = false
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
     		end
@@ -209,6 +217,27 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.invhave = true
     			endless.smghave = false
     			endless.minihave = false
+    			endless.killallhave = false
+    			Collider:remove(o.bb)
+    			love.audio.play(game.pickupsound)
+    		end
+    	end
+
+    	-- if player hits killall
+    	for i, o in ipairs(killall.killalls) do
+    		if other == o.bb then
+    			endless.killallhad = true
+    			endless.killallhave = true
+    			Collider:remove(o.bb)
+    			love.audio.play(game.pickupsound)
+    		end
+    	end
+
+    	-- if player hits shoe
+    	for i, o in ipairs(shoe.shoes) do
+    		if other == o.bb then
+    			endless.shoehad = true
+    			endless.shoehave = true
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
     		end

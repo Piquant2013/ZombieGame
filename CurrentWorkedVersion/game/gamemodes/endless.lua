@@ -46,6 +46,19 @@ function endless:init()
 	self.invtimer = 10
 	self.gunsflash = 2
 	self.flashguns = true
+	self.killallcount = 1
+	self.spawnkillall = false
+	self.killallhave = false
+	self.killallhad = false
+	self.killalltimer = 1.5
+	self.shoecount = 1
+	self.spawnshoe = false
+	self.shoehave = false
+	self.shoehad = false
+	self.shoetimer = 1.5
+
+	self.killallflash = 0
+	self.flashkillall = true
 
 	-- Gameover vars
 	self.gameovery = 800
@@ -176,6 +189,19 @@ function endless:update(dt)
 		self.invtimer = 10
 		self.gunsflash = 2
 		self.flashguns = true
+		self.killallcount = 1
+		self.spawnkillall = false
+		self.killallhave = false
+		self.killallhad = false
+		self.killalltimer = 1.5
+		self.shoecount = 1
+		self.spawnshoe = false
+		self.shoehave = false
+		self.shoehad = false
+		self.shoetimer = 1.5
+
+		self.killallflash = 0
+		self.flashkillall = true
 
 		-- Gameover vars
 		self.gameovery = 800
@@ -205,11 +231,23 @@ function endless:update(dt)
 		minigun.spawnrateplus = 1
 		minigun.count = 0
 
-		-- Minigun
+		-- Inv
 		inv.invs = {}
 		inv.spawnrate = 0
 		inv.spawnrateplus = 1
 		inv.count = 0
+
+		-- Killall
+		killall.killalls = {}
+		killall.spawnrate = 0
+		killall.spawnrateplus = 1
+		killall.count = 0
+
+		-- shoe
+		shoe.shoes = {}
+		shoe.spawnrate = 0
+		shoe.spawnrateplus = 1
+		shoe.count = 0
 		
 		-- hardon collider
 		Collider = HC(100, on_collision, collision_stop)
@@ -257,7 +295,40 @@ function endless:update(dt)
 
 
 
+	-- Flash special weapons
+	if self.flashguns == true then
+		self.gunsflash = self.gunsflash + dt + 1.5
+	elseif self.flashguns == false then
+		self.gunsflash = self.gunsflash + dt - 1.5
+	end
+	
+	if self.gunsflash > 100 then
+		self.flashguns = false
+	elseif self.gunsflash < 2 then
+		self.flashguns = true
+	end
 
+
+
+
+
+	if self.killallhave == true then
+		if self.flashkillall == true then
+			self.killallflash = self.killallflash + dt + 10
+		elseif self.flashkillall == false then
+			self.killallflash = self.killallflash + dt - 10
+		end
+	
+		if self.killallflash > 255 then
+			self.flashkillall  = false
+		elseif self.killallflash < 0 then
+			self.flashkillall = true
+		end
+
+	elseif self.killallhave == false then
+		self.flashkillall = true
+		self.killallflash = 0
+	end
 
 
 
@@ -265,7 +336,7 @@ function endless:update(dt)
 
 
 	-- SPECIAL WEAPONS --
-	if self.wave > 1 then
+	--if self.wave > 1 then
 
 		for i, o in ipairs(smg.smgs) do
 			if self.smghave == true and o.ammo == 0 then
@@ -295,12 +366,8 @@ function endless:update(dt)
 		end
 
 		-- Spawn special weapons
-		if self.spawnsmg == true then
+		if self.spawnsmg == true and self.wave > 1 then
 			smg:spawn()
-		end
-
-		if self.spawnmini == true then
-			minigun:spawn()
 		end
 
 		-- spawning
@@ -313,7 +380,6 @@ function endless:update(dt)
 		end
 
 		if self.wavebreak == true then
-
 			self.spawnsmg = false
 		
 			if self.smghad == true and self.smghave == false then
@@ -322,20 +388,7 @@ function endless:update(dt)
 				self.smghad = false
 			end
 		end
-
-		-- Flash special weapons
-		if self.flashguns == true then
-			self.gunsflash = self.gunsflash + dt + 1.5
-		elseif self.flashguns == false then
-			self.gunsflash = self.gunsflash + dt - 1.5
-		end
-	
-		if self.gunsflash > 100 then
-			self.flashguns = false
-		elseif self.gunsflash < 2 then
-			self.flashguns = true
-		end
-	end
+	--end
 	-- SPECIAL WEAPONS --
 
 
@@ -345,7 +398,7 @@ function endless:update(dt)
 
 
 
-	if self.wave > 2 then
+	--if self.wave > 2 then
 		
 		for i, o in ipairs(minigun.miniguns) do
 			
@@ -363,7 +416,6 @@ function endless:update(dt)
 		end
 
 		if self.minihave == false then
-			
 			for i, o in ipairs(minigun.miniguns) do
 				o.ammo = 150
 			end
@@ -371,12 +423,11 @@ function endless:update(dt)
 			self.pistolhave = true
 		end
 
-		if self.spawnmini == true then
+		if self.spawnmini == true and self.wave == 3 or self.spawnmini == true and self.wave == 5 or self.spawnmini == true and self.wave > 6 then
 			minigun:spawn()
 		end
 
 		if self.wavebreak == false then
-			
 			if minigun.count == self.minicount then
 				self.spawnmini = false
 			elseif minigun.count < self.minicount then
@@ -393,7 +444,7 @@ function endless:update(dt)
 				self.minihad = false
 			end
 		end
-	end
+	--end
 
 
 
@@ -405,7 +456,7 @@ function endless:update(dt)
 
 
 	
-	if self.wave > 5 then
+	--if self.wave == 5 or self.wave == 7 or self.wave > 8 then
 		
 		if self.invhave == true and self.invtimer < 0 then
 			self.invhave = false
@@ -425,7 +476,7 @@ function endless:update(dt)
 			self.pistolhave = true
 		end
 
-		if self.spawninv == true then
+		if self.spawninv == true and self.wave == 5 or self.spawninv == true and self.wave == 8 or self.spawninv == true and self.wave == 11 or self.spawninv == true and self.wave > 14 then
 			inv:spawn()
 		end
 
@@ -445,13 +496,119 @@ function endless:update(dt)
 				self.invhad = false
 			end
 		end
-	end
+	--end
 	
 
 
 
 
 
+
+
+
+	--if self.wave == 8 or self.wave == 10 or self.wave == 12 or self.wave == 14 or self.wave == 16 or self.wave == 18 or self.wave > 20 then
+		
+		if self.killallhave == true and self.killalltimer < 0 then
+			self.killallhave = false
+			love.audio.play(menu.backsound)
+		end
+
+		if self.killallhave == true then
+			self.killalltimer = self.killalltimer - dt
+		end
+
+		if self.killallhave == false then		
+			self.killalltimer = 1.5
+		end
+
+		if self.spawnkillall == true and self.wave == 8 or self.spawnkillall == true and self.wave == 12 or self.spawnkillall == true and self.wave == 16 or self.spawnkillall == true and self.wave == 20 or self.spawnkillall == true and self.wave == 24 or self.spawnkillall == true and self.wave == 28 or self.spawnkillall == true and self.wave > 30 then
+			killall:spawn()
+		end
+
+		if killall.count == self.killallcount then
+			self.spawnkillall = false
+		elseif killall.count < self.killallcount then
+			self.spawnkillall = true
+		end
+
+		if self.wavebreak == true then
+			
+			self.spawnkillall = false
+
+			if self.killallhad == true and self.killallhave == false then
+				killall.count = 0
+				table.remove(killall.killalls, i)
+				self.killallhad = false
+			end
+		end
+	
+		if self.killallhave == true then
+			for i, o in ipairs(zombie.zombs) do
+				o.health = o.health - 10
+				love.audio.play(o.damageaudio)
+				o.damageaudio:setVolume(0.4)
+				Collider:remove(o.bb)
+
+				-- kill zombies
+				if o.health < 0 then
+					o.health = 0
+					self.score = self.score + 10
+					self.kills = self.kills + 1
+					zombie.count = zombie.count - 1         
+					Collider:remove(o.bb)
+					table.remove(zombie.zombs, i)
+				end
+			end
+		end
+	--end
+
+
+
+
+
+
+
+
+
+
+
+
+	if self.shoehave == true and self.shoetimer > 1 then
+			self.shoehave = false
+		end
+
+		if self.shoehave == true then
+			self.shoetimer = 2
+		end
+
+		if self.shoehave == false then		
+			self.shoetimer = 1
+		end
+
+		if self.spawnshoe == true and self.wave == 3 or self.spawnshoe == true and self.wave == 6 or self.spawnshoe == true and self.wave == 10 or self.spawnshoe == true and self.wave == 15 or self.spawnshoe == true and self.wave == 25 or self.spawnshoe == true and self.wave == 35 or self.spawnshoe == true and self.wave > 50 then
+			shoe:spawn()
+		end
+
+		if shoe.count == self.shoecount then
+			self.spawnshoe = false
+		elseif shoe.count < self.shoecount then
+			self.spawnshoe = true
+		end
+
+		if self.wavebreak == true then
+			
+			self.spawnshoe = false
+
+			if self.shoehad == true and self.shoehave == false then
+				shoe.count = 0
+				table.remove(shoe.shoes, i)
+				self.shoehad = false
+			end
+		end
+	
+		if self.shoehave == true then
+			plyr.speed = plyr.speed + 2.5
+		end
 
 
 
@@ -558,6 +715,12 @@ function endless:update(dt)
 	-- update inv
 	inv:update(dt)
 
+	-- update inv
+	killall:update(dt)
+
+	-- update inv
+	shoe:update(dt)
+
 	--- MOVE GAMEOVER TEXT ---
 	if gameover == true then
 		
@@ -641,6 +804,12 @@ function endless:draw()
 
 	-- inv
 	inv:draw()
+
+	-- killall
+	killall:draw()
+
+	-- killall
+	shoe:draw()
 
 	-- pistol
 	pistol:draw()
@@ -735,6 +904,14 @@ function endless:draw()
 		end
 	end
 
+
+
+	love.graphics.setColor(160, 47, 0, self.killallflash)
+	love.graphics.rectangle("fill", 0, 0, 1280, 720 )
+	love.graphics.setColor(255, 255, 255, 255)
+
+
+	
 	-- draw game welcome messages
 	game:draw()
 	------ TEXT ------
