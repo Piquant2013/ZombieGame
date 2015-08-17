@@ -28,6 +28,7 @@ function start:init()
 	------ IMAGES ------
 
 	------ FONTS ------
+	self.font011 = love.graphics.newFont("fonts/PressStart.ttf", 12)
 	self.font0 = love.graphics.newFont("fonts/PressStart.ttf", 15)
 	self.font1 = love.graphics.newFont("fonts/PressStart.ttf", 20)
 	self.font2 = love.graphics.newFont("fonts/PressStart.ttf", 30)
@@ -77,18 +78,10 @@ function start:update(dt)
 	end
 	--- TEXT FLASH ---
 
-
-
-
-
+	-- if fullscreens was on before you entered a game switch it back on
 	if setfull == false and setgamefull == true then
 		setfull = true
 	end
-
-
-
-
-
 
 	-- Update easter egg
 	start:colorupdate(dt)
@@ -156,23 +149,15 @@ function start:keypressed(key)
 	start:colorkeypressed(key)
 end
 
-
-
-
-
 function start:mousepressed(mx, my, button)
 
+	-- move onto the menu script
 	if button == "l" then
 		Gamestate.push(menu)
 		love.audio.play(self.entersound)
 		paused = false
 	end
 end
-
-
-
-
-
 
 function start:draw()
 
@@ -194,10 +179,9 @@ function start:draw()
 	love.graphics.setColor(160, 47, 0)
 	love.graphics.print('© 2015 PIQUANT INTERACTIVE', (love.graphics.getWidth( )/2-self.font2:getWidth("© 2015 PIQUANT INTERACTIVE")/2), (love.graphics.getHeight( )/2 - fpsfont:getHeight( "PUSH START BUTTON" )/2 + 190))
 	love.graphics.setColor(255, 255, 255, 255)
-
 	love.graphics.setFont( start.font0 )
 	love.graphics.setColor(160, 47, 0)
-	love.graphics.print('Pre-Alpha 0.1.1', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.1") - 10))
+	love.graphics.print('Pre-Alpha 0.1.2', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.1") - 10))
 	love.graphics.setColor(255, 255, 255, 255)
 	------ TEXT ------
 end

@@ -35,28 +35,29 @@ function menu:init()
 	self.optstate = false
 	self.exitstate = false
 
-
-
-
-
-
+	-- Scale vars for buttons
 	self.scaleplay = 1
 	self.scaleoptions = 1
 	self.scalequit = 1
 
+	-- Flash vars for play button
 	self.flashbuttonplay = true
 	self.buttonflashplay = 0
 
+	-- Flash vars for options button
 	self.flashbuttonoptions = true
 	self.buttonflashoptions = 0
 
+	-- Flash vars for quit button
 	self.flashbuttonquit = true
 	self.buttonflashquit = 0
 
+	-- mouse button state
 	self.playstatemouse = false
 	self.optstatemouse = false
 	self.exitstatemouse = false
 
+	-- Mouse Dectect vars for sound
 	self.mouseover = false
 	self.mousedetect1 = 0
 	self.mousedetect2 = 0
@@ -134,11 +135,8 @@ function menu:update(dt)
 		self.arrowy = self.playbtny
 	end
 
-
-
-
-
-
+	-- MOUSE AREAS --
+	-- Mouse area of play button
 	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2 + start.font2:getWidth( "START NEW GAME" )) + 50 and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2) - 50 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "START NEW GAME" )/2 + 90) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "START NEW GAME" )/2 + 100 + start.font2:getHeight( "START NEW GAME" )) then
 		self.playstatemouse = true
 		self.optstatemouse = false
@@ -154,6 +152,7 @@ function menu:update(dt)
 		self.mousedetect3 = 0
 	end
 
+	-- Mouse area of options button
 	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2 + start.font2:getWidth( "START NEW GAME" )) + 50 and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2) - 50 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 + 140) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 + 150 + start.font2:getHeight( "SETTINGS" )) then
 		self.playstatemouse = false
 		self.optstatemouse = true
@@ -169,6 +168,7 @@ function menu:update(dt)
 		self.mousedetect3 = 0
 	end
 
+	-- Mouse area of exit button
 	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2 + start.font2:getWidth( "START NEW GAME" )) + 50 and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2) - 50 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "QUIT" )/2 + 190) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "QUIT" )/2 + 200 + start.font2:getHeight( "QUIT" )) then
 		self.playstatemouse = false
 		self.optstatemouse = false
@@ -183,12 +183,9 @@ function menu:update(dt)
 		self.mousedetect2 = 0
 		self.mousedetect3 = self.mousedetect3 + 1
 	end
+	-- MOUSE AREAS --
 
-
-
-
-
-
+	-- MOUSE OUT OF AREA --
 	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2 + start.font2:getWidth( "START NEW GAME" )) + 50 then
 		self.playstatemouse = false
 		self.optstatemouse = false
@@ -216,11 +213,10 @@ function menu:update(dt)
 		self.exitstatemouse = false
 		self.mouseover = false
 	end
+	-- MOUSE OUT OF AREA --
 
-
-
-
-
+	-- BUTTON FLASHING --
+	-- Flashing for the play button
 	if self.playstatemouse == true or self.playstate == true then
 		
 		if self.flashbuttonplay == true then
@@ -236,16 +232,11 @@ function menu:update(dt)
 		end
 	
 	elseif self.playstatemouse == false or self.playstate == false then
-		
 		self.flashbuttonplay = true
-		--self.buttonflashplay = self.buttonflashplay + dt - 2
-	
-		--if self.buttonflashplay < 0 then
-			self.buttonflashplay = 0
-		--end
+		self.buttonflashplay = 0
 	end
 
-
+	-- Flashing for the options button
 	if self.optstatemouse == true or self.optstate == true then
 		
 		if self.flashbuttonoptions == true then
@@ -261,17 +252,11 @@ function menu:update(dt)
 		end
 	
 	elseif self.optstatemouse == false or self.optstate == false then
-	
 		self.flashbuttonoptions = true
-		--self.buttonflashoptions = self.buttonflashoptions + dt - 2
-	
-		--if self.buttonflashoptions < 0 then
-			self.buttonflashoptions = 0
-		--end
-
+		self.buttonflashoptions = 0
 	end
 
-
+	-- Flashing for the exit button
 	if self.exitstatemouse == true or self.exitstate == true then
 		
 		if self.flashbuttonquit == true then
@@ -287,21 +272,12 @@ function menu:update(dt)
 		end
 	
 	elseif self.exitstatemouse == false or self.exitstate == false then
-		
 		self.flashbuttonquit = true
-		--self.buttonflashquit = self.buttonflashquit + dt - 2
-	
-		--if self.buttonflashquit < 0 then
-			self.buttonflashquit = 0
-		--end
-
+		self.buttonflashquit = 0
 	end
+	-- BUTTON FLASHING --
 
-
-
-
-
-
+	-- MOUSE DECTECTS --
 	if self.mouseover == false then
 		self.mousedetect1 = 0
 		self.mousedetect2 = 0
@@ -328,14 +304,12 @@ function menu:update(dt)
 		love.audio.stop(self.mouseover2)
 		love.audio.play(self.mouseover3)
 	end
+	-- MOUSE DECTECTS --
 
-
-
+	-- if fullscreens was on before you entered a game switch it back on
 	if setfull == false and setgamefull == true then
 		setfull = true
 	end
-
-
 
 	-- Update easter egg
 	start:colorupdate(dt)
@@ -399,15 +373,9 @@ function menu:keypressed(key)
 	start:colorkeypressed(key)
 end
 
-
-
-
-
-
-
-
 function menu:mousepressed(mx, my, button)
 
+	-- ACTIVATE BUTTONS --
 	-- Launch game
 	if button == "l" and self.playstatemouse == true then
 		love.audio.play(self.entersound)
@@ -424,6 +392,7 @@ function menu:mousepressed(mx, my, button)
 		love.audio.play(self.entersound)
 		Gamestate.push(options)
 	end
+	-- ACTIVATE BUTTONS --
 
 	-- Go back to the start screen
 	if button == "r" then
@@ -432,14 +401,6 @@ function menu:mousepressed(mx, my, button)
 		love.audio.play(self.backsound)
 	end
 end
-
-
-
-
-
-
-
-
 
 function menu:draw()
 	
@@ -461,25 +422,21 @@ function menu:draw()
 
 	------ TEXT ------
 	love.graphics.setFont( start.font2 )
-	
 	love.graphics.print('START NEW GAME', (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "START NEW GAME" )/2) + self.playbtny, 0, self.scaleplay)
 	love.graphics.setColor(255, 255, 255, self.buttonflashplay)
 	love.graphics.print('START NEW GAME', (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "START NEW GAME" )/2) + self.playbtny, 0, self.scaleplay)
 	love.graphics.setColor(160, 47, 0, 255)
-	
 	love.graphics.print('QUIT', (love.graphics.getWidth()/2 - start.font2:getWidth( "QUIT" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "QUIT" )/2) + self.quitbtny, 0, self.scalequit)
 	love.graphics.setColor(255, 255, 255, self.buttonflashquit)
 	love.graphics.print('QUIT', (love.graphics.getWidth()/2 - start.font2:getWidth( "QUIT" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "QUIT" )/2) + self.quitbtny, 0, self.scalequit)
 	love.graphics.setColor(160, 47, 0, 255)
-	
 	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2) + self.optbtny, 0, self.scaleoptions)
 	love.graphics.setColor(255, 255, 255, self.buttonflashoptions)
 	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2) + self.optbtny, 0, self.scaleoptions)
 	love.graphics.setColor(160, 47, 0, 255)
-
 	love.graphics.setFont( start.font0 )
 	love.graphics.setColor(160, 47, 0)
-	love.graphics.print('Pre-Alpha 0.1.1', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.1") - 10))
+	love.graphics.print('Pre-Alpha 0.1.2', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.1") - 10))
 	love.graphics.setColor(255, 255, 255, 255)
 	------ TEXT ------
 end

@@ -1,7 +1,7 @@
 -- Loads gamestate script
 local Gamestate = require 'libs/hump/gamestate'
 
--- Creates credits as a new gamestate
+-- Controls credits as a new gamestate
 controls = Gamestate.new()
 
 
@@ -27,9 +27,6 @@ function controls:keypressed(key)
 	end
 end
 
-
-
-
 function controls:mousepressed(mx, my, button)
 
 	-- Go back to the start screen
@@ -39,10 +36,6 @@ function controls:mousepressed(mx, my, button)
 		love.audio.stop(options.entersound1)
 	end
 end
-
-
-
-
 
 function controls:update(dt)
 end

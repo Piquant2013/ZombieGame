@@ -17,7 +17,7 @@ player = require 'game/player'
 pistol = require 'game/weapons/pistol'
 
 -- Loads crpistol script
-crpistol = require 'game/weapons/clickrate-pistol'
+crpistol = require 'game/weapons/crpistol'
 
 -- Loads smg script
 smg = require 'game/weapons/smg'
@@ -75,6 +75,8 @@ function game:init()
 	self.pickupsound = love.audio.newSource("audio/weapons/pickup.ogg")
 	self.wavestart = love.audio.newSource("audio/wave/start.ogg")
 	self.waveend = love.audio.newSource("audio/wave/end.ogg")
+	self.invidle = love.audio.newSource("audio/weapons/invidle.ogg")
+	self.invhit = love.audio.newSource("audio/weapons/invhit.ogg")
 	------ AUDIO ------
 end
 
@@ -139,9 +141,6 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
         return
     end
 
-
-
-
     if gamereset == false then
        		
        	-- if player hits zombie
@@ -154,24 +153,23 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     	end
     end
 
-
-
-
   	if setendless == false then
 
    		-- if player hits zombie
    		for i, o in ipairs(zombie.zombs) do
     		if other == o.bb then
     		
+    			-- if player hits zombie and doesnt have inv
     			if endless.invhave == false then
     				plyr.health = plyr.health - 0.4
     				plyr.hurt = true
     				love.audio.play(plyr.hurtaudio)
     			end
 
+    			-- if player hits zombie and has inv
     			if endless.invhave == true then
 					o.health = o.health - 10
-					love.audio.play(o.damageaudio)
+					love.audio.play(game.invhit)
 					Collider:remove(o.bb)
 
 					-- kill zombies
@@ -193,7 +191,6 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.smghad = true
     			endless.smghave = true
     			endless.minihave = false
-    			endless.invhave = false
     			endless.killallhave = false
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
@@ -206,7 +203,6 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.minihad = true
     			endless.minihave = true
     			endless.smghave = false
-    			endless.invhave = false
     			endless.killallhave = false
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
@@ -218,9 +214,6 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     		if other == o.bb then
     			endless.invhad = true
     			endless.invhave = true
-    			endless.smghave = false
-    			endless.minihave = false
-    			endless.killallhave = false
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
     		end
@@ -242,6 +235,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.shoehad = true
     			endless.shoehave = true
 
+    			-- increase player speed
     			if plyr.speed < 50 then
 					plyr.speed = plyr.speed + 2	
 				end
@@ -257,6 +251,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.hearthad = true
     			endless.hearthave = true
 
+    			-- increase the player health
     			if plyr.health < 160 then
 					player.maxhealth = player.maxhealth	+ 10
 				end
@@ -559,6 +554,7 @@ function game:update(dt)
     -- if game is paused switch to the pause screen
 	if paused == true then
 		Gamestate.push(pause)
+		love.audio.pause(game.invidle)
 	end
 
 	-- Flash start button text

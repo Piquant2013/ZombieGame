@@ -29,32 +29,29 @@ function pause:init()
 	self.optionsstate = false
 	self.mainmenustate = false
 
-
-
-
-
-
-
-
-
-
+	-- Scale vars for buttons
 	self.scaleresume = 1
 	self.scaleoptions = 1
 	self.scalemainmenu = 1
 
+	-- Flash vars for resume button
 	self.flashbuttonresume = true
 	self.buttonflashresume = 0
 
+	-- Flash vars for options button
 	self.flashbuttonoptions = true
 	self.buttonflashoptions = 0
 
+	-- Flash vars for menu button
 	self.flashbuttonmainmenu = true
 	self.buttonflashmainmenu = 0
 
+	-- mouse button state
 	self.resumestatemouse = false
 	self.optionsstatemouse = false
 	self.mainmenustatemouse = false
 
+	-- Mouse Dectect vars for sound
 	self.mouseover = false
 	self.mousedetect1 = 0
 	self.mousedetect2 = 0
@@ -78,14 +75,17 @@ function pause:update(dt)
 	if resume == false then
 		game.music1:setVolume(0.2)
 		love.mouse.setCursor(cursor)
+		love.audio.pause(game.invidle)
 	end
 
 	-- Switch back to the game script
 	if resume == true then
 		Gamestate.pop()
 		paused = false
+		love.audio.resume(game.invidle)
 		love.mouse.setCursor(crosshair)
 		game.music1:setVolume(1.0)
+		love.audio.resume(game.invidle)
 	end 
 
 	-- PAUSE MENU STATES -- 
@@ -137,28 +137,9 @@ function pause:update(dt)
 		self.arrowy = self.resumebtny
 	end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
+	-- MOUSE AREAS --
+	-- Mouse area of resume button
 	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "RESUME" )/2 - 60) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "RESUME" )/2 - 60 + start.font2:getHeight( "RESUME" )) then
-		
 		self.resumestatemouse = true
 		self.optionsstatemouse = false
 		self.mainmenustatemouse = false
@@ -173,8 +154,8 @@ function pause:update(dt)
 		self.mousedetect3 = 0
 	end
 
+	-- Mouse area of options button
 	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 - 10 + start.font2:getHeight( "SETTINGS" )) then
-		
 		self.resumestatemouse = false
 		self.optionsstatemouse = true
 		self.mainmenustatemouse = false
@@ -189,8 +170,8 @@ function pause:update(dt)
 		self.mousedetect3 = 0
 	end
 
+	-- Mouse area of menu button
 	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MENU" )/2 + 40) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MENU" )/2 + 40 + start.font2:getHeight( "MENU" )) then
-		
 		self.resumestatemouse = false
 		self.optionsstatemouse = false
 		self.mainmenustatemouse = true
@@ -204,12 +185,9 @@ function pause:update(dt)
 		self.mousedetect2 = 0
 		self.mousedetect3 = self.mousedetect3 + 1
 	end
+	-- MOUSE AREAS --
 
-
-
-
-
-
+	-- MOUSE OUT OF AREA --
 	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) then
 		self.resumestatemouse = false
 		self.optionsstatemouse = false
@@ -237,11 +215,10 @@ function pause:update(dt)
 		self.mainmenustatemouse = false
 		self.mouseover = false
 	end
-	
+	-- MOUSE OUT OF AREA --
 
-
-
-
+	-- BUTTON FLASHING --
+	-- Flashing for the resume button
 	if self.resumestatemouse == true or self.resumestate == true then
 		
 		if self.flashbuttonresume == true then
@@ -257,12 +234,11 @@ function pause:update(dt)
 		end
 	
 	elseif self.resumestatemouse == false or self.resumestate == false then
-		
 		self.flashbuttonresume = true
 		self.buttonflashresume = 0
 	end
 
-
+	-- Flashing for the options button
 	if self.optstatemouse == true or self.optionsstate == true then
 		
 		if self.flashbuttonoptions == true then
@@ -278,12 +254,11 @@ function pause:update(dt)
 		end
 	
 	elseif self.optstatemouse == false or self.optionsstate == false then
-	
 		self.flashbuttonoptions = true
 		self.buttonflashoptions = 0
 	end
 
-
+	-- Flashing for the menu button
 	if self.mainmenustatemouse == true or self.mainmenustate == true then
 		
 		if self.flashbuttonmainmenu == true then
@@ -299,16 +274,12 @@ function pause:update(dt)
 		end
 	
 	elseif self.mainmenustatemouse == false or self.mainmenustate == false then
-		
 		self.flashbuttonmainmenu = true
 		self.buttonflashmainmenu = 0
 	end
+	-- BUTTON FLASHING --
 
-
-
-
-
-
+	-- MOUSE DECTECTS --
 	if self.mouseover == false then
 		self.mousedetect1 = 0
 		self.mousedetect2 = 0
@@ -335,25 +306,7 @@ function pause:update(dt)
 		love.audio.stop(self.mouseover2)
 		love.audio.play(self.mouseover3)
 	end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	-- MOUSE DECTECTS --
 end
 
 function pause:keypressed(key)
@@ -421,22 +374,6 @@ function pause:keypressed(key)
 	end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function pause:mousepressed(mx, my, button)
  
 	-- Resume the game
@@ -474,19 +411,6 @@ function pause:mousepressed(mx, my, button)
 	end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 function pause:draw()
 	
 	------ FILTERS ------
@@ -509,12 +433,10 @@ function pause:draw()
 	love.graphics.setColor(255, 255, 255, self.buttonflashresume)
 	love.graphics.print('RESUME', (love.graphics.getWidth()/2 - start.font2:getWidth( "RESUME" )/2), (love.graphics.getHeight()/2 - 30/2 - 50), 0, self.scaleresume)
 	love.graphics.setColor(160, 47, 0, 255)
-
 	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2), (love.graphics.getHeight()/2 - 30/2), 0, self.scaleoptions)
 	love.graphics.setColor(255, 255, 255, self.buttonflashoptions)
 	love.graphics.print('SETTINGS', (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2), (love.graphics.getHeight()/2 - 30/2), 0, self.scaleoptions)
 	love.graphics.setColor(160, 47, 0, 255)
-
 	love.graphics.print('MENU', (love.graphics.getWidth()/2 - start.font2:getWidth( "MENU" )/2), (love.graphics.getHeight()/2 - 30/2 + 50), 0, self.scalemainmenu)
 	love.graphics.setColor(255, 255, 255, self.buttonflashmainmenu)
 	love.graphics.print('MENU', (love.graphics.getWidth()/2 - start.font2:getWidth( "MENU" )/2), (love.graphics.getHeight()/2 - 30/2 + 50), 0, self.scalemainmenu)

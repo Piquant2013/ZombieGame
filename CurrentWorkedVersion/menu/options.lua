@@ -4,13 +4,13 @@ local Gamestate = require 'libs/hump/gamestate'
 -- Loads credits script
 credits = require 'menu/credits'
 
--- Loads credits script
+-- Loads controls script
 controls = require 'menu/controls'
 
--- Loads credits script
+-- Loads changelog script
 changelog = require 'menu/changelog'
 
--- Loads credits script
+-- Loads moregames script
 moregames = require 'menu/moregames'
 
 -- Creates options as a new gamestate
@@ -30,48 +30,30 @@ function options:init()
 	
 	-- MouseLock Button Y & X
 	self.mouselockbtny = 200
-	self.creditsbtnx = 550
+	self.mouselockbtnx = 507
 	
 	-- Credits Button Y & X
 	self.creditsbtny = 250
-	self.mouselockbtnx = 507
+	self.creditsbtnx = 550
 
-
-
-
-
-
-
-
-	-- FPS Button Y & X
+	-- Fullscreen Button Y & X
 	self.fullscreenbtny = 100
 	self.fullscreenbtnx = 492
 	
-	-- Mute Button Y & X
+	-- control Button Y & X
 	self.controlsbtny = 150
 	self.controlsbtnx = 502
 	
-	-- MouseLock Button Y & X
+	-- changelog Button Y & X
 	self.changelogbtny = 200
 	self.changelogbtnx = 550
 	
-	-- Credits Button Y & X
+	-- moregames Button Y & X
 	self.moregamesbtny = 250
 	self.moregamesbtnx = 507
 
-	-- FPS Selecter Y & X
-	self.fullscreenarrowy = 232
-	self.fullscreenarrowx = 665
-
-
-
-
-
-
-
-	-- Button Selecter Y & X
-	self.arrowy = (self.fpsbtny)
-	self.arrowx = 645
+	-- Back button
+	self.backy = 150
 
 	-- FPS Selecter Y & X
 	self.fpsarrowy = 232
@@ -85,11 +67,13 @@ function options:init()
 	self.mouselockarrowy = 462
 	self.mouselockarrowx = 507
 
-	-- Back arrow
-	self.backy = 150
+	-- fullscreen Selecter Y & X
+	self.fullscreenarrowy = 232
+	self.fullscreenarrowx = 665
 
-	-- page vars
-	self.page2 = false
+	-- Button Selecter Y & X
+	self.arrowy = (self.fpsbtny)
+	self.arrowx = 645
 
 	-- Option menu states
 	self.fpsstate = false
@@ -101,99 +85,85 @@ function options:init()
 	self.changelogstate = false
 	self.moregamesstate = false
 
-
-
-
-
-
+	-- page vars
+	self.page2 = false
 	self.pg1 = true
 	self.pg2 = false
 
-
-
-
-
+	-- Scale vars for buttons
 	self.scalefps = 1
 	self.scalemute = 1
 	self.scalemouselock = 1
 	self.scalecredits = 1
+	self.scalefullscreen = 1
+	self.scalecontrols = 1
+	self.scalechangelog = 1
+	self.scalemoregames = 1
+	self.scaleback = 1
+	self.scalenext = 1
 
+	-- Flash vars for fps button
 	self.flashbuttonfps = true
 	self.buttonflashfps = 0
 
+	-- Flash vars for mute button
 	self.flashbuttonmute = true
 	self.buttonflashmute = 0
 
+	-- Flash vars for mouselock button
 	self.flashbuttonmouselock = true
 	self.buttonflashmouselock = 0
 
+	-- Flash vars for credits button
 	self.flashbuttoncredits = true
 	self.buttonflashcredits = 0
 
+	-- Flash vars for fullscreen button
+	self.flashbuttonfullscreen = true
+	self.buttonflashfullscreen = 0
+
+	-- Flash vars for contorls button
+	self.flashbuttoncontrols = true
+	self.buttonflashcontrols = 0
+
+	-- Flash vars for changelog button
+	self.flashbuttonchangelog  = true
+	self.buttonflashchangelog  = 0
+
+	-- Flash vars for moregames button
+	self.flashbuttonmoregames = true
+	self.buttonflashmoregames = 0
+
+	-- Flash vars for back button
+	self.flashbuttonback = true
+	self.buttonflashback = 0
+
+	-- Flash vars for next button
+	self.flashbuttonnext = true
+	self.buttonflashnext = 0
+
+	-- mouse button state
 	self.fpsstatemouse = false
 	self.mutestatemouse = false
 	self.mouselockstatemouse = false
 	self.creditsstatemouse = false
+	self.fullscreenstatemouse = false
+	self.controlsstatemouse = false
+	self.changelogstatemouse = false
+	self.moregamesstatemouse = false
+	self.backstatemouse = false
+	self.nextstatemouse = false
 
+	-- Mouse Dectect vars for sound
 	self.mouseover = false
+	self.mouseoverback = false
+	self.mouseovernext = false
 	self.mousedetect1 = 0
 	self.mousedetect2 = 0
 	self.mousedetect3 = 0
 	self.mousedetect4 = 0
 	self.mousedetect5 = 0
 	self.mousedetect6 = 0
-
-
-
-
-
-
-	self.scalefullscreen = 1
-	self.scalecontrols = 1
-	self.scalechangelog = 1
-	self.scalemoregames = 1
-
-	self.flashbuttonfullscreen = true
-	self.buttonflashfullscreen = 0
-
-	self.flashbuttoncontrols = true
-	self.buttonflashcontrols = 0
-
-	self.flashbuttonchangelog  = true
-	self.buttonflashchangelog  = 0
-
-	self.flashbuttonmoregames = true
-	self.buttonflashmoregames = 0
-
-	self.fullscreenstatemouse = false
-	self.controlsstatemouse = false
-	self.changelogstatemouse = false
-	self.moregamesstatemouse = false
-
-
-
-
-	self.scaleback = 1
-	self.scalenext = 1
-
-	self.flashbuttonback = true
-	self.buttonflashback = 0
-
-	self.flashbuttonnext = true
-	self.buttonflashnext = 0
-
-	self.backstatemouse = false
-	self.nextstatemouse = false
-
-	self.mouseoverback = false
-	self.mouseovernext = false
-
-
-
-
-
-
-
 	------ VARIABLES ------
 
 	------ AUDIO ------
@@ -319,20 +289,7 @@ function options:update(dt)
 		self.scalenext = 1
 	end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-	-- fps options menu state
+	-- fullscreen options menu state
 	if self.arrowy == self.fullscreenbtny and self.page2 == true then
 		self.arrowx = love.graphics.getWidth()/2 + 40 /2
 		self.fullscreenstate = true
@@ -350,7 +307,7 @@ function options:update(dt)
 		self.scalenext = 1
 	end
 
-	-- mute options menu state
+	-- mute controls menu state
 	if self.arrowy < self.changelogbtny and self.arrowy > self.fullscreenbtny and self.page2 == true then
 		self.arrowx = love.graphics.getWidth()/2 + 130 /2
 		self.fullscreenstate = false
@@ -368,7 +325,7 @@ function options:update(dt)
 		self.scalenext = 1
 	end
 
-	-- mouselock options menu state
+	-- mouselock changelog menu state
 	if self.arrowy < self.moregamesbtny and self.arrowy > self.controlsbtny and self.page2 == true then
 		self.arrowx = love.graphics.getWidth()/2 + 100 /2
 		self.fullscreenstate = false
@@ -386,7 +343,7 @@ function options:update(dt)
 		self.scalenext = 1
 	end
 
-	-- credits options menu state
+	-- credits moregames menu state
 	if self.arrowy == self.moregamesbtny and self.page2 == true then
 		self.arrowx = love.graphics.getWidth()/2 + 70 /2
 		self.fullscreenstate = false
@@ -403,7 +360,6 @@ function options:update(dt)
 		self.scaleback = 1
 		self.scalenext = 1
 	end
-
 	-- OPTION MENU STATES --
 
 	-- Make sure the arrow doesnt go past fps or credits
@@ -441,7 +397,7 @@ function options:update(dt)
 	end
 
 
-	-- Pushes mouselock arrow back if it trys to pass off else turn setmouselock true or false
+	-- Pushes fullscreen arrow back if it trys to pass off else turn setfullscreen true or false
 	if self.fullscreenarrowx > self.fullscreenbtnx then
 		self.fullscreenarrowx = self.fullscreenbtnx - 118
 	elseif self.fullscreenarrowx == self.fullscreenbtnx - 118 and setgamefull == true then
@@ -452,147 +408,18 @@ function options:update(dt)
 		setgamefull = true
 	end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" ))
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2)
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2 + self.fpsbtny - 10)
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2 + self.fpsbtny + start.font2:getHeight( "FULLSCREEN:" )) and self.page2 == true then
-		
-		self.fullscreenstatemouse = true
-		self.controlsstatemouse = false
-		self.changelogstatemouse = false
-		self.moregamesstatemouse = false
-		self.backstatemouse = false
-		self.nextstatemouse = false
-		self.arrowx = love.graphics.getWidth()/2 + 40 /2
-		self.arrowy = self.fullscreenbtny
-		self.scalefullscreen = 1.1
-		self.scalecontrols = 1
-		self.scalechangelog = 1
-		self.scalemoregames = 1
-		self.scaleback = 1
-		self.scalenext = 1
-		self.mouseover = true
-		self.mouseoverback = false
-		self.mouseovernext = false
-		self.mousedetect1 = self.mousedetect1 + 1
-		self.mousedetect2 = 0
-		self.mousedetect3 = 0
-		self.mousedetect4 = 0
-		self.mousedetect5 = 0
-		self.mousedetect6 = 0
+	-- Set the current page
+	if self.page2 == true then
+		self.pg1 = false
+		self.pg2 = true
+	elseif self.page2 == false then
+		self.pg1 = true
+		self.pg2 = false
 	end
 
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" ))
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) 
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2 + self.mutebtny - 10)
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2 + self.mutebtny + start.font2:getHeight( "CONTROLS" )) and self.page2 == true then
-		
-		self.fullscreenstatemouse = false
-		self.controlsstatemouse = true
-		self.changelogstatemouse = false
-		self.moregamesstatemouse = false
-		self.backstatemouse = false
-		self.nextstatemouse = false
-		self.arrowx = love.graphics.getWidth()/2 + 130 /2
-		self.arrowy = self.controlsbtny
-		self.scalefullscreen = 1
-		self.scalecontrols = 1.1
-		self.scalechangelog = 1
-		self.scalemoregames = 1
-		self.scaleback = 1
-		self.scalenext = 1
-		self.mouseover = true
-		self.mouseoverback = false
-		self.mouseovernext = false
-		self.mousedetect1 = 0
-		self.mousedetect2 = self.mousedetect2 + 1
-		self.mousedetect3 = 0
-		self.mousedetect4 = 0
-		self.mousedetect5 = 0
-		self.mousedetect6 = 0
-	end
-
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" ))
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) 
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CHANGELOG" )/2 + self.mouselockbtny - 10)
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CHANGELOG" )/2 + self.mouselockbtny + start.font2:getHeight( "CHANGELOG" )) and self.page2 == true then
-		
-		self.fullscreenstatemouse = false
-		self.controlsstatemouse = false
-		self.changelogstatemouse = true
-		self.moregamesstatemouse = false
-		self.backstatemouse = false
-		self.nextstatemouse = false
-		self.arrowx = love.graphics.getWidth()/2 + 100 /2
-		self.arrowy = self.changelogbtny
-		self.scalefullscreen = 1
-		self.scalecontrols = 1
-		self.scalechangelog = 1.1
-		self.scalemoregames = 1
-		self.scaleback = 1
-		self.scalenext = 1
-		self.mouseover = true
-		self.mouseoverback = false
-		self.mouseovernext = false
-		self.mousedetect1 = 0
-		self.mousedetect2 = 0
-		self.mousedetect3 = self.mousedetect3 + 1
-		self.mousedetect4 = 0
-		self.mousedetect5 = 0
-		self.mousedetect6 = 0
-	end
-
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" ))
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) 
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2 + self.creditsbtny - 10)
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2 + self.creditsbtny + start.font2:getHeight( "MORE GAMES" )) and self.page2 == true then
-		
-		self.fullscreenstatemouse = false
-		self.controlsstatemouse = false
-		self.changelogstatemouse = false
-		self.moregamesstatemouse = true
-		self.backstatemouse = false
-		self.nextstatemouse = false
-		self.arrowx = love.graphics.getWidth()/2 + 70 /2
-		self.arrowy = self.moregamesbtny
-		self.scalefullscreen = 1
-		self.scalecontrols = 1
-		self.scalechangelog = 1
-		self.scalemoregames = 1.1
-		self.scaleback = 1
-		self.scalenext = 1
-		self.mouseover = true
-		self.mouseoverback = false
-		self.mouseovernext = false
-		self.mousedetect1 = 0
-		self.mousedetect2 = 0
-		self.mousedetect3 = 0
-		self.mousedetect4 = self.mousedetect4 + 1
-		self.mousedetect5 = 0
-		self.mousedetect6 = 0
-	end
-	
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" ))
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2)
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny - 10)
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny + start.font2:getHeight( "DISPLAY FPS:" )) and self.page2 == false then
-		
+	-- MOUSE AREAS --
+	-- Mouse area of fps button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny + start.font2:getHeight( "DISPLAY FPS:" )) and self.page2 == false then
 		self.fpsstatemouse = true
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
@@ -618,11 +445,8 @@ function options:update(dt)
 		self.mousedetect6 = 0
 	end
 
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" ))
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) 
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MUTE AUDIO:" )/2 + self.mutebtny - 10)
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MUTE AUDIO:" )/2 + self.mutebtny + start.font2:getHeight( "MUTE AUDIO:" )) and self.page2 == false then
-		
+	-- Mouse area of mute button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MUTE AUDIO:" )/2 + self.mutebtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MUTE AUDIO:" )/2 + self.mutebtny + start.font2:getHeight( "MUTE AUDIO:" )) and self.page2 == false then
 		self.fpsstatemouse = false
 		self.mutestatemouse = true
 		self.mouselockstatemouse = false
@@ -648,11 +472,8 @@ function options:update(dt)
 		self.mousedetect6 = 0
 	end
 
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" ))
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) 
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "WINDOW LOCK:" )/2 + self.mouselockbtny - 10)
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "WINDOW LOCK:" )/2 + self.mouselockbtny + start.font2:getHeight( "WINDOW LOCK:" )) and self.page2 == false then
-		
+	-- Mouse area of mouselock button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "WINDOW LOCK:" )/2 + self.mouselockbtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "WINDOW LOCK:" )/2 + self.mouselockbtny + start.font2:getHeight( "WINDOW LOCK:" )) and self.page2 == false then
 		self.fpsstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = true
@@ -678,11 +499,8 @@ function options:update(dt)
 		self.mousedetect6 = 0
 	end
 
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" ))
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) 
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2 + self.creditsbtny - 10)
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2 + self.creditsbtny + start.font2:getHeight( "CREDITS" )) and self.page2 == false then
-		
+	-- Mouse area of credits button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2 + self.creditsbtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2 + self.creditsbtny + start.font2:getHeight( "CREDITS" )) and self.page2 == false then
 		self.fpsstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
@@ -708,11 +526,116 @@ function options:update(dt)
 		self.mousedetect6 = 0
 	end
 
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" ))
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2)
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy - 10)
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy) + start.font2:getHeight( "<" ) then
-		
+	-- Mouse area of fullscreen button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2 + self.fpsbtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2 + self.fpsbtny + start.font2:getHeight( "FULLSCREEN:" )) and self.page2 == true then
+		self.fullscreenstatemouse = true
+		self.controlsstatemouse = false
+		self.changelogstatemouse = false
+		self.moregamesstatemouse = false
+		self.backstatemouse = false
+		self.nextstatemouse = false
+		self.arrowx = love.graphics.getWidth()/2 + 40 /2
+		self.arrowy = self.fullscreenbtny
+		self.scalefullscreen = 1.1
+		self.scalecontrols = 1
+		self.scalechangelog = 1
+		self.scalemoregames = 1
+		self.scaleback = 1
+		self.scalenext = 1
+		self.mouseover = true
+		self.mouseoverback = false
+		self.mouseovernext = false
+		self.mousedetect1 = self.mousedetect1 + 1
+		self.mousedetect2 = 0
+		self.mousedetect3 = 0
+		self.mousedetect4 = 0
+		self.mousedetect5 = 0
+		self.mousedetect6 = 0
+	end
+
+	-- Mouse area of controls button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2 + self.mutebtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2 + self.mutebtny + start.font2:getHeight( "CONTROLS" )) and self.page2 == true then
+		self.fullscreenstatemouse = false
+		self.controlsstatemouse = true
+		self.changelogstatemouse = false
+		self.moregamesstatemouse = false
+		self.backstatemouse = false
+		self.nextstatemouse = false
+		self.arrowx = love.graphics.getWidth()/2 + 130 /2
+		self.arrowy = self.controlsbtny
+		self.scalefullscreen = 1
+		self.scalecontrols = 1.1
+		self.scalechangelog = 1
+		self.scalemoregames = 1
+		self.scaleback = 1
+		self.scalenext = 1
+		self.mouseover = true
+		self.mouseoverback = false
+		self.mouseovernext = false
+		self.mousedetect1 = 0
+		self.mousedetect2 = self.mousedetect2 + 1
+		self.mousedetect3 = 0
+		self.mousedetect4 = 0
+		self.mousedetect5 = 0
+		self.mousedetect6 = 0
+	end
+
+	-- Mouse area of changelog button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CHANGELOG" )/2 + self.mouselockbtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CHANGELOG" )/2 + self.mouselockbtny + start.font2:getHeight( "CHANGELOG" )) and self.page2 == true then
+		self.fullscreenstatemouse = false
+		self.controlsstatemouse = false
+		self.changelogstatemouse = true
+		self.moregamesstatemouse = false
+		self.backstatemouse = false
+		self.nextstatemouse = false
+		self.arrowx = love.graphics.getWidth()/2 + 100 /2
+		self.arrowy = self.changelogbtny
+		self.scalefullscreen = 1
+		self.scalecontrols = 1
+		self.scalechangelog = 1.1
+		self.scalemoregames = 1
+		self.scaleback = 1
+		self.scalenext = 1
+		self.mouseover = true
+		self.mouseoverback = false
+		self.mouseovernext = false
+		self.mousedetect1 = 0
+		self.mousedetect2 = 0
+		self.mousedetect3 = self.mousedetect3 + 1
+		self.mousedetect4 = 0
+		self.mousedetect5 = 0
+		self.mousedetect6 = 0
+	end
+
+	-- Mouse area of moregames button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2 + self.creditsbtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2 + self.creditsbtny + start.font2:getHeight( "MORE GAMES" )) and self.page2 == true then
+		self.fullscreenstatemouse = false
+		self.controlsstatemouse = false
+		self.changelogstatemouse = false
+		self.moregamesstatemouse = true
+		self.backstatemouse = false
+		self.nextstatemouse = false
+		self.arrowx = love.graphics.getWidth()/2 + 70 /2
+		self.arrowy = self.moregamesbtny
+		self.scalefullscreen = 1
+		self.scalecontrols = 1
+		self.scalechangelog = 1
+		self.scalemoregames = 1.1
+		self.scaleback = 1
+		self.scalenext = 1
+		self.mouseover = true
+		self.mouseoverback = false
+		self.mouseovernext = false
+		self.mousedetect1 = 0
+		self.mousedetect2 = 0
+		self.mousedetect3 = 0
+		self.mousedetect4 = self.mousedetect4 + 1
+		self.mousedetect5 = 0
+		self.mousedetect6 = 0
+	end
+
+	-- Mouse area of back button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy) + start.font2:getHeight( "<" ) then
 		self.fpsstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
@@ -736,11 +659,8 @@ function options:update(dt)
 		self.mousedetect6 = 0
 	end
 
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2 +  300 + start.font2:getWidth( "< 1/2 >" ))
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2 +  300)
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2 + self.creditsbtny + 50)
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2 + self.creditsbtny + 60 + start.font2:getHeight( "< 1/2 >" )) then
-
+	-- Mouse area of next button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2 +  300 + start.font2:getWidth( "< 1/2 >" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2 +  300) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2 + self.creditsbtny + 50) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2 + self.creditsbtny + 60 + start.font2:getHeight( "< 1/2 >" )) then
 		self.fpsstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
@@ -763,15 +683,10 @@ function options:update(dt)
 		self.mousedetect5 = 0
 		self.mousedetect6 = self.mousedetect6 + 1
 	end
+	-- MOUSE AREAS --
 
-
-
-
-
-
-
-
-
+	-- MOUSE OUT OF AREA --
+	-- Out of areas for the page 1 buttons
 	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) and self.page2 == false then
 		self.fpsstatemouse = false
 		self.mutestatemouse = false
@@ -804,6 +719,7 @@ function options:update(dt)
 		self.mouseover = false
 	end
 	
+	-- Out of areas for the page 2 buttons
 	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" )) and self.page2 == true then
 		self.fullscreenstatemouse = false
 		self.controlsstatemouse = false
@@ -836,7 +752,7 @@ function options:update(dt)
 		self.mouseover = false
 	end
 
-
+	-- Out of areas for the back button
 	if love.mouse.getX() > (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" )) then
 		self.backstatemouse = false
 		self.mouseoverback = false
@@ -861,8 +777,7 @@ function options:update(dt)
 		self.scaleback = 1
 	end
 
-
-
+	-- Out of areas for the next button
 	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2 +  300 + start.font2:getWidth( "< 1/2 >" )) then
 		self.nextstatemouse = false
 		self.mouseovernext = false
@@ -886,14 +801,10 @@ function options:update(dt)
 		self.mouseovernext = false
 		self.scalenext = 1
 	end
+	-- MOUSE OUT OF AREA --
 
-
-
-
-
-
-
-
+	-- BUTTON FLASHING -- 
+	-- Flashing for the fps button
 	if self.fpsstatemouse == true or self.fpsstate == true then
 		
 		if self.flashbuttonfps == true then
@@ -909,14 +820,11 @@ function options:update(dt)
 		end
 	
 	elseif self.fpsstatemouse == false or self.fpsstate == false then
-		
 		self.flashbuttonfps = true
 		self.buttonflashfps = 0
 	end
 
-
-
-
+	-- Flashing for the mute button
 	if self.mutestatemouse == true or self.mutestate == true then
 		
 		if self.flashbuttonmute == true then
@@ -932,14 +840,11 @@ function options:update(dt)
 		end
 	
 	elseif self.mutestatemouse == false or self.mutestate == false then
-	
 		self.flashbuttonmute = true
 		self.buttonflashmute = 0
 	end
 
-
-
-
+	-- Flashing for the mouselock button
 	if self.mouselockstatemouse == true or self.mouselockstate == true then
 		
 		if self.flashbuttonmouselock == true then
@@ -955,14 +860,11 @@ function options:update(dt)
 		end
 	
 	elseif self.mouselockstatemouse == false or self.mouselockstate == false then
-		
 		self.flashbuttonmouselock = true
 		self.buttonflashmouselock = 0
 	end
 
-
-
-
+	-- Flashing for the credits button
 	if self.creditsstatemouse == true or self.creditsstate == true then
 		
 		if self.flashbuttoncredits == true then
@@ -978,14 +880,11 @@ function options:update(dt)
 		end
 	
 	elseif self.creditsstatemouse == false or self.creditsstate == false then
-		
 		self.flashbuttoncredits = true
 		self.buttonflashcredits = 0
 	end
 
-
-
-
+	-- Flashing for the fullscreen button
 	if self.fullscreenstatemouse == true or self.fullscreenstate == true then
 		
 		if self.flashbuttonfullscreen == true then
@@ -1001,14 +900,11 @@ function options:update(dt)
 		end
 	
 	elseif self.fullscreenstatemouse == false or self.fullscreenstate == false then
-		
 		self.flashbuttonfullscreen = true
 		self.buttonflashfullscreen = 0
 	end
 
-
-
-
+	-- Flashing for the contorls button
 	if self.controlsstatemouse == true or self.controlsstate == true then
 		
 		if self.flashbuttoncontrols == true then
@@ -1024,14 +920,11 @@ function options:update(dt)
 		end
 	
 	elseif self.controlsstatemouse == false or self.controlsstate == false then
-	
 		self.flashbuttoncontrols = true
 		self.buttonflashcontrols = 0
 	end
 
-
-
-
+	-- Flashing for the changelog button
 	if self.changelogstatemouse == true or self.changelogstate == true then
 		
 		if self.flashbuttonchangelog == true then
@@ -1047,14 +940,11 @@ function options:update(dt)
 		end
 	
 	elseif self.changelogstatemouse == false or self.changelogstate == false then
-		
 		self.flashbuttonchangelog = true
 		self.buttonflashchangelog = 0
 	end
 
-
-
-
+	-- Flashing for the moregames button
 	if self.moregamesstatemouse == true or self.moregamesstate == true then
 		
 		if self.flashbuttonmoregames == true then
@@ -1070,14 +960,11 @@ function options:update(dt)
 		end
 	
 	elseif self.moregamesstatemouse == false or self.moregamesstate == false then
-		
 		self.flashbuttonmoregames = true
 		self.buttonflashmoregames = 0
 	end
 
-
-
-
+	-- Flashing for the back button
 	if self.backstatemouse == true then
 		
 		if self.flashbuttonback == true then
@@ -1093,14 +980,11 @@ function options:update(dt)
 		end
 	
 	elseif self.backstatemouse == false or self.backstate == false then
-		
 		self.flashbuttonback = true
 		self.buttonflashback = 0
 	end
 
-
-
-
+	-- Flashing for the next button
 	if self.nextstatemouse == true then
 		
 		if self.flashbuttonnext == true then
@@ -1116,16 +1000,12 @@ function options:update(dt)
 		end
 	
 	elseif self.nextstatemouse == false then
-		
 		self.flashbuttonnext = true
 		self.buttonflashnext = 0
 	end
+	-- BUTTON FLASHING --
 
-
-
-
-
-
+	-- MOUSE DECTECTS --
 	if self.mouseover == false then
 		self.mousedetect1 = 0
 		self.mousedetect2 = 0
@@ -1135,6 +1015,16 @@ function options:update(dt)
 		love.audio.stop(self.mouseover2)
 		love.audio.stop(self.mouseover3)
 		love.audio.stop(self.mouseover4)
+	end
+
+	if self.mouseoverback == false then
+		self.mousedetect5 = 0
+		love.audio.stop(self.mouseover5)
+	end
+
+	if self.mouseovernext == false then
+		self.mousedetect6 = 0
+		love.audio.stop(self.mouseover6)
 	end
 
 	if self.mousedetect1 == 1 then
@@ -1173,16 +1063,6 @@ function options:update(dt)
 		love.audio.stop(self.mouseover6)
 	end
 
-	if self.mouseoverback == false then
-		self.mousedetect5 = 0
-		love.audio.stop(self.mouseover5)
-	end
-
-	if self.mouseovernext == false then
-		self.mousedetect6 = 0
-		love.audio.stop(self.mouseover6)
-	end
-
 	if self.mousedetect5 == 1 then
 		love.audio.stop(self.mouseover1)
 		love.audio.stop(self.mouseover2)
@@ -1200,37 +1080,7 @@ function options:update(dt)
 		love.audio.stop(self.mouseover5)
 		love.audio.play(self.mouseover6)
 	end
-
-
-
-
-
-
-
-
-
-
-	if self.page2 == true then
-		self.pg1 = false
-		self.pg2 = true
-	end
-
-	if self.page2 == false then
-		self.pg1 = true
-		self.pg2 = false
-	end
-
-
-
-
-
-
-
-
-
-
-
-
+	-- MOUSE DECTECTS --
 end
 
 function options:keypressed(key)
@@ -1262,39 +1112,19 @@ function options:keypressed(key)
 		end 
 	end
 
-
-
-
-
-
-
-
-
-
-
+	-- Go to right page
 	if key == "right" and self.page2 == false or key == "d" and self.page2 == false then
 		love.audio.play(self.select5)
 		love.audio.stop(self.select6)
 		self.page2 = true
 	end
 
+	-- go to left page
 	if key == "left" and self.page2 == true or key == "a" and self.page2 == true then
 		love.audio.stop(self.select5)
 		love.audio.play(self.select6)
 		self.page2 = false
 	end
-	
-
-	
-
-
-
-
-
-
-
-
-
 	-- SELECT BUTTONS --
 
 	-- ACTIVATE BUTTONS --
@@ -1353,41 +1183,27 @@ function options:keypressed(key)
 		love.audio.stop(self.entersound2a)
 	end
 
-
-
-
-
-
-
-
-
-
-
-
-	-- set fps on or off
+	-- set fullscreen on or off
 	if key == "return" and self.fullscreenstate == true and self.page2 == true or key == " " and self.fullscreenstate == true and self.page2 == true then
 		self.fullscreenarrowx = self.fullscreenarrowx + 118
 	end
 
-	-- set mute on or off
+	-- set controls on or off
 	if key == "return" and self.controlsstate == true and self.page2 == true or key == " " and self.controlsstate == true and self.page2 == true then
-		--love.audio.play(self.entersound1)
 		Gamestate.push(controls)
 	end
 
-	-- set mouselock on or off
+	-- set changelog on or off
 	if key == "return" and self.changelogstate == true and self.page2 == true or key == " " and self.changelogstate == true and self.page2 == true then
-		--love.audio.play(self.entersound1)
 		Gamestate.push(changelog)
 	end
 
-	-- go to credits screen
+	-- go to moregames screen
 	if key == "return" and self.moregamesstate == true and self.page2 == true or key == " " and self.moregamesstate == true and self.page2 == true then
-		--love.audio.play(self.entersound1)
 		Gamestate.push(moregames)
 	end
 
-	-- Plays audio for FPS On & Off buttons
+	-- Plays audio for fullscreen On & Off buttons
 	if key == "return" and setfull == true and self.page2 == true or key == " " and setfull == true and self.page2 == true then
 		love.audio.play(self.entersound3)
 		love.audio.stop(self.entersound3a)
@@ -1395,17 +1211,6 @@ function options:keypressed(key)
 		love.audio.play(self.entersound3a)
 		love.audio.stop(self.entersound3)
 	end
-
-
-
-
-
-
-
-
-
-
-
 	-- ACTIVATE BUTTONS --
 
 	-- Go back to the menu screen
@@ -1415,20 +1220,8 @@ function options:keypressed(key)
 	end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
 function options:mousepressed(mx, my, button)
-
+	-- go to credits screen
 	if button == "l" and self.creditsstatemouse == true and self.page2 == false then
 		Gamestate.push(credits)
 		love.audio.play(self.entersound1)
@@ -1483,30 +1276,27 @@ function options:mousepressed(mx, my, button)
 		love.audio.stop(self.entersound2a)
 	end
 
-	-- set fps on or off
+	-- set fullscreen on or off
 	if button == "l" and self.fullscreenstatemouse == true and self.page2 == true then
 		self.fullscreenarrowx = self.fullscreenarrowx + 118
 	end
 
-	-- set mute on or off
+	-- set controls on or off
 	if button == "l" and self.controlsstatemouse == true and self.page2 == true then
-		--love.audio.play(self.entersound1)
 		Gamestate.push(controls)
 	end
 
-	-- set mouselock on or off
+	-- set changelog on or off
 	if button == "l" and self.changelogstatemouse == true and self.page2 == true then
-		--love.audio.play(self.entersound1)
 		Gamestate.push(changelog)
 	end
 
 	-- go to credits screen
 	if button == "l" and self.moregamesstatemouse == true and self.page2 == true then
-		--love.audio.play(self.entersound1)
 		Gamestate.push(moregames)
 	end
 
-	-- Plays audio for FPS On & Off buttons
+	-- Plays audio for fullscreen On & Off buttons
 	if button == "l" and setfull == true and self.page2 == true and self.mouseover == true then
 		love.audio.play(self.entersound3)
 		love.audio.stop(self.entersound3a)
@@ -1515,12 +1305,14 @@ function options:mousepressed(mx, my, button)
 		love.audio.stop(self.entersound3)
 	end
 
+	-- go to next page
 	if button == "l" and self.mouseovernext == true and self.pg2 == false and self.mouseover == false then
 		love.audio.stop(self.clickselect1)
 		love.audio.play(self.clickselect2)
 		self.page2 = true
 	end
 
+	-- go back a page
 	if button == "l" and self.mouseovernext == true and self.pg1 == false and self.mouseover == false then
 		love.audio.play(self.clickselect1)
 		love.audio.stop(self.clickselect2)
@@ -1539,12 +1331,6 @@ function options:mousepressed(mx, my, button)
 		love.audio.play(self.backsound)
 	end
 end
-
-
-
-
-
-
 
 function options:draw()
 
@@ -1569,107 +1355,32 @@ function options:draw()
 	love.graphics.rectangle("fill", self.arrowx - 250, (love.graphics.getHeight()/2 - 28/2) + self.arrowy - 8, 28, 28 )
 	------ SHAPES ------
 
-	------ TEXT ------
-	love.graphics.setFont( start.font2 )
-	
+	------ TEXT ------	
 	if self.page2 == false then
+		
+		-- draw page 1 options
+		love.graphics.setFont( start.font2 )
 		love.graphics.print('DISPLAY FPS:', (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2) + self.fpsbtny, 0, self.scalefps)
 		love.graphics.setColor(255, 255, 255, self.buttonflashfps)
 		love.graphics.print('DISPLAY FPS:', (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2) + self.fpsbtny, 0, self.scalefps)
 		love.graphics.setColor(160, 47, 0, 255)
-
 		love.graphics.print('MUTE AUDIO:', (love.graphics.getWidth()/2 - start.font2:getWidth( "MUTE AUDIO:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "MUTE AUDIO:" )/2) + self.mutebtny, 0, self.scalemute)
 		love.graphics.setColor(255, 255, 255, self.buttonflashmute)
 		love.graphics.print('MUTE AUDIO:', (love.graphics.getWidth()/2 - start.font2:getWidth( "MUTE AUDIO:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "MUTE AUDIO:" )/2) + self.mutebtny, 0, self.scalemute)
 		love.graphics.setColor(160, 47, 0, 255)
-
 		love.graphics.print('WINDOW LOCK:', (love.graphics.getWidth()/2 - start.font2:getWidth( "WINDOW LOCK:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "WINDOW LOCK:" )/2) + self.mouselockbtny, 0, self.scalemouselock)
 		love.graphics.setColor(255, 255, 255, self.buttonflashmouselock)
 		love.graphics.print('WINDOW LOCK:', (love.graphics.getWidth()/2 - start.font2:getWidth( "WINDOW LOCK:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "WINDOW LOCK:" )/2) + self.mouselockbtny, 0, self.scalemouselock)
 		love.graphics.setColor(160, 47, 0, 255)
-
 		love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CREDITS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2) + self.creditsbtny, 0, self.scalecredits)
 		love.graphics.setColor(255, 255, 255, self.buttonflashcredits)
 		love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CREDITS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2) + self.creditsbtny, 0, self.scalecredits)
 		love.graphics.setColor(160, 47, 0, 255)
-
 		love.graphics.print('< 1/2 >', (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2) +  300, (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + self.creditsbtny + 60, 0, self.scalenext)
 		love.graphics.setColor(255, 255, 255, self.buttonflashnext)
 		love.graphics.print('< 1/2 >', (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2) +  300, (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + self.creditsbtny + 60, 0, self.scalenext)
 		love.graphics.setColor(160, 47, 0, 255)
-	end
 
-
-
-
-
-
-
-
-
-
-	love.graphics.print('<', (love.graphics.getWidth()/2 - 320), (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy, 0, self.scaleback)
-	love.graphics.setColor(255, 255, 255, self.buttonflashback)
-	love.graphics.print('<', (love.graphics.getWidth()/2 - 320), (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy, 0, self.scaleback)
-	love.graphics.setColor(160, 47, 0, 255)
-
-
-
-
-
-
-	
-
-	if self.page2 == true then
-		
-		love.graphics.print('FULLSCREEN:', (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2) + self.fpsbtny, 0, self.scalefullscreen)
-		love.graphics.setColor(255, 255, 255, self.buttonflashfullscreen)
-		love.graphics.print('FULLSCREEN:', (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2) + self.fpsbtny, 0, self.scalefullscreen)
-		love.graphics.setColor(160, 47, 0, 255)
-
-		love.graphics.print('CONTROLS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CONTROLS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2) + self.mutebtny, 0, self.scalecontrols)
-		love.graphics.setColor(255, 255, 255, self.buttonflashcontrols)
-		love.graphics.print('CONTROLS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CONTROLS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2) + self.mutebtny, 0, self.scalecontrols)
-		love.graphics.setColor(160, 47, 0, 255)
-
-		love.graphics.print('CHANGELOG', (love.graphics.getWidth()/2 - start.font2:getWidth( "CHANGELOG" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CHANGELOG" )/2) + self.mouselockbtny, 0, self.scalechangelog)
-		love.graphics.setColor(255, 255, 255, self.buttonflashchangelog)
-		love.graphics.print('CHANGELOG', (love.graphics.getWidth()/2 - start.font2:getWidth( "CHANGELOG" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CHANGELOG" )/2) + self.mouselockbtny, 0, self.scalechangelog)
-		love.graphics.setColor(160, 47, 0, 255)
-
-		love.graphics.print('MORE GAMES', (love.graphics.getWidth()/2 - start.font2:getWidth( "MORE GAMES" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2) + self.creditsbtny, 0, self.scalemoregames)
-		love.graphics.setColor(255, 255, 255, self.buttonflashmoregames)
-		love.graphics.print('MORE GAMES', (love.graphics.getWidth()/2 - start.font2:getWidth( "MORE GAMES" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2) + self.creditsbtny, 0, self.scalemoregames)
-		love.graphics.setColor(160, 47, 0, 255)
-
-		love.graphics.print('< 2/2 >', (love.graphics.getWidth()/2 - start.font2:getWidth( "< 2/2 >" )/2) +  300, (love.graphics.getHeight()/2 - start.font2:getHeight( "< 2/2 >" )/2) + self.creditsbtny + 60, 0, self.scalenext)
-		love.graphics.setColor(255, 255, 255, self.buttonflashnext)
-		love.graphics.print('< 2/2 >', (love.graphics.getWidth()/2 - start.font2:getWidth( "< 2/2 >" )/2) +  300, (love.graphics.getHeight()/2 - start.font2:getHeight( "< 2/2 >" )/2) + self.creditsbtny + 60, 0, self.scalenext)
-		love.graphics.setColor(160, 47, 0, 255)
-	end
-
-	if self.page2 == true then
-	
-		-- changes text from on and off for fullscreen
-		if setfull == true then
-			love.graphics.print('ON', (love.graphics.getWidth()/2 - start.font2:getWidth( "ON" )/2) + 285, (love.graphics.getHeight()/2 - start.font2:getHeight( "ON" )/2) + self.fpsbtny)
-		elseif setfull == false then
-			love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font2:getWidth( "OFF" )/2) + 300, (love.graphics.getHeight()/2 - start.font2:getHeight( "OFF" )/2) + self.fpsbtny)
-		end
-	end
-
-
-
-
-
-
-
-
-
-
-
-	if self.page2 == false then
-	
 		-- changes text from on and off for fps
 		if setfps == true then
 			love.graphics.print('ON', (love.graphics.getWidth()/2 - start.font2:getWidth( "ON" )/2) + 285, (love.graphics.getHeight()/2 - start.font2:getHeight( "ON" )/2) + self.fpsbtny)
@@ -1690,17 +1401,54 @@ function options:draw()
 		elseif setmouselock == false then
 			love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font2:getWidth( "OFF" )/2) + 300, (love.graphics.getHeight()/2 - start.font2:getHeight( "OFF" )/2) + self.mouselockbtny)
 		end
+	
+	elseif self.page2 == true then
+		
+		-- draw page 2 options
+		love.graphics.setFont( start.font2 )
+		love.graphics.print('FULLSCREEN:', (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2) + self.fpsbtny, 0, self.scalefullscreen)
+		love.graphics.setColor(255, 255, 255, self.buttonflashfullscreen)
+		love.graphics.print('FULLSCREEN:', (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2) + self.fpsbtny, 0, self.scalefullscreen)
+		love.graphics.setColor(160, 47, 0, 255)
+		love.graphics.print('CONTROLS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CONTROLS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2) + self.mutebtny, 0, self.scalecontrols)
+		love.graphics.setColor(255, 255, 255, self.buttonflashcontrols)
+		love.graphics.print('CONTROLS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CONTROLS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2) + self.mutebtny, 0, self.scalecontrols)
+		love.graphics.setColor(160, 47, 0, 255)
+		love.graphics.print('CHANGELOG', (love.graphics.getWidth()/2 - start.font2:getWidth( "CHANGELOG" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CHANGELOG" )/2) + self.mouselockbtny, 0, self.scalechangelog)
+		love.graphics.setColor(255, 255, 255, self.buttonflashchangelog)
+		love.graphics.print('CHANGELOG', (love.graphics.getWidth()/2 - start.font2:getWidth( "CHANGELOG" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CHANGELOG" )/2) + self.mouselockbtny, 0, self.scalechangelog)
+		love.graphics.setColor(160, 47, 0, 255)
+		love.graphics.print('MORE GAMES', (love.graphics.getWidth()/2 - start.font2:getWidth( "MORE GAMES" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2) + self.creditsbtny, 0, self.scalemoregames)
+		love.graphics.setColor(255, 255, 255, self.buttonflashmoregames)
+		love.graphics.print('MORE GAMES', (love.graphics.getWidth()/2 - start.font2:getWidth( "MORE GAMES" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2) + self.creditsbtny, 0, self.scalemoregames)
+		love.graphics.setColor(160, 47, 0, 255)
+		love.graphics.print('< 2/2 >', (love.graphics.getWidth()/2 - start.font2:getWidth( "< 2/2 >" )/2) +  300, (love.graphics.getHeight()/2 - start.font2:getHeight( "< 2/2 >" )/2) + self.creditsbtny + 60, 0, self.scalenext)
+		love.graphics.setColor(255, 255, 255, self.buttonflashnext)
+		love.graphics.print('< 2/2 >', (love.graphics.getWidth()/2 - start.font2:getWidth( "< 2/2 >" )/2) +  300, (love.graphics.getHeight()/2 - start.font2:getHeight( "< 2/2 >" )/2) + self.creditsbtny + 60, 0, self.scalenext)
+		love.graphics.setColor(160, 47, 0, 255)
+	
+		-- changes text from on and off for fullscreen
+		if setfull == true then
+			love.graphics.print('ON', (love.graphics.getWidth()/2 - start.font2:getWidth( "ON" )/2) + 285, (love.graphics.getHeight()/2 - start.font2:getHeight( "ON" )/2) + self.fpsbtny)
+		elseif setfull == false then
+			love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font2:getWidth( "OFF" )/2) + 300, (love.graphics.getHeight()/2 - start.font2:getHeight( "OFF" )/2) + self.fpsbtny)
+		end
 	end
 
-	-- display verion number
+	-- draw back button
+	love.graphics.setFont( start.font2 )
+	love.graphics.print('<', (love.graphics.getWidth()/2 - 320), (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy, 0, self.scaleback)
+	love.graphics.setColor(255, 255, 255, self.buttonflashback)
+	love.graphics.print('<', (love.graphics.getWidth()/2 - 320), (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy, 0, self.scaleback)
+	love.graphics.setColor(255, 255, 255)
+
+	-- display verion number only if in menu
 	if paused == false then
 		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print('Pre-Alpha 0.1.1', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.1") - 10))
+		love.graphics.print('Pre-Alpha 0.1.2', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.1") - 10))
 		love.graphics.setColor(255, 255, 255)
 	end
-
-	love.graphics.setColor(255, 255, 255)
 	------ TEXT ------
 end
 

@@ -1,7 +1,7 @@
 -- Loads gamestate script
 local Gamestate = require 'libs/hump/gamestate'
 
--- Creates credits as a new gamestate
+-- changelog credits as a new gamestate
 changelog = Gamestate.new()
 
 
@@ -23,9 +23,6 @@ function changelog:keypressed(key)
 	end
 end
 
-
-
-
 function changelog:mousepressed(mx, my, button)
 
 	-- Go back to the start screen
@@ -35,11 +32,6 @@ function changelog:mousepressed(mx, my, button)
 		love.audio.stop(options.entersound1)
 	end
 end
-
-
-
-
-
 
 function changelog:update(dt)
 end
@@ -58,29 +50,57 @@ function changelog:draw()
 	------ TEXT ------
 	love.graphics.setColor(160, 47, 0)
 	love.graphics.setFont( start.font2 )
-	love.graphics.print('CHANGELOG', (love.graphics.getWidth()/2 - start.font2:getWidth( "CHANGELOG" )/2), 50)
-
-
-
-
-	love.graphics.setFont( start.font1 )
-	love.graphics.print('MENU', (love.graphics.getWidth()/2 - start.font2:getWidth( "MENU" )/2), 100)
-	love.graphics.print('- Added back arrow to options menu', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Added back arrow to options menu' )/2), 130)
-	love.graphics.print('- Added second page to options', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Added second page to options' )/2), 160)
-	love.graphics.print('- Added change log to options', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Added change log to options' )/2), 190)
-	love.graphics.print('- Added controls to options', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Added controls to options' )/2), 220)
-	love.graphics.print('- Added fullscreen to options', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Added fullscreen to options' )/2), 250)
-	love.graphics.print('- Added new in-game cursor', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Added new in-game cursor' )/2), 280)
-	love.graphics.print('- Added "More games" to options', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Added "More games" to options' )/2), 310)
-	love.graphics.print('- Added mouse support for menu', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Added mouse support for menu' )/2), 340)
-	love.graphics.print('- Buttons slowly flash in menus if they are selected', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Buttons slowly flash in menus if they are selected' )/2), 370)
-	love.graphics.print('- Buttons get slightly larger if they are selected', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Buttons get slightly larger if they are selected' )/2), 400)
-	love.graphics.print('- "Press start button" text in gamemode welcome screens is now flashing', (love.graphics.getWidth()/2 - start.font2:getWidth( '- "Press start button" text in gamemode welcome screens is now flashing' )/2), 430)
-	love.graphics.print('- Fixed credits spelling mistakes', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Fixed credits spelling mistakes' )/2), 460)
-	love.graphics.print('- Added Bryce to credits - "Technical Shizzle Wizzle"', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Added Bryce to credits - "Technical Shizzle Wizzle"' )/2), 490)
-	love.graphics.print('- Changed "Piquant Team" to Team Piquant in credits', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Changed "Piquant Team" to Team Piquant in credits' )/2), 520)
-	love.graphics.print('- Recentered credits', (love.graphics.getWidth()/2 - start.font2:getWidth( '- Recentered credits' )/2), 550)
-
+	love.graphics.print('CHANGELOG', (love.graphics.getWidth()/2 - start.font2:getWidth( "CHANGELOG" )/2), 30)
+	love.graphics.setFont( start.font0 )
+	love.graphics.print('', (love.graphics.getWidth()/2 - 580), 115-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 140-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 165-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 190-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 215-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 240-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 265-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 290-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 315-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 340-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 - 580), 360-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 385-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 - 580), 405-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 430-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 - 580), 450-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 - 580), 470-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 495-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 520-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 - 580), 540-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 565-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 - 580), 585-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 610-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 635-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 660-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 - 580), 685-25)
+	love.graphics.print('', (love.graphics.getWidth()/2 + 10), 115-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 + 10), 140-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 + 10), 160-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 + 10), 185-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 + 10), 210-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 + 10), 235-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 + 10), 255-25)
+	love.graphics.print('', (love.graphics.getWidth()/2 + 10), 305-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 + 10), 330-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 + 10), 350-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 + 10), 375-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 + 10), 400-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 + 10), 420-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 + 10), 445-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 + 10), 465-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 + 10), 490-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 + 10), 515-25)
+	love.graphics.print('', (love.graphics.getWidth()/2 + 10), 565-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 + 10), 590-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 + 10), 610-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 + 10), 635-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 + 10), 655-25)
+	love.graphics.print('- ', (love.graphics.getWidth()/2 + 10), 680-25)
+	love.graphics.print('  ', (love.graphics.getWidth()/2 + 10), 700-25)
 	love.graphics.setColor(255, 255, 255, 255)
 	------ TEXT ------
 end

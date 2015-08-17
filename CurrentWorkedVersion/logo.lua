@@ -67,13 +67,9 @@ function logo:keypressed(key)
 	end 
 end
 
-
-
-
-
-
 function logo:mousepressed(mx, my, button)
 
+	-- Skips to start script if click
 	if button == "l" then
 		Gamestate.switch(start)
 		love.graphics.setColor(255, 255, 255)
@@ -81,11 +77,6 @@ function logo:mousepressed(mx, my, button)
 		love.audio.setVolume(1.0)
 	end
 end
-
-
-
-
-
 
 
 function logo:draw()

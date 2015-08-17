@@ -13,6 +13,7 @@ function player:initialize()
 	self.flashred = false
 	self.autoheal = false
 	self.maxhealth = 100
+	self.minihealthbar = false
 
 	-- Players weapon position
 	self.weapony = 0
@@ -60,12 +61,23 @@ function player:health(dt)
   		if plyr.hurt == true then
     		player.hurttimer = 0
     		player.flashred = true
+    		player.minihealthbar = true
   		end
 
   		-- Stop the flashing
   		if player.hurttimer > 0.3 then
    		 	player.flashred = false
   		end
+
+
+
+
+  		if player.hurttimer > 3 then
+  			player.minihealthbar = false
+  		end
+
+
+
 
   		-- Autoheal the player if hasnt been hurt for 4secs
   		if player.hurttimer > 3 and plyr.hurt == false then

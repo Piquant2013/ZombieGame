@@ -489,17 +489,15 @@ function stuckmode:draw()
 	
 	------ TEXT ------
 	-- the hud and the hud text
-	if gameover == false and gameover == false then
+	if gameover == false then
 		love.graphics.draw(self.hud1, 0, -25, 0, 0.5)
 		love.graphics.setColor(0, 0, 0)
 		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.print("HEALTH:", 10, 10)
 		love.graphics.print(tostring(math.floor(plyr.health)).."%", 10, 30)
-		
 		love.graphics.print("TIME:", 1150, 10)
 		love.graphics.print(tostring(math.floor(self.time)), 1150, 30)
-		
 		love.graphics.setFont( start.font1 )
 		love.graphics.print("SCORE:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font1:getWidth("SCORE:"..tostring(self.score))/2), 10)
 		love.graphics.setColor(255, 255, 255)

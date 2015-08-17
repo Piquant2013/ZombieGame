@@ -1,11 +1,49 @@
 -- Loads gamestate script
 local Gamestate = require 'libs/hump/gamestate'
 
--- Creates credits as a new gamestate
+-- Creates moregames as a new gamestate
 moregames = Gamestate.new()
 
 
 function moregames:init()
+
+	------ VARIABLES ------
+	-- Scale vars for buttons
+	self.scalenext = 1
+	self.scaleback = 1
+
+	-- Flash vars for next button
+	self.flashbuttonnext = true
+	self.buttonflashnext = 0
+
+	-- Flash vars for back button
+	self.flashbuttonback = true
+	self.buttonflashback = 0
+
+	-- mouse button state
+	self.nextstatemouse = false
+	self.backstatemouse = false
+
+	-- Mouse Dectect vars for sound
+	self.mouseovernext = false
+	self.mouseoverback = false
+	self.mousedetect1 = 0
+	self.mousedetect2 = 0
+
+	-- Page vars
+	self.space = true
+	self.dig = false
+	self.page2 = false
+	------ VARIABLES ------
+
+	------ IMAGES ------
+	self.logodig = love.graphics.newImage("images/menu/logodig.png")
+	self.screendig = love.graphics.newImage("images/menu/screendig.png")
+	self.logospace = love.graphics.newImage("images/menu/logospace.png")
+	self.screenspace1 = love.graphics.newImage("images/menu/screenspace1.png")
+	self.screenspace2 = love.graphics.newImage("images/menu/screenspace2.png")
+	self.spacebg = love.graphics.newImage("images/menu/spacebg.png")
+	------ IMAGES ------
 
 	------ AUDIO ------
 	self.select1 = love.audio.newSource("audio/buttons/select.ogg")
@@ -15,70 +53,18 @@ function moregames:init()
 	self.mouseover1 = love.audio.newSource("audio/buttons/select.ogg")
 	self.mouseover2 = love.audio.newSource("audio/buttons/select.ogg")
 	------ AUDIO ------
-
-	self.page2 = false
-
-
-	self.logodig = love.graphics.newImage("images/menu/logodig.png")
-	self.screendig = love.graphics.newImage("images/menu/screendig.png")
-
-	self.logospace = love.graphics.newImage("images/menu/logospace.png")
-	self.screenspace1 = love.graphics.newImage("images/menu/screenspace1.png")
-	self.screenspace2 = love.graphics.newImage("images/menu/screenspace2.png")
-	self.spacebg = love.graphics.newImage("images/menu/spacebg.png")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	self.scalenext = 1
-	self.scaleback = 1
-
-	self.flashbuttonnext = true
-	self.buttonflashnext = 0
-
-	self.flashbuttonback = true
-	self.buttonflashback = 0
-
-	self.nextstatemouse = false
-	self.backstatemouse = false
-
-	self.mouseovernext = false
-	self.mouseoverback = false
-	self.mousedetect1 = 0
-	self.mousedetect2 = 0
-
-
-	self.space = true
-	self.dig = false
-
-
-
-
-
-
-
-
-
 end
 
 function moregames:keypressed(key)
 
+	-- Go to right page
 	if key == "right" and self.page2 == false or key == "d" and self.page2 == false then
 		love.audio.play(self.select1)
 		love.audio.stop(self.select2)
 		self.page2 = true
 	end
 
+	-- go to left page
 	if key == "left" and self.page2 == true or key == "a" and self.page2 == true then
 		love.audio.stop(self.select1)
 		love.audio.play(self.select2)
@@ -93,31 +79,30 @@ function moregames:keypressed(key)
 	end
 end
 
-
-
-
-
-
 function moregames:mousepressed(mx, my, button)
 
+	-- Takes you back to the main menu
 	if button == "r" then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 		love.audio.stop(options.entersound1)
 	end
 
+	-- Go to the next page
 	if button == "l" and self.mouseovernext == true and self.dig == false then
 		love.audio.stop(self.select1)
 		love.audio.play(self.select2)
 		self.page2 = true
 	end
 
+	-- go to the next page
 	if button == "l" and self.mouseovernext == true and self.space == false then
 		love.audio.play(self.select1)
 		love.audio.stop(self.select2)
 		self.page2 = false
 	end
 	
+	-- Takes you back to the main menu
 	if button == "l" and self.mouseoverback == true then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
@@ -125,39 +110,20 @@ function moregames:mousepressed(mx, my, button)
 	end
 end
 
-
-
-
-
-
 function moregames:update(dt)
 
-
-
-
-
+	-- Set the current page
 	if self.page2 == true then
 		self.space = false
 		self.dig = true
-	end
-
-	if self.page2 == false then
+	elseif self.page2 == false then
 		self.dig = false
 		self.space = true
 	end
 
-
-
-
-
-
-
-
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 440 + start.font2:getWidth( "< 1/2 >" ) 
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 565
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 + start.font2:getHeight( "< 1/2 >" ) then
-		
+	-- MOUSE AREAS --
+	-- Mouse area of next button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 440 + start.font2:getWidth( "< 1/2 >" ) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 565 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 + start.font2:getHeight( "< 1/2 >" ) then
 		self.nextstatemouse = true
 		self.backstatemouse = false
 		self.scaleback = 1
@@ -168,12 +134,8 @@ function moregames:update(dt)
 		self.mousedetect2 = 0
 	end
 
-
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 660 + start.font2:getWidth( "< BACK" ) 
-	and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565 
-	and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295
-	and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 + start.font2:getHeight( "< BACK" ) then
-	
+	-- Mouse area of back button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 660 + start.font2:getWidth( "< BACK" ) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 + start.font2:getHeight( "< BACK" ) then
 		self.nextstatemouse = false
 		self.backstatemouse = true
 		self.scaleback = 1.2
@@ -183,12 +145,10 @@ function moregames:update(dt)
 		self.mousedetect1 = 0
 		self.mousedetect2 = self.mousedetect2 + 1
 	end
+	-- MOUSE AREAS --
 
-
-
-
-
-
+	-- MOUSE OUT OF AREA --
+	-- Out of areas for the back button
 	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 660 + start.font2:getWidth( "< BACK" ) then
 		self.backstatemouse = false
 		self.mouseoverback = false
@@ -213,8 +173,7 @@ function moregames:update(dt)
 		self.scaleback = 1
 	end
 
-
-
+	-- Out of areas for the next button
 	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 440 + start.font2:getWidth( "< 1/2 >" ) then
 		self.nextstatemouse = false
 		self.mouseovernext = false
@@ -238,11 +197,10 @@ function moregames:update(dt)
 		self.mouseovernext = false
 		self.scalenext = 1
 	end
+	-- MOUSE OUT OF AREA --
 
-
-
-
-
+	-- BUTTON FLASHING -- 
+	-- Flashing for the back button
 	if self.backstatemouse == true then
 		if self.flashbuttonback == true then
 			self.buttonflashback = self.buttonflashback + dt + 2
@@ -261,7 +219,7 @@ function moregames:update(dt)
 		self.buttonflashback = 0
 	end
 
-
+	-- Flashing for the next button
 	if self.nextstatemouse == true then
 		if self.flashbuttonnext == true then
 			self.buttonflashnext = self.buttonflashnext + dt + 2
@@ -279,12 +237,9 @@ function moregames:update(dt)
 		self.flashbuttonnext = true
 		self.buttonflashnext = 0
 	end
+	-- BUTTON FLASHING --
 
-
-
-
-
-
+	-- MOUSE DECTECTS --
 	if self.mouseovernext == false then
 		self.mousedetect1 = 0
 		love.audio.stop(self.mouseover1)
@@ -304,19 +259,7 @@ function moregames:update(dt)
 		love.audio.stop(self.mouseover1)
 		love.audio.play(self.mouseover2)
 	end
-
-
-
-
-
-
-
-
-
-
-
-
-
+	-- MOUSE DECTECTS --
 end
 
 function moregames:draw()
@@ -332,8 +275,11 @@ function moregames:draw()
 	start.font7:setFilter( 'nearest', 'nearest' )
 	------ FILTERS ------
 
+	------ IMAGE ------
 	love.graphics.draw(start.bg, 0, -1000, 0, 3)
+	------ IMAGE ------
 
+	-- Display SpaceGame page
 	if self.page2 == false then
 		
 		------ IMAGE ------
@@ -358,7 +304,6 @@ function moregames:draw()
 		love.graphics.print('Try it out here:', (love.graphics.getWidth()/2 - start.font7:getWidth( "Try it out here:" )/2) + 300, (love.graphics.getHeight()/2 - 25/2) + 152)
 		love.graphics.print('http://teampiquant.com/games/spacegame', (love.graphics.getWidth()/2 - start.font7:getWidth( "http://teampiquant.com/games/spacegame" )/2) + 300, (love.graphics.getHeight()/2 - 25/2) + 177)
 		love.graphics.print('http://reddit/r/piquant2013', (love.graphics.getWidth()/2 - start.font7:getWidth( "http://reddit/r/piquant2013" )/2) + 300, (love.graphics.getHeight()/2 - 25/2) + 202)
-		
 		love.graphics.print('< 1/2 >', (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 565, (love.graphics.getHeight()/2 - 25/2) + 322, 0, self.scalenext)
 		love.graphics.setColor(160, 47, 0, self.buttonflashnext)
 		love.graphics.print('< 1/2 >', (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 565, (love.graphics.getHeight()/2 - 25/2) + 322, 0, self.scalenext)
@@ -366,6 +311,7 @@ function moregames:draw()
 		------ TEXT ------
 	end
 
+	-- Display Digging Sim page
 	if self.page2 == true then
 		
 		------ IMAGE ------
@@ -384,7 +330,6 @@ function moregames:draw()
 		love.graphics.print('Try it out here:', (love.graphics.getWidth()/2 - start.font7:getWidth( "Try it out here:" )/2) + 300, (love.graphics.getHeight()/2 - 25/2) + 152)
 		love.graphics.print('http://teampiquant.com/games/diggingsim', (love.graphics.getWidth()/2 - start.font7:getWidth( "http://teampiquant.com/games/diggingsim" )/2) + 300, (love.graphics.getHeight()/2 - 25/2) + 177)
 		love.graphics.print('http://reddit/r/piquant2013', (love.graphics.getWidth()/2 - start.font7:getWidth( "http://reddit/r/piquant2013" )/2) + 300, (love.graphics.getHeight()/2 - 25/2) + 202)
-		
 		love.graphics.print('< 2/2 >', (love.graphics.getWidth()/2 - start.font7:getWidth( "< 2/2 >" )/2) + 565, (love.graphics.getHeight()/2 - 25/2) + 322, 0, self.scalenext)
 		love.graphics.setColor(160, 47, 0, self.buttonflashnext)
 		love.graphics.print('< 2/2 >', (love.graphics.getWidth()/2 - start.font7:getWidth( "< 2/2 >" )/2) + 565, (love.graphics.getHeight()/2 - 25/2) + 322, 0, self.scalenext)
@@ -392,11 +337,12 @@ function moregames:draw()
 		------ TEXT ------
 	end
 
+	------ TEXT ------
 	love.graphics.print('< BACK', (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565, (love.graphics.getHeight()/2 - 25/2) - 322, 0, self.scaleback)
 	love.graphics.setColor(160, 47, 0, self.buttonflashback)
 	love.graphics.print('< BACK', (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565, (love.graphics.getHeight()/2 - 25/2) - 322, 0, self.scaleback)
 	love.graphics.setColor(255, 255, 255, 255)
-
+	------ TEXT ------
 end
 
 return moregames
