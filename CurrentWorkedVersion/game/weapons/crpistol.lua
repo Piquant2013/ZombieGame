@@ -14,6 +14,7 @@ function crpistol:initialize()
 	-- Bullet
 	self.cooldown = 0
 	self.cooldownplus = 0
+	self.shotstaken = 0
 
 	-- PISTOL --
 	-- pistol table
@@ -66,6 +67,7 @@ function crpistol:shooting(mx, my, button)
 		-- Insert the bullet
 		table.insert(self.bullets, self.bullet)
 		self.cooldown = self.cooldownplus
+		self.shotstaken = self.shotstaken + 1
 		love.audio.play(self.bullet.sound)
 	end
 

@@ -65,6 +65,9 @@ function endless:init()
 	self.flashkillall = true
 	self.killamount = 100
 
+	self.speedflashtimer = 10
+	self.healthflashtimer = 10
+
 	-- Gameover vars
 	self.gameovery = 800
 	self.fadebg = 0
@@ -216,6 +219,9 @@ function endless:update(dt)
 		self.killallflash = 0
 		self.flashkillall = true
 		self.killamount = 100
+
+		self.speedflashtimer = 10
+		self.healthflashtimer = 10
 
 		-- Gameover vars
 		self.gameovery = 800
@@ -557,6 +563,7 @@ function endless:update(dt)
 	-- turn on shoe
 	if self.shoehave == true then
 		self.shoetimer = self.shoetimer - dt
+		self.speedflashtimer = 0
 	end
 
 	-- reset shoe for next time
@@ -598,6 +605,7 @@ function endless:update(dt)
 	-- turn on heart
 	if self.hearthave == true then
 		self.hearttimer = self.hearttimer - dt
+		self.healthflashtimer = 0
 	end
 
 	-- reset heart for next time
@@ -713,6 +721,19 @@ function endless:update(dt)
 		end
 	end
 	-- WAVE SYSTEM --
+
+
+
+
+
+
+	self.speedflashtimer = self.speedflashtimer + dt
+	self.healthflashtimer = self.healthflashtimer + dt
+
+
+
+
+
 
 	-- update zombies
 	zombie:update(dt)
@@ -850,10 +871,27 @@ function endless:draw()
 
 
 	if plyr.hurt == true and gameover == false or player.minihealthbar == true and gameover == false then
-		love.graphics.setColor(160, 47, 0)
+		love.graphics.setColor(160, 47, 0, 200)
+		love.graphics.rectangle("line", plyr.x - 13, plyr.y + 14, 27, 3)
+		love.graphics.setColor(0, 0, 0, 200)
+		love.graphics.rectangle("line", plyr.x - 12, plyr.y + 15, 25, 1)
+		love.graphics.setColor(0, 170, 0, 200)
 		love.graphics.rectangle("fill", plyr.x - 12, plyr.y + 15, plyr.health/4, 1)
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(255, 255, 255, 255)
 	end
+
+	if plyr.health < player.maxhealth and player.hurttimer > 3 then
+		self.healthflashtimer = 0
+	end
+
+	if plyr.health == player.maxhealth then
+		self.healthflashtimer = 10
+	end
+
+	if plyr.hurt == true then
+		self.healthflashtimer = 10
+	end
+
 
 
 
@@ -903,6 +941,35 @@ function endless:draw()
 
 
 
+
+		love.graphics.setColor(0, 0, 0, 150)
+		love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 6, 37, 140, 16 )
+		love.graphics.setColor(160, 47, 0, 255)
+		love.graphics.rectangle("line", love.graphics.getWidth()/2 + 5, 36, 142, 18 )
+
+		love.graphics.setColor(0, 0, 0, 150)
+		love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 140 - 6, 37, 140, 16 )
+		love.graphics.setColor(160, 47, 0, 255)
+		love.graphics.rectangle("line", love.graphics.getWidth()/2 - 142 - 5, 36, 142, 18 )
+
+
+		love.graphics.setFont( start.font011 )
+		love.graphics.setColor(160, 47, 0)
+		love.graphics.print("LIVES: 1", love.graphics.getWidth()/2 - 141, 42)
+		
+
+
+
+		love.graphics.setColor(160, 47, 0)
+		love.graphics.print("SPEED:"..tostring(plyr.speed), love.graphics.getWidth()/2 + 12, 42)
+
+		if self.speedflashtimer < 8 then
+			love.graphics.setColor(255, 255, 255, endless.gunsflash)
+			love.graphics.print("SPEED:"..tostring(plyr.speed), love.graphics.getWidth()/2 + 12, 42)
+			love.graphics.setColor(255, 255, 255, 255)
+		end
+
+
 		--plyr.health * 3.6
 		--3.6 * plyr.health - 36
 		--3.273
@@ -912,8 +979,16 @@ function endless:draw()
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.print("HEALTH:", 15, 15)
 		
+
 		love.graphics.setColor(0, 170, 0)
 		love.graphics.rectangle("fill", 125, 12, plyr.health * 3.6, 13)
+
+		if self.healthflashtimer < 8 then
+			love.graphics.setColor(0, 170, 240, endless.gunsflash + 20)
+			love.graphics.rectangle("fill", 125, 12, plyr.health * 3.6, 13)
+			love.graphics.setColor(255, 255, 255, 255)
+		end
+
 		
 		love.graphics.setFont( start.font011 )
 		love.graphics.setColor(255, 255, 255)

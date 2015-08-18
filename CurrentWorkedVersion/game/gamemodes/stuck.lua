@@ -35,6 +35,11 @@ function stuckmode:init()
 	self.flashwave = true
 	self.wavezombiecount = 14
 
+	self.healthflash = 2
+	self.flashhealth = true
+	self.healthflashtimer = 10
+	self.accuracy = 0
+
 	-- Gameover vars
 	self.gameovery = 800
 	self.fadebg = 0
@@ -155,6 +160,7 @@ function stuckmode:update(dt)
 		crpistol.crp.x = plyr.x
 		crpistol.cooldown = 0
 		crpistol.cooldownplus = 0
+		crpistol.shotstaken = 0
 		crpistol.bullets = {}
 
 		-- gameover or welcome screens
@@ -175,6 +181,11 @@ function stuckmode:update(dt)
 		self.wavestart = true
 		self.flashwave = true
 		self.wavezombiecount = 100--8
+
+		self.healthflash = 2
+		self.flashhealth = true
+		self.healthflashtimer = 10
+		self.accuracy = 0
 
 		-- Gameover vars
 		self.gameovery = 800
@@ -393,6 +404,37 @@ function stuckmode:update(dt)
 	end
 	-- WAVE SYSTEM --
 
+
+
+
+
+
+
+
+
+	if self.flashhealth == true then
+		self.healthflash = self.healthflash + dt + 1.5
+	elseif self.flashhealth == false then
+		self.healthflash = self.healthflash + dt - 1.5
+	end
+	
+	if self.healthflash > 100 then
+		self.flashhealth = false
+	elseif self.healthflash < 2 then
+		self.flashhealth = true
+	end
+
+	self.healthflashtimer = self.healthflashtimer + dt
+
+
+
+	self.accuracy = (self.score / crpistol.shotstaken) * 100
+
+
+
+
+
+
 	-- update zombies
 	zombie:update(dt)
 
@@ -484,31 +526,131 @@ function stuckmode:draw()
 	-- layer2 of the map
 	love.graphics.draw(self.layer2, 0, 0)
 
+
+
+
+
+
+
+
+	if plyr.hurt == true and gameover == false or player.minihealthbar == true and gameover == false then
+		love.graphics.setColor(160, 47, 0, 200)
+		love.graphics.rectangle("line", plyr.x - 13, plyr.y + 14, 27, 3)
+		love.graphics.setColor(0, 0, 0, 200)
+		love.graphics.rectangle("line", plyr.x - 12, plyr.y + 15, 25, 1)
+		love.graphics.setColor(0, 170, 0, 200)
+		love.graphics.rectangle("fill", plyr.x - 12, plyr.y + 15, plyr.health/4, 1)
+		love.graphics.setColor(255, 255, 255, 255)
+	end
+
+	if plyr.health < player.maxhealth and player.hurttimer > 3 and plyr.hurt == false then
+		self.healthflashtimer = 0
+	end
+
+	if plyr.health == player.maxhealth then
+		self.healthflashtimer = 10
+	end
+
+	if plyr.hurt == true then
+		self.healthflashtimer = 10
+	end
+
+
+
+
+
+
+
 	game.Cam:detach()
 	------ CAMERA ------
 	
 	------ TEXT ------
 	-- the hud and the hud text
 	if gameover == false then
-		love.graphics.draw(self.hud1, 0, -25, 0, 0.5)
-		love.graphics.setColor(0, 0, 0)
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		love.graphics.setColor(0, 0, 0, 150)
+		love.graphics.rectangle("fill", 7, 7, 486, 22 )
+		love.graphics.setColor(160, 47, 0, 255)
+		love.graphics.rectangle("line", 6, 6, 488, 24 )
+
+		love.graphics.setColor(0, 0, 0, 150)
+		love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 278/2, 7, 382, 22 )
+		love.graphics.setColor(160, 47, 0, 255)
+		love.graphics.rectangle("line", love.graphics.getWidth()/2 - 280/2, 6, 384, 24 )
+
+		love.graphics.setColor(0, 0, 0, 150)
+		love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 278/2 + 112, 7, 382, 22 )
+		love.graphics.setColor(160, 47, 0, 255)
+		love.graphics.rectangle("line", love.graphics.getWidth()/2 + 280/2 + 110, 6, 384, 24 )
+
+
+
 		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("HEALTH:", 10, 10)
-		love.graphics.print(tostring(math.floor(plyr.health)).."%", 10, 30)
-		love.graphics.print("TIME:", 1150, 10)
-		love.graphics.print(tostring(math.floor(self.time)), 1150, 30)
-		love.graphics.setFont( start.font1 )
-		love.graphics.print("SCORE:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font1:getWidth("SCORE:"..tostring(self.score))/2), 10)
+		love.graphics.print("HEALTH:", 15, 15)
+		love.graphics.setColor(0, 170, 0)
+		love.graphics.rectangle("fill", 125, 12, plyr.health * 3.6, 13)
+
+		if self.healthflashtimer < 8 then
+			love.graphics.setColor(0, 170, 240, self.healthflash + 20)
+			love.graphics.rectangle("fill", 125, 12, plyr.health * 3.6, 13)
+			love.graphics.setColor(255, 255, 255, 255)
+		end
+
+		love.graphics.setFont( start.font011 )
 		love.graphics.setColor(255, 255, 255)
+		love.graphics.print(tostring(math.floor(plyr.health)).."%", 280, 15)
+
+
+		love.graphics.setFont( start.font0 )
+		love.graphics.setColor(160, 47, 0)
+		love.graphics.print("TIME:"..tostring(math.floor(self.time)), love.graphics.getWidth()/2 + 295/2 + 110, 15)
+
+
+
+		love.graphics.setColor(160, 47, 0)
+		love.graphics.setFont( start.font0 )
+		love.graphics.print("SCORE:", love.graphics.getWidth()/2 - 260/2, 15)
+		love.graphics.print(tostring(self.score), love.graphics.getWidth()/2 - 80/2, 15)
+		love.graphics.setColor(255, 255, 255)
+
 
 		-- flash the wave text in hud white when the next wave is coming
 		if self.wavedrawtime < 5 then
-			love.graphics.setFont( start.font1 )
+			love.graphics.setFont( start.font0 )
 			love.graphics.setColor(255, 255, 255, self.waveflash)
-			love.graphics.print("SCORE:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font1:getWidth("SCORE:"..tostring(self.score))/2), 10)
+			love.graphics.print("SCORE:", love.graphics.getWidth()/2 - 260/2, 15)
+			love.graphics.print(tostring(self.score), love.graphics.getWidth()/2 - 80/2, 15)
 			love.graphics.setColor(255, 255, 255)
 		end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	-- Game over title and the scores at the end of the game
 	elseif gameover == true then
@@ -530,7 +672,65 @@ function stuckmode:draw()
     		love.graphics.setColor(160, 47, 0)
 			love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font3:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 300)
 			love.graphics.print("SCORE:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(self.score))/2), 350)
+
+
+			
+
+
+
+
+
+
+
+
+			if self.accuracy < 15 then
+				love.graphics.print("GRADE:N/A", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:N/A")/2), 400)
+			elseif self.accuracy > 15 and self.accuracy < 30 then
+				love.graphics.print("GRADE:F", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:F")/2), 400)
+			elseif self.accuracy > 30 and self.accuracy < 40 then
+				love.graphics.print("GRADE:E-", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:E-")/2), 400)
+			elseif self.accuracy > 40 and self.accuracy < 45 then
+				love.graphics.print("GRADE:E", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:E")/2), 400)
+			elseif self.accuracy > 45 and self.accuracy < 50 then
+				love.graphics.print("GRADE:E+", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:E+")/2), 400)
+			elseif self.accuracy > 50 and self.accuracy < 55 then
+				love.graphics.print("GRADE:D-", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:D-")/2), 400)
+			elseif self.accuracy > 55 and self.accuracy < 60 then
+				love.graphics.print("GRADE:D", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:D")/2), 400)
+			elseif self.accuracy > 60 and self.accuracy < 65 then
+				love.graphics.print("GRADE:D+", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:D+")/2), 400)
+			elseif self.accuracy > 65 and self.accuracy < 70 then
+				love.graphics.print("GRADE:C-", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:C-")/2), 400)
+			elseif self.accuracy > 70 and self.accuracy < 75 then
+				love.graphics.print("GRADE:C", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:C")/2), 400)
+			elseif self.accuracy > 75 and self.accuracy < 80 then
+				love.graphics.print("GRADE:C+", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:C+")/2), 400)
+			elseif self.accuracy > 80 and self.accuracy < 84 then
+				love.graphics.print("GRADE:B-", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:B-")/2), 400)
+			elseif self.accuracy > 84 and self.accuracy < 88 then
+				love.graphics.print("GRADE:B", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:B")/2), 400)
+			elseif self.accuracy > 88 and self.accuracy < 90 then
+				love.graphics.print("GRADE:B+", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:B+")/2), 400)
+			elseif self.accuracy > 90 and self.accuracy < 94 then
+				love.graphics.print("GRADE:A-", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:A-")/2), 400)
+			elseif self.accuracy > 94 and self.accuracy < 98 then
+				love.graphics.print("GRADE:A", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:A")/2), 400)
+			elseif self.accuracy > 98 then
+				love.graphics.print("GRADE:A+", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:A+")/2), 400)
+			end
+
+
 			love.graphics.setColor(255, 255, 255)
+
+
+
+
+
+
+
+
+
+
 		end
 	end
 
