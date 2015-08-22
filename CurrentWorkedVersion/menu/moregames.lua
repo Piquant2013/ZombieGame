@@ -123,7 +123,7 @@ function moregames:update(dt)
 
 	-- MOUSE AREAS --
 	-- Mouse area of next button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 440 + start.font2:getWidth( "< 1/2 >" ) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 565 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 + start.font2:getHeight( "< 1/2 >" ) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 440 + start.font2:getWidth( "< 1/2 >" ) + 30 and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 565 - 40 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 - 40 and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 + start.font2:getHeight( "< 1/2 >" ) + 30 then
 		self.nextstatemouse = true
 		self.backstatemouse = false
 		self.scaleback = 1
@@ -135,7 +135,7 @@ function moregames:update(dt)
 	end
 
 	-- Mouse area of back button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 660 + start.font2:getWidth( "< BACK" ) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 + start.font2:getHeight( "< BACK" ) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 660 + start.font2:getWidth( "< BACK" ) + 30 and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565 - 40 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 - 40 and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 + start.font2:getHeight( "< BACK" ) + 30 then
 		self.nextstatemouse = false
 		self.backstatemouse = true
 		self.scaleback = 1.2
@@ -149,50 +149,50 @@ function moregames:update(dt)
 
 	-- MOUSE OUT OF AREA --
 	-- Out of areas for the back button
-	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 660 + start.font2:getWidth( "< BACK" ) then
+	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 660 + start.font2:getWidth( "< BACK" ) + 30 then
 		self.backstatemouse = false
 		self.mouseoverback = false
 		self.scaleback = 1
 	end 
 	
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565 then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< BACK" )/2) - 565 - 40 then
 		self.backstatemouse = false
 		self.mouseoverback = false
 		self.scaleback = 1
 	end
 
-	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 then
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 - 40 then
 		self.backstatemouse = false
 		self.mouseoverback = false
 		self.scaleback = 1
 	end 
 
-	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 + start.font2:getHeight( "< BACK" ) then
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font7:getWidth( "< BACK" )/2) - 295 + start.font2:getHeight( "< BACK" ) + 30 then
 		self.backstatemouse = false
 		self.mouseoverback = false
 		self.scaleback = 1
 	end
 
 	-- Out of areas for the next button
-	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 440 + start.font2:getWidth( "< 1/2 >" ) then
+	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 440 + start.font2:getWidth( "< 1/2 >" ) + 30 then
 		self.nextstatemouse = false
 		self.mouseovernext = false
 		self.scalenext = 1
 	end 
 	
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 565 then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font7:getWidth( "< 1/2 >" )/2) + 565 - 40 then
 		self.nextstatemouse = false
 		self.mouseovernext = false
 		self.scalenext = 1
 	end
 
-	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 then
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 - 40 then
 		self.nextstatemouse = false
 		self.mouseovernext = false
 		self.scalenext = 1
 	end 
 
-	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 + start.font2:getHeight( "< 1/2 >" ) then
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2) + 322 + start.font2:getHeight( "< 1/2 >" ) + 30 then
 		self.nextstatemouse = false
 		self.mouseovernext = false
 		self.scalenext = 1

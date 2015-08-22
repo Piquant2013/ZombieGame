@@ -419,7 +419,11 @@ function options:update(dt)
 
 	-- MOUSE AREAS --
 	-- Mouse area of fps button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny + start.font2:getHeight( "DISPLAY FPS:" )) and self.page2 == false then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny - 10) - 5
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny + start.font2:getHeight( "DISPLAY FPS:" )) + 5
+		and self.page2 == false then
 		self.fpsstatemouse = true
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
@@ -446,7 +450,11 @@ function options:update(dt)
 	end
 
 	-- Mouse area of mute button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MUTE AUDIO:" )/2 + self.mutebtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MUTE AUDIO:" )/2 + self.mutebtny + start.font2:getHeight( "MUTE AUDIO:" )) and self.page2 == false then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MUTE AUDIO:" )/2 + self.mutebtny - 10) - 5
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MUTE AUDIO:" )/2 + self.mutebtny + start.font2:getHeight( "MUTE AUDIO:" )) + 5
+		and self.page2 == false then
 		self.fpsstatemouse = false
 		self.mutestatemouse = true
 		self.mouselockstatemouse = false
@@ -473,7 +481,11 @@ function options:update(dt)
 	end
 
 	-- Mouse area of mouselock button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "WINDOW LOCK:" )/2 + self.mouselockbtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "WINDOW LOCK:" )/2 + self.mouselockbtny + start.font2:getHeight( "WINDOW LOCK:" )) and self.page2 == false then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "WINDOW LOCK:" )/2 + self.mouselockbtny - 10) - 5
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "WINDOW LOCK:" )/2 + self.mouselockbtny + start.font2:getHeight( "WINDOW LOCK:" )) + 5
+		and self.page2 == false then
 		self.fpsstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = true
@@ -500,7 +512,11 @@ function options:update(dt)
 	end
 
 	-- Mouse area of credits button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2 + self.creditsbtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2 + self.creditsbtny + start.font2:getHeight( "CREDITS" )) and self.page2 == false then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2 + self.creditsbtny - 10) - 5
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2 + self.creditsbtny + start.font2:getHeight( "CREDITS" )) + 5
+		and self.page2 == false then
 		self.fpsstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
@@ -527,7 +543,11 @@ function options:update(dt)
 	end
 
 	-- Mouse area of fullscreen button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2 + self.fpsbtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2 + self.fpsbtny + start.font2:getHeight( "FULLSCREEN:" )) and self.page2 == true then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" )) 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2 + self.fpsbtny - 10) - 5
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2 + self.fpsbtny + start.font2:getHeight( "FULLSCREEN:" )) + 5
+		and self.page2 == true then
 		self.fullscreenstatemouse = true
 		self.controlsstatemouse = false
 		self.changelogstatemouse = false
@@ -554,7 +574,11 @@ function options:update(dt)
 	end
 
 	-- Mouse area of controls button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2 + self.mutebtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2 + self.mutebtny + start.font2:getHeight( "CONTROLS" )) and self.page2 == true then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" )) 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2 + self.mutebtny - 10) - 5
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2 + self.mutebtny + start.font2:getHeight( "CONTROLS" )) + 5
+		and self.page2 == true then
 		self.fullscreenstatemouse = false
 		self.controlsstatemouse = true
 		self.changelogstatemouse = false
@@ -581,7 +605,11 @@ function options:update(dt)
 	end
 
 	-- Mouse area of changelog button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CHANGELOG" )/2 + self.mouselockbtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CHANGELOG" )/2 + self.mouselockbtny + start.font2:getHeight( "CHANGELOG" )) and self.page2 == true then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" )) 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CHANGELOG" )/2 + self.mouselockbtny - 10) - 5
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CHANGELOG" )/2 + self.mouselockbtny + start.font2:getHeight( "CHANGELOG" )) + 5
+		and self.page2 == true then
 		self.fullscreenstatemouse = false
 		self.controlsstatemouse = false
 		self.changelogstatemouse = true
@@ -608,7 +636,11 @@ function options:update(dt)
 	end
 
 	-- Mouse area of moregames button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2 + self.creditsbtny - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2 + self.creditsbtny + start.font2:getHeight( "MORE GAMES" )) and self.page2 == true then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2 + start.font2:getWidth( "FULLSCREEN:" )) 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "FULLSCREEN:" )/2) 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2 + self.creditsbtny - 10) - 5
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2 + self.creditsbtny + start.font2:getHeight( "MORE GAMES" )) + 5 
+		and self.page2 == true then
 		self.fullscreenstatemouse = false
 		self.controlsstatemouse = false
 		self.changelogstatemouse = false
@@ -635,7 +667,10 @@ function options:update(dt)
 	end
 
 	-- Mouse area of back button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy) + start.font2:getHeight( "<" ) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" ) + 30) 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2 - 40) 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy - 40) 
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy) + start.font2:getHeight( "<" ) + 30 then
 		self.fpsstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
@@ -660,7 +695,10 @@ function options:update(dt)
 	end
 
 	-- Mouse area of next button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2 +  300 + start.font2:getWidth( "< 1/2 >" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2 +  300) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2 + self.creditsbtny + 50) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2 + self.creditsbtny + 60 + start.font2:getHeight( "< 1/2 >" )) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2 +  300 + start.font2:getWidth( "< 1/2 >" )) + 30 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2 +  300) - 40 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2 + self.creditsbtny + 50) - 20 
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2 + self.creditsbtny + 60 + start.font2:getHeight( "< 1/2 >" )) + 30 then
 		self.fpsstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
@@ -703,7 +741,7 @@ function options:update(dt)
 		self.mouseover = false
 	end
 	
-	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny - 10) and self.page2 == false then
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny - 10) - 5 and self.page2 == false then
 		self.fpsstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
@@ -711,7 +749,7 @@ function options:update(dt)
 		self.mouseover = false
 	end
 
-	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2 + self.creditsbtny + start.font2:getHeight( "CREDITS" )) and self.page2 == false then
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2 + self.creditsbtny + start.font2:getHeight( "CREDITS" )) + 5 and self.page2 == false then
 		self.fpsstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
@@ -736,7 +774,7 @@ function options:update(dt)
 		self.mouseover = false
 	end
 	
-	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2 + self.fpsbtny - 10) and self.page2 == true then
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "FULLSCREEN:" )/2 + self.fpsbtny - 10) - 5 and self.page2 == true then
 		self.fullscreenstatemouse = false
 		self.controlsstatemouse = false
 		self.changelogstatemouse = false
@@ -744,7 +782,7 @@ function options:update(dt)
 		self.mouseover = false
 	end
 
-	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2 + self.creditsbtny + start.font2:getHeight( "MORE GAMES" )) and self.page2 == true then
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2 + self.creditsbtny + start.font2:getHeight( "MORE GAMES" )) + 5  and self.page2 == true then
 		self.fullscreenstatemouse = false
 		self.controlsstatemouse = false
 		self.changelogstatemouse = false
@@ -753,50 +791,50 @@ function options:update(dt)
 	end
 
 	-- Out of areas for the back button
-	if love.mouse.getX() > (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" )) then
+	if love.mouse.getX() > (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" )) + 30 then
 		self.backstatemouse = false
 		self.mouseoverback = false
 		self.scaleback = 1
 	end 
 	
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2) - 40 then
 		self.backstatemouse = false
 		self.mouseoverback = false
 		self.scaleback = 1
 	end
 
-	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy - 10) then
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy - 40) then
 		self.backstatemouse = false
 		self.mouseoverback = false
 		self.scaleback = 1
 	end 
 
-	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy) + start.font2:getHeight( "<" ) then
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy) + start.font2:getHeight( "<" ) + 30 then
 		self.backstatemouse = false
 		self.mouseoverback = false
 		self.scaleback = 1
 	end
 
 	-- Out of areas for the next button
-	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2 +  300 + start.font2:getWidth( "< 1/2 >" )) then
+	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2 +  300 + start.font2:getWidth( "< 1/2 >" )) + 30 then
 		self.nextstatemouse = false
 		self.mouseovernext = false
 		self.scalenext = 1
 	end 
 	
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2 +  300) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "< 1/2 >" )/2 +  300) - 40 then
 		self.nextstatemouse = false
 		self.mouseovernext = false
 		self.scalenext = 1
 	end
 
-	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2 + self.creditsbtny + 50) then
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2 + self.creditsbtny + 50) - 20 then
 		self.nextstatemouse = false
 		self.mouseovernext = false
 		self.scalenext = 1
 	end 
 
-	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2 + self.creditsbtny + 60 + start.font2:getHeight( "< 1/2 >" )) then
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "< 1/2 >" )/2 + self.creditsbtny + 60 + start.font2:getHeight( "< 1/2 >" )) + 30 then
 		self.nextstatemouse = false
 		self.mouseovernext = false
 		self.scalenext = 1

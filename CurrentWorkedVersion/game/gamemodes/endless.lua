@@ -61,12 +61,32 @@ function endless:init()
 	self.hearthave = false
 	self.hearthad = false
 	self.hearttimer = 1
+
+	self.oneupcount = 1
+	self.spawnoneup = false
+	self.oneuphave = false
+	self.oneuphad = false
+	self.oneuptimer = 1
+
+	self.questionmarkcount = 1
+	self.spawnquestionmark = false
+	self.questionmarkhave = false
+	self.questionmarkhad = false
+	self.questionmarktimer = 1
+
 	self.killallflash = 0
 	self.flashkillall = true
 	self.killamount = 100
 
 	self.speedflashtimer = 10
 	self.healthflashtimer = 10
+	self.oneupflashtimer = 10
+
+	playerhealth1 = 0
+	playerhealth2 = 0
+
+	self.death = false
+	self.deathtimer = 0
 
 	-- Gameover vars
 	self.gameovery = 800
@@ -77,9 +97,6 @@ function endless:init()
 	------ IMAGES ------
 	self.layer1 = love.graphics.newImage("images/maps/endless-layer1.png")
 	self.layer2 = love.graphics.newImage("images/maps/endless-layer2.png")
-	self.hud1 = love.graphics.newImage("images/hud/hud1.png")
-	self.hud2 = love.graphics.newImage("images/hud/hud2.png")
-	self.hud3 = love.graphics.newImage("images/hud/hud3.png")
 	self.powerupdisplay1 = love.graphics.newImage("images/weapons/smg.png")
 	self.powerupdisplay2 = love.graphics.newImage("images/weapons/minigun.png")
 	------ IMAGES ------
@@ -160,6 +177,7 @@ function endless:update(dt)
 		player.autoheal = true
 		player.maxhealth = 100
 		player.minihealthbar = false
+		player.lives = 1
 
 		-- Pistol
 		pis.y = plyr.y
@@ -216,12 +234,33 @@ function endless:update(dt)
 		self.hearthave = false
 		self.hearthad = false
 		self.hearttimer = 1
+
+		self.oneupcount = 1
+		self.spawnoneup = false
+		self.oneuphave = false
+		self.oneuphad = false
+		self.oneuptimer = 1
+
+		self.questionmarkcount = 1
+		self.spawnquestionmark = false
+		self.questionmarkhave = false
+		self.questionmarkhad = false
+		self.questionmarktimer = 1
+
 		self.killallflash = 0
 		self.flashkillall = true
 		self.killamount = 100
 
+		self.death = false
+		self.deathtimer = 0
+
+
+
 		self.speedflashtimer = 10
 		self.healthflashtimer = 10
+		self.oneupflashtimer = 10
+		playerhealth1 = 0
+		playerhealth2 = 0
 
 		-- Gameover vars
 		self.gameovery = 800
@@ -274,6 +313,18 @@ function endless:update(dt)
 		heart.spawnrate = 0
 		heart.spawnrateplus = 1
 		heart.count = 0
+
+		-- oneup
+		oneup.oneups = {}
+		oneup.spawnrate = 0
+		oneup.spawnrateplus = 1
+		oneup.count = 0
+
+		-- questionmark
+		questionmark.questionmarks = {}
+		questionmark.spawnrate = 0
+		questionmark.spawnrateplus = 1
+		questionmark.count = 0
 		
 		-- hardon collider
 		Collider = HC(100, on_collision, collision_stop)
@@ -637,6 +688,107 @@ function endless:update(dt)
 		end
 	end
 	-- HEART --
+
+
+
+
+
+
+
+
+
+	-- ONEUP --
+	-- turn off oneup
+	if self.oneuphave == true and self.oneuptimer < 0 then
+		self.oneuphave = false
+	end
+
+	-- turn on oneup
+	if self.oneuphave == true then
+		self.oneuptimer = self.oneuptimer - dt
+		self.oneupflashtimer = 0
+	end
+
+	-- reset oneup for next time
+	if self.oneuphave == false then		
+		self.oneuptimer = 1
+	end
+
+	-- Spawning
+	if self.wavebreak == false then
+		if self.spawnoneup == true and self.wave == 1 or self.spawnoneup == true and self.wave == 20 or self.spawnoneup == true and self.wave == 30 or self.spawnoneup == true and self.wave == 40 or self.spawnoneup == true and self.wave == 50 or self.spawnoneup == true and self.wave == 60 then
+			oneup:spawn()
+		end
+
+		if oneup.count == self.oneupcount then
+			self.spawnoneup = false
+		elseif oneup.count < self.oneupcount then
+			self.spawnoneup = true
+		end
+	end
+
+	-- stop spawning from happening durring the wave break
+	if self.wavebreak == true then
+		self.spawnoneup = false
+
+		if self.oneuphad == true and self.oneuphave == false then
+			oneup.count = 0
+			table.remove(oneup.oneups, i)
+			self.oneuphad = false
+		end
+	end
+	-- ONEUP --
+
+	-- QUESTIONMARK --
+	-- turn off questionmark
+	if self.questionmarkhave == true and self.questionmarktimer < 0 then
+		self.questionmarkhave = false
+	end
+
+	-- turn on questionmark
+	if self.questionmarkhave == true then
+		self.questionmarktimer = self.questionmarktimer - dt
+	end
+
+	-- reset questionmark for next time
+	if self.questionmarkhave == false then		
+		self.questionmarktimer = 1
+	end
+
+	-- Spawning
+	if self.wavebreak == false then
+		if self.spawnquestionmark == true and self.wave == 1 or self.spawnquestionmark == true and self.wave == 20 or self.spawnquestionmark == true and self.wave == 30 or self.spawnquestionmark == true and self.wave == 40 or self.spawnquestionmark == true and self.wave == 50 or self.spawnquestionmark == true and self.wave == 60 then
+			questionmark:spawn()
+		end
+
+		if questionmark.count == self.questionmarkcount then
+			self.spawnquestionmark = false
+		elseif questionmark.count < self.questionmarkcount then
+			self.spawnquestionmark = true
+		end
+	end
+
+	-- stop spawning from happening durring the wave break
+	if self.wavebreak == true then
+		self.spawnquestionmark = false
+
+		if self.questionmarkhad == true and self.questionmarkhave == false then
+			questionmark.count = 0
+			table.remove(questionmark.questionmarks, i)
+			self.questionmarkhad = false
+		end
+	end
+	-- QUESTIONMARK --
+
+
+
+
+
+
+
+
+
+
 	---- SPECIAL WEAPONS ----
 
 	-- WAVE SYSTEM --
@@ -729,6 +881,56 @@ function endless:update(dt)
 
 	self.speedflashtimer = self.speedflashtimer + dt
 	self.healthflashtimer = self.healthflashtimer + dt
+	self.oneupflashtimer = self.oneupflashtimer + dt
+	self.deathtimer = self.deathtimer + dt
+
+	playerhealth1 = plyr.health
+	playerhealth2 = plyr.health - 100
+
+	if playerhealth1 > 100 then
+		playerhealth1 = 100
+	end
+
+	if playerhealth2 < 0 then
+		playerhealth2 = 0
+	end
+
+
+
+
+
+
+
+
+
+	if plyr.health <= 0 and player.lives > 1 then
+		plyr.health = player.maxhealth
+		player.lives = player.lives - 1
+		plyr.y = 200
+		plyr.x = 400
+    	self.minihave = false
+    	self.smghave = false
+    	self.killallhave = false
+   		self.invhave = false
+   		self.oneupflashtimer = 0
+   		self.death = true
+   		self.deathtimer = 0
+	end
+
+	if self.death == true then
+	   	for i, o in ipairs(zombie.zombs) do
+   			zombie.count = zombie.count - 1         
+			Collider:remove(o.bb)
+			table.remove(zombie.zombs, i)
+		end
+	end
+
+	if self.deathtimer > 0.5 then
+		self.death = false
+	end
+
+
+
 
 
 
@@ -755,6 +957,12 @@ function endless:update(dt)
 
 	-- update heart
 	heart:update(dt)
+
+	-- update oneup
+	oneup:update(dt)
+
+	-- update oneup
+	questionmark:update(dt)
 
 	--- MOVE GAMEOVER TEXT ---
 	if gameover == true then
@@ -802,9 +1010,6 @@ function endless:draw()
 	------ FILTERS ------
 	self.layer1:setFilter( 'nearest', 'nearest' )
 	self.layer2:setFilter( 'nearest', 'nearest' )
-	self.hud1:setFilter( 'nearest', 'nearest' )
-	self.hud2:setFilter( 'nearest', 'nearest' )
-	self.hud3:setFilter( 'nearest', 'nearest' )
 	start.font0:setFilter( 'nearest', 'nearest' )
 	start.font1:setFilter( 'nearest', 'nearest' )
 	start.font2:setFilter( 'nearest', 'nearest' )
@@ -856,6 +1061,12 @@ function endless:draw()
 	-- heart
 	heart:draw()
 
+	-- heart
+	oneup:draw()
+
+	-- heart
+	questionmark:draw()
+
 	-- pistol
 	pistol:draw()
 
@@ -876,7 +1087,9 @@ function endless:draw()
 		love.graphics.setColor(0, 0, 0, 200)
 		love.graphics.rectangle("line", plyr.x - 12, plyr.y + 15, 25, 1)
 		love.graphics.setColor(0, 170, 0, 200)
-		love.graphics.rectangle("fill", plyr.x - 12, plyr.y + 15, plyr.health/4, 1)
+		love.graphics.rectangle("fill", plyr.x - 12, plyr.y + 15, playerhealth1/4, 1)
+		love.graphics.setColor(0, 170, 240, 200)
+		love.graphics.rectangle("fill", plyr.x - 12, plyr.y + 15, playerhealth2/4, 1)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 
@@ -942,57 +1155,98 @@ function endless:draw()
 
 
 
-		love.graphics.setColor(0, 0, 0, 150)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 6, 37, 140, 16 )
-		love.graphics.setColor(160, 47, 0, 255)
-		love.graphics.rectangle("line", love.graphics.getWidth()/2 + 5, 36, 142, 18 )
-
-		love.graphics.setColor(0, 0, 0, 150)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 140 - 6, 37, 140, 16 )
-		love.graphics.setColor(160, 47, 0, 255)
-		love.graphics.rectangle("line", love.graphics.getWidth()/2 - 142 - 5, 36, 142, 18 )
-
-
-		love.graphics.setFont( start.font011 )
-		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("LIVES: 1", love.graphics.getWidth()/2 - 141, 42)
-		
 
 
 
-		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("SPEED:"..tostring(plyr.speed), love.graphics.getWidth()/2 + 12, 42)
 
-		if self.speedflashtimer < 8 then
+
+		if self.wavedrawtime < 5 and self.wave == 1 then
+			love.graphics.setFont( start.font011 )
+			love.graphics.setColor(0, 0, 0, 150)
+			love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 140 - 6, love.graphics.getHeight() - 22, 140, 16 )
+			love.graphics.setColor(160, 47, 0, 255)
+			love.graphics.rectangle("line", love.graphics.getWidth()/2 - 142 - 5, love.graphics.getHeight() - 23, 142, 18 )
+			love.graphics.setColor(160, 47, 0)
+			love.graphics.print("LIVES:"..tostring(player.lives), love.graphics.getWidth()/2 - 141, love.graphics.getHeight() - 17)
+		end
+
+		if self.oneupflashtimer < 8 then
+			love.graphics.setFont( start.font011 )
+			love.graphics.setColor(0, 0, 0, 150)
+			love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 140 - 6, love.graphics.getHeight() - 22, 140, 16 )
+			love.graphics.setColor(160, 47, 0, 255)
+			love.graphics.rectangle("line", love.graphics.getWidth()/2 - 142 - 5, love.graphics.getHeight() - 23, 142, 18 )
+			love.graphics.setColor(160, 47, 0)
+			love.graphics.print("LIVES:"..tostring(player.lives), love.graphics.getWidth()/2 - 141, love.graphics.getHeight() - 17)
 			love.graphics.setColor(255, 255, 255, endless.gunsflash)
-			love.graphics.print("SPEED:"..tostring(plyr.speed), love.graphics.getWidth()/2 + 12, 42)
+			love.graphics.print("LIVES:"..tostring(player.lives), love.graphics.getWidth()/2 - 141, love.graphics.getHeight() - 17)
 			love.graphics.setColor(255, 255, 255, 255)
 		end
 
 
-		--plyr.health * 3.6
-		--3.6 * plyr.health - 36
-		--3.273
+
+
+
+
+
+		if self.wavedrawtime < 5 and self.wave == 1 then
+			love.graphics.setFont( start.font011 )
+			love.graphics.setColor(0, 0, 0, 150)
+			love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 6, love.graphics.getHeight() - 22, 140, 16 )
+			love.graphics.setColor(160, 47, 0, 255)
+			love.graphics.rectangle("line", love.graphics.getWidth()/2 + 5, love.graphics.getHeight() - 23, 142, 18 )
+			love.graphics.setColor(160, 47, 0)
+			love.graphics.print("SPEED:"..tostring(plyr.speed), love.graphics.getWidth()/2 + 12, love.graphics.getHeight() - 17)
+		end
+
+		if self.speedflashtimer < 8 then
+			love.graphics.setFont( start.font011 )
+			love.graphics.setColor(0, 0, 0, 150)
+			love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 6, love.graphics.getHeight() - 22, 140, 16 )
+			love.graphics.setColor(160, 47, 0, 255)
+			love.graphics.rectangle("line", love.graphics.getWidth()/2 + 5, love.graphics.getHeight() - 23, 142, 18 )
+			love.graphics.setColor(160, 47, 0)
+			love.graphics.print("SPEED:"..tostring(plyr.speed), love.graphics.getWidth()/2 + 12, love.graphics.getHeight() - 17)
+			love.graphics.setColor(255, 255, 255, endless.gunsflash)
+			love.graphics.print("SPEED:"..tostring(plyr.speed), love.graphics.getWidth()/2 + 12, love.graphics.getHeight() - 17)
+			love.graphics.setColor(255, 255, 255, 255)
+		end
+
+
+
+
+
 
 
 		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.print("HEALTH:", 15, 15)
 		
-
 		love.graphics.setColor(0, 170, 0)
-		love.graphics.rectangle("fill", 125, 12, plyr.health * 3.6, 13)
+		love.graphics.rectangle("fill", 125, 12, playerhealth1 * 3.6, 13)
+
+		love.graphics.setColor(0, 170, 240)
+		love.graphics.rectangle("fill", 125, 12, playerhealth2 * 3.6, 13)
 
 		if self.healthflashtimer < 8 then
 			love.graphics.setColor(0, 170, 240, endless.gunsflash + 20)
-			love.graphics.rectangle("fill", 125, 12, plyr.health * 3.6, 13)
+			love.graphics.rectangle("fill", 125, 12, playerhealth1 * 3.6, 13)
+
+			love.graphics.setColor(0, 170, 0, endless.gunsflash + 20)
+			love.graphics.rectangle("fill", 125, 12, playerhealth2 * 3.6, 13)
 			love.graphics.setColor(255, 255, 255, 255)
 		end
 
-		
 		love.graphics.setFont( start.font011 )
 		love.graphics.setColor(255, 255, 255)
 		love.graphics.print(tostring(math.floor(plyr.health)).."%", 280, 15)
+
+
+
+
+
+
+
 		
 
 		love.graphics.setColor(160, 47, 0)
@@ -1001,12 +1255,13 @@ function endless:draw()
 		love.graphics.print(tostring(self.score), love.graphics.getWidth()/2 - 80/2, 15)
 		love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 + 362), 15)
 		
-		-- draw text for ammo for differnt guns
-		--if self.smghave == false and self.minihave == false then
-			--love.graphics.print("AMMO: ∞", 10, 680)
-			--love.graphics.print("PISTOL", 10, 700)
-		--end
+
 		
+
+
+
+
+
 		if self.smghave == true then
 			for i, o in ipairs(smg.smgs) do
 				
@@ -1038,6 +1293,20 @@ function endless:draw()
 				love.graphics.draw(self.powerupdisplay2, love.graphics.getWidth()/2 - self.powerupdisplay2:getWidth()/2 * 2 - 90, love.graphics.getHeight() - self.powerupdisplay2:getHeight()/2 * 2 - 123, 0, 2)
 			end
 		end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		-- Wave title in hud
 		love.graphics.setFont( start.font0 )

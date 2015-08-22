@@ -37,6 +37,12 @@ shoe = require 'game/weapons/shoe'
 -- Loads heart script
 heart = require 'game/weapons/heart'
 
+-- Loads heart script
+oneup = require 'game/weapons/oneup'
+
+-- Loads heart script
+questionmark = require 'game/weapons/questionmark'
+
 -- Loads zombie script
 zombie = require 'game/zombie'
 
@@ -255,6 +261,35 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			if plyr.health < 160 then
 					player.maxhealth = player.maxhealth	+ 10
 				end
+
+    			Collider:remove(o.bb)
+    			love.audio.play(game.pickupsound)
+    		end
+    	end
+
+    	-- if player hits oneup
+    	for i, o in ipairs(oneup.oneups) do
+    		if other == o.bb then
+    			endless.oneuphad = true
+    			endless.oneuphave = true
+
+    			-- increase the player lives
+    			if player.lives < 4 then
+					player.lives = player.lives + 1
+				end
+
+    			Collider:remove(o.bb)
+    			love.audio.play(game.pickupsound)
+    		end
+    	end
+
+    	-- if player hits questionmark
+    	for i, o in ipairs(questionmark.questionmarks) do
+    		if other == o.bb then
+    			endless.questionmarkhad = true
+    			endless.questionmarkhave = true
+
+
 
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)

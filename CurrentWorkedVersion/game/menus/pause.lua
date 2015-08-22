@@ -139,7 +139,10 @@ function pause:update(dt)
 
 	-- MOUSE AREAS --
 	-- Mouse area of resume button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "RESUME" )/2 - 60) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "RESUME" )/2 - 60 + start.font2:getHeight( "RESUME" )) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2) 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "RESUME" )/2 - 60) - 10
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "RESUME" )/2 - 60 + start.font2:getHeight( "RESUME" )) + 10 then
 		self.resumestatemouse = true
 		self.optionsstatemouse = false
 		self.mainmenustatemouse = false
@@ -155,7 +158,10 @@ function pause:update(dt)
 	end
 
 	-- Mouse area of options button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 - 10) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 - 10 + start.font2:getHeight( "SETTINGS" )) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2) 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 - 10) - 10
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 - 10 + start.font2:getHeight( "SETTINGS" )) + 10 then
 		self.resumestatemouse = false
 		self.optionsstatemouse = true
 		self.mainmenustatemouse = false
@@ -171,7 +177,10 @@ function pause:update(dt)
 	end
 
 	-- Mouse area of menu button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MENU" )/2 + 40) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MENU" )/2 + 40 + start.font2:getHeight( "MENU" )) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2 + start.font2:getWidth( "SETTINGS" )) 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SETTINGS" )/2) 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MENU" )/2 + 40) - 10
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MENU" )/2 + 40 + start.font2:getHeight( "MENU" )) + 10 then
 		self.resumestatemouse = false
 		self.optionsstatemouse = false
 		self.mainmenustatemouse = true
@@ -202,14 +211,14 @@ function pause:update(dt)
 		self.mouseover = false
 	end
 	
-	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "RESUME" )/2 - 60) then
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "RESUME" )/2 - 60) - 10 then
 		self.resumestatemouse = false
 		self.optionsstatemouse = false
 		self.mainmenustatemouse = false
 		self.mouseover = false
 	end
 
-	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MENU" )/2 + 40 + start.font2:getHeight( "MENU" )) then
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MENU" )/2 + 40 + start.font2:getHeight( "MENU" )) + 10 then
 		self.resumestatemouse = false
 		self.optionsstatemouse = false
 		self.mainmenustatemouse = false

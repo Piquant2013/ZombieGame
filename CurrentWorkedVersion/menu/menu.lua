@@ -137,7 +137,10 @@ function menu:update(dt)
 
 	-- MOUSE AREAS --
 	-- Mouse area of play button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2 + start.font2:getWidth( "START NEW GAME" )) + 50 and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2) - 50 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "START NEW GAME" )/2 + 90) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "START NEW GAME" )/2 + 100 + start.font2:getHeight( "START NEW GAME" )) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2 + start.font2:getWidth( "START NEW GAME" )) + 50 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2) - 50 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "START NEW GAME" )/2 + 90) - 10
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "START NEW GAME" )/2 + 90 + start.font2:getHeight( "START NEW GAME" )) + 10 then
 		self.playstatemouse = true
 		self.optstatemouse = false
 		self.exitstatemouse = false
@@ -153,7 +156,10 @@ function menu:update(dt)
 	end
 
 	-- Mouse area of options button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2 + start.font2:getWidth( "START NEW GAME" )) + 50 and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2) - 50 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 + 140) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 + 150 + start.font2:getHeight( "SETTINGS" )) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2 + start.font2:getWidth( "START NEW GAME" )) + 50 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2) - 50 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 + 140) - 10
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "SETTINGS" )/2 + 140 + start.font2:getHeight( "SETTINGS" )) + 10 then
 		self.playstatemouse = false
 		self.optstatemouse = true
 		self.exitstatemouse = false
@@ -169,7 +175,10 @@ function menu:update(dt)
 	end
 
 	-- Mouse area of exit button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2 + start.font2:getWidth( "START NEW GAME" )) + 50 and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2) - 50 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "QUIT" )/2 + 190) and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "QUIT" )/2 + 200 + start.font2:getHeight( "QUIT" )) then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2 + start.font2:getWidth( "START NEW GAME" )) + 50 
+		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "START NEW GAME" )/2) - 50 
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "QUIT" )/2 + 190) - 10
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "QUIT" )/2 + 190 + start.font2:getHeight( "QUIT" )) + 10 then
 		self.playstatemouse = false
 		self.optstatemouse = false
 		self.exitstatemouse = true
@@ -200,14 +209,14 @@ function menu:update(dt)
 		self.mouseover = false
 	end
 	
-	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "START NEW GAME" )/2 + 90) then
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "START NEW GAME" )/2 + 90) - 10 then
 		self.playstatemouse = false
 		self.optstatemouse = false
 		self.exitstatemouse = false
 		self.mouseover = false
 	end
 
-	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "QUIT" )/2 + 190 + start.font2:getHeight( "QUIT" )) then
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "QUIT" )/2 + 190 + start.font2:getHeight( "QUIT" )) + 10 then
 		self.playstatemouse = false
 		self.optstatemouse = false
 		self.exitstatemouse = false

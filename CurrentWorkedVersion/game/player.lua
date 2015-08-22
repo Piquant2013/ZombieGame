@@ -14,6 +14,7 @@ function player:initialize()
 	self.autoheal = false
 	self.maxhealth = 100
 	self.minihealthbar = false
+	self.lives = 1
 
 	-- Players weapon position
 	self.weapony = 0
@@ -46,10 +47,11 @@ end
 function player:health(dt)
 
 	-- Player death
-	if plyr.health <= 0 then
+	if plyr.health <= 0 and self.lives == 1 then
 		plyr.health = 0
 		gameover = true
 	end
+
 
 	-- AUTO HEAL --
 	if player.autoheal == true then

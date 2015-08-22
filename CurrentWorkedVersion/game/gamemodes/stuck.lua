@@ -39,6 +39,7 @@ function stuckmode:init()
 	self.flashhealth = true
 	self.healthflashtimer = 10
 	self.accuracy = 0
+	self.totalscore = 0
 
 	-- Gameover vars
 	self.gameovery = 800
@@ -154,6 +155,7 @@ function stuckmode:update(dt)
 		player.flashred = false
 		player.autoheal = true
 		player.maxhealth = 100
+		player.lives = 1
 
 		-- Pistol
 		crpistol.crp.y = plyr.y
@@ -186,6 +188,7 @@ function stuckmode:update(dt)
 		self.flashhealth = true
 		self.healthflashtimer = 10
 		self.accuracy = 0
+		self.totalscore = 0
 
 		-- Gameover vars
 		self.gameovery = 800
@@ -426,9 +429,12 @@ function stuckmode:update(dt)
 
 	self.healthflashtimer = self.healthflashtimer + dt
 
-
-
+	if crpistol.shotstaken > 0 and self.score > 0 then
+		self.totalscore = (self.score * (self.score / crpistol.shotstaken))
+	end
+	
 	self.accuracy = (self.score / crpistol.shotstaken) * 100
+
 
 
 
@@ -624,7 +630,7 @@ function stuckmode:draw()
 
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.setFont( start.font0 )
-		love.graphics.print("SCORE:", love.graphics.getWidth()/2 - 260/2, 15)
+		love.graphics.print("KILLS:", love.graphics.getWidth()/2 - 260/2, 15)
 		love.graphics.print(tostring(self.score), love.graphics.getWidth()/2 - 80/2, 15)
 		love.graphics.setColor(255, 255, 255)
 
@@ -633,7 +639,7 @@ function stuckmode:draw()
 		if self.wavedrawtime < 5 then
 			love.graphics.setFont( start.font0 )
 			love.graphics.setColor(255, 255, 255, self.waveflash)
-			love.graphics.print("SCORE:", love.graphics.getWidth()/2 - 260/2, 15)
+			love.graphics.print("KILLS:", love.graphics.getWidth()/2 - 260/2, 15)
 			love.graphics.print(tostring(self.score), love.graphics.getWidth()/2 - 80/2, 15)
 			love.graphics.setColor(255, 255, 255)
 		end
@@ -668,57 +674,102 @@ function stuckmode:draw()
 		
 		-- display game score
     	if self.bgtimer > 12 then
-			love.graphics.setFont( start.font3 )
+			love.graphics.setFont( start.font2 )
     		love.graphics.setColor(160, 47, 0)
-			love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font3:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 300)
-			love.graphics.print("SCORE:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(self.score))/2), 350)
+			love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font2:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 300)
+			love.graphics.print("KILLS:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font2:getWidth("KILLS:"..tostring(self.score))/2), 340)
+			love.graphics.print("SHOTS:"..tostring(crpistol.shotstaken), (love.graphics.getWidth()/2 - start.font2:getWidth("SHOTS:"..tostring(crpistol.shotstaken))/2), 380)
+
+			love.graphics.setFont( start.font3 )
+			love.graphics.print("SCORE:"..tostring(math.floor(self.totalscore)), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(math.floor(self.totalscore)))/2), 440)
 
 
 			
 
+			love.graphics.setFont( start.font4 )
 
-
-
-
-
-
-
-			if self.accuracy < 15 then
-				love.graphics.print("GRADE:N/A", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:N/A")/2), 400)
-			elseif self.accuracy > 15 and self.accuracy < 30 then
-				love.graphics.print("GRADE:F", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:F")/2), 400)
-			elseif self.accuracy > 30 and self.accuracy < 40 then
-				love.graphics.print("GRADE:E-", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:E-")/2), 400)
-			elseif self.accuracy > 40 and self.accuracy < 45 then
-				love.graphics.print("GRADE:E", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:E")/2), 400)
-			elseif self.accuracy > 45 and self.accuracy < 50 then
-				love.graphics.print("GRADE:E+", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:E+")/2), 400)
-			elseif self.accuracy > 50 and self.accuracy < 55 then
-				love.graphics.print("GRADE:D-", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:D-")/2), 400)
-			elseif self.accuracy > 55 and self.accuracy < 60 then
-				love.graphics.print("GRADE:D", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:D")/2), 400)
-			elseif self.accuracy > 60 and self.accuracy < 65 then
-				love.graphics.print("GRADE:D+", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:D+")/2), 400)
-			elseif self.accuracy > 65 and self.accuracy < 70 then
-				love.graphics.print("GRADE:C-", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:C-")/2), 400)
-			elseif self.accuracy > 70 and self.accuracy < 75 then
-				love.graphics.print("GRADE:C", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:C")/2), 400)
-			elseif self.accuracy > 75 and self.accuracy < 80 then
-				love.graphics.print("GRADE:C+", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:C+")/2), 400)
-			elseif self.accuracy > 80 and self.accuracy < 84 then
-				love.graphics.print("GRADE:B-", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:B-")/2), 400)
-			elseif self.accuracy > 84 and self.accuracy < 88 then
-				love.graphics.print("GRADE:B", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:B")/2), 400)
-			elseif self.accuracy > 88 and self.accuracy < 90 then
-				love.graphics.print("GRADE:B+", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:B+")/2), 400)
-			elseif self.accuracy > 90 and self.accuracy < 94 then
-				love.graphics.print("GRADE:A-", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:A-")/2), 400)
-			elseif self.accuracy > 94 and self.accuracy < 98 then
-				love.graphics.print("GRADE:A", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:A")/2), 400)
-			elseif self.accuracy > 98 then
-				love.graphics.print("GRADE:A+", (love.graphics.getWidth()/2 - start.font3:getWidth("GRADE:A+")/2), 400)
+			if crpistol.shotstaken < 1 and self.score < 1 then
+				self.totalscore = 0
+				love.graphics.print("N/A", (love.graphics.getWidth()/2 + 220), 335)
 			end
 
+			if self.accuracy < 15 then
+				love.graphics.print("N/A", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 15 and self.accuracy < 30 then
+				love.graphics.print("F", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 30 and self.accuracy < 40 then
+				love.graphics.print("E-", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 40 and self.accuracy < 45 then
+				love.graphics.print("E", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 45 and self.accuracy < 50 then
+				love.graphics.print("E+", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 50 and self.accuracy < 55 then
+				love.graphics.print("D-", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 55 and self.accuracy < 60 then
+				love.graphics.print("D", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 60 and self.accuracy < 65 then
+				love.graphics.print("D+", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 65 and self.accuracy < 70 then
+				love.graphics.print("C-", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 70 and self.accuracy < 75 then
+				love.graphics.print("C", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 75 and self.accuracy < 80 then
+				love.graphics.print("C+", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 80 and self.accuracy < 84 then
+				love.graphics.print("B-", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 84 and self.accuracy < 88 then
+				love.graphics.print("B", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 88 and self.accuracy < 90 then
+				love.graphics.print("B+", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 90 and self.accuracy < 94 then
+				love.graphics.print("A-", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 94 and self.accuracy < 98 then
+				love.graphics.print("A", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 98 then
+				love.graphics.print("A+", (love.graphics.getWidth()/2 + 220), 335)
+			end
+
+			love.graphics.setColor(255, 255, 255, self.healthflash)
+
+			if crpistol.shotstaken < 1 and self.score < 1 then
+				love.graphics.print("N/A", (love.graphics.getWidth()/2 + 220), 335)
+			end
+
+			if self.accuracy < 15 then
+				love.graphics.print("N/A", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 15 and self.accuracy < 30 then
+				love.graphics.print("F", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 30 and self.accuracy < 40 then
+				love.graphics.print("E-", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 40 and self.accuracy < 45 then
+				love.graphics.print("E", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 45 and self.accuracy < 50 then
+				love.graphics.print("E+", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 50 and self.accuracy < 55 then
+				love.graphics.print("D-", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 55 and self.accuracy < 60 then
+				love.graphics.print("D", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 60 and self.accuracy < 65 then
+				love.graphics.print("D+", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 65 and self.accuracy < 70 then
+				love.graphics.print("C-", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 70 and self.accuracy < 75 then
+				love.graphics.print("C", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 75 and self.accuracy < 80 then
+				love.graphics.print("C+", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 80 and self.accuracy < 84 then
+				love.graphics.print("B-", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 84 and self.accuracy < 88 then
+				love.graphics.print("B", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 88 and self.accuracy < 90 then
+				love.graphics.print("B+", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 90 and self.accuracy < 94 then
+				love.graphics.print("A-", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 94 and self.accuracy < 98 then
+				love.graphics.print("A", (love.graphics.getWidth()/2 + 220), 335)
+			elseif self.accuracy > 98 then
+				love.graphics.print("A+", (love.graphics.getWidth()/2 + 220), 335)
+			end
 
 			love.graphics.setColor(255, 255, 255)
 
