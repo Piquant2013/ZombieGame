@@ -76,6 +76,7 @@ function game:init()
 	------ AUDIO ------
 	self.music1 = love.audio.newSource("audio/music/game.ogg")
 	self.music2 = love.audio.newSource("audio/music/credits.ogg")
+	self.music3 = love.audio.newSource("audio/music/game1.ogg")
 	self.intromusic = love.audio.newSource("audio/music/gameintro.ogg")
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
 	self.pickupsound = love.audio.newSource("audio/weapons/pickup.ogg")

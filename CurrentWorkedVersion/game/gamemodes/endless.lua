@@ -86,7 +86,12 @@ function endless:init()
 	playerhealth2 = 0
 
 	self.death = false
-	self.deathtimer = 0
+	self.deathtimer = 11
+	self.playerspeed = 0
+
+	self.healthcolor1 = 0
+	self.healthcolor2 = 0
+	self.healthcolor3 = 0
 
 	-- Gameover vars
 	self.gameovery = 800
@@ -128,6 +133,22 @@ function endless:keypressed(key)
   		self.bgtimer = 13
   		self.fadebg = 255
 		self.gameovery = 200
+  	end
+
+  	
+
+
+  	if key == "return" and self.death == true or key == " " and self.death == true then
+  		self.death = false
+		self.oneupflashtimer = 0
+		plyr.y = 200
+		plyr.x = 400
+		plyr.speed = self.playerspeed
+		plyr.health = player.maxhealth
+		love.audio.play(game.entersound)
+		love.mouse.setCursor(crosshair)
+		love.audio.stop(game.music3)
+		love.audio.play(game.music1)
   	end
 end
 
@@ -252,7 +273,8 @@ function endless:update(dt)
 		self.killamount = 100
 
 		self.death = false
-		self.deathtimer = 0
+		self.deathtimer = 11
+		self.playerspeed = 0
 
 
 
@@ -261,6 +283,10 @@ function endless:update(dt)
 		self.oneupflashtimer = 10
 		playerhealth1 = 0
 		playerhealth2 = 0
+
+		self.healthcolor1 = 0
+		self.healthcolor2 = 0
+		self.healthcolor3 = 0
 
 		-- Gameover vars
 		self.gameovery = 800
@@ -882,7 +908,7 @@ function endless:update(dt)
 	self.speedflashtimer = self.speedflashtimer + dt
 	self.healthflashtimer = self.healthflashtimer + dt
 	self.oneupflashtimer = self.oneupflashtimer + dt
-	self.deathtimer = self.deathtimer + dt
+	self.deathtimer = self.deathtimer - dt
 
 	playerhealth1 = plyr.health
 	playerhealth2 = plyr.health - 100
@@ -906,28 +932,37 @@ function endless:update(dt)
 	if plyr.health <= 0 and player.lives > 1 then
 		plyr.health = player.maxhealth
 		player.lives = player.lives - 1
-		plyr.y = 200
-		plyr.x = 400
     	self.minihave = false
     	self.smghave = false
     	self.killallhave = false
    		self.invhave = false
-   		self.oneupflashtimer = 0
+   		self.deathtimer = 11
    		self.death = true
-   		self.deathtimer = 0
+   		self.playerspeed = plyr.speed
+   		love.audio.stop(plyr.hurtaudio)
+		love.audio.play(plyr.deathaudio1)
+
+		love.audio.stop(game.music1)
+		love.audio.play(game.music3)
 	end
 
 	if self.death == true then
 	   	for i, o in ipairs(zombie.zombs) do
+	   		plyr.speed = 0
    			zombie.count = zombie.count - 1         
 			Collider:remove(o.bb)
 			table.remove(zombie.zombs, i)
 		end
+
+		love.mouse.setCursor(cursor)
 	end
 
-	if self.deathtimer > 0.5 then
+	if self.deathtimer < 0 and self.death == true then
 		self.death = false
+		gameover = true
+		love.audio.stop(game.music3)
 	end
+
 
 
 
@@ -1086,7 +1121,7 @@ function endless:draw()
 		love.graphics.rectangle("line", plyr.x - 13, plyr.y + 14, 27, 3)
 		love.graphics.setColor(0, 0, 0, 200)
 		love.graphics.rectangle("line", plyr.x - 12, plyr.y + 15, 25, 1)
-		love.graphics.setColor(0, 170, 0, 200)
+		love.graphics.setColor(self.healthcolor1, self.healthcolor2, self.healthcolor3, 200)
 		love.graphics.rectangle("fill", plyr.x - 12, plyr.y + 15, playerhealth1/4, 1)
 		love.graphics.setColor(0, 170, 240, 200)
 		love.graphics.rectangle("fill", plyr.x - 12, plyr.y + 15, playerhealth2/4, 1)
@@ -1107,7 +1142,10 @@ function endless:draw()
 
 
 
-
+	if self.death == true then
+		love.graphics.draw(self.layer1, 0, 0)
+		love.graphics.draw(self.layer2, 0, 0)
+	end
 
 
 
@@ -1215,14 +1253,30 @@ function endless:draw()
 
 
 
+		if playerhealth1 > 50 then
+			self.healthcolor1 = 0
+			self.healthcolor2 = 170
+			self.healthcolor3 = 0
+		end
 
+		if playerhealth1 < 50 then
+			self.healthcolor1 = 255
+			self.healthcolor2 = 200
+			self.healthcolor3 = 0
+		end
+
+		if playerhealth1 < 25 then
+			self.healthcolor1 = 229
+			self.healthcolor2 = 40
+			self.healthcolor3 = 0
+		end
 
 
 		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.print("HEALTH:", 15, 15)
 		
-		love.graphics.setColor(0, 170, 0)
+		love.graphics.setColor(self.healthcolor1, self.healthcolor2, self.healthcolor3)
 		love.graphics.rectangle("fill", 125, 12, playerhealth1 * 3.6, 13)
 
 		love.graphics.setColor(0, 170, 240)
@@ -1326,11 +1380,20 @@ function endless:draw()
 
 
 
-
-
-
-
-
+		if self.death == true then
+			love.graphics.setColor(0, 0, 0, 150)
+			love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 778/2, love.graphics.getHeight()/2 - 322/2 - 50, 778, 322 )
+			love.graphics.setColor(160, 47, 0, 255)
+			love.graphics.rectangle("line", love.graphics.getWidth()/2 - 780/2, love.graphics.getHeight()/2 - 324/2 - 50, 780, 324 )
+    		love.graphics.setFont( start.font5 )
+    		love.graphics.setColor(160, 47, 0)
+    		love.graphics.print('CONTINUE?', (love.graphics.getWidth()/2 - start.font5:getWidth( "CONTINUE?" )/2), 190)
+    		love.graphics.print(tostring(math.floor(self.deathtimer)), (love.graphics.getWidth()/2 - start.font5:getWidth(tostring(math.floor(self.deathtimer)))/2), 270)
+    		love.graphics.setFont( start.font3 )
+    		love.graphics.print(tostring(player.lives)..' COIN, '..tostring(player.lives)..' PLAY', (love.graphics.getWidth()/2 - start.font3:getWidth(tostring(player.lives)..' COIN, '..tostring(player.lives)..' PLAY')/2), 345)
+    		love.graphics.print('PRESS START BUTTON', (love.graphics.getWidth()/2 - start.font3:getWidth('PRESS START BUTTON')/2), 415)
+    		love.graphics.setColor(255, 255, 255)
+    	end
 
 
 

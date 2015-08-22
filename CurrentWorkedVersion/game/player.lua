@@ -41,6 +41,7 @@ function player:initialize()
 	plyr.arm = love.graphics.newImage("images/player/arm.png")
 	plyr.hurtaudio = love.audio.newSource("audio/player/hurt.ogg")
 	plyr.deathaudio = love.audio.newSource("audio/player/death.ogg")
+	plyr.deathaudio1 = love.audio.newSource("audio/player/death1.ogg")
 	------ VARIABLES ------
 end
 
