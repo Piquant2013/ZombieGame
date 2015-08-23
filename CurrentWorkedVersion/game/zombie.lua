@@ -72,8 +72,10 @@ function zombie:spawn()
 		zomb.h = 16
 		zomb.health = self.health
 		zomb.speed = self.speed
+		zomb.death = false
 		zomb.bb = Collider:addRectangle(zomb.x, zomb.y, zomb.w, zomb.h)
 		zomb.sprite = love.graphics.newImage("images/zombies/zombie.png")
+		zomb.spritedead = love.graphics.newImage("images/zombies/dead.png")
 		zomb.damageaudio = love.audio.newSource("audio/zombie/damage.ogg")
 
 		-- Insert Zombie
@@ -108,6 +110,16 @@ function zombie:update(dt)
     	local dy = math.sin(self.rotation) * (dt * v.speed)
 		v.x = v.x + dx
    		v.y = v.y + dy
+
+
+   		if v.death == true then
+   			v.health = v.health - 1
+   		end
+
+   		if v.health < -20 then
+   			v.death = false
+			table.remove(zombie.zombs, i)
+		end
 	end
 end
 
@@ -117,6 +129,7 @@ function zombie:draw()
 		
 		------ FILTERS ------
 		v.sprite:setFilter( 'nearest', 'nearest' )
+		v.spritedead:setFilter( 'nearest', 'nearest' )
 		------ FILTERS ------
 
 		------ IMAGES ------
@@ -124,7 +137,18 @@ function zombie:draw()
 		self.drawrotation = math.atan2(v.x - plyr.x, plyr.y - v.y) + math.pi / 2
 		v.bb:moveTo(v.x, v.y)
    		v.bb:setRotation(self.drawrotation)
-		love.graphics.draw(v.sprite, v.x, v.y, self.drawrotation, 1, 1, v.sprite:getWidth()/2, v.sprite:getHeight()/2)
+
+   		--if v.death == false then
+   			--self.deathrrot = math.atan2(v.x - plyr.x, plyr.y - v.y) + math.pi / 2
+   		--end
+
+		if v.health > 0 then
+			love.graphics.draw(v.sprite, v.x, v.y, self.drawrotation, 1, 1, v.sprite:getWidth()/2, v.sprite:getHeight()/2)
+		end
+
+		if v.health < 0 then
+			love.graphics.draw(v.spritedead, v.x, v.y, self.deathrrot, 1, 1, v.sprite:getWidth()/2, v.sprite:getHeight()/2)
+		end
 		------ IMAGES ------
 	end
 end

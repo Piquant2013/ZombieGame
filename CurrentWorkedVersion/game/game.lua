@@ -405,12 +405,13 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 
 					-- kill zombies
 					if o.health < 0 then
-						o.health = 0
+						--o.health = o.health - 1
+						o.speed = 0
+						o.death = true
 						endless.score = endless.score + 10
 						endless.kills = endless.kills + 1
 						zombie.count = zombie.count - 1         
 						Collider:remove(o.bb)
-						table.remove(zombie.zombs, i)
 					end
 				end
 			end

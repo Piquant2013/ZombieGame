@@ -41,6 +41,10 @@ function stuckmode:init()
 	self.accuracy = 0
 	self.totalscore = 0
 
+	self.healthcolor1 = 0
+	self.healthcolor2 = 0
+	self.healthcolor3 = 0
+
 	-- Gameover vars
 	self.gameovery = 800
 	self.fadebg = 0
@@ -189,6 +193,10 @@ function stuckmode:update(dt)
 		self.healthflashtimer = 10
 		self.accuracy = 0
 		self.totalscore = 0
+
+		self.healthcolor1 = 0
+		self.healthcolor2 = 0
+		self.healthcolor3 = 0
 
 		-- Gameover vars
 		self.gameovery = 800
@@ -544,7 +552,7 @@ function stuckmode:draw()
 		love.graphics.rectangle("line", plyr.x - 13, plyr.y + 14, 27, 3)
 		love.graphics.setColor(0, 0, 0, 200)
 		love.graphics.rectangle("line", plyr.x - 12, plyr.y + 15, 25, 1)
-		love.graphics.setColor(0, 170, 0, 200)
+		love.graphics.setColor(self.healthcolor1, self.healthcolor2, self.healthcolor3, 200)
 		love.graphics.rectangle("fill", plyr.x - 12, plyr.y + 15, plyr.health/4, 1)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
@@ -605,10 +613,32 @@ function stuckmode:draw()
 
 
 
+
+
+
+		if plyr.health > 50 then
+			self.healthcolor1 = 0
+			self.healthcolor2 = 170
+			self.healthcolor3 = 0
+		end
+
+		if plyr.health < 50 then
+			self.healthcolor1 = 255
+			self.healthcolor2 = 200
+			self.healthcolor3 = 0
+		end
+
+		if plyr.health < 25 then
+			self.healthcolor1 = 229
+			self.healthcolor2 = 40
+			self.healthcolor3 = 0
+		end
+
+
 		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.print("HEALTH:", 15, 15)
-		love.graphics.setColor(0, 170, 0)
+		love.graphics.setColor(self.healthcolor1, self.healthcolor2, self.healthcolor3)
 		love.graphics.rectangle("fill", 125, 12, plyr.health * 3.6, 13)
 
 		if self.healthflashtimer < 8 then
