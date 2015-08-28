@@ -94,6 +94,18 @@ function pistol:update(dt)
 				o.ammo = 0
 			end
 		end
+
+		endless.quesmgammo = endless.quesmgammo - 1
+
+		if endless.quesmgammo < 0 then
+			endless.quesmgammo = 0
+		end
+
+		endless.queminiammo = endless.queminiammo - 1
+
+		if endless.queminiammo < 0 then
+			endless.queminiammo = 0
+		end
 	end
 
 	-- cool down pistol

@@ -76,7 +76,7 @@ function stuckmode:keypressed(key)
     	Gamestate.switch(menu)
     	love.audio.play(start.music)
     	start.music:setLooping(true)
-   		love.audio.stop(game.music1)
+   		love.audio.stop(game.music4)
     	setendless = true
     	gamereset = true
     	game.endless = false
@@ -101,7 +101,7 @@ function stuckmode:keypressed(key)
   	-- Swap to Digging Sim 2015
   	if key == "y" and gameover == false and self.digeasteregg == true then
   		Gamestate.switch(diggingsim2015)
-  		love.audio.stop(game.music1)
+  		love.audio.stop(game.music4)
 		love.audio.play(diggingsim2015.music)
 		diggingsim2015.music:setLooping(true)
 		love.mouse.setCursor(cursor)
@@ -122,7 +122,7 @@ function stuckmode:mousepressed(mx, my, button)
     	Gamestate.switch(menu)
     	love.audio.play(start.music)
     	start.music:setLooping(true)
-   		love.audio.stop(game.music1)
+   		love.audio.stop(game.music4)
     	setendless = true
     	gamereset = true
     	game.endless = false
@@ -246,7 +246,7 @@ function stuckmode:update(dt)
 		love.mouse.setCursor(cursor)
 		love.audio.stop(plyr.hurtaudio)
 		love.audio.play(plyr.deathaudio)
-		love.audio.stop(game.music1)
+		love.audio.stop(game.music4)
 		love.audio.play(game.music2)
 		self.wavezombiecount = 100
 	end

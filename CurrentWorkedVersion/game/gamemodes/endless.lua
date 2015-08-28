@@ -88,10 +88,26 @@ function endless:init()
 	self.death = false
 	self.deathtimer = 11
 	self.playerspeed = 0
+	
+	self.smgspawnscore = 600
+	self.minispawnscore = 0
+	self.invspawnscore = 0
+	self.killallspawnscore = 0
+	self.shoespawnscore = 1
+	self.heartspawnscore = 1
+	self.oneupspawnscore = 0
+	self.quespawnscore = 1
 
 	self.healthcolor1 = 0
 	self.healthcolor2 = 0
 	self.healthcolor3 = 0
+
+	self.totalscore = 0
+
+	self.quesmghave = false
+	self.queminihave = false
+	self.quesmgammo = 80
+	self.queminiammo = 150
 
 	-- Gameover vars
 	self.gameovery = 800
@@ -148,7 +164,11 @@ function endless:keypressed(key)
 		love.audio.play(game.entersound)
 		love.mouse.setCursor(crosshair)
 		love.audio.stop(game.music3)
-		love.audio.play(game.music1)
+		love.audio.resume(game.music1)
+
+		for i, o in ipairs(pistol.bullets) do
+			o.sound:setVolume(1.0)
+		end
   	end
 end
 
@@ -276,6 +296,14 @@ function endless:update(dt)
 		self.deathtimer = 11
 		self.playerspeed = 0
 
+		self.smgspawnscore = 600
+		self.minispawnscore = 0
+		self.invspawnscore = 0
+		self.killallspawnscore = 0
+		self.shoespawnscore = 1
+		self.heartspawnscore = 1
+		self.oneupspawnscore = 0
+		self.quespawnscore = 1
 
 
 		self.speedflashtimer = 10
@@ -287,6 +315,13 @@ function endless:update(dt)
 		self.healthcolor1 = 0
 		self.healthcolor2 = 0
 		self.healthcolor3 = 0
+
+		self.totalscore = 0
+
+		self.quesmghave = false
+		self.queminihave = false
+		self.quesmgammo = 80
+		self.queminiammo = 150
 
 		-- Gameover vars
 		self.gameovery = 800
@@ -427,6 +462,10 @@ function endless:update(dt)
 		if self.smghave == true and o.ammo == 0 then
 			self.smghave = false
 			love.audio.play(menu.backsound)
+
+			smg.count = 0
+			table.remove(smg.smgs, i)
+			self.smghad = false
 		end
 	end
 
@@ -435,11 +474,20 @@ function endless:update(dt)
 		pistol.cooldownplus = 0.065
 		self.minihave = false
 		self.pistolhave = false
+		self.queminihave = false
+		self.quesmghave = false
 	end
 
 	-- turn pistol firerate back
 	if self.pistolhave == true then
-		pistol.cooldownplus = 0.25
+		
+		if self.wave < 15 then
+			pistol.cooldownplus = 0.25
+		end
+
+		if self.wave > 14 then
+			pistol.cooldownplus = 0.5
+		end
 	end
 
 	-- reset smg for next time
@@ -452,9 +500,14 @@ function endless:update(dt)
 	end
 
 	-- Spawning
-	if self.wavebreak == false then
-		if self.spawnsmg == true and self.wave > 0 then
+	--if self.wavebreak == false then
+		if self.spawnsmg == true and self.smgspawnscore == 600 then
 			smg:spawn()
+			self.smgspawnscore = 0
+		end
+
+		if self.smgspawnscore > 600 then
+			self.smgspawnscore = 0
 		end
 
 		if smg.count == self.smgcount then
@@ -462,18 +515,18 @@ function endless:update(dt)
 		elseif smg.count < self.smgcount then
 			self.spawnsmg = true
 		end
-	end
+	--end
 
 	-- stop spawning from happening durring the wave break
-	if self.wavebreak == true then
-		self.spawnsmg = false
+	--if self.wavebreak == true then
+		--self.spawnsmg = false
 	
-		if self.smghad == true and self.smghave == false then
-			smg.count = 0
-			table.remove(smg.smgs, i)
-			self.smghad = false
-		end
-	end
+		--if self.smghad == true and self.smghave == false then
+			--smg.count = 0
+			--table.remove(smg.smgs, i)
+			--self.smghad = false
+		--end
+	--end
 	-- SMG --
 
 	-- MINIGUN --
@@ -482,6 +535,10 @@ function endless:update(dt)
 		if self.minihave == true and o.ammo == 0 then
 			self.minihave = false
 			love.audio.play(menu.backsound)
+
+			minigun.count = 0
+			table.remove(minigun.miniguns, i)
+			self.minihad = false
 		end
 	end
 
@@ -490,6 +547,8 @@ function endless:update(dt)
 		pistol.cooldownplus = 0.030
 		self.smghave = false
 		self.pistolhave = false
+		self.queminihave = false
+		self.quesmghave = false
 	end
 
 	-- reset minigun for next time
@@ -502,9 +561,18 @@ function endless:update(dt)
 	end
 		
 	-- Spawning
-	if self.wavebreak == false then
-		if self.spawnmini == true and self.wave == 3 or self.spawnmini == true and self.wave == 6 or self.spawnmini == true and self.wave > 8 then
+	--if self.wavebreak == false then
+		if self.spawnmini == true and self.minispawnscore == 800 then
 			minigun:spawn()
+			self.minispawnscore = 0
+		end
+
+		if self.wave < 3 then
+			self.minispawnscore = 0
+		end
+
+		if self.minispawnscore > 800 then
+			self.minispawnscore = 0
 		end
 
 		if minigun.count == self.minicount then
@@ -512,18 +580,18 @@ function endless:update(dt)
 		elseif minigun.count < self.minicount then
 			self.spawnmini = true
 		end
-	end
+	--end
 
 	-- stop spawning from happening durring the wave break
-	if self.wavebreak == true then
-		self.spawnmini = false
+	--if self.wavebreak == true then
+	--	self.spawnmini = false
 
-		if self.minihad == true and self.minihave == false then
-			minigun.count = 0
-			table.remove(minigun.miniguns, i)
-			self.minihad = false
-		end
-	end
+		--if self.minihad == true and self.minihave == false then
+		--	minigun.count = 0
+		--	table.remove(minigun.miniguns, i)
+		--	self.minihad = false
+		--end
+	--end
 	-- MINIGUN --
 
 	-- INV --
@@ -531,6 +599,10 @@ function endless:update(dt)
 	if self.invhave == true and self.invtimer < 0 then
 		self.invhave = false
 		love.audio.play(menu.backsound)
+
+		inv.count = 0
+		table.remove(inv.invs, i)
+		self.invhad = false
 	end
 
 	-- turn on inv
@@ -546,9 +618,18 @@ function endless:update(dt)
 	end
 
 	-- Spawning
-	if self.wavebreak == false then
-		if self.spawninv == true and self.wave == 5 or self.spawninv == true and self.wave == 8 or self.spawninv == true and self.wave == 11 or self.spawninv == true and self.wave == 14 or self.spawninv == true and self.wave == 17 or self.spawninv == true and self.wave > 19 then
+	--if self.wavebreak == false then
+		if self.spawninv == true and self.invspawnscore == 1000 then
 			inv:spawn()
+			self.invspawnscore = 0
+		end
+
+		if self.wave < 5 then
+			self.invspawnscore = 0
+		end
+
+		if self.invspawnscore > 1000 then
+			self.invspawnscore = 0
 		end
 
 		if inv.count == self.invcount then
@@ -556,18 +637,18 @@ function endless:update(dt)
 		elseif inv.count < self.invcount then
 			self.spawninv = true
 		end
-	end
+	--end
 
 	-- stop spawning from happening durring the wave break
-	if self.wavebreak == true then
-		self.spawninv = false
+	--if self.wavebreak == true then
+		--self.spawninv = false
 
-		if self.invhad == true and self.invhave == false then
-			inv.count = 0
-			table.remove(inv.invs, i)
-			self.invhad = false
-		end
-	end
+		--if self.invhad == true and self.invhave == false then
+			--inv.count = 0
+			--table.remove(inv.invs, i)
+			--self.invhad = false
+		--end
+	--end
 	-- INV --
 
 	-- KILL ALL --
@@ -575,6 +656,10 @@ function endless:update(dt)
 	if self.killallhave == true and self.killalltimer < 0 then
 		self.killallhave = false
 		love.audio.play(menu.backsound)
+
+		killall.count = 0
+		table.remove(killall.killalls, i)
+		self.killallhad = false
 	end
 
 	-- turn kill all on
@@ -588,9 +673,18 @@ function endless:update(dt)
 	end
 
 	-- Spawning
-	if self.wavebreak == false then
-		if self.spawnkillall == true and self.wave == 16 or self.spawnkillall == true and self.wave == 20 or self.spawnkillall == true and self.wave == 28 or self.spawnkillall == true and self.wave == 36 or self.spawnkillall == true and self.wave == 40 or self.spawnkillall == true and self.wave > 49 then
+	--if self.wavebreak == false then
+		if self.spawnkillall == true and self.killallspawnscore == 3000 then
 			killall:spawn()
+			self.killallspawnscore = 0
+		end
+
+		if self.wave < 10 then
+			self.killallspawnscore = 0
+		end
+
+		if self.killallspawnscore > 2000 then
+			self.killallspawnscore = 0
 		end
 
 		if killall.count == self.killallcount then
@@ -598,18 +692,18 @@ function endless:update(dt)
 		elseif killall.count < self.killallcount then
 			self.spawnkillall = true
 		end
-	end
+	--end
 
 	-- stop spawning from happening durring the wave break
-	if self.wavebreak == true then
-		self.spawnkillall = false
+	--if self.wavebreak == true then
+		--self.spawnkillall = false
 
-		if self.killallhad == true and self.killallhave == false then
-			killall.count = 0
-			table.remove(killall.killalls, i)
-			self.killallhad = false
-		end
-	end
+		--if self.killallhad == true and self.killallhave == false then
+			--killall.count = 0
+			--table.remove(killall.killalls, i)
+			--self.killallhad = false
+		--end
+	--end
 	
 	if self.killallhave == true then
 		for i, o in ipairs(zombie.zombs) do
@@ -623,7 +717,15 @@ function endless:update(dt)
 				o.health = 0
 				self.score = self.score + 10
 				self.kills = self.kills + 1
-				zombie.count = zombie.count - 1         
+				zombie.count = zombie.count - 1 
+
+				endless.smgspawnscore = endless.smgspawnscore + 10
+				endless.minispawnscore = endless.minispawnscore + 10
+				endless.invspawnscore = endless.invspawnscore + 10
+				endless.killallspawnscore = endless.killallspawnscore + 10
+				endless.oneupspawnscore = 	endless.oneupspawnscore + 10
+				endless.totalscore = endless.totalscore + 10
+
 				Collider:remove(o.bb)
 				table.remove(zombie.zombs, i)
 			end
@@ -635,6 +737,10 @@ function endless:update(dt)
 	-- turn off shoe
 	if self.shoehave == true and self.shoetimer < 0 then
 		self.shoehave = false
+
+		shoe.count = 0
+		table.remove(shoe.shoes, i)
+		self.shoehad = false
 	end
 
 	-- turn on shoe
@@ -649,9 +755,14 @@ function endless:update(dt)
 	end
 
 	-- Spawning
-	if self.wavebreak == false then
-		if self.spawnshoe == true and self.wave == 3 or self.spawnshoe == true and self.wave == 6 or self.spawnshoe == true and self.wave == 10 or self.spawnshoe == true and self.wave == 15 or self.spawnshoe == true and self.wave == 20 or self.spawnshoe == true and self.wave == 25 or self.spawnshoe == true and self.wave == 30 or self.spawnshoe == true and self.wave == 35 then
+	--if self.wavebreak == false then
+		if self.spawnshoe == true and self.shoespawnscore == 3 and self.wave < 10 or self.spawnshoe == true and self.shoespawnscore == 5 and self.wave > 9 and plyr.speed < 50 then
 			shoe:spawn()
+			self.shoespawnscore = 0
+		end
+
+		if self.shoespawnscore > 5 then
+			self.shoespawnscore = 0
 		end
 
 		if shoe.count == self.shoecount then
@@ -659,24 +770,28 @@ function endless:update(dt)
 		elseif shoe.count < self.shoecount then
 			self.spawnshoe = true
 		end
-	end
+	--end
 
 	-- stop spawning from happening durring the wave break
-	if self.wavebreak == true then
-		self.spawnshoe = false
+	--if self.wavebreak == true then
+		--self.spawnshoe = false
 
-		if self.shoehad == true and self.shoehave == false then
-			shoe.count = 0
-			table.remove(shoe.shoes, i)
-			self.shoehad = false
-		end
-	end
+		--if self.shoehad == true and self.shoehave == false then
+			--shoe.count = 0
+			--table.remove(shoe.shoes, i)
+			--self.shoehad = false
+		--end
+	--end
 	-- SHOE --
 
 	-- HEART --
 	-- turn off heart
 	if self.hearthave == true and self.hearttimer < 0 then
 		self.hearthave = false
+
+		heart.count = 0
+		table.remove(heart.hearts, i)
+		self.hearthad = false
 	end
 
 	-- turn on heart
@@ -691,9 +806,14 @@ function endless:update(dt)
 	end
 
 	-- Spawning
-	if self.wavebreak == false then
-		if self.spawnheart == true and self.wave == 10 or self.spawnheart == true and self.wave == 20 or self.spawnheart == true and self.wave == 30 or self.spawnheart == true and self.wave == 40 or self.spawnheart == true and self.wave == 50 or self.spawnheart == true and self.wave == 60 then
+	--if self.wavebreak == false then
+		if self.spawnheart == true and self.heartspawnscore == 6 and player.maxhealth < 160 then
 			heart:spawn()
+			self.heartspawnscore = 0
+		end
+
+		if self.heartspawnscore > 6 then
+			self.heartspawnscore = 0
 		end
 
 		if heart.count == self.heartcount then
@@ -701,18 +821,18 @@ function endless:update(dt)
 		elseif heart.count < self.heartcount then
 			self.spawnheart = true
 		end
-	end
+	--end
 
 	-- stop spawning from happening durring the wave break
-	if self.wavebreak == true then
-		self.spawnheart = false
+	--if self.wavebreak == true then
+		--self.spawnheart = false
 
-		if self.hearthad == true and self.hearthave == false then
-			heart.count = 0
-			table.remove(heart.hearts, i)
-			self.hearthad = false
-		end
-	end
+		--if self.hearthad == true and self.hearthave == false then
+			--heart.count = 0
+			--table.remove(heart.hearts, i)
+			--self.hearthad = false
+		--end
+	--end
 	-- HEART --
 
 
@@ -727,6 +847,10 @@ function endless:update(dt)
 	-- turn off oneup
 	if self.oneuphave == true and self.oneuptimer < 0 then
 		self.oneuphave = false
+
+		oneup.count = 0
+		table.remove(oneup.oneups, i)
+		self.oneuphad = false
 	end
 
 	-- turn on oneup
@@ -741,9 +865,14 @@ function endless:update(dt)
 	end
 
 	-- Spawning
-	if self.wavebreak == false then
-		if self.spawnoneup == true and self.wave == 1 or self.spawnoneup == true and self.wave == 20 or self.spawnoneup == true and self.wave == 30 or self.spawnoneup == true and self.wave == 40 or self.spawnoneup == true and self.wave == 50 or self.spawnoneup == true and self.wave == 60 then
+	--if self.wavebreak == false then
+		if self.spawnoneup == true and self.oneupspawnscore == 10000 and player.lives < 3 then
 			oneup:spawn()
+			self.oneupspawnscore = 0
+		end
+
+		if self.oneupspawnscore > 10000 then
+			self.oneupspawnscore = 0
 		end
 
 		if oneup.count == self.oneupcount then
@@ -751,24 +880,28 @@ function endless:update(dt)
 		elseif oneup.count < self.oneupcount then
 			self.spawnoneup = true
 		end
-	end
+	--end
 
 	-- stop spawning from happening durring the wave break
-	if self.wavebreak == true then
-		self.spawnoneup = false
+	--if self.wavebreak == true then
+		--self.spawnoneup = false
 
-		if self.oneuphad == true and self.oneuphave == false then
-			oneup.count = 0
-			table.remove(oneup.oneups, i)
-			self.oneuphad = false
-		end
-	end
+		--if self.oneuphad == true and self.oneuphave == false then
+			--oneup.count = 0
+			--table.remove(oneup.oneups, i)
+			--self.oneuphad = false
+		--end
+	--end
 	-- ONEUP --
 
 	-- QUESTIONMARK --
 	-- turn off questionmark
 	if self.questionmarkhave == true and self.questionmarktimer < 0 then
 		self.questionmarkhave = false
+
+		questionmark.count = 0
+		table.remove(questionmark.questionmarks, i)
+		self.questionmarkhad = false
 	end
 
 	-- turn on questionmark
@@ -782,9 +915,14 @@ function endless:update(dt)
 	end
 
 	-- Spawning
-	if self.wavebreak == false then
-		if self.spawnquestionmark == true and self.wave == 1 or self.spawnquestionmark == true and self.wave == 20 or self.spawnquestionmark == true and self.wave == 30 or self.spawnquestionmark == true and self.wave == 40 or self.spawnquestionmark == true and self.wave == 50 or self.spawnquestionmark == true and self.wave == 60 then
+	--if self.wavebreak == false then
+		if self.spawnquestionmark == true and self.quespawnscore == 4 then
 			questionmark:spawn()
+			self.quespawnscore = 0
+		end
+
+		if self.quespawnscore > 4 then
+			self.quespawnscore = 0
 		end
 
 		if questionmark.count == self.questionmarkcount then
@@ -792,22 +930,57 @@ function endless:update(dt)
 		elseif questionmark.count < self.questionmarkcount then
 			self.spawnquestionmark = true
 		end
-	end
+	--end
 
 	-- stop spawning from happening durring the wave break
-	if self.wavebreak == true then
-		self.spawnquestionmark = false
+	--if self.wavebreak == true then
+		--self.spawnquestionmark = false
 
-		if self.questionmarkhad == true and self.questionmarkhave == false then
-			questionmark.count = 0
-			table.remove(questionmark.questionmarks, i)
-			self.questionmarkhad = false
-		end
+		--if self.questionmarkhad == true and self.questionmarkhave == false then
+			--questionmark.count = 0
+			--table.remove(questionmark.questionmarks, i)
+			--self.questionmarkhad = false
+		--end
+	--end
+
+
+	-- SMG
+	if self.quesmghave == true and self.quesmgammo == 0 then
+		self.quesmghave = false
+		love.audio.play(menu.backsound)
+	end
+
+	if self.quesmghave == true then
+		pistol.cooldownplus = 0.065
+		self.minihave = false
+		self.smghave = false
+		self.pistolhave = false
+	end
+
+	if self.quesmghave == false then
+		self.quesmgammo = 80
+		self.pistolhave = true
+	end
+
+
+	-- MINI
+	if self.queminihave == true and self.queminiammo == 0 then
+		self.queminihave = false
+		love.audio.play(menu.backsound)
+	end
+
+	if self.queminihave == true then
+		pistol.cooldownplus = 0.030
+		self.minihave = false
+		self.smghave = false
+		self.pistolhave = false
+	end
+
+	if self.queminihave == false then
+		self.queminiammo = 150
+		self.pistolhave = true
 	end
 	-- QUESTIONMARK --
-
-
-
 
 
 
@@ -831,7 +1004,7 @@ function endless:update(dt)
 
 	-- spawn zombies
 	if self.wavestart == true then
-		zombie:spawn()
+		--zombie:spawn()
 	end
 
 	-- stop spawning if zombie.count gets to high 
@@ -867,6 +1040,10 @@ function endless:update(dt)
 		self.wavebreak = true
 		self.flashwave = true
 		love.audio.play(game.wavestart)
+		endless.shoespawnscore = endless.shoespawnscore + 1
+		endless.heartspawnscore = endless.heartspawnscore + 1
+		endless.quespawnscore = endless.quespawnscore + 1
+		self.totalscore = self.totalscore + 100
 	end
 
 	-- lock the spawn rate
@@ -932,18 +1109,25 @@ function endless:update(dt)
 	if plyr.health <= 0 and player.lives > 1 then
 		plyr.health = player.maxhealth
 		player.lives = player.lives - 1
-    	self.minihave = false
-    	self.smghave = false
-    	self.killallhave = false
-   		self.invhave = false
+    
+    	for i, o in ipairs(minigun.miniguns) do
+    		o.ammo = 0
+		end
+    	
+    	for i, o in ipairs(smg.smgs) do
+    		o.ammo = 0
+		end
+
+		self.queminiammo = 0
+		self.quesmgammo = 0
    		self.deathtimer = 11
    		self.death = true
    		self.playerspeed = plyr.speed
    		love.audio.stop(plyr.hurtaudio)
 		love.audio.play(plyr.deathaudio1)
-
-		love.audio.stop(game.music1)
+		love.audio.pause(game.music1)
 		love.audio.play(game.music3)
+		self.totalscore = self.totalscore - 1000
 	end
 
 	if self.death == true then
@@ -952,6 +1136,10 @@ function endless:update(dt)
    			zombie.count = zombie.count - 1         
 			Collider:remove(o.bb)
 			table.remove(zombie.zombs, i)
+		end
+
+		for i, o in ipairs(pistol.bullets) do
+			o.sound:setVolume(0)
 		end
 
 		love.mouse.setCursor(cursor)
@@ -963,6 +1151,15 @@ function endless:update(dt)
 		love.audio.stop(game.music3)
 	end
 
+
+
+
+
+
+
+	if self.time > 900 and self.time < 901 and gameover == false then
+		self.totalscore = self.totalscore + 20
+	end
 
 
 
@@ -1306,7 +1503,7 @@ function endless:draw()
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.setFont( start.font0 )
 		love.graphics.print("SCORE:", love.graphics.getWidth()/2 - 260/2, 15)
-		love.graphics.print(tostring(self.score), love.graphics.getWidth()/2 - 80/2, 15)
+		love.graphics.print(tostring(math.floor(self.totalscore)), love.graphics.getWidth()/2 - 80/2, 15)
 		love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 + 362), 15)
 		
 
@@ -1346,6 +1543,28 @@ function endless:draw()
 				love.graphics.setColor(255, 255, 255, 255)
 				love.graphics.draw(self.powerupdisplay2, love.graphics.getWidth()/2 - self.powerupdisplay2:getWidth()/2 * 2 - 90, love.graphics.getHeight() - self.powerupdisplay2:getHeight()/2 * 2 - 123, 0, 2)
 			end
+		end
+
+		if self.quesmghave == true then	
+			love.graphics.setColor(0, 0, 0, 150)
+			love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 248/2, love.graphics.getHeight() - 149, 248, 52 )
+			love.graphics.setColor(160, 47, 0, 255)
+			love.graphics.rectangle("line", love.graphics.getWidth()/2 - 250/2, love.graphics.getHeight() - 150, 250, 54 )
+			love.graphics.print("SMG", love.graphics.getWidth()/2 - 250/2 + 70, love.graphics.getHeight() - 137)
+			love.graphics.print("AMMO:"..tostring(self.quesmgammo), love.graphics.getWidth()/2 - 250/2 + 70, love.graphics.getHeight() - 117)
+			love.graphics.setColor(255, 255, 255, 255)
+			love.graphics.draw(self.powerupdisplay1, love.graphics.getWidth()/2 - self.powerupdisplay1:getWidth()/2 * 2 - 90, love.graphics.getHeight() - self.powerupdisplay1:getHeight()/2 * 2 - 123, 0, 2)
+		end
+
+		if self.queminihave == true then
+			love.graphics.setColor(0, 0, 0, 150)
+			love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 248/2, love.graphics.getHeight() - 149, 248, 52 )
+			love.graphics.setColor(160, 47, 0, 255)
+			love.graphics.rectangle("line", love.graphics.getWidth()/2 - 250/2, love.graphics.getHeight() - 150, 250, 54 )
+			love.graphics.print("MINIGUN", love.graphics.getWidth()/2 - 250/2 + 70, love.graphics.getHeight() - 137)
+			love.graphics.print("AMMO:"..tostring(self.queminiammo), love.graphics.getWidth()/2 - 250/2 + 70, love.graphics.getHeight() - 117)
+			love.graphics.setColor(255, 255, 255, 255)
+			love.graphics.draw(self.powerupdisplay2, love.graphics.getWidth()/2 - self.powerupdisplay2:getWidth()/2 * 2 - 90, love.graphics.getHeight() - self.powerupdisplay2:getHeight()/2 * 2 - 123, 0, 2)
 		end
 
 
@@ -1415,12 +1634,17 @@ function endless:draw()
 		
 		-- display game score
     	if self.bgtimer > 12 then
-			love.graphics.setFont( start.font3 )
+			love.graphics.setFont( start.font2 )
     		love.graphics.setColor(160, 47, 0)
-			love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font3:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 300)
-			love.graphics.print("SCORE:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(self.score))/2), 350)
-			love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font3:getWidth("WAVE:"..tostring(self.wave))/2), 400)
+			love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font2:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 300)
+			love.graphics.print("KILLS:"..tostring(self.score/10), (love.graphics.getWidth()/2 - start.font2:getWidth("KILLS:"..tostring(self.score/10))/2), 340)
+			love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font2:getWidth("WAVE:"..tostring(self.wave))/2), 380)
+			
+			love.graphics.setFont( start.font3 )
+			love.graphics.print("SCORE:"..tostring(math.floor(self.totalscore)), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(math.floor(self.totalscore)))/2), 440)
+
 			love.graphics.setColor(255, 255, 255)
+
 		end
 	end
 

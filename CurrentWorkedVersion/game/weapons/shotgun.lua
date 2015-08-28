@@ -13,7 +13,7 @@ function pistol:initialize()
 
 	-- Bullet
 	self.cooldown = 0
-	self.cooldownplus = 0.5
+	self.cooldownplus = 0.25
 
 	-- PISTOL --
 	-- pistol table
@@ -50,19 +50,50 @@ function pistol:update(dt)
 		
 		-- rotates and shoots towards the crosshair if the crosshair is more then 20 pixels away from the player
 		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
+			
+			-- middle
 			gmx = mx1 - 6 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
 			gmy = my1 + 6 * math.cos(math.atan2(my1 - pis.y, mx1 - pis.x))
 			self.direction = math.atan2(gmy - pis.y, gmx - pis.x)
+
+			if endless.wave == 1 and endless.smghave == false or endless.wave > 14 and endless.minihave == false then
+				-- left
+				gmlx = mx1 - -6 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
+				gmly = my1 + -6 * math.cos(math.atan2(my1 - pis.y, mx1 - pis.x))
+				self.directionl = math.atan2(gmly - pis.y, gmlx - pis.x)
+
+				-- right
+				gmrx = mx1 - 18 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
+				gmry = my1 + 18 * math.cos(math.atan2(my1 - pis.y, mx1 - pis.x))
+				self.directionr = math.atan2(gmry - pis.y, gmrx - pis.x)
+			end
 		
 		-- Rotate and shoot straght when the crosshair is within 20 pixels of the player
 		elseif (mx1 > (plyr.x - 20) or (mx1 < (plyr.x + 20 ))) or (my1 > (plyr.y - 20 ) or (my1 < (plyr.y + 20 ))) then
+			
+			-- middle
 			self.direction = math.atan2(my1 - pis.y, mx1 - pis.x)
+
+			--self.directionl = math.atan2(my1 - pis.y, mx1 - pis.x)
+			--self.directionr = math.atan2(my1 - pis.y, mx1 - pis.x)
+
+			-- left
+			gmlx = mx1 - -0.5 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
+			gmly = my1 + -0.5 * math.cos(math.atan2(my1 - pis.y, mx1 - pis.x))
+			self.directionl = math.atan2(gmly - pis.y, gmlx - pis.x)
+
+			-- right
+			gmrx = mx1 - 0.5 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
+			gmry = my1 + 0.5 * math.cos(math.atan2(my1 - pis.y, mx1 - pis.x))
+			self.directionr = math.atan2(gmry - pis.y, gmrx - pis.x)
 		end
 
 		-- bullet tables
 		bullet = {}
+		bulletleft = {}
+		bulletright = {}
 
-		-- The contents of the bullets table
+		-- The contents of the middle bullet table
 		bullet.x = pis.x
 		bullet.y = pis.y
 		bullet.w = 1
@@ -73,8 +104,36 @@ function pistol:update(dt)
 		bullet.sound = love.audio.newSource("audio/weapons/pistol.ogg")
 		bullet.sprite = love.graphics.newImage("images/weapons/bullet-pistol.png")
 
+		if endless.wave == 1 and endless.smghave == false or endless.wave > 14 and endless.minihave == false then
+			-- The contents of the left bullet table
+			bulletleft.x = pis.x
+			bulletleft.y = pis.y
+			bulletleft.w = 1
+			bulletleft.h = 12
+			bulletleft.dir = self.directionl
+			bulletleft.speed = 600
+			bulletleft.bb = Collider:addRectangle(bullet.x, bullet.y, bullet.h, bullet.w)
+			bulletleft.sprite = love.graphics.newImage("images/weapons/bullet-pistol.png")
+
+			-- The contents of the right bullet table
+			bulletright.x = pis.x
+			bulletright.y = pis.y
+			bulletright.w = 1
+			bulletright.h = 12
+			bulletright.dir = self.directionr
+			bulletright.speed = 600
+			bulletright.bb = Collider:addRectangle(bullet.x, bullet.y, bullet.h, bullet.w)
+			bulletright.sprite = love.graphics.newImage("images/weapons/bullet-pistol.png")
+		end
+
 		-- Insert the bullet
 		table.insert(self.bullets, bullet)
+
+		if endless.wave == 1 and endless.smghave == false or endless.wave > 14 and endless.minihave == false then
+			table.insert(self.bullets, bulletleft)
+			table.insert(self.bullets, bulletright)
+		end
+
 		self.cooldown = self.cooldownplus
 		love.audio.play(bullet.sound)
 
@@ -93,6 +152,18 @@ function pistol:update(dt)
 			if o.ammo < 0 then
 				o.ammo = 0
 			end
+		end
+
+		endless.quesmgammo = endless.quesmgammo - 1
+
+		if endless.quesmgammo < 0 then
+			endless.quesmgammo = 0
+		end
+
+		endless.queminiammo = endless.queminiammo - 1
+
+		if endless.queminiammo < 0 then
+			endless.queminiammo = 0
 		end
 	end
 

@@ -73,7 +73,15 @@ function pause:update(dt)
 
 	-- Pause game music and set cursor
 	if resume == false then
-		game.music1:setVolume(0.2)
+		
+		if setendless == false then
+			game.music1:setVolume(0.2)
+		end
+
+		if gamereset == false then
+			game.music4:setVolume(0.2)
+		end
+		
 		love.mouse.setCursor(cursor)
 		love.audio.pause(game.invidle)
 	end
@@ -84,7 +92,15 @@ function pause:update(dt)
 		paused = false
 		love.audio.resume(game.invidle)
 		love.mouse.setCursor(crosshair)
-		game.music1:setVolume(1.0)
+
+		if setendless == false then
+			game.music1:setVolume(1.0)
+		end
+
+		if gamereset == false then
+			game.music4:setVolume(1.0)
+		end
+		
 		love.audio.resume(game.invidle)
 	end 
 
@@ -373,6 +389,7 @@ function pause:keypressed(key)
 		love.audio.play(start.music)
 		start.music:setLooping(true)
 		love.audio.stop(game.music1)
+		love.audio.stop(game.music4)
 		love.audio.stop(game.music2)
 	end
 	-- ACTIVATE BUTTONS --
@@ -411,6 +428,7 @@ function pause:mousepressed(mx, my, button)
 		love.audio.play(start.music)
 		start.music:setLooping(true)
 		love.audio.stop(game.music1)
+		love.audio.stop(game.music4)
 		love.audio.stop(game.music2)
 	end
 

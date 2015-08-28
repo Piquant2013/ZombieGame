@@ -1180,7 +1180,13 @@ function options:keypressed(key)
 		
 		-- pasue game music if its playing
 		if paused == true then
-			love.audio.pause(game.music1)
+			if setendless == false then
+				love.audio.pause(game.music1)
+			end
+
+			if gamereset == false then
+				love.audio.pause(game.music4)
+			end
 		end
 
 		love.audio.play(credits.music)
@@ -1273,7 +1279,13 @@ function options:mousepressed(mx, my, button)
 		
 		-- pasue game music if its playing
 		if paused == true then
-			love.audio.pause(game.music1)
+			if setendless == false then
+				love.audio.pause(game.music1)
+			end
+
+			if gamereset == false then
+				love.audio.pause(game.music4)
+			end
 		end
 
 		love.audio.play(credits.music)

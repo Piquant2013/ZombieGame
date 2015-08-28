@@ -30,8 +30,16 @@ function credits:keypressed(key)
 		-- resume game music if its playing or play music if its not and not in pause
 		if paused == false then
 			love.audio.resume(start.music)
+		
 		elseif paused == true then
-			love.audio.resume(game.music1)
+			
+			if setendless == false then
+				love.audio.resume(game.music1)
+			end
+
+			if gamereset == false then
+				love.audio.resume(game.music4)
+			end
 		end
 
 		-- resume easteregg music if its paused
@@ -53,8 +61,16 @@ function credits:mousepressed(mx, my, button)
 		-- resume game music if its playing or play music if its not and not in pause
 		if paused == false then
 			love.audio.resume(start.music)
+		
 		elseif paused == true then
-			love.audio.resume(game.music1)
+			
+			if setendless == false then
+				love.audio.resume(game.music1)
+			end
+
+			if gamereset == false then
+				love.audio.resume(game.music4)
+			end
 		end
 
 		-- resume easteregg music if its paused
@@ -95,30 +111,41 @@ function credits:draw()
 	love.graphics.setFont( start.font2 )
 	love.graphics.print("PROGRAMMER", (love.graphics.getWidth( )/2-start.font2:getWidth("PROGRAMMER")/2), self.slider + 450)
 	love.graphics.print("THOMAS WILTSHIRE", (love.graphics.getWidth( )/2-start.font2:getWidth("THOMAS WILTSHIRE")/2), self.slider + 500)
+	
 	love.graphics.print("MUSIC & SOUND", (love.graphics.getWidth( )/2-start.font2:getWidth("MUSIC & SOUND")/2), self.slider + 600)
 	love.graphics.print("TOBY LOWE", (love.graphics.getWidth( )/2-start.font2:getWidth("TOBY LOWE")/2), self.slider + 650)
+	
 	love.graphics.print("GRAPHICS", (love.graphics.getWidth( )/2-start.font2:getWidth("GRAPHICS")/2), self.slider + 750)
 	love.graphics.print("THOMAS WILTSHIRE", (love.graphics.getWidth( )/2-start.font2:getWidth("THOMAS WILTSHIRE")/2), self.slider + 800)
+	
 	love.graphics.print("TECHNICAL SHIZZLE WIZZLE", (love.graphics.getWidth( )/2-start.font2:getWidth("TECHNICAL SHIZZLE WIZZLE")/2), self.slider + 900)
 	love.graphics.print("BRYCE DUNN", (love.graphics.getWidth( )/2-start.font2:getWidth("BRYCE DUNN")/2), self.slider + 950)
+	
 	love.graphics.print("PRESS START 2P FONT", (love.graphics.getWidth( )/2-start.font2:getWidth("PRESS START 2P FONT")/2), self.slider + 1050)
 	love.graphics.print("CODEMAN38", (love.graphics.getWidth( )/2-start.font2:getWidth("CODEMAN38")/2), self.slider + 1100)
+	
 	love.graphics.print("XEN3 FONT", (love.graphics.getWidth( )/2-start.font2:getWidth("XEN3 FONT")/2), self.slider + 1200)
 	love.graphics.print("-XEN-", (love.graphics.getWidth( )/2-start.font2:getWidth("-XEN-")/2), self.slider + 1250)
+	
 	love.graphics.print("HUMP LIBRARY", (love.graphics.getWidth( )/2-start.font2:getWidth("HUMP LIBRARY")/2), self.slider + 1350)
 	love.graphics.print("MATTHIAS RICHTER", (love.graphics.getWidth( )/2-start.font2:getWidth("MATTHIAS RICHTER")/2), self.slider + 1400)
+	
 	love.graphics.print("HARDONCOLLIDER LIBRARY", (love.graphics.getWidth( )/2-start.font2:getWidth("HARDONCOLLIDER LIBRARY")/2), self.slider + 1500)
 	love.graphics.print("MATTHIAS RICHTER", (love.graphics.getWidth( )/2-start.font2:getWidth("MATTHIAS RICHTER")/2), self.slider + 1550)
+	
 	love.graphics.print("SPECIAL THANKS", (love.graphics.getWidth( )/2-start.font2:getWidth("SPECIAL THANKS")/2), self.slider + 1650)
 	love.graphics.print("WOJAK", (love.graphics.getWidth( )/2-start.font2:getWidth("WOJAK")/2), self.slider + 1700)
-	love.graphics.print("TEAM PIQUANT", (love.graphics.getWidth( )/2-start.font2:getWidth("TEAM PIQUANT")/2), self.slider + 1800)
-	love.graphics.print("BRYCE DUNN", (love.graphics.getWidth( )/2-start.font2:getWidth("BRYCE DUNN")/2), self.slider + 1850)
-	love.graphics.print("BRAYDEN WATTS", (love.graphics.getWidth( )/2-start.font2:getWidth("BRAYDEN WATTS")/2), self.slider + 1900)
+	love.graphics.print("BRAYDEN WATTS", (love.graphics.getWidth( )/2-start.font2:getWidth("BRAYDEN WATTS")/2), self.slider + 1750)
+	
+	love.graphics.print("TEAM PIQUANT", (love.graphics.getWidth( )/2-start.font2:getWidth("TEAM PIQUANT")/2), self.slider + 1850)
+	love.graphics.print("BRYCE DUNN", (love.graphics.getWidth( )/2-start.font2:getWidth("BRYCE DUNN")/2), self.slider + 1900)
 	love.graphics.print("TYRONNE CRISFIELD", (love.graphics.getWidth( )/2-start.font2:getWidth("TYRONNE CRISFIELD")/2), self.slider + 1950)
 	love.graphics.print("TOBY LOWE", (love.graphics.getWidth( )/2-start.font2:getWidth("TOBY LOWE")/2), self.slider + 2000)
 	love.graphics.print("THOMAS WILTSHIRE", (love.graphics.getWidth( )/2-start.font2:getWidth("THOMAS WILTSHIRE")/2), self.slider + 2050)
+	
 	love.graphics.print("CREATED WITH", (love.graphics.getWidth( )/2-start.font2:getWidth("CREATED WITH")/2), self.slider + 2150)
 	love.graphics.print("LöVE (LOVE2D)", (love.graphics.getWidth( )/2-start.font2:getWidth("LöVE (LOVE2D)")/2), self.slider + 2200)
+	
 	love.graphics.print("BROUGHT TO YOU BY", (love.graphics.getWidth( )/2-start.font2:getWidth("BROUGHT TO YOU BY")/2), self.slider + 2450)
 	love.graphics.setColor(255, 255, 225)
 	------ TEXT ------

@@ -14,7 +14,7 @@ pause = require 'game/menus/pause'
 player = require 'game/player'
 
 -- Loads pistol script
-pistol = require 'game/weapons/pistol'
+pistol = require 'game/weapons/shotgun' --pistol
 
 -- Loads crpistol script
 crpistol = require 'game/weapons/crpistol'
@@ -73,10 +73,14 @@ function game:init()
 	self.buttonflash = 0
 	------ VARIABLES ------
 
+	self.quenumber = 0
+	self.queinv = false
+
 	------ AUDIO ------
 	self.music1 = love.audio.newSource("audio/music/game.ogg")
 	self.music2 = love.audio.newSource("audio/music/credits.ogg")
 	self.music3 = love.audio.newSource("audio/music/game1.ogg")
+	self.music4 = love.audio.newSource("audio/music/game2.ogg")
 	self.intromusic = love.audio.newSource("audio/music/gameintro.ogg")
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
 	self.pickupsound = love.audio.newSource("audio/weapons/pickup.ogg")
@@ -171,6 +175,10 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     				plyr.health = plyr.health - 0.4
     				plyr.hurt = true
     				love.audio.play(plyr.hurtaudio)
+
+    				if gameover == false then
+    					endless.totalscore = endless.totalscore - 0.4
+    				end
     			end
 
     			-- if player hits zombie and has inv
@@ -184,7 +192,15 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 						o.health = 0
 						endless.score = endless.score + 10
 						endless.kills = endless.kills + 1
-						zombie.count = zombie.count - 1         
+						zombie.count = zombie.count - 1
+
+						endless.smgspawnscore = endless.smgspawnscore + 10
+						endless.minispawnscore = endless.minispawnscore + 10
+						endless.invspawnscore = endless.invspawnscore + 10
+						endless.killallspawnscore = endless.killallspawnscore + 10
+						endless.oneupspawnscore = 	endless.oneupspawnscore + 10
+						endless.totalscore = endless.totalscore + 10
+
 						Collider:remove(o.bb)
 						table.remove(zombie.zombs, i)
 					end
@@ -201,6 +217,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.killallhave = false
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
+    			endless.totalscore = endless.totalscore - 10
     		end
     	end
 
@@ -213,6 +230,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.killallhave = false
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
+    			endless.totalscore = endless.totalscore - 10
     		end
     	end
 
@@ -223,6 +241,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.invhave = true
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
+    			endless.totalscore = endless.totalscore - 10
     		end
     	end
 
@@ -233,6 +252,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.killallhave = true
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
+    			endless.totalscore = endless.totalscore - 10
     		end
     	end
 
@@ -249,6 +269,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     		
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
+    			endless.totalscore = endless.totalscore - 10
     		end
     	end
 
@@ -265,6 +286,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
+    			endless.totalscore = endless.totalscore - 10
     		end
     	end
 
@@ -275,12 +297,13 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     			endless.oneuphave = true
 
     			-- increase the player lives
-    			if player.lives < 4 then
+    			if player.lives < 3 then
 					player.lives = player.lives + 1
 				end
 
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
+    			endless.totalscore = endless.totalscore - 10
     		end
     	end
 
@@ -289,11 +312,63 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     		if other == o.bb then
     			endless.questionmarkhad = true
     			endless.questionmarkhave = true
+    			endless.minihave = false
+    			endless.smghave = false
+				game.quenumber = love.math.random(1, 15)
 
-
-
+				if game.quenumber == 1 then
+					endless.totalscore = endless.totalscore - 1000
+					love.audio.play(menu.backsound)
+				elseif game.quenumber == 2 then
+					endless.totalscore = endless.totalscore + 1000
+					love.audio.play(game.pickupsound)
+				elseif game.quenumber == 3 then
+					endless.totalscore = endless.totalscore - 200
+					love.audio.play(menu.backsound)
+				elseif game.quenumber == 4 then
+					endless.totalscore = endless.totalscore + 200
+					love.audio.play(game.pickupsound)
+				elseif game.quenumber == 5 then
+					endless.totalscore = endless.totalscore - 100
+					love.audio.play(menu.backsound)
+				elseif game.quenumber == 6 then
+					endless.totalscore = endless.totalscore - 100
+					love.audio.play(menu.backsound)
+				elseif game.quenumber == 7 then
+					love.audio.play(game.pickupsound)
+					endless.quesmghave = true
+				elseif game.quenumber == 8 then
+					love.audio.play(game.pickupsound)
+					endless.quesmghave = true
+				elseif game.quenumber == 9 then
+					love.audio.play(game.pickupsound)
+					endless.queminihave = true
+				elseif game.quenumber == 10 then
+					love.audio.play(game.pickupsound)
+					endless.queminihave = true
+				elseif game.quenumber == 11 then
+					love.audio.play(game.pickupsound)
+					endless.totalscore = endless.totalscore + 100
+				elseif game.quenumber == 12 then
+					love.audio.play(game.pickupsound)
+    				endless.totalscore = endless.totalscore + 100
+				elseif game.quenumber == 13 then
+					if player.lives < 3 then
+						player.lives = player.lives + 1
+						endless.oneupflashtimer = 0
+						love.audio.play(game.pickupsound)
+					elseif player.lives > 2 then
+						love.audio.play(game.pickupsound)
+						endless.totalscore = endless.totalscore + 1000
+					end
+				elseif game.quenumber == 14 then
+					love.audio.play(menu.backsound)
+				elseif game.quenumber == 15 then
+					love.audio.play(game.pickupsound)
+					endless.totalscore = endless.totalscore + 5000
+				end 
+			
     			Collider:remove(o.bb)
-    			love.audio.play(game.pickupsound)
     		end
     	end
 	end
@@ -405,13 +480,20 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 
 					-- kill zombies
 					if o.health < 0 then
-						--o.health = o.health - 1
-						o.speed = 0
-						o.death = true
+						o.health = 0
 						endless.score = endless.score + 10
 						endless.kills = endless.kills + 1
-						zombie.count = zombie.count - 1         
+						zombie.count = zombie.count - 1     
+
+						endless.smgspawnscore = endless.smgspawnscore + 10
+						endless.minispawnscore = endless.minispawnscore + 10
+						endless.invspawnscore = endless.invspawnscore + 10
+						endless.killallspawnscore = endless.killallspawnscore + 10
+						endless.oneupspawnscore = 	endless.oneupspawnscore + 10
+						endless.totalscore = endless.totalscore + 10
+
 						Collider:remove(o.bb)
+						table.remove(zombie.zombs, i)
 					end
 				end
 			end
@@ -524,9 +606,9 @@ function game:keypressed(key)
   		gamereset = false
   		love.audio.play(self.entersound)
 		love.audio.stop(self.intromusic)
-		love.audio.play(self.music1)
-		self.music1:setVolume(1.0)
-		self.music1:setLooping(true)
+		love.audio.play(self.music4)
+		self.music4:setVolume(1.0)
+		self.music4:setLooping(true)
   	end
 
   	-- Pause the game
@@ -556,9 +638,9 @@ function game:mousepressed(mx, my, button)
   		gamereset = false
   		love.audio.play(self.entersound)
 		love.audio.stop(self.intromusic)
-		love.audio.play(self.music1)
-		self.music1:setVolume(1.0)
-		self.music1:setLooping(true)
+		love.audio.play(self.music4)
+		self.music4:setVolume(1.0)
+		self.music4:setLooping(true)
   	end
 end
 
