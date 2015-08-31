@@ -78,7 +78,6 @@ function logo:mousepressed(mx, my, button)
 	end
 end
 
-
 function logo:draw()
 	
 	------ FILTERS ------

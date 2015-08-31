@@ -142,9 +142,9 @@ function menusim:keypressed(key)
 
 	-- Quit game
 	if key == "return" and self.exitstate == true or key == " " and self.exitstate == true then
-		setendless = true
+		setarcade = true
 		gamereset = true
-		game.endless = false
+		game.arcade = false
 		game.stuck = false
 		paused = false
 		welcomescreen = true

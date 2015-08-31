@@ -7,11 +7,11 @@ local HC = require 'libs/hardoncollider'
 -- Loads gamestate script
 game = require 'game/game'
 
--- Creates endless as a new gamestate
-endless = Gamestate.new()
+-- Creates arcade as a new gamestate
+arcade = Gamestate.new()
 
 
-function endless:init()
+function arcade:init()
 
 	------ VARIABLES ------
 	-- load main game mechanics
@@ -21,89 +21,94 @@ function endless:init()
 	self.score = 0
 	self.time = 0
 	self.wave = 1
-
-	-- For the spawn system
+	self.totalscore = 0
 	self.kills = 0
-	self.wavedrawtime = 0
-	self.wavebreaktimer = 0
-	self.waveflash = 2
-	self.wavebreak = false
-	self.wavestart = true
-	self.flashwave = true
-	self.wavezombiecount = 14
-	self.minicount = 1
-	self.smgcount = 1
-	self.invcount = 1
-	self.spawnsmg = false
-	self.spawnmini = false
-	self.spawninv = false
-	self.minihave = false
-	self.smghave = false
-	self.invhave = false
-	self.minihad = false
-	self.smghad = false
-	self.invhad = false
-	self.invtimer = 10
-	self.gunsflash = 2
-	self.flashguns = true
-	self.killallcount = 1
-	self.spawnkillall = false
-	self.killallhave = false
-	self.killallhad = false
-	self.killalltimer = 1.5
-	self.shoecount = 1
-	self.spawnshoe = false
-	self.shoehave = false
-	self.shoehad = false
-	self.shoetimer = 1
-	self.heartcount = 1
-	self.spawnheart = false
-	self.hearthave = false
-	self.hearthad = false
-	self.hearttimer = 1
-
-	self.oneupcount = 1
-	self.spawnoneup = false
-	self.oneuphave = false
-	self.oneuphad = false
-	self.oneuptimer = 1
-
-	self.questionmarkcount = 1
-	self.spawnquestionmark = false
-	self.questionmarkhave = false
-	self.questionmarkhad = false
-	self.questionmarktimer = 1
-
-	self.killallflash = 0
-	self.flashkillall = true
 	self.killamount = 100
 
+	-- For the spawn system
+	self.wavedrawtime = 0
+	self.wavebreaktimer = 0
+	self.wavebreak = false
+	self.wavestart = true
+	self.wavezombiecount = 14
+	
+	-- flashes
+	self.flashwave = true
+	self.waveflash = 2
+	self.gunsflash = 2
+	self.flashguns = true
 	self.speedflashtimer = 10
 	self.healthflashtimer = 10
 	self.oneupflashtimer = 10
 
-	playerhealth1 = 0
-	playerhealth2 = 0
-
+	-- death vars
 	self.death = false
 	self.deathtimer = 11
-	self.playerspeed = 0
-	
-	self.smgspawnscore = 600
-	self.minispawnscore = 0
-	self.invspawnscore = 0
-	self.killallspawnscore = 0
-	self.shoespawnscore = 1
-	self.heartspawnscore = 1
-	self.oneupspawnscore = 0
-	self.quespawnscore = 1
 
+	-- player
+	self.health1 = 0
+	self.health2 = 0
+	self.playerspeed = 0
 	self.healthcolor1 = 0
 	self.healthcolor2 = 0
 	self.healthcolor3 = 0
+	
+	-- Minigun vars
+	self.minicount = 1	
+	self.spawnmini = false
+	self.minihave = false
+	self.minispawnscore = 0
+	
+	-- SMG vars
+	self.smgcount = 1
+	self.spawnsmg = false
+	self.smghave = false
+	self.smgspawnscore = 600
 
-	self.totalscore = 0
+	-- INV vars
+	self.invcount = 1
+	self.spawninv = false
+	self.invhave = false
+	self.invtimer = 10
+	self.invspawnscore = 0
+	
+	-- Shoe vars
+	self.shoecount = 1
+	self.spawnshoe = false
+	self.shoehave = false
+	self.shoetimer = 1
+	self.shoespawnscore = 1
 
+	-- Heart vars
+	self.heartcount = 1
+	self.spawnheart = false
+	self.hearthave = false
+	self.hearttimer = 1
+	self.heartspawnscore = 1
+
+	-- Killall vars
+	self.killallcount = 1
+	self.spawnkillall = false
+	self.killallhave = false
+	self.killalltimer = 1.5
+	self.killallflash = 0
+	self.flashkillall = false
+	self.killamount = 100
+	self.killallspawnscore = 0
+
+	-- Oneup vars
+	self.oneupcount = 1
+	self.spawnoneup = false
+	self.oneuphave = false
+	self.oneuptimer = 1
+	self.oneupspawnscore = 0
+
+	-- Questionmark vars
+	self.questionmarkcount = 1
+	self.spawnquestionmark = false
+	self.questionmarkhave = false
+	self.questionmarktimer = 1
+	self.quespawnscore = 1
 	self.quesmghave = false
 	self.queminihave = false
 	self.quesmgammo = 80
@@ -116,14 +121,14 @@ function endless:init()
 	------ VARIABLES ------
 
 	------ IMAGES ------
-	self.layer1 = love.graphics.newImage("images/maps/endless-layer1.png")
-	self.layer2 = love.graphics.newImage("images/maps/endless-layer2.png")
+	self.layer1 = love.graphics.newImage("images/maps/arcade-layer1.png")
+	self.layer2 = love.graphics.newImage("images/maps/arcade-layer2.png")
 	self.powerupdisplay1 = love.graphics.newImage("images/weapons/smg.png")
 	self.powerupdisplay2 = love.graphics.newImage("images/weapons/minigun.png")
 	------ IMAGES ------
 end
 
-function endless:keypressed(key)
+function arcade:keypressed(key)
 	
 	-- load game keyborad inputs for welcome screen, gameover, etc
 	game:keypressed(key)
@@ -135,9 +140,9 @@ function endless:keypressed(key)
     	love.audio.play(start.music)
     	start.music:setLooping(true)
    		love.audio.stop(game.music1)
-    	setendless = true
+    	setarcade = true
     	gamereset = true
-    	game.endless = false
+    	game.arcade = false
     	game.stuck = false
     	love.audio.stop(plyr.deathaudio)
     	love.audio.stop(plyr.hurtaudio)
@@ -145,15 +150,13 @@ function endless:keypressed(key)
   	end
 
   	-- skip the game over animation
-  	if key == "return" and gameover == true and endless.bgtimer < 12 or key == " " and gameover == true and endless.bgtimer < 12 or key == "escape" and gameover == true and endless.bgtimer < 12 then
+  	if key == "return" and gameover == true and arcade.bgtimer < 12 or key == " " and gameover == true and arcade.bgtimer < 12 or key == "escape" and gameover == true and arcade.bgtimer < 12 then
   		self.bgtimer = 13
   		self.fadebg = 255
 		self.gameovery = 200
   	end
 
-  	
-
-
+  	-- Contiune button after losing a life
   	if key == "return" and self.death == true or key == " " and self.death == true then
   		self.death = false
 		self.oneupflashtimer = 0
@@ -165,14 +168,10 @@ function endless:keypressed(key)
 		love.mouse.setCursor(crosshair)
 		love.audio.stop(game.music3)
 		love.audio.resume(game.music1)
-
-		for i, o in ipairs(pistol.bullets) do
-			o.sound:setVolume(1.0)
-		end
   	end
 end
 
-function endless:mousepressed(mx, my, button)
+function arcade:mousepressed(mx, my, button)
 	
 	-- dissmiss the game over message
   	if button == "l" and gameover == true and self.bgtimer > 12 or button == "r" and gameover == true and self.bgtimer > 12 then
@@ -181,9 +180,9 @@ function endless:mousepressed(mx, my, button)
     	love.audio.play(start.music)
     	start.music:setLooping(true)
    		love.audio.stop(game.music1)
-    	setendless = true
+    	setarcade = true
     	gamereset = true
-    	game.endless = false
+    	game.arcade = false
     	game.stuck = false
     	love.audio.stop(plyr.deathaudio)
     	love.audio.stop(plyr.hurtaudio)
@@ -197,14 +196,14 @@ function endless:mousepressed(mx, my, button)
 	game:mousepressed(mx, my, button)
 end
 
-function endless:update(dt)
+function arcade:update(dt)
 
 	-- update main game mechanics
 	game:update(dt)
 
 	-- SET UP GAME --
 	-- Reset the game
-	if setendless == true then
+	if setarcade == true then
 
 		-- Player
 		plyr.y = 200
@@ -227,101 +226,110 @@ function endless:update(dt)
 		pistol.cooldownplus = 0.25
 		pistol.bullets = {}
 
-		-- gameover or welcome screens
-		welcomescreen = true
-		gameover = false
-
 		-- scores
 		self.score = 0
 		self.time = 0
-		self.wave = 1
-		
-		-- For the spawn system
+		self.wave = 15
+		self.totalscore = 0
 		self.kills = 0
-		self.wavedrawtime = 0
-		self.wavebreaktimer = 0
-		self.waveflash = 2
-		self.wavebreak = false
-		self.wavestart = true
-		self.flashwave = true
-		self.wavezombiecount = 14
-		self.minicount = 1
-		self.smgcount = 1
-		self.invcount = 1
-		self.spawnsmg = false
-		self.spawnmini = false
-		self.spawninv = false
-		self.minihave = false
-		self.smghave = false
-		self.invhave = false
-		self.minihad = false
-		self.smghad = false
-		self.invhad = false
-		self.invtimer = 10
-		self.gunsflash = 2
-		self.flashguns = true
-		self.killallcount = 1
-		self.spawnkillall = false
-		self.killallhave = false
-		self.killallhad = false
-		self.killalltimer = 1.5
-		self.shoecount = 1
-		self.spawnshoe = false
-		self.shoehave = false
-		self.shoehad = false
-		self.shoetimer = 1
-		self.heartcount = 1
-		self.spawnheart = false
-		self.hearthave = false
-		self.hearthad = false
-		self.hearttimer = 1
-
-		self.oneupcount = 1
-		self.spawnoneup = false
-		self.oneuphave = false
-		self.oneuphad = false
-		self.oneuptimer = 1
-
-		self.questionmarkcount = 1
-		self.spawnquestionmark = false
-		self.questionmarkhave = false
-		self.questionmarkhad = false
-		self.questionmarktimer = 1
-
-		self.killallflash = 0
-		self.flashkillall = true
 		self.killamount = 100
 
-		self.death = false
-		self.deathtimer = 11
-		self.playerspeed = 0
-
-		self.smgspawnscore = 600
-		self.minispawnscore = 0
-		self.invspawnscore = 0
-		self.killallspawnscore = 0
-		self.shoespawnscore = 1
-		self.heartspawnscore = 1
-		self.oneupspawnscore = 0
-		self.quespawnscore = 1
-
-
+		-- For the spawn system
+		self.wavedrawtime = 0
+		self.wavebreaktimer = 0
+		self.wavebreak = false
+		self.wavestart = true
+		self.wavezombiecount = 14
+	
+		-- flashes
+		self.flashwave = true
+		self.waveflash = 2
+		self.gunsflash = 2
+		self.flashguns = true
 		self.speedflashtimer = 10
 		self.healthflashtimer = 10
 		self.oneupflashtimer = 10
-		playerhealth1 = 0
-		playerhealth2 = 0
 
+		-- death vars
+		self.death = false
+		self.deathtimer = 11
+
+		-- player
+		self.health1 = 0
+		self.health2 = 0
+		self.playerspeed = 0
 		self.healthcolor1 = 0
 		self.healthcolor2 = 0
 		self.healthcolor3 = 0
+	
+		-- Minigun vars
+		self.minicount = 1	
+		self.spawnmini = false
+		self.minihave = false
+		self.minispawnscore = 0
+		self.minihad = false
+	
+		-- SMG vars
+		self.smgcount = 1
+		self.spawnsmg = false
+		self.smghave = false
+		self.smgspawnscore = 600
+		self.smghad = false
 
-		self.totalscore = 0
+		-- INV vars
+		self.invcount = 1
+		self.spawninv = false
+		self.invhave = false
+		self.invtimer = 10
+		self.invspawnscore = 0
+		self.invhad = false
+	
+		-- Shoe vars
+		self.shoecount = 1
+		self.spawnshoe = false
+		self.shoehave = false
+		self.shoetimer = 1
+		self.shoespawnscore = 1
+		self.shoehad = false
 
+		-- Heart vars
+		self.heartcount = 1
+		self.spawnheart = false
+		self.hearthave = false
+		self.hearttimer = 1
+		self.heartspawnscore = 1
+		self.hearthad = false
+
+		-- Killall vars
+		self.killallcount = 1
+		self.spawnkillall = false
+		self.killallhave = false
+		self.killalltimer = 1.5
+		self.killallflash = 0
+		self.flashkillall = false
+		self.killamount = 100
+		self.killallspawnscore = 0
+		self.killallhad = false
+
+		-- Oneup vars
+		self.oneupcount = 1
+		self.spawnoneup = false
+		self.oneuphave = false
+		self.oneuptimer = 1
+		self.oneupspawnscore = 0
+		self.oneuphad = false
+
+		-- Questionmark vars
+		self.questionmarkcount = 1
+		self.spawnquestionmark = false
+		self.questionmarkhave = false
+		self.questionmarktimer = 1
+		self.quespawnscore = 1
 		self.quesmghave = false
 		self.queminihave = false
 		self.quesmgammo = 80
 		self.queminiammo = 150
+		self.questionmarkhad = false
 
 		-- Gameover vars
 		self.gameovery = 800
@@ -330,7 +338,9 @@ function endless:update(dt)
 
 		-- Globals
 		paused = false
-		
+		welcomescreen = true
+		gameover = false
+
 		-- Zombie
     	zombie.zombs = {}
     	zombie.spawnrate = 0
@@ -461,11 +471,10 @@ function endless:update(dt)
 	for i, o in ipairs(smg.smgs) do
 		if self.smghave == true and o.ammo == 0 then
 			self.smghave = false
-			love.audio.play(menu.backsound)
-
 			smg.count = 0
-			table.remove(smg.smgs, i)
 			self.smghad = false
+			table.remove(smg.smgs, i)
+			love.audio.play(menu.backsound)
 		end
 	end
 
@@ -486,47 +495,36 @@ function endless:update(dt)
 		end
 
 		if self.wave > 14 then
-			pistol.cooldownplus = 0.5
+			pistol.cooldownplus = 0.70
 		end
 	end
 
 	-- reset smg for next time
 	if self.smghave == false then		
+		self.pistolhave = true
+
 		for i, o in ipairs(smg.smgs) do
 			o.ammo = 80
 		end
-
-		self.pistolhave = true
 	end
 
 	-- Spawning
-	--if self.wavebreak == false then
-		if self.spawnsmg == true and self.smgspawnscore == 600 then
-			smg:spawn()
-			self.smgspawnscore = 0
-		end
+	if self.spawnsmg == true and self.smgspawnscore == 600 then
+		smg:spawn()
+		self.smgspawnscore = 0
+	end
 
-		if self.smgspawnscore > 600 then
-			self.smgspawnscore = 0
-		end
+	-- reset spawning
+	if self.smgspawnscore > 600 then
+		self.smgspawnscore = 0
+	end
 
-		if smg.count == self.smgcount then
-			self.spawnsmg = false
-		elseif smg.count < self.smgcount then
-			self.spawnsmg = true
-		end
-	--end
-
-	-- stop spawning from happening durring the wave break
-	--if self.wavebreak == true then
-		--self.spawnsmg = false
-	
-		--if self.smghad == true and self.smghave == false then
-			--smg.count = 0
-			--table.remove(smg.smgs, i)
-			--self.smghad = false
-		--end
-	--end
+	-- make sure only one is on screen at a time
+	if smg.count == self.smgcount then
+		self.spawnsmg = false
+	elseif smg.count < self.smgcount then
+		self.spawnsmg = true
+	end
 	-- SMG --
 
 	-- MINIGUN --
@@ -534,11 +532,10 @@ function endless:update(dt)
 	for i, o in ipairs(minigun.miniguns) do
 		if self.minihave == true and o.ammo == 0 then
 			self.minihave = false
-			love.audio.play(menu.backsound)
-
 			minigun.count = 0
-			table.remove(minigun.miniguns, i)
 			self.minihad = false
+			table.remove(minigun.miniguns, i)
+			love.audio.play(menu.backsound)
 		end
 	end
 
@@ -553,56 +550,45 @@ function endless:update(dt)
 
 	-- reset minigun for next time
 	if self.minihave == false then
+		self.pistolhave = true
+
 		for i, o in ipairs(minigun.miniguns) do
 			o.ammo = 150
 		end
-
-		self.pistolhave = true
 	end
 		
 	-- Spawning
-	--if self.wavebreak == false then
-		if self.spawnmini == true and self.minispawnscore == 800 then
-			minigun:spawn()
-			self.minispawnscore = 0
-		end
+	if self.spawnmini == true and self.minispawnscore == 800 then
+		minigun:spawn()
+		self.minispawnscore = 0
+	end
 
-		if self.wave < 3 then
-			self.minispawnscore = 0
-		end
+	-- dont allow spawning till wave 3
+	if self.wave < 3 then
+		self.minispawnscore = 0
+	end
 
-		if self.minispawnscore > 800 then
-			self.minispawnscore = 0
-		end
+	-- reset spawning
+	if self.minispawnscore > 800 then
+		self.minispawnscore = 0
+	end
 
-		if minigun.count == self.minicount then
-			self.spawnmini = false
-		elseif minigun.count < self.minicount then
-			self.spawnmini = true
-		end
-	--end
-
-	-- stop spawning from happening durring the wave break
-	--if self.wavebreak == true then
-	--	self.spawnmini = false
-
-		--if self.minihad == true and self.minihave == false then
-		--	minigun.count = 0
-		--	table.remove(minigun.miniguns, i)
-		--	self.minihad = false
-		--end
-	--end
+	-- make sure only one is on screen at a time
+	if minigun.count == self.minicount then
+		self.spawnmini = false
+	elseif minigun.count < self.minicount then
+		self.spawnmini = true
+	end
 	-- MINIGUN --
 
 	-- INV --
 	-- turn off inv
 	if self.invhave == true and self.invtimer < 0 then
 		self.invhave = false
-		love.audio.play(menu.backsound)
-
 		inv.count = 0
-		table.remove(inv.invs, i)
 		self.invhad = false
+		love.audio.play(menu.backsound)
+		table.remove(inv.invs, i)
 	end
 
 	-- turn on inv
@@ -618,48 +604,37 @@ function endless:update(dt)
 	end
 
 	-- Spawning
-	--if self.wavebreak == false then
-		if self.spawninv == true and self.invspawnscore == 1000 then
-			inv:spawn()
-			self.invspawnscore = 0
-		end
+	if self.spawninv == true and self.invspawnscore == 1000 then
+		inv:spawn()
+		self.invspawnscore = 0
+	end
 
-		if self.wave < 5 then
-			self.invspawnscore = 0
-		end
+	-- dont allow spawning till wave 5
+	if self.wave < 5 then
+		self.invspawnscore = 0
+	end
 
-		if self.invspawnscore > 1000 then
-			self.invspawnscore = 0
-		end
+	-- reset spawning
+	if self.invspawnscore > 1000 then
+		self.invspawnscore = 0
+	end
 
-		if inv.count == self.invcount then
-			self.spawninv = false
-		elseif inv.count < self.invcount then
-			self.spawninv = true
-		end
-	--end
-
-	-- stop spawning from happening durring the wave break
-	--if self.wavebreak == true then
-		--self.spawninv = false
-
-		--if self.invhad == true and self.invhave == false then
-			--inv.count = 0
-			--table.remove(inv.invs, i)
-			--self.invhad = false
-		--end
-	--end
+	-- make sure only one is on screen at a time
+	if inv.count == self.invcount then
+		self.spawninv = false
+	elseif inv.count < self.invcount then
+		self.spawninv = true
+	end
 	-- INV --
 
 	-- KILL ALL --
 	-- turn off killall
 	if self.killallhave == true and self.killalltimer < 0 then
 		self.killallhave = false
-		love.audio.play(menu.backsound)
-
 		killall.count = 0
-		table.remove(killall.killalls, i)
 		self.killallhad = false
+		love.audio.play(menu.backsound)
+		table.remove(killall.killalls, i)
 	end
 
 	-- turn kill all on
@@ -673,38 +648,29 @@ function endless:update(dt)
 	end
 
 	-- Spawning
-	--if self.wavebreak == false then
-		if self.spawnkillall == true and self.killallspawnscore == 3000 then
-			killall:spawn()
-			self.killallspawnscore = 0
-		end
+	if self.spawnkillall == true and self.killallspawnscore == 3000 then
+		killall:spawn()
+		self.killallspawnscore = 0
+	end
 
-		if self.wave < 10 then
-			self.killallspawnscore = 0
-		end
+	-- dont allow spawning till wave 5
+	if self.wave < 10 then
+		self.killallspawnscore = 0
+	end
 
-		if self.killallspawnscore > 2000 then
-			self.killallspawnscore = 0
-		end
+	-- reset spawning
+	if self.killallspawnscore > 2000 then
+		self.killallspawnscore = 0
+	end
 
-		if killall.count == self.killallcount then
-			self.spawnkillall = false
-		elseif killall.count < self.killallcount then
-			self.spawnkillall = true
-		end
-	--end
-
-	-- stop spawning from happening durring the wave break
-	--if self.wavebreak == true then
-		--self.spawnkillall = false
-
-		--if self.killallhad == true and self.killallhave == false then
-			--killall.count = 0
-			--table.remove(killall.killalls, i)
-			--self.killallhad = false
-		--end
-	--end
+	-- make sure only one is on screen at a time
+	if killall.count == self.killallcount then
+		self.spawnkillall = false
+	elseif killall.count < self.killallcount then
+		self.spawnkillall = true
+	end
 	
+	-- activate killall
 	if self.killallhave == true then
 		for i, o in ipairs(zombie.zombs) do
 			o.health = o.health - 10
@@ -718,14 +684,12 @@ function endless:update(dt)
 				self.score = self.score + 10
 				self.kills = self.kills + 1
 				zombie.count = zombie.count - 1 
-
-				endless.smgspawnscore = endless.smgspawnscore + 10
-				endless.minispawnscore = endless.minispawnscore + 10
-				endless.invspawnscore = endless.invspawnscore + 10
-				endless.killallspawnscore = endless.killallspawnscore + 10
-				endless.oneupspawnscore = 	endless.oneupspawnscore + 10
-				endless.totalscore = endless.totalscore + 10
-
+				self.smgspawnscore = self.smgspawnscore + 10
+				self.minispawnscore = self.minispawnscore + 10
+				self.invspawnscore = self.invspawnscore + 10
+				self.killallspawnscore = self.killallspawnscore + 10
+				self.oneupspawnscore = 	self.oneupspawnscore + 10
+				self.totalscore = self.totalscore + 10
 				Collider:remove(o.bb)
 				table.remove(zombie.zombs, i)
 			end
@@ -737,10 +701,9 @@ function endless:update(dt)
 	-- turn off shoe
 	if self.shoehave == true and self.shoetimer < 0 then
 		self.shoehave = false
-
 		shoe.count = 0
-		table.remove(shoe.shoes, i)
 		self.shoehad = false
+		table.remove(shoe.shoes, i)
 	end
 
 	-- turn on shoe
@@ -755,43 +718,31 @@ function endless:update(dt)
 	end
 
 	-- Spawning
-	--if self.wavebreak == false then
-		if self.spawnshoe == true and self.shoespawnscore == 3 and self.wave < 10 or self.spawnshoe == true and self.shoespawnscore == 5 and self.wave > 9 and plyr.speed < 50 then
-			shoe:spawn()
-			self.shoespawnscore = 0
-		end
+	if self.spawnshoe == true and self.shoespawnscore == 3 and self.wave < 10 or self.spawnshoe == true and self.shoespawnscore == 5 and self.wave > 9 and plyr.speed < 50 then
+		shoe:spawn()
+		self.shoespawnscore = 0
+	end
 
-		if self.shoespawnscore > 5 then
-			self.shoespawnscore = 0
-		end
+	-- dont allow spawning till wave 5
+	if self.shoespawnscore > 5 then
+		self.shoespawnscore = 0
+	end
 
-		if shoe.count == self.shoecount then
-			self.spawnshoe = false
-		elseif shoe.count < self.shoecount then
-			self.spawnshoe = true
-		end
-	--end
-
-	-- stop spawning from happening durring the wave break
-	--if self.wavebreak == true then
-		--self.spawnshoe = false
-
-		--if self.shoehad == true and self.shoehave == false then
-			--shoe.count = 0
-			--table.remove(shoe.shoes, i)
-			--self.shoehad = false
-		--end
-	--end
+	-- make sure only one is on screen at a time
+	if shoe.count == self.shoecount then
+		self.spawnshoe = false
+	elseif shoe.count < self.shoecount then
+		self.spawnshoe = true
+	end
 	-- SHOE --
 
 	-- HEART --
 	-- turn off heart
 	if self.hearthave == true and self.hearttimer < 0 then
 		self.hearthave = false
-
 		heart.count = 0
-		table.remove(heart.hearts, i)
 		self.hearthad = false
+		table.remove(heart.hearts, i)
 	end
 
 	-- turn on heart
@@ -806,51 +757,31 @@ function endless:update(dt)
 	end
 
 	-- Spawning
-	--if self.wavebreak == false then
-		if self.spawnheart == true and self.heartspawnscore == 6 and player.maxhealth < 160 then
-			heart:spawn()
-			self.heartspawnscore = 0
-		end
+	if self.spawnheart == true and self.heartspawnscore == 6 and player.maxhealth < 160 then
+		heart:spawn()
+		self.heartspawnscore = 0
+	end
 
-		if self.heartspawnscore > 6 then
-			self.heartspawnscore = 0
-		end
+	-- dont allow spawning till wave 6
+	if self.heartspawnscore > 6 then
+		self.heartspawnscore = 0
+	end
 
-		if heart.count == self.heartcount then
-			self.spawnheart = false
-		elseif heart.count < self.heartcount then
-			self.spawnheart = true
-		end
-	--end
-
-	-- stop spawning from happening durring the wave break
-	--if self.wavebreak == true then
-		--self.spawnheart = false
-
-		--if self.hearthad == true and self.hearthave == false then
-			--heart.count = 0
-			--table.remove(heart.hearts, i)
-			--self.hearthad = false
-		--end
-	--end
+	-- make sure only one is on screen at a time
+	if heart.count == self.heartcount then
+		self.spawnheart = false
+	elseif heart.count < self.heartcount then
+		self.spawnheart = true
+	end
 	-- HEART --
-
-
-
-
-
-
-
-
 
 	-- ONEUP --
 	-- turn off oneup
 	if self.oneuphave == true and self.oneuptimer < 0 then
 		self.oneuphave = false
-
 		oneup.count = 0
-		table.remove(oneup.oneups, i)
 		self.oneuphad = false
+		table.remove(oneup.oneups, i)
 	end
 
 	-- turn on oneup
@@ -865,43 +796,31 @@ function endless:update(dt)
 	end
 
 	-- Spawning
-	--if self.wavebreak == false then
-		if self.spawnoneup == true and self.oneupspawnscore == 10000 and player.lives < 3 then
-			oneup:spawn()
-			self.oneupspawnscore = 0
-		end
+	if self.spawnoneup == true and self.oneupspawnscore == 10000 and player.lives < 3 then
+		oneup:spawn()
+		self.oneupspawnscore = 0
+	end
 
-		if self.oneupspawnscore > 10000 then
-			self.oneupspawnscore = 0
-		end
+	-- reset spawning
+	if self.oneupspawnscore > 10000 then
+		self.oneupspawnscore = 0
+	end
 
-		if oneup.count == self.oneupcount then
-			self.spawnoneup = false
-		elseif oneup.count < self.oneupcount then
-			self.spawnoneup = true
-		end
-	--end
-
-	-- stop spawning from happening durring the wave break
-	--if self.wavebreak == true then
-		--self.spawnoneup = false
-
-		--if self.oneuphad == true and self.oneuphave == false then
-			--oneup.count = 0
-			--table.remove(oneup.oneups, i)
-			--self.oneuphad = false
-		--end
-	--end
+	-- make sure only one is on screen at a time
+	if oneup.count == self.oneupcount then
+		self.spawnoneup = false
+	elseif oneup.count < self.oneupcount then
+		self.spawnoneup = true
+	end
 	-- ONEUP --
 
 	-- QUESTIONMARK --
 	-- turn off questionmark
 	if self.questionmarkhave == true and self.questionmarktimer < 0 then
 		self.questionmarkhave = false
-
 		questionmark.count = 0
-		table.remove(questionmark.questionmarks, i)
 		self.questionmarkhad = false
+		table.remove(questionmark.questionmarks, i)
 	end
 
 	-- turn on questionmark
@@ -915,41 +834,31 @@ function endless:update(dt)
 	end
 
 	-- Spawning
-	--if self.wavebreak == false then
-		if self.spawnquestionmark == true and self.quespawnscore == 4 then
-			questionmark:spawn()
-			self.quespawnscore = 0
-		end
+	if self.spawnquestionmark == true and self.quespawnscore == 4 then
+		questionmark:spawn()
+		self.quespawnscore = 0
+	end
 
-		if self.quespawnscore > 4 then
-			self.quespawnscore = 0
-		end
+	-- dont allow spawning till wave 4
+	if self.quespawnscore > 4 then
+		self.quespawnscore = 0
+	end
 
-		if questionmark.count == self.questionmarkcount then
-			self.spawnquestionmark = false
-		elseif questionmark.count < self.questionmarkcount then
-			self.spawnquestionmark = true
-		end
-	--end
-
-	-- stop spawning from happening durring the wave break
-	--if self.wavebreak == true then
-		--self.spawnquestionmark = false
-
-		--if self.questionmarkhad == true and self.questionmarkhave == false then
-			--questionmark.count = 0
-			--table.remove(questionmark.questionmarks, i)
-			--self.questionmarkhad = false
-		--end
-	--end
-
+	-- make sure only one is on screen at a time
+	if questionmark.count == self.questionmarkcount then
+		self.spawnquestionmark = false
+	elseif questionmark.count < self.questionmarkcount then
+		self.spawnquestionmark = true
+	end
 
 	-- SMG
+	-- Turn smg off
 	if self.quesmghave == true and self.quesmgammo == 0 then
 		self.quesmghave = false
 		love.audio.play(menu.backsound)
 	end
 
+	-- turn smg on
 	if self.quesmghave == true then
 		pistol.cooldownplus = 0.065
 		self.minihave = false
@@ -957,18 +866,20 @@ function endless:update(dt)
 		self.pistolhave = false
 	end
 
+	-- reset smg
 	if self.quesmghave == false then
 		self.quesmgammo = 80
 		self.pistolhave = true
 	end
 
-
 	-- MINI
+	-- Turn mini off
 	if self.queminihave == true and self.queminiammo == 0 then
 		self.queminihave = false
 		love.audio.play(menu.backsound)
 	end
 
+	-- turn smg on
 	if self.queminihave == true then
 		pistol.cooldownplus = 0.030
 		self.minihave = false
@@ -976,18 +887,12 @@ function endless:update(dt)
 		self.pistolhave = false
 	end
 
+	-- reset smg
 	if self.queminihave == false then
 		self.queminiammo = 150
 		self.pistolhave = true
 	end
 	-- QUESTIONMARK --
-
-
-
-
-
-
-
 	---- SPECIAL WEAPONS ----
 
 	-- WAVE SYSTEM --
@@ -1004,7 +909,7 @@ function endless:update(dt)
 
 	-- spawn zombies
 	if self.wavestart == true then
-		--zombie:spawn()
+		zombie:spawn()
 	end
 
 	-- stop spawning if zombie.count gets to high 
@@ -1040,9 +945,9 @@ function endless:update(dt)
 		self.wavebreak = true
 		self.flashwave = true
 		love.audio.play(game.wavestart)
-		endless.shoespawnscore = endless.shoespawnscore + 1
-		endless.heartspawnscore = endless.heartspawnscore + 1
-		endless.quespawnscore = endless.quespawnscore + 1
+		self.shoespawnscore = self.shoespawnscore + 1
+		self.heartspawnscore = self.heartspawnscore + 1
+		self.quespawnscore = self.quespawnscore + 1
 		self.totalscore = self.totalscore + 100
 	end
 
@@ -1077,47 +982,31 @@ function endless:update(dt)
 	end
 	-- WAVE SYSTEM --
 
-
-
-
-
-
+	-- set some timers
 	self.speedflashtimer = self.speedflashtimer + dt
 	self.healthflashtimer = self.healthflashtimer + dt
 	self.oneupflashtimer = self.oneupflashtimer + dt
 	self.deathtimer = self.deathtimer - dt
 
-	playerhealth1 = plyr.health
-	playerhealth2 = plyr.health - 100
+	-- set and update heath draw varibles
+	self.health1 = plyr.health
+	self.health2 = plyr.health - 100
 
-	if playerhealth1 > 100 then
-		playerhealth1 = 100
+	-- keep health one at no higher then 100
+	if self.health1 > 100 then
+		self.health1 = 100
 	end
 
-	if playerhealth2 < 0 then
-		playerhealth2 = 0
+	-- keep health two at no lower then 0
+	if self.health2 < 0 then
+		self.health2 = 0
 	end
 
-
-
-
-
-
-
-
-
+	-- EXTRA LIFE SYSTEM --
+	-- if you lose a life
 	if plyr.health <= 0 and player.lives > 1 then
 		plyr.health = player.maxhealth
 		player.lives = player.lives - 1
-    
-    	for i, o in ipairs(minigun.miniguns) do
-    		o.ammo = 0
-		end
-    	
-    	for i, o in ipairs(smg.smgs) do
-    		o.ammo = 0
-		end
-
 		self.queminiammo = 0
 		self.quesmgammo = 0
    		self.deathtimer = 11
@@ -1128,46 +1017,39 @@ function endless:update(dt)
 		love.audio.pause(game.music1)
 		love.audio.play(game.music3)
 		self.totalscore = self.totalscore - 1000
+    
+    	for i, o in ipairs(minigun.miniguns) do
+    		o.ammo = 0
+		end
+    	
+    	for i, o in ipairs(smg.smgs) do
+    		o.ammo = 0
+		end
 	end
 
 	if self.death == true then
+		love.mouse.setCursor(cursor)
+
 	   	for i, o in ipairs(zombie.zombs) do
 	   		plyr.speed = 0
    			zombie.count = zombie.count - 1         
 			Collider:remove(o.bb)
 			table.remove(zombie.zombs, i)
 		end
-
-		for i, o in ipairs(pistol.bullets) do
-			o.sound:setVolume(0)
-		end
-
-		love.mouse.setCursor(cursor)
 	end
 
+	-- give gameover if player doesnt choose to continue before timer ends
 	if self.deathtimer < 0 and self.death == true then
 		self.death = false
 		gameover = true
 		love.audio.stop(game.music3)
 	end
+	-- EXTRA LIFE SYSTEM --
 
-
-
-
-
-
-
+	-- if you pass the 15min mark you get bonus points
 	if self.time > 900 and self.time < 901 and gameover == false then
 		self.totalscore = self.totalscore + 20
 	end
-
-
-
-
-
-
-
-
 
 	-- update zombies
 	zombie:update(dt)
@@ -1237,7 +1119,7 @@ function endless:update(dt)
 	--- MOVE GAMEOVER TEXT ---
 end
 
-function endless:draw()
+function arcade:draw()
 
 	------ FILTERS ------
 	self.layer1:setFilter( 'nearest', 'nearest' )
@@ -1308,43 +1190,39 @@ function endless:draw()
 	-- layer2 of the map
 	love.graphics.draw(self.layer2, 0, 0)
 
-
-
-
-
-
+	-- display mini health bar
 	if plyr.hurt == true and gameover == false or player.minihealthbar == true and gameover == false then
 		love.graphics.setColor(160, 47, 0, 200)
 		love.graphics.rectangle("line", plyr.x - 13, plyr.y + 14, 27, 3)
 		love.graphics.setColor(0, 0, 0, 200)
 		love.graphics.rectangle("line", plyr.x - 12, plyr.y + 15, 25, 1)
 		love.graphics.setColor(self.healthcolor1, self.healthcolor2, self.healthcolor3, 200)
-		love.graphics.rectangle("fill", plyr.x - 12, plyr.y + 15, playerhealth1/4, 1)
+		love.graphics.rectangle("fill", plyr.x - 12, plyr.y + 15, self.health1/4, 1)
 		love.graphics.setColor(0, 170, 240, 200)
-		love.graphics.rectangle("fill", plyr.x - 12, plyr.y + 15, playerhealth2/4, 1)
+		love.graphics.rectangle("fill", plyr.x - 12, plyr.y + 15, self.health2/4, 1)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 
+	-- reset health flash timer
 	if plyr.health < player.maxhealth and player.hurttimer > 3 then
 		self.healthflashtimer = 0
 	end
 
+	-- stop health flash timer
 	if plyr.health == player.maxhealth then
 		self.healthflashtimer = 10
 	end
 
+	-- stop health flash timer till your not hurt
 	if plyr.hurt == true then
 		self.healthflashtimer = 10
 	end
 
-
-
+	-- clear screen for contiune screen
 	if self.death == true then
 		love.graphics.draw(self.layer1, 0, 0)
 		love.graphics.draw(self.layer2, 0, 0)
 	end
-
-
 
 	game.Cam:detach()
 	------ CAMERA ------
@@ -1358,45 +1236,29 @@ function endless:draw()
 		love.graphics.setColor(255, 255, 255)
 	end
 
-	-- the hud text and images
 	if gameover == false then
-		--love.graphics.draw(self.hud1, 0, -25, 0, 0.5)
-		--love.graphics.draw(self.hud2, -30, 665, 0, 0.5)
-		--love.graphics.draw(self.hud3, 500 - 6, 685, 0, 0.5)
 
-
-
-
+		-- HUD
 		love.graphics.setColor(0, 0, 0, 150)
 		love.graphics.rectangle("fill", 7, 7, 486, 22 )
 		love.graphics.setColor(160, 47, 0, 255)
 		love.graphics.rectangle("line", 6, 6, 488, 24 )
-
 		love.graphics.setColor(0, 0, 0, 150)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 278/2, 7, 278, 22 )
+		love.graphics.rectangle("fill", 501, 7, 278, 22 )
 		love.graphics.setColor(160, 47, 0, 255)
-		love.graphics.rectangle("line", love.graphics.getWidth()/2 - 280/2, 6, 280, 24 )
-
+		love.graphics.rectangle("line", 500, 6, 280, 24 )
 		love.graphics.setColor(0, 0, 0, 150)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 278/2 + 8, 7, 200, 22 )
+		love.graphics.rectangle("fill", 787, 7, 200, 22 )
 		love.graphics.setColor(160, 47, 0, 255)
-		love.graphics.rectangle("line", love.graphics.getWidth()/2 + 280/2 + 6, 6, 202, 24 )
-
+		love.graphics.rectangle("line", 786, 6, 202, 24 )
 		love.graphics.setColor(0, 0, 0, 150)
-		love.graphics.rectangle("fill", love.graphics.getWidth() - 278 - 7, 7, 278, 22 )
+		love.graphics.rectangle("fill", 995, 7, 278, 22 )
 		love.graphics.setColor(160, 47, 0, 255)
-		love.graphics.rectangle("line", love.graphics.getWidth() - 280 - 6, 6, 280, 24 )
+		love.graphics.rectangle("line", 994, 6, 280, 24 )
 
-
-
-
-
-
-
-
-
+		-- DISPLAY LIVES --
 		if self.wavedrawtime < 5 and self.wave == 1 then
-			love.graphics.setFont( start.font011 )
+			love.graphics.setFont( start.font9 )
 			love.graphics.setColor(0, 0, 0, 150)
 			love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 140 - 6, love.graphics.getHeight() - 22, 140, 16 )
 			love.graphics.setColor(160, 47, 0, 255)
@@ -1406,26 +1268,22 @@ function endless:draw()
 		end
 
 		if self.oneupflashtimer < 8 then
-			love.graphics.setFont( start.font011 )
+			love.graphics.setFont( start.font9 )
 			love.graphics.setColor(0, 0, 0, 150)
 			love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 140 - 6, love.graphics.getHeight() - 22, 140, 16 )
 			love.graphics.setColor(160, 47, 0, 255)
 			love.graphics.rectangle("line", love.graphics.getWidth()/2 - 142 - 5, love.graphics.getHeight() - 23, 142, 18 )
 			love.graphics.setColor(160, 47, 0)
 			love.graphics.print("LIVES:"..tostring(player.lives), love.graphics.getWidth()/2 - 141, love.graphics.getHeight() - 17)
-			love.graphics.setColor(255, 255, 255, endless.gunsflash)
+			love.graphics.setColor(255, 255, 255, self.gunsflash)
 			love.graphics.print("LIVES:"..tostring(player.lives), love.graphics.getWidth()/2 - 141, love.graphics.getHeight() - 17)
 			love.graphics.setColor(255, 255, 255, 255)
 		end
+		-- DISPLAY LIVES --
 
-
-
-
-
-
-
+		-- DISPLAY SPEED --
 		if self.wavedrawtime < 5 and self.wave == 1 then
-			love.graphics.setFont( start.font011 )
+			love.graphics.setFont( start.font9 )
 			love.graphics.setColor(0, 0, 0, 150)
 			love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 6, love.graphics.getHeight() - 22, 140, 16 )
 			love.graphics.setColor(160, 47, 0, 255)
@@ -1435,116 +1293,111 @@ function endless:draw()
 		end
 
 		if self.speedflashtimer < 8 then
-			love.graphics.setFont( start.font011 )
+			love.graphics.setFont( start.font9 )
 			love.graphics.setColor(0, 0, 0, 150)
 			love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 6, love.graphics.getHeight() - 22, 140, 16 )
 			love.graphics.setColor(160, 47, 0, 255)
 			love.graphics.rectangle("line", love.graphics.getWidth()/2 + 5, love.graphics.getHeight() - 23, 142, 18 )
 			love.graphics.setColor(160, 47, 0)
 			love.graphics.print("SPEED:"..tostring(plyr.speed), love.graphics.getWidth()/2 + 12, love.graphics.getHeight() - 17)
-			love.graphics.setColor(255, 255, 255, endless.gunsflash)
+			love.graphics.setColor(255, 255, 255, self.gunsflash)
 			love.graphics.print("SPEED:"..tostring(plyr.speed), love.graphics.getWidth()/2 + 12, love.graphics.getHeight() - 17)
 			love.graphics.setColor(255, 255, 255, 255)
 		end
+		-- DISPLAY SPEED --
 
-
-
-
-		if playerhealth1 > 50 then
+		-- HEALTH --
+		-- Set health colors
+		if self.health1 > 50 then
 			self.healthcolor1 = 0
 			self.healthcolor2 = 170
 			self.healthcolor3 = 0
 		end
 
-		if playerhealth1 < 50 then
+		if self.health1 < 50 then
 			self.healthcolor1 = 255
 			self.healthcolor2 = 200
 			self.healthcolor3 = 0
 		end
 
-		if playerhealth1 < 25 then
+		if self.health1 < 25 then
 			self.healthcolor1 = 229
 			self.healthcolor2 = 40
 			self.healthcolor3 = 0
 		end
 
-
+		-- health text
 		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.print("HEALTH:", 15, 15)
 		
+		-- health bars
 		love.graphics.setColor(self.healthcolor1, self.healthcolor2, self.healthcolor3)
-		love.graphics.rectangle("fill", 125, 12, playerhealth1 * 3.6, 13)
-
+		love.graphics.rectangle("fill", 125, 12, self.health1 * 3.6, 13)
 		love.graphics.setColor(0, 170, 240)
-		love.graphics.rectangle("fill", 125, 12, playerhealth2 * 3.6, 13)
+		love.graphics.rectangle("fill", 125, 12, self.health2 * 3.6, 13)
 
+		-- flash health on autoheal
 		if self.healthflashtimer < 8 then
-			love.graphics.setColor(0, 170, 240, endless.gunsflash + 20)
-			love.graphics.rectangle("fill", 125, 12, playerhealth1 * 3.6, 13)
-
-			love.graphics.setColor(0, 170, 0, endless.gunsflash + 20)
-			love.graphics.rectangle("fill", 125, 12, playerhealth2 * 3.6, 13)
+			love.graphics.setColor(0, 170, 240, self.gunsflash + 20)
+			love.graphics.rectangle("fill", 125, 12, self.health1 * 3.6, 13)
+			love.graphics.setColor(0, 170, 0, self.gunsflash + 20)
+			love.graphics.rectangle("fill", 125, 12, self.health2 * 3.6, 13)
 			love.graphics.setColor(255, 255, 255, 255)
 		end
 
-		love.graphics.setFont( start.font011 )
+		-- draw percentage
+		love.graphics.setFont( start.font9 )
 		love.graphics.setColor(255, 255, 255)
 		love.graphics.print(tostring(math.floor(plyr.health)).."%", 280, 15)
+		-- HEALTH --
 
-
-
-
-
-
-
-		
-
+		-- draw hud item. score, time, wave
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.setFont( start.font0 )
-		love.graphics.print("SCORE:", love.graphics.getWidth()/2 - 260/2, 15)
-		love.graphics.print(tostring(math.floor(self.totalscore)), love.graphics.getWidth()/2 - 80/2, 15)
-		love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 + 362), 15)
-		
+		love.graphics.print("SCORE:", 510, 15)
+		love.graphics.print(tostring(math.floor(self.totalscore)), 600, 15)
+		love.graphics.print("TIME:"..tostring(math.floor(self.time)), 1002, 15)
+		love.graphics.print("WAVE:"..tostring(self.wave), 795.5, 15)
+		love.graphics.setColor(255, 255, 255)
 
-		
+		-- flash the wave text in hud white when the next wave is coming
+		if self.wavedrawtime < 5 then
+			love.graphics.setFont( start.font0 )
+			love.graphics.setColor(255, 255, 255, self.waveflash)
+			love.graphics.print("WAVE:"..tostring(self.wave), 795.5, 15)
+			love.graphics.setColor(255, 255, 255)
+		end
 
-
-
-
-
+		-- Draw smg ammo box
 		if self.smghave == true then
 			for i, o in ipairs(smg.smgs) do
-				
 				love.graphics.setColor(0, 0, 0, 150)
 				love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 248/2, love.graphics.getHeight() - 149, 248, 52 )
 				love.graphics.setColor(160, 47, 0, 255)
 				love.graphics.rectangle("line", love.graphics.getWidth()/2 - 250/2, love.graphics.getHeight() - 150, 250, 54 )
-				
 				love.graphics.print("SMG", love.graphics.getWidth()/2 - 250/2 + 70, love.graphics.getHeight() - 137)
 				love.graphics.print("AMMO:"..tostring(o.ammo), love.graphics.getWidth()/2 - 250/2 + 70, love.graphics.getHeight() - 117)
-
 				love.graphics.setColor(255, 255, 255, 255)
 				love.graphics.draw(self.powerupdisplay1, love.graphics.getWidth()/2 - self.powerupdisplay1:getWidth()/2 * 2 - 90, love.graphics.getHeight() - self.powerupdisplay1:getHeight()/2 * 2 - 123, 0, 2)
 			end
 		end
 
+		-- Draw minigun ammo box
 		if self.minihave == true then
 			for i, o in ipairs(minigun.miniguns) do
-				
 				love.graphics.setColor(0, 0, 0, 150)
 				love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 248/2, love.graphics.getHeight() - 149, 248, 52 )
 				love.graphics.setColor(160, 47, 0, 255)
 				love.graphics.rectangle("line", love.graphics.getWidth()/2 - 250/2, love.graphics.getHeight() - 150, 250, 54 )
-				
 				love.graphics.print("MINIGUN", love.graphics.getWidth()/2 - 250/2 + 70, love.graphics.getHeight() - 137)
 				love.graphics.print("AMMO:"..tostring(o.ammo), love.graphics.getWidth()/2 - 250/2 + 70, love.graphics.getHeight() - 117)
-
 				love.graphics.setColor(255, 255, 255, 255)
 				love.graphics.draw(self.powerupdisplay2, love.graphics.getWidth()/2 - self.powerupdisplay2:getWidth()/2 * 2 - 90, love.graphics.getHeight() - self.powerupdisplay2:getHeight()/2 * 2 - 123, 0, 2)
 			end
 		end
 
+		-- Draw smg ammo box for questionmark powerup
 		if self.quesmghave == true then	
 			love.graphics.setColor(0, 0, 0, 150)
 			love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 248/2, love.graphics.getHeight() - 149, 248, 52 )
@@ -1556,6 +1409,7 @@ function endless:draw()
 			love.graphics.draw(self.powerupdisplay1, love.graphics.getWidth()/2 - self.powerupdisplay1:getWidth()/2 * 2 - 90, love.graphics.getHeight() - self.powerupdisplay1:getHeight()/2 * 2 - 123, 0, 2)
 		end
 
+		-- Draw minigun ammo box for questionmark powerup
 		if self.queminihave == true then
 			love.graphics.setColor(0, 0, 0, 150)
 			love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 248/2, love.graphics.getHeight() - 149, 248, 52 )
@@ -1567,38 +1421,7 @@ function endless:draw()
 			love.graphics.draw(self.powerupdisplay2, love.graphics.getWidth()/2 - self.powerupdisplay2:getWidth()/2 * 2 - 90, love.graphics.getHeight() - self.powerupdisplay2:getHeight()/2 * 2 - 123, 0, 2)
 		end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		-- Wave title in hud
-		love.graphics.setFont( start.font0 )
-		love.graphics.setColor(160, 47, 0, 255)
-		love.graphics.print("WAVE:"..tostring(self.wave), love.graphics.getWidth()/2 + 295/2 + 8, 15)
-		love.graphics.setColor(255, 255, 255)
-
-		-- flash the wave text in hud white when the next wave is coming
-		if self.wavedrawtime < 5 then
-			love.graphics.setFont( start.font0 )
-			love.graphics.setColor(255, 255, 255, self.waveflash)
-			love.graphics.print("WAVE:"..tostring(self.wave), love.graphics.getWidth()/2 + 295/2 + 8, 15)
-			love.graphics.setColor(255, 255, 255)
-		end
-
-
-
-
-
+		-- contiune screen draw
 		if self.death == true then
 			love.graphics.setColor(0, 0, 0, 150)
 			love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 778/2, love.graphics.getHeight()/2 - 322/2 - 50, 778, 322 )
@@ -1606,17 +1429,13 @@ function endless:draw()
 			love.graphics.rectangle("line", love.graphics.getWidth()/2 - 780/2, love.graphics.getHeight()/2 - 324/2 - 50, 780, 324 )
     		love.graphics.setFont( start.font5 )
     		love.graphics.setColor(160, 47, 0)
-    		love.graphics.print('CONTINUE?', (love.graphics.getWidth()/2 - start.font5:getWidth( "CONTINUE?" )/2), 190)
-    		love.graphics.print(tostring(math.floor(self.deathtimer)), (love.graphics.getWidth()/2 - start.font5:getWidth(tostring(math.floor(self.deathtimer)))/2), 270)
+    		love.graphics.print('CONTINUE?', (love.graphics.getWidth()/2 - start.font5:getWidth( "CONTINUE?" )/2), love.graphics.getHeight()/2 - 170)
+    		love.graphics.print(tostring(math.floor(self.deathtimer)), (love.graphics.getWidth()/2 - start.font5:getWidth(tostring(math.floor(self.deathtimer)))/2), love.graphics.getHeight()/2 - 90)
     		love.graphics.setFont( start.font3 )
-    		love.graphics.print(tostring(player.lives)..' COIN, '..tostring(player.lives)..' PLAY', (love.graphics.getWidth()/2 - start.font3:getWidth(tostring(player.lives)..' COIN, '..tostring(player.lives)..' PLAY')/2), 345)
-    		love.graphics.print('PRESS START BUTTON', (love.graphics.getWidth()/2 - start.font3:getWidth('PRESS START BUTTON')/2), 415)
+    		love.graphics.print(tostring(player.lives)..' COIN, '..tostring(player.lives)..' PLAY', (love.graphics.getWidth()/2 - start.font3:getWidth(tostring(player.lives)..' COIN, '..tostring(player.lives)..' PLAY')/2), love.graphics.getHeight()/2 - 15)
+    		love.graphics.print('PRESS START BUTTON', (love.graphics.getWidth()/2 - start.font3:getWidth('PRESS START BUTTON')/2), love.graphics.getHeight()/2 + 55)
     		love.graphics.setColor(255, 255, 255)
     	end
-
-
-
-
 
 	-- Game over title and the scores at the end of the game
 	elseif gameover == true then
@@ -1639,12 +1458,9 @@ function endless:draw()
 			love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font2:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 300)
 			love.graphics.print("KILLS:"..tostring(self.score/10), (love.graphics.getWidth()/2 - start.font2:getWidth("KILLS:"..tostring(self.score/10))/2), 340)
 			love.graphics.print("WAVE:"..tostring(self.wave), (love.graphics.getWidth()/2 - start.font2:getWidth("WAVE:"..tostring(self.wave))/2), 380)
-			
 			love.graphics.setFont( start.font3 )
 			love.graphics.print("SCORE:"..tostring(math.floor(self.totalscore)), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(math.floor(self.totalscore)))/2), 440)
-
 			love.graphics.setColor(255, 255, 255)
-
 		end
 	end
 
@@ -1658,4 +1474,4 @@ function endless:draw()
 	------ TEXT ------
 end
 
-return endless
+return arcade

@@ -32,7 +32,7 @@ function love.load()
 	paused = false
 	resume = false
 	gamereset = true
-	setendless = true
+	setarcade = true
 	gameover = false
 	welcomescreen = true
 	weapon = {}

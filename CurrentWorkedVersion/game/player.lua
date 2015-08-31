@@ -53,7 +53,6 @@ function player:health(dt)
 		gameover = true
 	end
 
-
 	-- AUTO HEAL --
 	if player.autoheal == true then
 
@@ -72,15 +71,10 @@ function player:health(dt)
    		 	player.flashred = false
   		end
 
-
-
-
+  		-- turn the mini health off
   		if player.hurttimer > 3 then
   			player.minihealthbar = false
   		end
-
-
-
 
   		-- Autoheal the player if hasnt been hurt for 4secs
   		if player.hurttimer > 3 and plyr.hurt == false then
@@ -106,7 +100,6 @@ function player:movement(dt)
 	plyr.xvel = plyr.xvel * (1 - math.min(dt * plyr.friction, 1))
 	plyr.yvel = plyr.yvel * (1 - math.min(dt * plyr.friction, 1))
 
-
 	-- player movement with keys
 	if love.keyboard.isDown("a") and plyr.xvel > -100 and gameover == false then
 		plyr.xvel = plyr.xvel - plyr.speed * dt
@@ -131,7 +124,7 @@ end
 function player:update(dt)
 	
 	-- Set player weapon postion
-	if game.endless == true then
+	if game.arcade == true then
 		self.weapony = pis.y
 		self.weaponx = pis.x
 	end

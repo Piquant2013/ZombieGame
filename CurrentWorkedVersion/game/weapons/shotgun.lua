@@ -46,7 +46,7 @@ end
 
 function pistol:update(dt)
 
-	if love.mouse.isDown('l') and self.cooldown <= 0 and gameover == false and welcomescreen == false then
+	if love.mouse.isDown('l') and self.cooldown <= 0 and gameover == false and welcomescreen == false and arcade.death == false then
 		
 		-- rotates and shoots towards the crosshair if the crosshair is more then 20 pixels away from the player
 		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
@@ -56,7 +56,9 @@ function pistol:update(dt)
 			gmy = my1 + 6 * math.cos(math.atan2(my1 - pis.y, mx1 - pis.x))
 			self.direction = math.atan2(gmy - pis.y, gmx - pis.x)
 
-			if endless.wave == 1 and endless.smghave == false or endless.wave > 14 and endless.minihave == false then
+			-- Shotgun bullets
+			if arcade.wave > 14 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
+				
 				-- left
 				gmlx = mx1 - -6 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
 				gmly = my1 + -6 * math.cos(math.atan2(my1 - pis.y, mx1 - pis.x))
@@ -74,18 +76,19 @@ function pistol:update(dt)
 			-- middle
 			self.direction = math.atan2(my1 - pis.y, mx1 - pis.x)
 
-			--self.directionl = math.atan2(my1 - pis.y, mx1 - pis.x)
-			--self.directionr = math.atan2(my1 - pis.y, mx1 - pis.x)
+			-- Shotgun bullets
+			if arcade.wave > 14 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
+				
+				-- left
+				gmlx = mx1 - -0.5 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
+				gmly = my1 + -0.5 * math.cos(math.atan2(my1 - pis.y, mx1 - pis.x))
+				self.directionl = math.atan2(gmly - pis.y, gmlx - pis.x)
 
-			-- left
-			gmlx = mx1 - -0.5 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
-			gmly = my1 + -0.5 * math.cos(math.atan2(my1 - pis.y, mx1 - pis.x))
-			self.directionl = math.atan2(gmly - pis.y, gmlx - pis.x)
-
-			-- right
-			gmrx = mx1 - 0.5 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
-			gmry = my1 + 0.5 * math.cos(math.atan2(my1 - pis.y, mx1 - pis.x))
-			self.directionr = math.atan2(gmry - pis.y, gmrx - pis.x)
+				-- right
+				gmrx = mx1 - 0.5 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
+				gmry = my1 + 0.5 * math.cos(math.atan2(my1 - pis.y, mx1 - pis.x))
+				self.directionr = math.atan2(gmry - pis.y, gmrx - pis.x)
+			end
 		end
 
 		-- bullet tables
@@ -100,11 +103,15 @@ function pistol:update(dt)
 		bullet.h = 12
 		bullet.dir = self.direction
 		bullet.speed = 600
+		bullet.dead = 0
 		bullet.bb = Collider:addRectangle(bullet.x, bullet.y, bullet.h, bullet.w)
 		bullet.sound = love.audio.newSource("audio/weapons/pistol.ogg")
+		bullet.sound2 = love.audio.newSource("audio/weapons/shotgun.ogg")
 		bullet.sprite = love.graphics.newImage("images/weapons/bullet-pistol.png")
 
-		if endless.wave == 1 and endless.smghave == false or endless.wave > 14 and endless.minihave == false then
+		-- Shotgun bullets
+		if arcade.wave > 14 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
+			
 			-- The contents of the left bullet table
 			bulletleft.x = pis.x
 			bulletleft.y = pis.y
@@ -112,6 +119,7 @@ function pistol:update(dt)
 			bulletleft.h = 12
 			bulletleft.dir = self.directionl
 			bulletleft.speed = 600
+			bulletleft.dead = 0
 			bulletleft.bb = Collider:addRectangle(bullet.x, bullet.y, bullet.h, bullet.w)
 			bulletleft.sprite = love.graphics.newImage("images/weapons/bullet-pistol.png")
 
@@ -122,6 +130,7 @@ function pistol:update(dt)
 			bulletright.h = 12
 			bulletright.dir = self.directionr
 			bulletright.speed = 600
+			bulletright.dead = 0
 			bulletright.bb = Collider:addRectangle(bullet.x, bullet.y, bullet.h, bullet.w)
 			bulletright.sprite = love.graphics.newImage("images/weapons/bullet-pistol.png")
 		end
@@ -129,15 +138,23 @@ function pistol:update(dt)
 		-- Insert the bullet
 		table.insert(self.bullets, bullet)
 
-		if endless.wave == 1 and endless.smghave == false or endless.wave > 14 and endless.minihave == false then
+		-- Shotgun bullets
+		if arcade.wave > 14 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
 			table.insert(self.bullets, bulletleft)
 			table.insert(self.bullets, bulletright)
 		end
 
 		self.cooldown = self.cooldownplus
-		love.audio.play(bullet.sound)
 
-		-- Take off ammo while you fire for special weapons in endless mode
+		if arcade.wave < 14 or arcade.smghave == true or arcade.minihave == true or arcade.queminihave == true or arcade.quesmghave == true then
+			love.audio.play(bullet.sound)
+		end
+
+		if arcade.wave > 14 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
+			love.audio.play(bullet.sound2)
+		end
+
+		-- Take off ammo while you fire for special weapons in arcade mode
 		for i, o in ipairs(smg.smgs) do
 			o.ammo = o.ammo - 1
 
@@ -154,17 +171,20 @@ function pistol:update(dt)
 			end
 		end
 
-		endless.quesmgammo = endless.quesmgammo - 1
+		arcade.quesmgammo = arcade.quesmgammo - 1
 
-		if endless.quesmgammo < 0 then
-			endless.quesmgammo = 0
+		if arcade.quesmgammo < 0 then
+			arcade.quesmgammo = 0
 		end
 
-		endless.queminiammo = endless.queminiammo - 1
+		arcade.queminiammo = arcade.queminiammo - 1
 
-		if endless.queminiammo < 0 then
-			endless.queminiammo = 0
+		if arcade.queminiammo < 0 then
+			arcade.queminiammo = 0
 		end
+
+		-- allow the shotgun to kill 2 zombies per shot
+		bullet.dead = 0
 	end
 
 	-- cool down pistol

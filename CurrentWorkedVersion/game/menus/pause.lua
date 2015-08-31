@@ -74,8 +74,9 @@ function pause:update(dt)
 	-- Pause game music and set cursor
 	if resume == false then
 		
-		if setendless == false then
+		if setarcade == false then
 			game.music1:setVolume(0.2)
+			game.music3:setVolume(0.2)
 		end
 
 		if gamereset == false then
@@ -93,8 +94,9 @@ function pause:update(dt)
 		love.audio.resume(game.invidle)
 		love.mouse.setCursor(crosshair)
 
-		if setendless == false then
+		if setarcade == false then
 			game.music1:setVolume(1.0)
+			game.music3:setVolume(1.0)
 		end
 
 		if gamereset == false then
@@ -379,9 +381,9 @@ function pause:keypressed(key)
   	-- Go to the main menu
 	if key == "return" and self.mainmenustate == true or key == " " and self.mainmenustate == true then
 		love.audio.play(self.entersound)
-		setendless = true
+		setarcade = true
 		gamereset = true
-		game.endless = false
+		game.arcade = false
 		game.stuck = false
 		paused = false
 		welcomescreen = true
@@ -418,9 +420,9 @@ function pause:mousepressed(mx, my, button)
   	-- Go to the main menu
 	if button == "l" and self.mainmenustatemouse == true then
 		love.audio.play(self.entersound)
-		setendless = true
+		setarcade = true
 		gamereset = true
-		game.endless = false
+		game.arcade = false
 		game.stuck = false
 		paused = false
 		welcomescreen = true

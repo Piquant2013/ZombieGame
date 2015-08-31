@@ -78,7 +78,7 @@ function pistol:update(dt)
 		self.cooldown = self.cooldownplus
 		love.audio.play(bullet.sound)
 
-		-- Take off ammo while you fire for special weapons in endless mode
+		-- Take off ammo while you fire for special weapons in arcade mode
 		for i, o in ipairs(smg.smgs) do
 			o.ammo = o.ammo - 1
 
@@ -95,16 +95,16 @@ function pistol:update(dt)
 			end
 		end
 
-		endless.quesmgammo = endless.quesmgammo - 1
+		arcade.quesmgammo = arcade.quesmgammo - 1
 
-		if endless.quesmgammo < 0 then
-			endless.quesmgammo = 0
+		if arcade.quesmgammo < 0 then
+			arcade.quesmgammo = 0
 		end
 
-		endless.queminiammo = endless.queminiammo - 1
+		arcade.queminiammo = arcade.queminiammo - 1
 
-		if endless.queminiammo < 0 then
-			endless.queminiammo = 0
+		if arcade.queminiammo < 0 then
+			arcade.queminiammo = 0
 		end
 	end
 

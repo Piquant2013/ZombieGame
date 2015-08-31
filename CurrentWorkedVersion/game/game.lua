@@ -62,7 +62,7 @@ function game:init()
     crpistol:initialize()
 
     -- gamemodes
-    self.endless = false
+    self.arcade = false
     self.stuck = false
 	
 	-- Camera
@@ -104,7 +104,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
         if gameover == false then
         	
         	-- if player hits wall
-        	if other == endless.wallT or other == endless.wallB or other == endless.wallL or other == endless.wallR then
+        	if other == arcade.wallT or other == arcade.wallB or other == arcade.wallL or other == arcade.wallR then
         		plyr.yvel = 0
         		plyr.xvel = 0
         		shape_a:move(mtv_x, mtv_y)
@@ -113,7 +113,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
       		end
 
       		-- If player hits tree
-      		if other == endless.tree1 or other == endless.tree2 or other == endless.tree3 or other == endless.tree4 then
+      		if other == arcade.tree1 or other == arcade.tree2 or other == arcade.tree3 or other == arcade.tree4 then
         		plyr.yvel = 0
         		plyr.xvel = 0
         		shape_a:move(mtv_x, mtv_y)
@@ -130,7 +130,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
        	if gameover == false then
        		
        		-- if player hits wall
-       		if other == endless.wallT or other == endless.wallB or other == endless.wallL or other == endless.wallR then
+       		if other == arcade.wallT or other == arcade.wallB or other == arcade.wallL or other == arcade.wallR then
        			plyr.yvel = 0
         		plyr.xvel = 0
        			shape_b:move(-mtv_x, -mtv_y)
@@ -139,7 +139,7 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     		end
 
     		-- If player hits tree
-    		if other == endless.tree1 or other == endless.tree2 or other == endless.tree3 or other == endless.tree4 then
+    		if other == arcade.tree1 or other == arcade.tree2 or other == arcade.tree3 or other == arcade.tree4 then
        			plyr.yvel = 0
         		plyr.xvel = 0
        			shape_b:move(-mtv_x, -mtv_y)
@@ -164,25 +164,25 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     	end
     end
 
-  	if setendless == false then
+  	if setarcade == false then
 
    		-- if player hits zombie
    		for i, o in ipairs(zombie.zombs) do
     		if other == o.bb then
     		
     			-- if player hits zombie and doesnt have inv
-    			if endless.invhave == false then
+    			if arcade.invhave == false then
     				plyr.health = plyr.health - 0.4
     				plyr.hurt = true
     				love.audio.play(plyr.hurtaudio)
 
     				if gameover == false then
-    					endless.totalscore = endless.totalscore - 0.4
+    					arcade.totalscore = arcade.totalscore - 0.4
     				end
     			end
 
     			-- if player hits zombie and has inv
-    			if endless.invhave == true then
+    			if arcade.invhave == true then
 					o.health = o.health - 10
 					love.audio.play(game.invhit)
 					Collider:remove(o.bb)
@@ -190,17 +190,15 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 					-- kill zombies
 					if o.health < 0 then
 						o.health = 0
-						endless.score = endless.score + 10
-						endless.kills = endless.kills + 1
+						arcade.score = arcade.score + 10
+						arcade.kills = arcade.kills + 1
 						zombie.count = zombie.count - 1
-
-						endless.smgspawnscore = endless.smgspawnscore + 10
-						endless.minispawnscore = endless.minispawnscore + 10
-						endless.invspawnscore = endless.invspawnscore + 10
-						endless.killallspawnscore = endless.killallspawnscore + 10
-						endless.oneupspawnscore = 	endless.oneupspawnscore + 10
-						endless.totalscore = endless.totalscore + 10
-
+						arcade.smgspawnscore = arcade.smgspawnscore + 10
+						arcade.minispawnscore = arcade.minispawnscore + 10
+						arcade.invspawnscore = arcade.invspawnscore + 10
+						arcade.killallspawnscore = arcade.killallspawnscore + 10
+						arcade.oneupspawnscore = 	arcade.oneupspawnscore + 10
+						arcade.totalscore = arcade.totalscore + 10
 						Collider:remove(o.bb)
 						table.remove(zombie.zombs, i)
 					end
@@ -211,56 +209,56 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     	-- if player hits smg
     	for i, o in ipairs(smg.smgs) do
     		if other == o.bb then
-    			endless.smghad = true
-    			endless.smghave = true
-    			endless.minihave = false
-    			endless.killallhave = false
+    			arcade.smghad = true
+    			arcade.smghave = true
+    			arcade.minihave = false
+    			arcade.killallhave = false
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
-    			endless.totalscore = endless.totalscore - 10
+    			arcade.totalscore = arcade.totalscore - 10
     		end
     	end
 
     	-- if player hits minigun
     	for i, o in ipairs(minigun.miniguns) do
     		if other == o.bb then
-    			endless.minihad = true
-    			endless.minihave = true
-    			endless.smghave = false
-    			endless.killallhave = false
+    			arcade.minihad = true
+    			arcade.minihave = true
+    			arcade.smghave = false
+    			arcade.killallhave = false
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
-    			endless.totalscore = endless.totalscore - 10
+    			arcade.totalscore = arcade.totalscore - 10
     		end
     	end
 
     	-- if player hits inv
     	for i, o in ipairs(inv.invs) do
     		if other == o.bb then
-    			endless.invhad = true
-    			endless.invhave = true
+    			arcade.invhad = true
+    			arcade.invhave = true
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
-    			endless.totalscore = endless.totalscore - 10
+    			arcade.totalscore = arcade.totalscore - 10
     		end
     	end
 
     	-- if player hits killall
     	for i, o in ipairs(killall.killalls) do
     		if other == o.bb then
-    			endless.killallhad = true
-    			endless.killallhave = true
+    			arcade.killallhad = true
+    			arcade.killallhave = true
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
-    			endless.totalscore = endless.totalscore - 10
+    			arcade.totalscore = arcade.totalscore - 10
     		end
     	end
 
     	-- if player hits shoe
     	for i, o in ipairs(shoe.shoes) do
     		if other == o.bb then
-    			endless.shoehad = true
-    			endless.shoehave = true
+    			arcade.shoehad = true
+    			arcade.shoehave = true
 
     			-- increase player speed
     			if plyr.speed < 50 then
@@ -269,15 +267,15 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     		
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
-    			endless.totalscore = endless.totalscore - 10
+    			arcade.totalscore = arcade.totalscore - 10
     		end
     	end
 
     	-- if player hits heart
     	for i, o in ipairs(heart.hearts) do
     		if other == o.bb then
-    			endless.hearthad = true
-    			endless.hearthave = true
+    			arcade.hearthad = true
+    			arcade.hearthave = true
 
     			-- increase the player health
     			if plyr.health < 160 then
@@ -286,15 +284,15 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
-    			endless.totalscore = endless.totalscore - 10
+    			arcade.totalscore = arcade.totalscore - 10
     		end
     	end
 
     	-- if player hits oneup
     	for i, o in ipairs(oneup.oneups) do
     		if other == o.bb then
-    			endless.oneuphad = true
-    			endless.oneuphave = true
+    			arcade.oneuphad = true
+    			arcade.oneuphave = true
 
     			-- increase the player lives
     			if player.lives < 3 then
@@ -303,69 +301,70 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 
     			Collider:remove(o.bb)
     			love.audio.play(game.pickupsound)
-    			endless.totalscore = endless.totalscore - 10
+    			arcade.totalscore = arcade.totalscore - 10
     		end
     	end
 
     	-- if player hits questionmark
     	for i, o in ipairs(questionmark.questionmarks) do
     		if other == o.bb then
-    			endless.questionmarkhad = true
-    			endless.questionmarkhave = true
-    			endless.minihave = false
-    			endless.smghave = false
+    			arcade.questionmarkhad = true
+    			arcade.questionmarkhave = true
+    			arcade.minihave = false
+    			arcade.smghave = false
 				game.quenumber = love.math.random(1, 15)
 
+				-- differnt question mark options
 				if game.quenumber == 1 then
-					endless.totalscore = endless.totalscore - 1000
+					arcade.totalscore = arcade.totalscore - 1000
 					love.audio.play(menu.backsound)
 				elseif game.quenumber == 2 then
-					endless.totalscore = endless.totalscore + 1000
+					arcade.totalscore = arcade.totalscore + 1000
 					love.audio.play(game.pickupsound)
 				elseif game.quenumber == 3 then
-					endless.totalscore = endless.totalscore - 200
+					arcade.totalscore = arcade.totalscore - 200
 					love.audio.play(menu.backsound)
 				elseif game.quenumber == 4 then
-					endless.totalscore = endless.totalscore + 200
+					arcade.totalscore = arcade.totalscore + 200
 					love.audio.play(game.pickupsound)
 				elseif game.quenumber == 5 then
-					endless.totalscore = endless.totalscore - 100
+					arcade.totalscore = arcade.totalscore - 100
 					love.audio.play(menu.backsound)
 				elseif game.quenumber == 6 then
-					endless.totalscore = endless.totalscore - 100
+					arcade.totalscore = arcade.totalscore - 100
 					love.audio.play(menu.backsound)
 				elseif game.quenumber == 7 then
 					love.audio.play(game.pickupsound)
-					endless.quesmghave = true
+					arcade.quesmghave = true
 				elseif game.quenumber == 8 then
 					love.audio.play(game.pickupsound)
-					endless.quesmghave = true
+					arcade.quesmghave = true
 				elseif game.quenumber == 9 then
 					love.audio.play(game.pickupsound)
-					endless.queminihave = true
+					arcade.queminihave = true
 				elseif game.quenumber == 10 then
 					love.audio.play(game.pickupsound)
-					endless.queminihave = true
+					arcade.queminihave = true
 				elseif game.quenumber == 11 then
 					love.audio.play(game.pickupsound)
-					endless.totalscore = endless.totalscore + 100
+					arcade.totalscore = arcade.totalscore + 100
 				elseif game.quenumber == 12 then
 					love.audio.play(game.pickupsound)
-    				endless.totalscore = endless.totalscore + 100
+    				arcade.totalscore = arcade.totalscore + 100
 				elseif game.quenumber == 13 then
 					if player.lives < 3 then
 						player.lives = player.lives + 1
-						endless.oneupflashtimer = 0
+						arcade.oneupflashtimer = 0
 						love.audio.play(game.pickupsound)
 					elseif player.lives > 2 then
 						love.audio.play(game.pickupsound)
-						endless.totalscore = endless.totalscore + 1000
+						arcade.totalscore = arcade.totalscore + 1000
 					end
 				elseif game.quenumber == 14 then
 					love.audio.play(menu.backsound)
 				elseif game.quenumber == 15 then
 					love.audio.play(game.pickupsound)
-					endless.totalscore = endless.totalscore + 5000
+					arcade.totalscore = arcade.totalscore + 5000
 				end 
 			
     			Collider:remove(o.bb)
@@ -406,8 +405,8 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 	--end
 	-- ADD ANOTHER DAY --
 
-	-- ENDLESS --
-	if setendless == false then
+	-- ARCADE --
+	if setarcade == false then
 		for i, o in ipairs(zombie.zombs) do
 
 			local other
@@ -419,7 +418,7 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 				other = shape_b
 
 				-- if zombie hits tress
-      			if other == endless.tree1 or other == endless.tree2 or other == endless.tree3 or other == endless.tree4 then
+      			if other == arcade.tree1 or other == arcade.tree2 or other == arcade.tree3 or other == arcade.tree4 then
         			shape_a:move(mtv_x, mtv_y)
         			o.y = o.y + mtv_y
         			o.x = o.x + mtv_x
@@ -440,7 +439,7 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 				other = shape_a
 
 				-- if zombie hits tress
-				if other == endless.tree1 or other == endless.tree2 or other == endless.tree3 or other == endless.tree4 then
+				if other == arcade.tree1 or other == arcade.tree2 or other == arcade.tree3 or other == arcade.tree4 then
         			shape_b:move(-mtv_x, -mtv_y)
         			o.y = o.y + -mtv_y
         			o.x = o.x + -mtv_x
@@ -458,7 +457,7 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 		end
 	end
 
-	if setendless == false then
+	if setarcade == false then
 		for i, o in ipairs(zombie.zombs) do
 			for c, v in ipairs(pistol.bullets) do
 
@@ -475,23 +474,39 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 				if other == v.bb then
 					o.health = o.health - 10
 					love.audio.play(o.damageaudio)
-					Collider:remove(v.bb)
-					table.remove(pistol.bullets, c)
 
+					if arcade.wave < 14 or arcade.minihave == true or arcade.smghave == true or arcade.queminihave == true or arcade.quesmghave == true then 
+						Collider:remove(v.bb)
+						table.remove(pistol.bullets, c)
+					end
+				
 					-- kill zombies
 					if o.health < 0 then
 						o.health = 0
-						endless.score = endless.score + 10
-						endless.kills = endless.kills + 1
+						
+						-- scores
+						arcade.score = arcade.score + 10
+						arcade.kills = arcade.kills + 1
 						zombie.count = zombie.count - 1     
+						arcade.smgspawnscore = arcade.smgspawnscore + 10
+						arcade.minispawnscore = arcade.minispawnscore + 10
+						arcade.invspawnscore = arcade.invspawnscore + 10
+						arcade.killallspawnscore = arcade.killallspawnscore + 10
+						arcade.oneupspawnscore = 	arcade.oneupspawnscore + 10
+						arcade.totalscore = arcade.totalscore + 10
+						
+						-- count the bullets for shot gun double kills
+						if arcade.wave > 14 and arcade.smghave == false or arcade.wave > 14 and arcade.minihave == false or arcade.wave > 14 and arcade.quesmghave == false or arcade.wave > 14 and arcade.queminihave == false then
+							v.dead = v.dead + 1
+						end
 
-						endless.smgspawnscore = endless.smgspawnscore + 10
-						endless.minispawnscore = endless.minispawnscore + 10
-						endless.invspawnscore = endless.invspawnscore + 10
-						endless.killallspawnscore = endless.killallspawnscore + 10
-						endless.oneupspawnscore = 	endless.oneupspawnscore + 10
-						endless.totalscore = endless.totalscore + 10
-
+						-- allow 2 kill per bullet for shotgun
+						if v.dead == 2 and arcade.wave > 14 and arcade.smghave == false or v.dead == 2 and arcade.wave > 14 and arcade.minihave == false or v.dead == 2 and arcade.wave > 14 and arcade.quesmghave == false or v.dead == 2 and arcade.wave > 14 and arcade.queminihave == false then
+							Collider:remove(v.bb)
+							table.remove(pistol.bullets, c)
+						end
+						
+						-- remove zombie
 						Collider:remove(o.bb)
 						table.remove(zombie.zombs, i)
 					end
@@ -499,7 +514,7 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 			end
 		end
 	end
-	-- ENDLESS --
+	-- ARCADE --
 
 	-- STUCK --
 	if gamereset == false then
@@ -589,10 +604,10 @@ end
 
 function game:keypressed(key)
 
-	-- dissmiss the welcome message for endless mode
-  	if key == "return" and welcomescreen == true and self.endless == true or key == " " and welcomescreen == true and self.endless == true then
+	-- dissmiss the welcome message for arcade mode
+  	if key == "return" and welcomescreen == true and self.arcade == true or key == " " and welcomescreen == true and self.arcade == true then
   		welcomescreen = false
-  		setendless = false
+  		setarcade = false
   		love.audio.play(self.entersound)
 		love.audio.stop(self.intromusic)
 		love.audio.play(self.music1)
@@ -621,10 +636,10 @@ end
 
 function game:mousepressed(mx, my, button)
 
-	-- dissmiss the welcome message for endless mode
-  	if button == "l" and welcomescreen == true and self.endless == true then
+	-- dissmiss the welcome message for arcade mode
+  	if button == "l" and welcomescreen == true and self.arcade == true then
   		welcomescreen = false
-  		setendless = false
+  		setarcade = false
   		love.audio.play(self.entersound)
 		love.audio.stop(self.intromusic)
 		love.audio.play(self.music1)
@@ -694,7 +709,7 @@ function love.focus(f)
 	
 	-- pause the game if window loses focus
 	if not f then
-		if paused == false and welcomescreen == false and game.endless == true or game.stuck == true and gameover == false then  
+		if paused == false and welcomescreen == false and game.arcade == true or game.stuck == true and gameover == false then  
 			paused = true
 			resume = false
    			love.mouse.setCursor(cursor)
@@ -711,8 +726,8 @@ function game:draw()
 	------ FILTERS ------
 	
 	------ TEXT ------
-	-- draw the welcome text and background for endless mode
-	 if welcomescreen == true and self.endless == true then
+	-- draw the welcome text and background for arcade mode
+	 if welcomescreen == true and self.arcade == true then
     	love.mouse.setCursor(cursor)
     	love.graphics.draw(start.bg, 0, -1000, 0, 3)
     	love.graphics.setColor(160, 47, 0)

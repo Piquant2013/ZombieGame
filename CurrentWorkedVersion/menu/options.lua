@@ -396,7 +396,6 @@ function options:update(dt)
 		setmouselock = true
 	end
 
-
 	-- Pushes fullscreen arrow back if it trys to pass off else turn setfullscreen true or false
 	if self.fullscreenarrowx > self.fullscreenbtnx then
 		self.fullscreenarrowx = self.fullscreenbtnx - 118
@@ -1180,7 +1179,7 @@ function options:keypressed(key)
 		
 		-- pasue game music if its playing
 		if paused == true then
-			if setendless == false then
+			if setarcade == false then
 				love.audio.pause(game.music1)
 			end
 
@@ -1265,6 +1264,7 @@ function options:keypressed(key)
 end
 
 function options:mousepressed(mx, my, button)
+	
 	-- go to credits screen
 	if button == "l" and self.creditsstatemouse == true and self.page2 == false then
 		Gamestate.push(credits)
@@ -1279,7 +1279,7 @@ function options:mousepressed(mx, my, button)
 		
 		-- pasue game music if its playing
 		if paused == true then
-			if setendless == false then
+			if setarcade == false then
 				love.audio.pause(game.music1)
 			end
 

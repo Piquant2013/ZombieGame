@@ -67,9 +67,9 @@ function smg:draw()
 		------ FILTERS ------
 		
 		------ IMAGES ------
-		if endless.smghad == false then
+		if arcade.smghad == false then
 			love.graphics.draw(o.sprite, o.x, o.y)
-			love.graphics.setColor(255, 255, 255, endless.gunsflash)
+			love.graphics.setColor(255, 255, 255, arcade.gunsflash)
 			love.graphics.draw(o.sprite2, o.x, o.y)
 			love.graphics.setColor(255, 255, 255)
 		end

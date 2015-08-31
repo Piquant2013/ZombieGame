@@ -35,15 +35,17 @@ function stuckmode:init()
 	self.flashwave = true
 	self.wavezombiecount = 14
 
+	-- health
 	self.healthflash = 2
 	self.flashhealth = true
 	self.healthflashtimer = 10
-	self.accuracy = 0
-	self.totalscore = 0
-
 	self.healthcolor1 = 0
 	self.healthcolor2 = 0
 	self.healthcolor3 = 0
+	
+	-- score
+	self.accuracy = 0
+	self.totalscore = 0
 
 	-- Gameover vars
 	self.gameovery = 800
@@ -56,11 +58,8 @@ function stuckmode:init()
 	------ VARIABLES ------
 
 	------ IMAGES ------
-	self.layer1 = love.graphics.newImage("images/maps/endless-layer1.png")
-	self.layer2 = love.graphics.newImage("images/maps/endless-layer2.png")
-	self.hud1 = love.graphics.newImage("images/hud/hud1.png")
-	self.hud2 = love.graphics.newImage("images/hud/hud2.png")
-	self.hud3 = love.graphics.newImage("images/hud/hud3.png")
+	self.layer1 = love.graphics.newImage("images/maps/arcade-layer1.png")
+	self.layer2 = love.graphics.newImage("images/maps/arcade-layer2.png")
 	self.digeggimage = love.graphics.newImage("game/diggingsim/images/game/ach.png")
 	------ IMAGES ------
 end
@@ -77,9 +76,9 @@ function stuckmode:keypressed(key)
     	love.audio.play(start.music)
     	start.music:setLooping(true)
    		love.audio.stop(game.music4)
-    	setendless = true
+    	setarcade = true
     	gamereset = true
-    	game.endless = false
+    	game.arcade = false
     	game.stuck = false
     	love.audio.stop(plyr.deathaudio)
     	love.audio.stop(plyr.hurtaudio)
@@ -123,9 +122,9 @@ function stuckmode:mousepressed(mx, my, button)
     	love.audio.play(start.music)
     	start.music:setLooping(true)
    		love.audio.stop(game.music4)
-    	setendless = true
+    	setarcade = true
     	gamereset = true
-    	game.endless = false
+    	game.arcade = false
     	game.stuck = false
     	love.audio.stop(plyr.deathaudio)
     	love.audio.stop(plyr.hurtaudio)
@@ -188,15 +187,17 @@ function stuckmode:update(dt)
 		self.flashwave = true
 		self.wavezombiecount = 100--8
 
+		-- Health
 		self.healthflash = 2
 		self.flashhealth = true
 		self.healthflashtimer = 10
-		self.accuracy = 0
-		self.totalscore = 0
-
 		self.healthcolor1 = 0
 		self.healthcolor2 = 0
 		self.healthcolor3 = 0
+
+		-- Score
+		self.accuracy = 0
+		self.totalscore = 0
 
 		-- Gameover vars
 		self.gameovery = 800
@@ -415,14 +416,7 @@ function stuckmode:update(dt)
 	end
 	-- WAVE SYSTEM --
 
-
-
-
-
-
-
-
-
+	-- flash health
 	if self.flashhealth == true then
 		self.healthflash = self.healthflash + dt + 1.5
 	elseif self.flashhealth == false then
@@ -437,17 +431,12 @@ function stuckmode:update(dt)
 
 	self.healthflashtimer = self.healthflashtimer + dt
 
+	-- accuracy grade math
 	if crpistol.shotstaken > 0 and self.score > 0 then
 		self.totalscore = (self.score * (self.score / crpistol.shotstaken))
 	end
 	
 	self.accuracy = (self.score / crpistol.shotstaken) * 100
-
-
-
-
-
-
 
 	-- update zombies
 	zombie:update(dt)
@@ -455,6 +444,7 @@ function stuckmode:update(dt)
 	--- MOVE GAMEOVER TEXT ---
 	if gameover == true then
 		
+		-- slow down zombies
 		for i, o in ipairs(zombie.zombs) do
 			o.speed = 10
 		end
@@ -497,9 +487,6 @@ function stuckmode:draw()
 	------ FILTERS ------
 	self.layer1:setFilter( 'nearest', 'nearest' )
 	self.layer2:setFilter( 'nearest', 'nearest' )
-	self.hud1:setFilter( 'nearest', 'nearest' )
-	self.hud2:setFilter( 'nearest', 'nearest' )
-	self.hud3:setFilter( 'nearest', 'nearest' )
 	start.font0:setFilter( 'nearest', 'nearest' )
 	start.font1:setFilter( 'nearest', 'nearest' )
 	start.font2:setFilter( 'nearest', 'nearest' )
@@ -540,13 +527,7 @@ function stuckmode:draw()
 	-- layer2 of the map
 	love.graphics.draw(self.layer2, 0, 0)
 
-
-
-
-
-
-
-
+	-- draw mini health
 	if plyr.hurt == true and gameover == false or player.minihealthbar == true and gameover == false then
 		love.graphics.setColor(160, 47, 0, 200)
 		love.graphics.rectangle("line", plyr.x - 13, plyr.y + 14, 27, 3)
@@ -557,6 +538,7 @@ function stuckmode:draw()
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 
+	-- flash health
 	if plyr.health < player.maxhealth and player.hurttimer > 3 and plyr.hurt == false then
 		self.healthflashtimer = 0
 	end
@@ -569,12 +551,6 @@ function stuckmode:draw()
 		self.healthflashtimer = 10
 	end
 
-
-
-
-
-
-
 	game.Cam:detach()
 	------ CAMERA ------
 	
@@ -582,40 +558,23 @@ function stuckmode:draw()
 	-- the hud and the hud text
 	if gameover == false then
 		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		-- darw hud
 		love.graphics.setColor(0, 0, 0, 150)
 		love.graphics.rectangle("fill", 7, 7, 486, 22 )
 		love.graphics.setColor(160, 47, 0, 255)
 		love.graphics.rectangle("line", 6, 6, 488, 24 )
 
 		love.graphics.setColor(0, 0, 0, 150)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 278/2, 7, 382, 22 )
+		love.graphics.rectangle("fill", 501, 7, 382, 22 ) --501
 		love.graphics.setColor(160, 47, 0, 255)
-		love.graphics.rectangle("line", love.graphics.getWidth()/2 - 280/2, 6, 384, 24 )
+		love.graphics.rectangle("line", 500, 6, 384, 24 ) --500
 
 		love.graphics.setColor(0, 0, 0, 150)
-		love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 278/2 + 112, 7, 382, 22 )
+		love.graphics.rectangle("fill", 891, 7, 382, 22 ) --891
 		love.graphics.setColor(160, 47, 0, 255)
-		love.graphics.rectangle("line", love.graphics.getWidth()/2 + 280/2 + 110, 6, 384, 24 )
+		love.graphics.rectangle("line", 890, 6, 384, 24 ) --890
 
-
-
-
-
-
+		-- health colors
 		if plyr.health > 50 then
 			self.healthcolor1 = 0
 			self.healthcolor2 = 170
@@ -634,7 +593,7 @@ function stuckmode:draw()
 			self.healthcolor3 = 0
 		end
 
-
+		-- draw health bar
 		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.print("HEALTH:", 15, 15)
@@ -647,46 +606,30 @@ function stuckmode:draw()
 			love.graphics.setColor(255, 255, 255, 255)
 		end
 
-		love.graphics.setFont( start.font011 )
+		love.graphics.setFont( start.font9 )
 		love.graphics.setColor(255, 255, 255)
 		love.graphics.print(tostring(math.floor(plyr.health)).."%", 280, 15)
 
-
+		-- time
 		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print("TIME:"..tostring(math.floor(self.time)), love.graphics.getWidth()/2 + 295/2 + 110, 15)
+		love.graphics.print("TIME:"..tostring(math.floor(self.time)), 897.5, 15)
 
-
-
+		-- kill score
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.setFont( start.font0 )
-		love.graphics.print("KILLS:", love.graphics.getWidth()/2 - 260/2, 15)
-		love.graphics.print(tostring(self.score), love.graphics.getWidth()/2 - 80/2, 15)
+		love.graphics.print("KILLS:", 510, 15)
+		love.graphics.print(tostring(self.score), 600, 15)
 		love.graphics.setColor(255, 255, 255)
-
 
 		-- flash the wave text in hud white when the next wave is coming
 		if self.wavedrawtime < 5 then
 			love.graphics.setFont( start.font0 )
 			love.graphics.setColor(255, 255, 255, self.waveflash)
-			love.graphics.print("KILLS:", love.graphics.getWidth()/2 - 260/2, 15)
-			love.graphics.print(tostring(self.score), love.graphics.getWidth()/2 - 80/2, 15)
+			love.graphics.print("KILLS:", 510, 15)
+			love.graphics.print(tostring(self.score), 600, 15)
 			love.graphics.setColor(255, 255, 255)
 		end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	-- Game over title and the scores at the end of the game
 	elseif gameover == true then
@@ -709,15 +652,11 @@ function stuckmode:draw()
 			love.graphics.print("TIME:"..tostring(math.floor(self.time)), (love.graphics.getWidth()/2 - start.font2:getWidth("TIME:"..tostring(math.floor(self.time)))/2), 300)
 			love.graphics.print("KILLS:"..tostring(self.score), (love.graphics.getWidth()/2 - start.font2:getWidth("KILLS:"..tostring(self.score))/2), 340)
 			love.graphics.print("SHOTS:"..tostring(crpistol.shotstaken), (love.graphics.getWidth()/2 - start.font2:getWidth("SHOTS:"..tostring(crpistol.shotstaken))/2), 380)
-
 			love.graphics.setFont( start.font3 )
 			love.graphics.print("SCORE:"..tostring(math.floor(self.totalscore)), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(math.floor(self.totalscore)))/2), 440)
-
-
-			
-
 			love.graphics.setFont( start.font4 )
 
+			-- draw grades depedning on acuraccy
 			if crpistol.shotstaken < 1 and self.score < 1 then
 				self.totalscore = 0
 				love.graphics.print("N/A", (love.graphics.getWidth()/2 + 220), 335)
@@ -759,6 +698,7 @@ function stuckmode:draw()
 				love.graphics.print("A+", (love.graphics.getWidth()/2 + 220), 335)
 			end
 
+			-- flashing for grades
 			love.graphics.setColor(255, 255, 255, self.healthflash)
 
 			if crpistol.shotstaken < 1 and self.score < 1 then
@@ -802,16 +742,6 @@ function stuckmode:draw()
 			end
 
 			love.graphics.setColor(255, 255, 255)
-
-
-
-
-
-
-
-
-
-
 		end
 	end
 

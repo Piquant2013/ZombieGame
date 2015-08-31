@@ -2,7 +2,7 @@
 local Gamestate = require 'libs/hump/gamestate'
 
 -- Loads gamestate script
-local endless = require 'game/gamemodes/endless'
+local endless = require 'game/gamemodes/arcade'
 
 -- Loads gamestate script
 local stuckmode = require 'game/gamemodes/stuck'
@@ -474,8 +474,6 @@ function selectmode:update(dt)
 		self.buttonflashendless = 0
 	end
 
-
-
 	-- Flashing for the stuck button
 	if self.stuckstatemouse == true or self.stuckstate == true then
 		if self.flashbuttonstuck == true then
@@ -630,7 +628,7 @@ function selectmode:keypressed(key)
   	-- Go to the endless game mode
 	if key == "return" and self.endlessstate == true or key == " " and self.endlessstate == true then
 		Gamestate.push(endless)
-		game.endless = true
+		game.arcade = true
 		love.audio.play(self.entersound1)
 		love.audio.stop(start.music)
 		love.audio.play(game.intromusic)
@@ -697,7 +695,7 @@ function selectmode:mousepressed(mx, my, button)
 	-- Go to the endless game mode
 	if button == "l" and self.endlessstatemouse == true and self.backstatemouse == false and self.mouseover == true then
 		Gamestate.push(endless)
-		game.endless = true
+		game.arcade = true
 		love.audio.play(self.entersound1)
 		love.audio.stop(start.music)
 		love.audio.play(game.intromusic)
@@ -799,18 +797,18 @@ function selectmode:draw()
 		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 - 245 + 35))
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0, 100)
-		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 145), 0, self.scalearcade)
+		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 145), 0, self.scalearcade)
 		love.graphics.setColor(255, 255, 255, self.buttonflasharcade)
-		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 145), 0, self.scalearcade)
+		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 145), 0, self.scalearcade)
 		love.graphics.setColor(160, 47, 0, 255)
 		love.graphics.setFont( start.font1 )
 		love.graphics.setColor(160, 47, 0, 100)
 		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 - 145 + 35))
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 45), 0, self.scaleendless)
+		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 45), 0, self.scaleendless)
 		love.graphics.setColor(255, 255, 255, self.buttonflashendless)
-		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 45), 0, self.scaleendless)
+		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 45), 0, self.scaleendless)
 		love.graphics.setColor(160, 47, 0, 255)
 		love.graphics.print('STUCKINTHEMUD', (love.graphics.getWidth()/2 - start.font2:getWidth( "STUCKINTHEMUD" )/2), (love.graphics.getHeight()/2 - 30/2 + 55), 0, self.scalestuck)
 		love.graphics.setColor(255, 255, 255, self.buttonflashstuck)
@@ -864,7 +862,7 @@ function selectmode:draw()
 	if self.arcade == true then
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print('ARCADE MODE (COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE (COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 + 150))
+		love.graphics.print('ENDLESS MODE (COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE (COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 + 150))
 	end
 
 	love.graphics.setColor(255, 255, 255)

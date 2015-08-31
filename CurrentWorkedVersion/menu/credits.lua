@@ -33,7 +33,7 @@ function credits:keypressed(key)
 		
 		elseif paused == true then
 			
-			if setendless == false then
+			if setarcade == false then
 				love.audio.resume(game.music1)
 			end
 
@@ -64,7 +64,7 @@ function credits:mousepressed(mx, my, button)
 		
 		elseif paused == true then
 			
-			if setendless == false then
+			if setarcade == false then
 				love.audio.resume(game.music1)
 			end
 

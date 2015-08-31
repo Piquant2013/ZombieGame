@@ -68,14 +68,14 @@ function inv:draw()
 		------ FILTERS ------
 		
 		------ IMAGES ------
-		if endless.invhad == false then
+		if arcade.invhad == false then
 			love.graphics.draw(o.sprite, o.x, o.y)
-			love.graphics.setColor(255, 255, 255, endless.gunsflash)
+			love.graphics.setColor(255, 255, 255, arcade.gunsflash)
 			love.graphics.draw(o.sprite2, o.x, o.y)
 			love.graphics.setColor(255, 255, 255)
 		end
 
-		if endless.invhave == true then
+		if arcade.invhave == true then
 			love.graphics.draw(o.sprite3, plyr.x, plyr.y, 0, 1, 1, plyr.sprite:getWidth()/2, plyr.sprite:getHeight()/2)
 		end
 		------ IMAGES ------

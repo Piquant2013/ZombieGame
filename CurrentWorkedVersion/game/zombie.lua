@@ -26,8 +26,8 @@ function zombie:spawn()
 
 	if self.spawnrate <= 0 then
 		
-		-- Sets the random spawn points for the zombies in endless
-		if game.endless == true then
+		-- Sets the random spawn points for the zombies in arcade
+		if game.arcade == true then
 			self.postion = love.math.random(1, 4)
 			if self.postion == 1 then
 				self.zrx = love.math.random(100, 1100)

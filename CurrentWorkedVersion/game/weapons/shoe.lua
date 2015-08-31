@@ -66,9 +66,9 @@ function shoe:draw()
 		------ FILTERS ------
 		
 		------ IMAGES ------
-		if endless.shoehad == false then
+		if arcade.shoehad == false then
 			love.graphics.draw(o.sprite, o.x, o.y)
-			love.graphics.setColor(255, 255, 255, endless.gunsflash)
+			love.graphics.setColor(255, 255, 255, arcade.gunsflash)
 			love.graphics.draw(o.sprite2, o.x, o.y)
 			love.graphics.setColor(255, 255, 255)
 		end
