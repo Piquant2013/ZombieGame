@@ -229,7 +229,7 @@ function arcade:update(dt)
 		-- scores
 		self.score = 0
 		self.time = 0
-		self.wave = 15
+		self.wave = 1
 		self.totalscore = 0
 		self.kills = 0
 		self.killamount = 100
