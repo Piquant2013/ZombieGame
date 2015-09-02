@@ -490,12 +490,12 @@ function arcade:update(dt)
 	-- turn pistol firerate back
 	if self.pistolhave == true then
 		
-		if self.wave < 15 then
+		if self.wave < 10 then
 			pistol.cooldownplus = 0.25
 		end
 
-		if self.wave > 14 then
-			pistol.cooldownplus = 0.70
+		if self.wave > 9 then
+			pistol.cooldownplus = 0.60
 		end
 	end
 
@@ -718,13 +718,13 @@ function arcade:update(dt)
 	end
 
 	-- Spawning
-	if self.spawnshoe == true and self.shoespawnscore == 3 and self.wave < 10 or self.spawnshoe == true and self.shoespawnscore == 5 and self.wave > 9 and plyr.speed < 50 then
+	if self.spawnshoe == true and self.shoespawnscore == 3 and self.wave < 10 or self.spawnshoe == true and self.shoespawnscore == 4 and self.wave > 9 and plyr.speed < 50 then
 		shoe:spawn()
 		self.shoespawnscore = 0
 	end
 
 	-- dont allow spawning till wave 5
-	if self.shoespawnscore > 5 then
+	if self.shoespawnscore > 4 then
 		self.shoespawnscore = 0
 	end
 

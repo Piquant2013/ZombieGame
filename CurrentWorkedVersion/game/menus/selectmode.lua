@@ -2,7 +2,7 @@
 local Gamestate = require 'libs/hump/gamestate'
 
 -- Loads gamestate script
-local endless = require 'game/gamemodes/arcade'
+local arcade = require 'game/gamemodes/arcade'
 
 -- Loads gamestate script
 local stuckmode = require 'game/gamemodes/stuck'
@@ -18,13 +18,13 @@ function selectmode:init()
 	self.survivalbtny = 100
 	self.survivalbtnx = 548
 
-	-- Arcade menu Button Y & X  
-	self.arcadebtny = 200
-	self.arcadebtnx = 512
-
 	-- Endless menu Button Y & X  
-	self.endlessbtny = 300
-	self.endlessbtnx = 476
+	self.endlessbtny = 200
+	self.endlessbtnx = 512
+
+	-- Arcade menu Button Y & X  
+	self.arcadebtny = 300
+	self.arcadebtnx = 476
 
 	-- Stuck menu Button Y & X  
 	self.stuckbtny = 400
@@ -38,9 +38,9 @@ function selectmode:init()
 	self.survivalarrowy = 232
 	self.survivalarrowx = 665
 	
-	-- Arcade Selecter Y & X
-	self.arcadearrowy = 347
-	self.arcadearrowx = 665
+	-- endless Selecter Y & X
+	self.endlessarrowy = 347
+	self.endlessarrowx = 665
 
 	-- back arrow
 	self.backy = -100
@@ -53,7 +53,7 @@ function selectmode:init()
 
 	-- If in area
 	self.survival = false
-	self.arcade = false
+	self.endless = false
 
 	-- Scale vars for buttons
 	self.scalesurvival = 1
@@ -121,7 +121,7 @@ end
 
 function selectmode:update(dt)
 
-	-- Stop arrow from moving and sounds when in survival or arcade screens
+	-- Stop arrow from moving and sounds when in survival or endless screens
 	if self.survival == true then
 		self.arrowy = self.survivalbtny
 		love.audio.stop(self.select1)
@@ -130,8 +130,8 @@ function selectmode:update(dt)
 		love.audio.stop(self.select4)
 	end
 
-	if self.arcade == true then
-		self.arrowy = self.arcadebtny
+	if self.endless == true then
+		self.arrowy = self.endlessbtny
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
@@ -156,36 +156,36 @@ function selectmode:update(dt)
 		self.scaleback = 1
 	end
 
-	-- Arcade pause menu state
-	if self.arrowy < self.endlessbtny and self.arrowy > self.survivalbtny then
+	-- endless pause menu state
+	if self.arrowy < self.arcadebtny and self.arrowy > self.survivalbtny then
 		self.arrowx = love.graphics.getWidth()/2 - 455 /2
 		self.survivalstate = false
-		self.endlessstate = false
-		self.arcadestate = true
+		self.arcadestate = false
+		self.endlessstate = true
 		self.stuckstate = false
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
 		love.audio.stop(self.select4)
 		self.scalesurvival = 1
-		self.scalearcade = 1.1
-		self.scaleendless = 1
+		self.scalearcade = 1
+		self.scaleendless = 1.1
 		self.scalestuck = 1
 		self.scaleback = 1
 	end
 
-	-- Endless pause pause menu state
-	if self.arrowy > self.arcadebtny and self.arrowy < self.stuckbtny then
+	-- arcade pause pause menu state
+	if self.arrowy > self.endlessbtny and self.arrowy < self.stuckbtny then
 		self.arrowx = love.graphics.getWidth()/2 - 490 /2
 		self.survivalstate = false
-		self.endlessstate = true
-		self.arcadestate = false
+		self.arcadestate = true
+		self.endlessstate = false
 		self.stuckstate = false
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select3)
 		love.audio.stop(self.select4)
 		self.scalesurvival = 1
-		self.scalearcade = 1
-		self.scaleendless = 1.1
+		self.scalearcade = 1.1
+		self.scaleendless = 1
 		self.scalestuck = 1
 		self.scaleback = 1
 	end
@@ -224,13 +224,13 @@ function selectmode:update(dt)
 		self.survival = true
 	end
 
-	-- Pushes arcade arrow back if it trys to pass off else turn arcade true or false
-	if self.arcadearrowx > self.arcadebtnx then
-		self.arcadearrowx = self.arcadebtnx - 118
-	elseif self.arcadearrowx == self.arcadebtnx - 118 then
-		self.arcade = false
-	elseif self.arcadearrowx == self.arcadebtnx then	
-		self.arcade = true
+	-- Pushes endless arrow back if it trys to pass off else turn endless true or false
+	if self.endlessarrowx > self.endlessbtnx then
+		self.endlessarrowx = self.endlessbtnx - 118
+	elseif self.endlessarrowx == self.endlessbtnx - 118 then
+		self.endless = false
+	elseif self.endlessarrowx == self.endlessbtnx then	
+		self.endless = true
 	end
 
 	-- MOUSE AREAS --
@@ -239,7 +239,7 @@ function selectmode:update(dt)
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50 
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "SURVIVAL MODE" )/2 - 250) - 35
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "SURVIVAL MODE" )/2 - 250) + start.font2:getHeight( "SURVIVAL MODE" ) + 35
-		and self.survival == false and self.arcade == false then
+		and self.survival == false and self.endless == false then
 		self.survivalstatemouse = true
 		self.arcadestatemouse = false
 		self.endlessstatemouse = false
@@ -261,22 +261,22 @@ function selectmode:update(dt)
 		self.mousedetect5 = 0
 	end
 
-	-- Mouse area of arcade button
+	-- Mouse area of endless button
 	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250 
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50 
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "ARCADE MODE" )/2 - 150) - 35
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "ARCADE MODE" )/2 - 150) + start.font2:getHeight( "ARCADE MODE" ) + 35
-		and self.survival == false and self.arcade == false then
+		and self.survival == false and self.endless == false then
 		self.survivalstatemouse = false
-		self.arcadestatemouse = true
-		self.endlessstatemouse = false
+		self.arcadestatemouse = false
+		self.endlessstatemouse = true
 		self.stuckstatemouse = false
 		self.backstatemouse = false
 		self.arrowx = love.graphics.getWidth()/2 - 455 /2
-		self.arrowy = self.arcadebtny
+		self.arrowy = self.endlessbtny
 		self.scalesurvival = 1
-		self.scalearcade = 1.1
-		self.scaleendless = 1
+		self.scalearcade = 1
+		self.scaleendless = 1.1
 		self.scalestuck = 1
 		self.scaleback = 1
 		self.mouseover = true
@@ -288,22 +288,22 @@ function selectmode:update(dt)
 		self.mousedetect5 = 0
 	end
 
-	-- Mouse area of endless button
+	-- Mouse area of arcade button
 	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2 + start.font2:getWidth( "SURVIVAL MODE" )/2) + 250 
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50 
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "ENDLESS MODE" )/2 - 50) - 35
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "ENDLESS MODE" )/2 - 50) + start.font2:getHeight( "ENDLESS MODE" ) + 35
-		and self.survival == false and self.arcade == false then
+		and self.survival == false and self.endless == false then
 		self.survivalstatemouse = false
-		self.arcadestatemouse = false
-		self.endlessstatemouse = true
+		self.arcadestatemouse = true
+		self.endlessstatemouse = false
 		self.stuckstatemouse = false
 		self.backstatemouse = false
 		self.arrowx = love.graphics.getWidth()/2 - 490 /2
-		self.arrowy = self.endlessbtny
+		self.arrowy = self.arcadebtny
 		self.scalesurvival = 1
-		self.scalearcade = 1
-		self.scaleendless = 1.1
+		self.scalearcade = 1.1
+		self.scaleendless = 1
 		self.scalestuck = 1
 		self.scaleback = 1
 		self.mouseover = true
@@ -320,7 +320,7 @@ function selectmode:update(dt)
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2) - 50 
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "STUCKINTHEMUD" )/2 + 50) - 35
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "STUCKINTHEMUD" )/2 + 50) + start.font2:getHeight( "STUCKINTHEMUD" ) + 35 
-		and self.survival == false and self.arcade == false then
+		and self.survival == false and self.endless == false then
 		self.survivalstatemouse = false
 		self.arcadestatemouse = false
 		self.endlessstatemouse = false
@@ -343,7 +343,7 @@ function selectmode:update(dt)
 	end
 
 	-- Mouse area of back button
-	if love.mouse.getX() < (love.graphics.getWidth()/2 - 290) - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" ) + 30 and love.mouse.getX() > (love.graphics.getWidth()/2 - 310) - start.font2:getWidth( "<" )/2 - 40 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy - 40 and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy + start.font2:getHeight( "<" ) + 30 and self.survival == false and self.arcade == false then
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - 290) - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" ) + 30 and love.mouse.getX() > (love.graphics.getWidth()/2 - 310) - start.font2:getWidth( "<" )/2 - 40 and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy - 40 and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy + start.font2:getHeight( "<" ) + 30 and self.survival == false and self.endless == false then
 		self.survivalstatemouse = false
 		self.arcadestatemouse = false
 		self.endlessstatemouse = false
@@ -620,14 +620,14 @@ function selectmode:keypressed(key)
 		self.survivalarrowx = self.survivalarrowx + 118
 	end
 
-	-- Go back and forth between arcade
-	if key == "return" and self.arcadestate == true or key == " " and self.arcadestate == true or key == 'escape' and self.arcade == true then
-		self.arcadearrowx = self.arcadearrowx + 118
+	-- Go back and forth between endless
+	if key == "return" and self.endlessstate == true or key == " " and self.endlessstate == true or key == 'escape' and self.endless == true then
+		self.endlessarrowx = self.endlessarrowx + 118
 	end
   
-  	-- Go to the endless game mode
-	if key == "return" and self.endlessstate == true or key == " " and self.endlessstate == true then
-		Gamestate.push(endless)
+  	-- Go to the arcade game mode
+	if key == "return" and self.arcadestate == true or key == " " and self.arcadestate == true then
+		Gamestate.push(arcade)
 		game.arcade = true
 		love.audio.play(self.entersound1)
 		love.audio.stop(start.music)
@@ -654,27 +654,27 @@ function selectmode:keypressed(key)
 		setfull = false
 	end
 
-	-- Enter sounds for survial and arcade
+	-- Enter sounds for survial and endless
 	if key == "return" and self.survivalstate == true and self.survival == false or key == " " and self.survivalstate == true and self.survival == false then
 		love.audio.play(self.entersound1)
 	end	
 
-	if key == "return" and self.arcadestate == true and self.arcade == false or key == " " and self.arcadestate == true and self.arcade == false then
+	if key == "return" and self.endlessstate == true and self.endless == false or key == " " and self.endlessstate == true and self.endless == false then
 		love.audio.play(self.entersound1)
 	end
 
-	-- Exit sounds for survival and arcade
+	-- Exit sounds for survival and endless
 	if key == "return" and self.survivalstate == true and self.survival == true or key == " " and self.survivalstate == true and self.survival == true or key == 'escape' and self.survivalstate == true and self.survival == true then
 		love.audio.play(self.backsound)
 	end	
 
-	if key == "return" and self.arcadestate == true and self.arcade == true or key == " " and self.arcadestate == true and self.arcade == true or key == 'escape' and self.arcadestate == true and self.arcade == true then
+	if key == "return" and self.endlessstate == true and self.endless == true or key == " " and self.endlessstate == true and self.endless == true or key == 'escape' and self.endlessstate == true and self.endless == true then
 		love.audio.play(self.backsound)
 	end
 	-- ACTIVATE BUTTONS --
 
 	-- Go back to main menu
-	if key == 'escape' and self.survival == false and self.arcade == false then
+	if key == 'escape' and self.survival == false and self.endless == false then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 	end
@@ -687,14 +687,14 @@ function selectmode:mousepressed(mx, my, button)
 		self.survivalarrowx = self.survivalarrowx + 118
 	end
 
-	-- Go back and forth between arcade
-	if button == "l" and self.arcadestatemouse == true and self.backstatemouse == false and self.mouseover == true or button == "r" and self.arcadestatemouse == true and self.backstatemouse == false and self.mouseover == true then
-		self.arcadearrowx = self.arcadearrowx + 118
+	-- Go back and forth between endless
+	if button == "l" and self.endlessstatemouse == true and self.backstatemouse == false and self.mouseover == true or button == "r" and self.endlessstatemouse == true and self.backstatemouse == false and self.mouseover == true then
+		self.endlessarrowx = self.endlessarrowx + 118
 	end
 
-	-- Go to the endless game mode
-	if button == "l" and self.endlessstatemouse == true and self.backstatemouse == false and self.mouseover == true then
-		Gamestate.push(endless)
+	-- Go to the arcade game mode
+	if button == "l" and self.arcadestatemouse == true and self.backstatemouse == false and self.mouseover == true then
+		Gamestate.push(arcade)
 		game.arcade = true
 		love.audio.play(self.entersound1)
 		love.audio.stop(start.music)
@@ -720,21 +720,21 @@ function selectmode:mousepressed(mx, my, button)
 		setfull = false
 	end
 
-	-- Enter sounds for survival and arcade
+	-- Enter sounds for survival and endless
 	if button == "l" and self.survivalstatemouse == true and self.survival == false and self.backstatemouse == false and self.mouseover == true or button == "r" and self.survivalstatemouse == true and self.survival == false and self.backstatemouse == false and self.mouseover == true then
 		love.audio.play(self.entersound1)
 	end
 	
-	if button == "l" and self.arcadestatemouse == true and self.arcade == false and self.backstatemouse == false and self.mouseover == true or button == "r" and self.arcadestatemouse == true and self.arcade == false and self.backstatemouse == false and self.mouseover == true then
+	if button == "l" and self.endlessstatemouse == true and self.endless == false and self.backstatemouse == false and self.mouseover == true or button == "r" and self.endlessstatemouse == true and self.endless == false and self.backstatemouse == false and self.mouseover == true then
 		love.audio.play(self.entersound1)
 	end
 	
-	-- Exit sounds for survival and arcade
+	-- Exit sounds for survival and endless
 	if button == "l" and self.survivalstatemouse == true and self.survival == true and self.backstatemouse == false and self.mouseover == true or button == "r" and self.survivalstatemouse == true and self.survival == true and self.backstatemouse == false and self.mouseover == true then
 		love.audio.play(self.backsound)
 	end
 	
-	if button == "l" and self.arcadestatemouse == true and self.arcade == true and self.backstatemouse == false and self.mouseover == true or button == "r" and self.arcadestatemouse == true and self.arcade == true and self.backstatemouse == false and self.mouseover == true then
+	if button == "l" and self.endlessstatemouse == true and self.endless == true and self.backstatemouse == false and self.mouseover == true or button == "r" and self.endlessstatemouse == true and self.endless == true and self.backstatemouse == false and self.mouseover == true then
 		love.audio.play(self.backsound)
 	end
 
@@ -745,7 +745,7 @@ function selectmode:mousepressed(mx, my, button)
 	end
 
 	-- Go back to main menu
-	if button == "r" and self.survival == false and self.arcade == false then
+	if button == "r" and self.survival == false and self.endless == false then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 	end
@@ -769,23 +769,23 @@ function selectmode:draw()
 		love.graphics.draw(self.screenshot2, (love.graphics.getWidth()/2 - self.screenshot2:getWidth()/2), (love.graphics.getHeight()/2 - self.screenshot2:getHeight()/2))
 	end
 
-	-- Draws screenshot if in arcade
-	if self.arcade == true then
+	-- Draws screenshot if in endless
+	if self.endless == true then
 		love.graphics.draw(self.screenshot1, (love.graphics.getWidth()/2 - self.screenshot1:getWidth()/2), (love.graphics.getHeight()/2 - self.screenshot1:getHeight()/2))
 	end
 	------ IMAGES ------
 
 	------ SHAPES ------
-	-- Only draw arrow if not in survival or arcade
-	if self.survival == false and self.arcade == false then
+	-- Only draw arrow if not in survival or endless
+	if self.survival == false and self.endless == false then
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.rectangle("fill", self.arrowx, (love.graphics.getHeight()/2 - 28/2) + self.arrowy - 8 - 345, 28, 28 )
 	end
 	------ SHAPES ------
 
 	------ TEXT ------
-	-- Only draw buttons if not in survival or arcade
-	if self.survival == false and self.arcade == false then
+	-- Only draw buttons if not in survival or endless
+	if self.survival == false and self.endless == false then
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0, 100)
 		love.graphics.print('SURVIVAL MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 245), 0, self.scalesurvival)
@@ -797,18 +797,18 @@ function selectmode:draw()
 		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 - 245 + 35))
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0, 100)
-		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 145), 0, self.scalearcade)
-		love.graphics.setColor(255, 255, 255, self.buttonflasharcade)
-		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 145), 0, self.scalearcade)
+		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 145), 0, self.scaleendless)
+		love.graphics.setColor(255, 255, 255, self.buttonflashendless)
+		love.graphics.print('ENDLESS MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 145), 0, self.scaleendless)
 		love.graphics.setColor(160, 47, 0, 255)
 		love.graphics.setFont( start.font1 )
 		love.graphics.setColor(160, 47, 0, 100)
 		love.graphics.print('(COMING SOON)', (love.graphics.getWidth()/2 - start.font1:getWidth( "(COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 - 145 + 35))
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 45), 0, self.scaleendless)
-		love.graphics.setColor(255, 255, 255, self.buttonflashendless)
-		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 45), 0, self.scaleendless)
+		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 45), 0, self.scalearcade)
+		love.graphics.setColor(255, 255, 255, self.buttonflasharcade)
+		love.graphics.print('ARCADE MODE', (love.graphics.getWidth()/2 - start.font2:getWidth( "ARCADE MODE" )/2), (love.graphics.getHeight()/2 - 30/2 - 45), 0, self.scalearcade)
 		love.graphics.setColor(160, 47, 0, 255)
 		love.graphics.print('STUCKINTHEMUD', (love.graphics.getWidth()/2 - start.font2:getWidth( "STUCKINTHEMUD" )/2), (love.graphics.getHeight()/2 - 30/2 + 55), 0, self.scalestuck)
 		love.graphics.setColor(255, 255, 255, self.buttonflashstuck)
@@ -829,14 +829,14 @@ function selectmode:draw()
 			love.graphics.print("HELP YOU FEND OFF THE UNDEAD.", (love.graphics.getWidth()/2 - start.font1:getWidth( "HELP YOU FEND OFF THE UNDEAD." )/2), (love.graphics.getHeight()/2 - 30/2 + 260))
 		end
 
-		if self.arcadestate == true then
+		if self.endlessstate == true then
 			love.graphics.setFont( start.font1 )
 			love.graphics.print("SURVIVE! (UNTIL THE END) FIGHT WAVES", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (UNTIL THE END) FIGHT WAVES" )/2), (love.graphics.getHeight()/2 - 30/2 + 190))
 			love.graphics.print("OF UNDEAD AND UPGRADE YOUR ARSENAL", (love.graphics.getWidth()/2 - start.font1:getWidth( "OF UNDEAD AND UPGRADE YOUR ARSENAL" )/2), (love.graphics.getHeight()/2 - 30/2 + 225))
 			love.graphics.print("WHILE YOURE AT IT.", (love.graphics.getWidth()/2 - start.font1:getWidth( "WHILE YOURE AT IT." )/2), (love.graphics.getHeight()/2 - 30/2 + 260))
 		end
 
-		if self.endlessstate == true then
+		if self.arcadestate == true then
 			love.graphics.setFont( start.font1 )
 			love.graphics.print("SURVIVE! (AS LONG AS YOU CAN)", (love.graphics.getWidth()/2 - start.font1:getWidth( "SURVIVE! (AS LONG AS YOU CAN)" )/2), (love.graphics.getHeight()/2 - 30/2 + 190))
 			love.graphics.print("DEFEND YOURSELF AGAINST AN ENDLESS HORDE", (love.graphics.getWidth()/2 - start.font1:getWidth( "DEFEND YOURSELF AGAINST AN ENDLESS HORDE" )/2), (love.graphics.getHeight()/2 - 30/2 + 225))
@@ -858,8 +858,8 @@ function selectmode:draw()
 		love.graphics.print('SURVIVAL MODE (COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "SURVIVAL MODE (COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 + 150))
 	end
 
-	-- Draw text if in arcade
-	if self.arcade == true then
+	-- Draw text if in endless
+	if self.endless == true then
 		love.graphics.setFont( start.font2 )
 		love.graphics.setColor(160, 47, 0)
 		love.graphics.print('ENDLESS MODE (COMING SOON)', (love.graphics.getWidth()/2 - start.font2:getWidth( "ENDLESS MODE (COMING SOON)" )/2), (love.graphics.getHeight()/2 - 30/2 + 150))

@@ -475,7 +475,7 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 					o.health = o.health - 10
 					love.audio.play(o.damageaudio)
 
-					if arcade.wave < 14 or arcade.minihave == true or arcade.smghave == true or arcade.queminihave == true or arcade.quesmghave == true then 
+					if arcade.wave < 10 or arcade.minihave == true or arcade.smghave == true or arcade.queminihave == true or arcade.quesmghave == true then 
 						Collider:remove(v.bb)
 						table.remove(pistol.bullets, c)
 					end
@@ -496,12 +496,12 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 						arcade.totalscore = arcade.totalscore + 10
 						
 						-- count the bullets for shot gun double kills
-						if arcade.wave > 14 and arcade.smghave == false or arcade.wave > 14 and arcade.minihave == false or arcade.wave > 14 and arcade.quesmghave == false or arcade.wave > 14 and arcade.queminihave == false then
+						if arcade.wave > 9 and arcade.smghave == false or arcade.wave > 9 and arcade.minihave == false or arcade.wave > 9 and arcade.quesmghave == false or arcade.wave > 9 and arcade.queminihave == false then
 							v.dead = v.dead + 1
 						end
 
 						-- allow 2 kill per bullet for shotgun
-						if v.dead == 2 and arcade.wave > 14 and arcade.smghave == false or v.dead == 2 and arcade.wave > 14 and arcade.minihave == false or v.dead == 2 and arcade.wave > 14 and arcade.quesmghave == false or v.dead == 2 and arcade.wave > 14 and arcade.queminihave == false then
+						if v.dead == 2 and arcade.wave > 9 and arcade.smghave == false or v.dead == 2 and arcade.wave > 9 and arcade.minihave == false or v.dead == 2 and arcade.wave > 9 and arcade.quesmghave == false or v.dead == 2 and arcade.wave > 9 and arcade.queminihave == false then
 							Collider:remove(v.bb)
 							table.remove(pistol.bullets, c)
 						end

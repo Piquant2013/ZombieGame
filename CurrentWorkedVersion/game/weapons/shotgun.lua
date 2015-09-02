@@ -57,7 +57,7 @@ function pistol:update(dt)
 			self.direction = math.atan2(gmy - pis.y, gmx - pis.x)
 
 			-- Shotgun bullets
-			if arcade.wave > 14 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
+			if arcade.wave > 9 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
 				
 				-- left
 				gmlx = mx1 - -6 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
@@ -77,7 +77,7 @@ function pistol:update(dt)
 			self.direction = math.atan2(my1 - pis.y, mx1 - pis.x)
 
 			-- Shotgun bullets
-			if arcade.wave > 14 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
+			if arcade.wave > 9 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
 				
 				-- left
 				gmlx = mx1 - -0.5 * math.sin(math.atan2(my1 - pis.y, mx1 - pis.x))
@@ -110,7 +110,7 @@ function pistol:update(dt)
 		bullet.sprite = love.graphics.newImage("images/weapons/bullet-pistol.png")
 
 		-- Shotgun bullets
-		if arcade.wave > 14 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
+		if arcade.wave > 9 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
 			
 			-- The contents of the left bullet table
 			bulletleft.x = pis.x
@@ -139,18 +139,18 @@ function pistol:update(dt)
 		table.insert(self.bullets, bullet)
 
 		-- Shotgun bullets
-		if arcade.wave > 14 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
+		if arcade.wave > 9 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
 			table.insert(self.bullets, bulletleft)
 			table.insert(self.bullets, bulletright)
 		end
 
 		self.cooldown = self.cooldownplus
 
-		if arcade.wave < 14 or arcade.smghave == true or arcade.minihave == true or arcade.queminihave == true or arcade.quesmghave == true then
+		if arcade.wave < 10 or arcade.smghave == true or arcade.minihave == true or arcade.queminihave == true or arcade.quesmghave == true then
 			love.audio.play(bullet.sound)
 		end
 
-		if arcade.wave > 14 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
+		if arcade.wave > 9 and arcade.smghave == false and arcade.minihave == false and arcade.queminihave == false and arcade.quesmghave == false then
 			love.audio.play(bullet.sound2)
 		end
 
