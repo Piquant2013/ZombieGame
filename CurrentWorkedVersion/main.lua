@@ -26,9 +26,10 @@ function love.load()
 	------ GOLBAL VARIABLES ------
 	setfps = false
 	setmute = false
-	setmouselock = true
+	setmouselock = false
 	setfull = false
 	setgamefull = false
+	setfpslock = false
 	paused = false
 	resume = false
 	gamereset = true
@@ -52,9 +53,6 @@ function love.mousepressed(mx, my, button)
 end
 
 function love.update(dt)
-	
-	-- Set the frame rate limit to 60
-	frame_limiter.set(60)
 
 	-- Set game audio to 0 if the options script tells mute to be true
 	if setmute == true then
@@ -73,11 +71,18 @@ function love.update(dt)
 		love.mouse.setGrabbed( false )
 	end
 
+	-- Locks the fps to the screen
+	if setfpslock == false then
+		frame_limiter.set(999)
+	elseif setfpslock == true then
+		frame_limiter.set(60)
+	end
+
 	-- Set game fullscreen
-	if setfull == true then
-		love.window.setFullscreen(true, "desktop")
+	if setfull == true then -- cant be in update
+		--love.window.setMode(1280, 720, {fullscreen=true})
 	elseif setfull == false then
-		love.window.setFullscreen(false, "desktop")
+		--love.window.setMode(1280, 720, {fullscreen=false})
 	end
 
 	-- Sets up each individual script to use its own love.update, love.load, etc

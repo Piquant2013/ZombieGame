@@ -182,7 +182,7 @@ function start:draw()
 	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.setFont( start.font0 )
 	love.graphics.setColor(160, 47, 0)
-	love.graphics.print('Pre-Alpha 0.1.2', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.1") - 10))
+	love.graphics.print('Pre-Alpha 0.1.3', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.3") - 10))
 	love.graphics.setColor(255, 255, 255, 255)
 	------ TEXT ------
 end

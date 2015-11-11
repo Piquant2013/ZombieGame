@@ -1,6 +1,5 @@
 -- Credit to Wojak from the Love2d Forums.
 
-
 local FPS_L = 300
 return {
 run = function()
