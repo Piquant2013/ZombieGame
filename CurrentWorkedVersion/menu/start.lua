@@ -80,9 +80,9 @@ function start:update(dt)
 	--- TEXT FLASH ---
 
 	-- if fullscreens was on before you entered a game switch it back on
-	if setfull == false and setgamefull == true then
-		setfull = true
-	end
+	--if setfull == false and setgamefull == true then
+		--setfull = true
+	--end
 
 	-- Update easter egg
 	start:colorupdate(dt)

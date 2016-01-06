@@ -619,6 +619,12 @@ function options:keypressed(key)
 	if key == "escape" then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
+
+		if paused == true then
+			self.arrowy = -50
+		elseif paused == false then
+			self.arrowy = 100
+		end 
 	end
 end
 
@@ -674,12 +680,24 @@ function options:mousepressed(mx, my, button)
 	if button == "l" and self.backstatemouse == true then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
+
+		if paused == true then
+			self.arrowy = -50
+		elseif paused == false then
+			self.arrowy = 100
+		end 
 	end
 
 	-- Go back to the start screen
 	if button == "r" then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
+
+		if paused == true then
+			self.arrowy = -50
+		elseif paused == false then
+			self.arrowy = 100
+		end 
 	end
 end
 

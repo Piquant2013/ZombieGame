@@ -47,13 +47,6 @@ function advanced:init()
 	-- Back button
 	self.backy = 150
 
-
-
-
-
-
-
-
 	-- FPS Selecter Y & X
 	self.fpsarrowy = 232
 	self.fpsarrowx = 665
@@ -78,13 +71,6 @@ function advanced:init()
 	self.fullscreenarrowy = 232
 	self.fullscreenarrowx = 665
 	self.fullscreenbtnx = 492
-
-
-
-
-
-
-
 
 	-- Button Selecter Y & X
 	self.arrowy = (self.fpsbtny)
@@ -683,12 +669,12 @@ function advanced:update(dt)
 	-- Pushes fullscreen arrow back if it trys to pass off else turn setfullscreen true or false
 	if self.fullscreenarrowx > self.fullscreenbtnx then
 		self.fullscreenarrowx = self.fullscreenbtnx - 118
-	elseif self.fullscreenarrowx == self.fullscreenbtnx - 118 and setgamefull == true then
+	elseif self.fullscreenarrowx == self.fullscreenbtnx - 118 then --and setgamefull == true then
 		setfull = false
-		setgamefull = false
-	elseif self.fullscreenarrowx == self.fullscreenbtnx and setgamefull == false then	
+		--setgamefull = false
+	elseif self.fullscreenarrowx == self.fullscreenbtnx then --and setgamefull == false then	
 		setfull = true
-		setgamefull = true
+		--setgamefull = true
 	end
 
 	-- Pushes fpslock arrow back if it trys to pass off else turn setfpslock true or false
@@ -1258,9 +1244,6 @@ function advanced:keypressed(key)
 		love.audio.play(self.entersound1)
 	end
 
-	
-
-
 	-- go to moregames screen
 	if key == "return" and self.fullscreenstate == true and setfull == false or key == " " and self.fullscreenstate == true and setfull == false then
 		love.audio.play(self.entersound1)
@@ -1274,9 +1257,6 @@ function advanced:keypressed(key)
 		self.fullscreenarrowx = self.fullscreenarrowx + 118
 		love.window.setMode(1280, 720, {fullscreen=false})
 	end
-
-
-
 
 	-- go to moregames screen
 	if key == "return" and self.windowlockstate == true or key == " " and self.windowlockstate == true then
@@ -1323,6 +1303,7 @@ function advanced:keypressed(key)
 		self.fullscreenarrowy = 232
 		self.fullscreenarrowx = 665
 		self.fullscreenbtnx = 492
+		love.window.setMode(1280, 720, {fullscreen=false})
 	end
 
 	-- go to moregames screen
@@ -1336,6 +1317,7 @@ function advanced:keypressed(key)
 	if key == "escape" then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
+		self.arrowy = -262
 	end
 end
 
@@ -1523,7 +1505,9 @@ function advanced:draw()
 		love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font2:getWidth( "OFF" )/2) + 165, (love.graphics.getHeight()/2 - start.font2:getHeight( "OFF" )/2) + self.mutebtny)
 	end
 
-	love.graphics.print('1280x720', love.graphics.getWidth()/2 + 115, (love.graphics.getHeight()/2 - start.font2:getHeight( "RESOLUTION:" )/2) + self.resolutionbtny, 0)
+	love.graphics.setColor(160, 47, 0, 100)
+	love.graphics.print('COMING SOON', love.graphics.getWidth()/2 + 115, (love.graphics.getHeight()/2 - start.font2:getHeight( "RESOLUTION:" )/2) + self.resolutionbtny, 0)
+	love.graphics.setColor(160, 47, 0, 255)
 	-- TEMP
 
 	-- draw back button

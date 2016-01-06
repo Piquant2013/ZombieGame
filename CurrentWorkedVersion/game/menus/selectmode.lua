@@ -637,6 +637,7 @@ function selectmode:keypressed(key)
 		game.intromusic:setVolume(0.6)
 		game.intromusic:setLooping(true)
 		setfull = false
+		self.arrowy = 100
 	end
 
 	-- Go to the stuck game mode
@@ -652,6 +653,7 @@ function selectmode:keypressed(key)
 		game.intromusic:setLooping(true)
 		self.gamefullscreen = false
 		setfull = false
+		self.arrowy = 100
 	end
 
 	-- Enter sounds for survial and endless
@@ -677,6 +679,7 @@ function selectmode:keypressed(key)
 	if key == 'escape' and self.survival == false and self.endless == false then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
+		self.arrowy = 100
 	end
 end
 
@@ -704,6 +707,7 @@ function selectmode:mousepressed(mx, my, button)
 		game.intromusic:setVolume(0.6)
 		game.intromusic:setLooping(true)
 		setfull = false
+		self.arrowy = 100
 	end
 
 	-- Go to the stuck game mode
@@ -718,6 +722,7 @@ function selectmode:mousepressed(mx, my, button)
 		game.intromusic:setVolume(0.6)
 		game.intromusic:setLooping(true)
 		setfull = false
+		self.arrowy = 100
 	end
 
 	-- Enter sounds for survival and endless
@@ -748,6 +753,7 @@ function selectmode:mousepressed(mx, my, button)
 	if button == "r" and self.survival == false and self.endless == false then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
+		self.arrowy = 100
 	end
 end
 

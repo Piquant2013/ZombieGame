@@ -369,6 +369,7 @@ function pause:keypressed(key)
 	if key == "return" and self.resumestate == true or key == " " and self.resumestate == true then
 		love.audio.play(self.entersound)
 		resume = true
+		self.arrowy = 50
 	end
 
 	-- Go to options menu
@@ -376,6 +377,7 @@ function pause:keypressed(key)
 		love.audio.play(self.entersound)
 		Gamestate.push(options)
 		options.arrowy = -50
+		self.arrowy = 50
 	end
   
   	-- Go to the main menu
@@ -393,12 +395,14 @@ function pause:keypressed(key)
 		love.audio.stop(game.music1)
 		love.audio.stop(game.music4)
 		love.audio.stop(game.music2)
+		self.arrowy = 50
 	end
 	-- ACTIVATE BUTTONS --
 
 	-- Resume game
 	if key == 'escape' then
 		resume = true
+		self.arrowy = 50
 	end
 end
 
@@ -408,6 +412,7 @@ function pause:mousepressed(mx, my, button)
 	if button == "l" and self.resumestatemouse == true then
 		love.audio.play(self.entersound)
 		resume = true
+		self.arrowy = 50
 	end
 
 	-- Go to options menu
@@ -415,6 +420,7 @@ function pause:mousepressed(mx, my, button)
 		love.audio.play(self.entersound)
 		Gamestate.push(options)
 		options.arrowy = -50
+		self.arrowy = 50
 	end
   
   	-- Go to the main menu
@@ -432,11 +438,13 @@ function pause:mousepressed(mx, my, button)
 		love.audio.stop(game.music1)
 		love.audio.stop(game.music4)
 		love.audio.stop(game.music2)
+		self.arrowy = 50
 	end
 
 	-- Resume game
 	if button == 'r' then
 		resume = true
+		self.arrowy = 50
 	end
 end
 

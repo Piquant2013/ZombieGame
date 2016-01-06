@@ -316,9 +316,9 @@ function menu:update(dt)
 	-- MOUSE DECTECTS --
 
 	-- if fullscreens was on before you entered a game switch it back on
-	if setfull == false and setgamefull == true then
-		setfull = true
-	end
+	--if setfull == false and setgamefull == true then
+		--setfull = true
+	--end
 
 	-- Update easter egg
 	start:colorupdate(dt)
@@ -357,6 +357,7 @@ function menu:keypressed(key)
 	if key == "return" and self.playstate == true or key == " " and self.playstate == true then
 		love.audio.play(self.entersound)
 		Gamestate.push(selectmode)
+		self.arrowy = 100
 	end
 
 	-- Quit game
@@ -368,6 +369,7 @@ function menu:keypressed(key)
 	if key == "return" and self.optstate == true or key == " " and self.optstate == true then
 		love.audio.play(self.entersound)
 		Gamestate.push(options)
+		self.arrowy = 100
 	end
 	-- ACTIVATE BUTTONS --
 
@@ -376,6 +378,7 @@ function menu:keypressed(key)
 		Gamestate.switch(start)
 		start.movelogo = 128
 		love.audio.play(self.backsound)
+		self.arrowy = 100
 	end
 
 	-- Keypressed for easter egg
@@ -389,6 +392,7 @@ function menu:mousepressed(mx, my, button)
 	if button == "l" and self.playstatemouse == true then
 		love.audio.play(self.entersound)
 		Gamestate.push(selectmode)
+		self.arrowy = 100
 	end
 
 	-- Quit game
@@ -400,6 +404,7 @@ function menu:mousepressed(mx, my, button)
 	if button == "l" and self.optstatemouse == true then
 		love.audio.play(self.entersound)
 		Gamestate.push(options)
+		self.arrowy = 100
 	end
 	-- ACTIVATE BUTTONS --
 
@@ -408,6 +413,7 @@ function menu:mousepressed(mx, my, button)
 		Gamestate.switch(start)
 		start.movelogo = 128
 		love.audio.play(self.backsound)
+		self.arrowy = 100
 	end
 end
 

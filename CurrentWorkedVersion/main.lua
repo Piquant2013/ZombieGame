@@ -28,7 +28,7 @@ function love.load()
 	setmute = false
 	setmouselock = false
 	setfull = false
-	setgamefull = false
+	--setgamefull = false
 	setfpslock = false
 	paused = false
 	resume = false
