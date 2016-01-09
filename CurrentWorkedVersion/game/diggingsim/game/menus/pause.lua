@@ -93,13 +93,13 @@ function pausesim:keypressed(key)
  
  	-- ACTIVATE BUTTONS --
 	-- Resume the game
-	if key == "return" and self.resumestate == true or key == " " and self.resumestate == true then
+	if key == "return" and self.resumestate == true or key == "space" and self.resumestate == true then
 		love.audio.play(self.entersound)
 		gamesim.resume = true
 	end
   
   	-- Go to the main menu
-	if key == "return" and self.mainmenustate == true or key == " " and self.mainmenustate == true then
+	if key == "return" and self.mainmenustate == true or key == "space" and self.mainmenustate == true then
 		love.audio.play(self.entersound)
 		gamesim.paused = false
 		Gamestate.switch(menusim)

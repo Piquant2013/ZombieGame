@@ -474,6 +474,7 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 				if other == v.bb then
 					o.health = o.health - 10
 					love.audio.play(o.damageaudio)
+					o.damageaudio:setVolume(sfxvolume)
 
 					if arcade.wave < 10 or arcade.minihave == true or arcade.smghave == true or arcade.queminihave == true or arcade.quesmghave == true then 
 						Collider:remove(v.bb)
@@ -534,6 +535,7 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 				if other == v.bb then
 					o.health = o.health - 10
 					love.audio.play(o.damageaudio)
+					o.damageaudio:setVolume(sfxvolume)
 					Collider:remove(v.bb)
 					table.remove(crpistol.bullets, c)
 
@@ -605,24 +607,24 @@ end
 function game:keypressed(key)
 
 	-- dissmiss the welcome message for arcade mode
-  	if key == "return" and welcomescreen == true and self.arcade == true or key == " " and welcomescreen == true and self.arcade == true then
+  	if key == "return" and welcomescreen == true and self.arcade == true or key == "space" and welcomescreen == true and self.arcade == true then
   		welcomescreen = false
   		setarcade = false
   		love.audio.play(self.entersound)
 		love.audio.stop(self.intromusic)
 		love.audio.play(self.music1)
-		self.music1:setVolume(1.0)
+		self.music1:setVolume(musicvolume)
 		self.music1:setLooping(true)
   	end
 
   	-- dissmiss the welcome message for stuck mode
-  	if key == "return" and welcomescreen == true and self.stuck == true or key == " " and welcomescreen == true and self.stuck == true then
+  	if key == "return" and welcomescreen == true and self.stuck == true or key == "space" and welcomescreen == true and self.stuck == true then
 		welcomescreen = false
   		gamereset = false
   		love.audio.play(self.entersound)
 		love.audio.stop(self.intromusic)
 		love.audio.play(self.music4)
-		self.music4:setVolume(1.0)
+		self.music4:setVolume(musicvolume)
 		self.music4:setLooping(true)
   	end
 
@@ -637,29 +639,48 @@ end
 function game:mousepressed(mx, my, button)
 
 	-- dissmiss the welcome message for arcade mode
-  	if button == "l" and welcomescreen == true and self.arcade == true then
+  	if button == 1 and welcomescreen == true and self.arcade == true then
   		welcomescreen = false
   		setarcade = false
   		love.audio.play(self.entersound)
 		love.audio.stop(self.intromusic)
 		love.audio.play(self.music1)
-		self.music1:setVolume(1.0)
+		self.music1:setVolume(musicvolume)
 		self.music1:setLooping(true)
   	end
 
   	-- dissmiss the welcome message for stuck mode
-  	if button == "l" and welcomescreen == true and self.stuck == true then
+  	if button == 1 and welcomescreen == true and self.stuck == true then
 		welcomescreen = false
   		gamereset = false
   		love.audio.play(self.entersound)
 		love.audio.stop(self.intromusic)
 		love.audio.play(self.music4)
-		self.music4:setVolume(1.0)
+		self.music4:setVolume(musicvolume)
 		self.music4:setLooping(true)
   	end
 end
 
 function game:update(dt)
+
+
+		-- set volume
+	self.music1:setVolume(musicvolume)
+	self.music2:setVolume(musicvolume)
+	self.music3:setVolume(musicvolume)
+	self.music4:setVolume(musicvolume)
+	self.intromusic:setVolume(musicvolume)
+	plyr.hurtaudio:setVolume(sfxvolume)
+	plyr.deathaudio:setVolume(sfxvolume)
+	plyr.deathaudio1:setVolume(sfxvolume)
+	self.entersound:setVolume(sfxvolume)
+	self.pickupsound:setVolume(sfxvolume)
+	self.wavestart:setVolume(sfxvolume)
+	self.waveend:setVolume(sfxvolume)
+	self.invidle:setVolume(sfxvolume)
+	self.invhit:setVolume(sfxvolume)
+
+
 
 	-- CAMERA --
 	-- set up camera

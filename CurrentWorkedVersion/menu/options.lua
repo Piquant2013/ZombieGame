@@ -112,6 +112,22 @@ end
 
 function options:update(dt)
 
+
+	self.entersound1:setVolume(sfxvolume)
+	self.backsound:setVolume(sfxvolume)
+	self.select1:setVolume(sfxvolume)
+	self.select2:setVolume(sfxvolume)
+	self.select3:setVolume(sfxvolume)
+	self.select4:setVolume(sfxvolume)
+	self.clickselect1:setVolume(sfxvolume)
+	self.clickselect2:setVolume(sfxvolume)
+	self.mouseover1:setVolume(sfxvolume)
+	self.mouseover2:setVolume(sfxvolume)
+	self.mouseover3:setVolume(sfxvolume)
+	self.mouseover4:setVolume(sfxvolume)
+	self.mouseover5:setVolume(sfxvolume)
+
+
 	-- Move options text depending on if its in menu or pasued
 	if paused == true then
 		self.fpsbtny = -50
@@ -542,10 +558,14 @@ function options:keypressed(key)
 	-- SELECT BUTTONS --
 	-- Move arrow up through options menu states
 	if key == "up" or key == "w" then
-		love.audio.play(self.select1)
-		love.audio.play(self.select2)
-		love.audio.play(self.select3)
-		love.audio.play(self.select4)
+
+		if self.fpsstate == false then
+			love.audio.play(self.select1)
+			love.audio.play(self.select2)
+			love.audio.play(self.select3)
+			love.audio.play(self.select4)
+		end
+
 		self.arrowy = self.arrowy - 50
 
 		if self.mouseover == true then
@@ -555,10 +575,14 @@ function options:keypressed(key)
 
 	-- Move arrow up through options menu states
 	if key == "down" or key == "s" then
-		love.audio.play(self.select1)
-		love.audio.play(self.select2)
-		love.audio.play(self.select3)
-		love.audio.play(self.select4)
+		
+		if self.creditsstate == false then
+			love.audio.play(self.select1)
+			love.audio.play(self.select2)
+			love.audio.play(self.select3)
+			love.audio.play(self.select4)
+		end
+
 		self.arrowy = self.arrowy + 50
 
 		if self.mouseover == true then
@@ -569,7 +593,7 @@ function options:keypressed(key)
 
 	-- ACTIVATE BUTTONS --
 	-- go to credits screen
-	if key == "return" and self.creditsstate == true or key == " " and self.creditsstate == true then
+	if key == "return" and self.creditsstate == true or key == "space" and self.creditsstate == true then
 		Gamestate.push(credits)
 		love.audio.play(self.entersound1)
 		love.audio.stop(credits.entersound)
@@ -597,19 +621,19 @@ function options:keypressed(key)
 	end
 
 	-- switch advancded script
-	if key == "return" and self.fpsstate == true or key == " " and self.fpsstate == true then
+	if key == "return" and self.fpsstate == true or key == "space" and self.fpsstate == true then
 		Gamestate.push(advanced)
 		love.audio.play(self.entersound1)
 	end
 
 	-- set controls on or off
-	if key == "return" and self.controlsstate == true or key == " " and self.controlsstate == true then
+	if key == "return" and self.controlsstate == true or key == "space" and self.controlsstate == true then
 		Gamestate.push(controls)
 		love.audio.play(self.entersound1)
 	end
 
 	-- go to moregames screen
-	if key == "return" and self.moregamesstate == true or key == " " and self.moregamesstate == true then
+	if key == "return" and self.moregamesstate == true or key == "space" and self.moregamesstate == true then
 		Gamestate.push(moregames)
 		love.audio.play(self.entersound1)
 	end
@@ -631,7 +655,7 @@ end
 function options:mousepressed(mx, my, button)
 	
 	-- go to credits screen
-	if button == "l" and self.creditsstatemouse == true then
+	if button == 1 and self.creditsstatemouse == true then
 		Gamestate.push(credits)
 		love.audio.play(self.entersound1)
 		love.audio.stop(credits.entersound)
@@ -659,25 +683,25 @@ function options:mousepressed(mx, my, button)
 	end
 
 	-- switch advancded script
-	if button == "l" and self.fpsstatemouse == true then
+	if button == 1 and self.fpsstatemouse == true then
 		Gamestate.push(advanced)
 		love.audio.play(self.entersound1)
 	end
 
 	-- set controls on or off
-	if button == "l" and self.controlsstatemouse == true then
+	if button == 1 and self.controlsstatemouse == true then
 		love.audio.play(self.entersound1)
 		Gamestate.push(controls)
 	end
 
 	-- go to credits screen
-	if button == "l" and self.moregamesstatemouse == true then
+	if button == 1 and self.moregamesstatemouse == true then
 		love.audio.play(self.entersound1)
 		Gamestate.push(moregames)
 	end
 
 	-- Go back to the start screen
-	if button == "l" and self.backstatemouse == true then
+	if button == 1 and self.backstatemouse == true then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 
@@ -689,7 +713,7 @@ function options:mousepressed(mx, my, button)
 	end
 
 	-- Go back to the start screen
-	if button == "r" then
+	if button == 2 then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 

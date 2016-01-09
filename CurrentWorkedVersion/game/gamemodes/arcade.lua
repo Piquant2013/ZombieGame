@@ -134,7 +134,7 @@ function arcade:keypressed(key)
 	game:keypressed(key)
 
 	-- dissmiss the game over message
-  	if key == "return" and gameover == true and self.bgtimer > 12 or key == " " and gameover == true and self.bgtimer > 12 or key == "escape" and gameover == true and self.bgtimer > 12 then
+  	if key == "return" and gameover == true and self.bgtimer > 12 or key == "space" and gameover == true and self.bgtimer > 12 or key == "escape" and gameover == true and self.bgtimer > 12 then
   		love.audio.play(game.entersound)
     	Gamestate.switch(menu)
     	love.audio.play(start.music)
@@ -150,14 +150,14 @@ function arcade:keypressed(key)
   	end
 
   	-- skip the game over animation
-  	if key == "return" and gameover == true and arcade.bgtimer < 12 or key == " " and gameover == true and arcade.bgtimer < 12 or key == "escape" and gameover == true and arcade.bgtimer < 12 then
+  	if key == "return" and gameover == true and arcade.bgtimer < 12 or key == "space" and gameover == true and arcade.bgtimer < 12 or key == "escape" and gameover == true and arcade.bgtimer < 12 then
   		self.bgtimer = 13
   		self.fadebg = 255
 		self.gameovery = 200
   	end
 
   	-- Contiune button after losing a life
-  	if key == "return" and self.death == true or key == " " and self.death == true then
+  	if key == "return" and self.death == true or key == "space" and self.death == true then
   		self.death = false
 		self.oneupflashtimer = 0
 		plyr.y = 200
@@ -174,7 +174,7 @@ end
 function arcade:mousepressed(mx, my, button)
 	
 	-- dissmiss the game over message
-  	if button == "l" and gameover == true and self.bgtimer > 12 or button == "r" and gameover == true and self.bgtimer > 12 then
+  	if button == 1 and gameover == true and self.bgtimer > 12 or button == 2 and gameover == true and self.bgtimer > 12 then
   		love.audio.play(game.entersound)
     	Gamestate.switch(menu)
     	love.audio.play(start.music)
@@ -197,6 +197,10 @@ function arcade:mousepressed(mx, my, button)
 end
 
 function arcade:update(dt)
+
+	game.music1:setVolume(musicvolume)
+	game.music2:setVolume(musicvolume)
+	game.music3:setVolume(musicvolume)
 
 	-- update main game mechanics
 	game:update(dt)

@@ -121,6 +121,22 @@ end
 
 function selectmode:update(dt)
 
+
+
+	self.entersound1:setVolume(sfxvolume)
+	self.backsound:setVolume(sfxvolume)
+	self.select1:setVolume(sfxvolume)
+	self.select2:setVolume(sfxvolume)
+	self.select3:setVolume(sfxvolume)
+	self.select4:setVolume(sfxvolume)
+	self.mouseover1:setVolume(sfxvolume)
+	self.mouseover2:setVolume(sfxvolume)
+	self.mouseover3:setVolume(sfxvolume)
+	self.mouseover4:setVolume(sfxvolume)
+	self.mouseover5:setVolume(sfxvolume)
+
+
+
 	-- Stop arrow from moving and sounds when in survival or endless screens
 	if self.survival == true then
 		self.arrowy = self.survivalbtny
@@ -577,10 +593,15 @@ function selectmode:keypressed(key)
 	-- SELECT BUTTONS --
 	-- Move arrow up through select mode menu states
 	if key == "up" or key == "w" then
-		love.audio.play(self.select1)
-		love.audio.play(self.select2)
-		love.audio.play(self.select3)
-		love.audio.play(self.select4)
+
+		if self.survivalstate == false then
+			love.audio.play(self.select1)
+			love.audio.play(self.select2)
+			love.audio.play(self.select3)
+			love.audio.play(self.select4)
+		end
+
+
 		self.arrowy = self.arrowy - 100
 
 		-- Move mouse and turn off mouse areas
@@ -596,10 +617,14 @@ function selectmode:keypressed(key)
 
 	-- Move arrow up through select mode menu states
 	if key == "down" or key == "s" then
-		love.audio.play(self.select1)
-		love.audio.play(self.select2)
-		love.audio.play(self.select3)
-		love.audio.play(self.select4)
+
+		if self.stuckstate == false then
+			love.audio.play(self.select1)
+			love.audio.play(self.select2)
+			love.audio.play(self.select3)
+			love.audio.play(self.select4)
+		end
+
 		self.arrowy = self.arrowy + 100
 
 		-- Move mouse and turn off mouse areas
@@ -616,17 +641,17 @@ function selectmode:keypressed(key)
  
  	-- ACTIVATE BUTTONS --
 	-- Go back and forth between surival
-	if key == "return" and self.survivalstate == true or key == " " and self.survivalstate == true or key == 'escape' and self.survival == true then
+	if key == "return" and self.survivalstate == true or key == "space" and self.survivalstate == true or key == 'escape' and self.survival == true then
 		self.survivalarrowx = self.survivalarrowx + 118
 	end
 
 	-- Go back and forth between endless
-	if key == "return" and self.endlessstate == true or key == " " and self.endlessstate == true or key == 'escape' and self.endless == true then
+	if key == "return" and self.endlessstate == true or key == "space" and self.endlessstate == true or key == 'escape' and self.endless == true then
 		self.endlessarrowx = self.endlessarrowx + 118
 	end
   
   	-- Go to the arcade game mode
-	if key == "return" and self.arcadestate == true or key == " " and self.arcadestate == true then
+	if key == "return" and self.arcadestate == true or key == "space" and self.arcadestate == true then
 		Gamestate.push(arcade)
 		game.arcade = true
 		love.audio.play(self.entersound1)
@@ -634,14 +659,15 @@ function selectmode:keypressed(key)
 		love.audio.play(game.intromusic)
 		start.easteregg = false
 		love.audio.stop(start.colorgoeshere)
-		game.intromusic:setVolume(0.6)
+		musicvolumelower = musicvolume / 1.6
+		game.intromusic:setVolume(musicvolumelower)
 		game.intromusic:setLooping(true)
 		setfull = false
 		self.arrowy = 100
 	end
 
 	-- Go to the stuck game mode
-	if key == "return" and self.stuckstate == true or key == " " and self.stuckstate == true then
+	if key == "return" and self.stuckstate == true or key == "space" and self.stuckstate == true then
 		Gamestate.push(stuckmode)
 		game.stuck = true
 		love.audio.play(self.entersound1)
@@ -649,7 +675,8 @@ function selectmode:keypressed(key)
 		love.audio.play(game.intromusic)
 		start.easteregg = false
 		love.audio.stop(start.colorgoeshere)
-		game.intromusic:setVolume(0.6)
+		musicvolumelower = musicvolume / 1.6
+		game.intromusic:setVolume(musicvolumelower)
 		game.intromusic:setLooping(true)
 		self.gamefullscreen = false
 		setfull = false
@@ -657,20 +684,20 @@ function selectmode:keypressed(key)
 	end
 
 	-- Enter sounds for survial and endless
-	if key == "return" and self.survivalstate == true and self.survival == false or key == " " and self.survivalstate == true and self.survival == false then
+	if key == "return" and self.survivalstate == true and self.survival == false or key == "space" and self.survivalstate == true and self.survival == false then
 		love.audio.play(self.entersound1)
 	end	
 
-	if key == "return" and self.endlessstate == true and self.endless == false or key == " " and self.endlessstate == true and self.endless == false then
+	if key == "return" and self.endlessstate == true and self.endless == false or key == "space" and self.endlessstate == true and self.endless == false then
 		love.audio.play(self.entersound1)
 	end
 
 	-- Exit sounds for survival and endless
-	if key == "return" and self.survivalstate == true and self.survival == true or key == " " and self.survivalstate == true and self.survival == true or key == 'escape' and self.survivalstate == true and self.survival == true then
+	if key == "return" and self.survivalstate == true and self.survival == true or key == "space" and self.survivalstate == true and self.survival == true or key == 'escape' and self.survivalstate == true and self.survival == true then
 		love.audio.play(self.backsound)
 	end	
 
-	if key == "return" and self.endlessstate == true and self.endless == true or key == " " and self.endlessstate == true and self.endless == true or key == 'escape' and self.endlessstate == true and self.endless == true then
+	if key == "return" and self.endlessstate == true and self.endless == true or key == "space" and self.endlessstate == true and self.endless == true or key == 'escape' and self.endlessstate == true and self.endless == true then
 		love.audio.play(self.backsound)
 	end
 	-- ACTIVATE BUTTONS --
@@ -686,17 +713,17 @@ end
 function selectmode:mousepressed(mx, my, button)
 
 	-- Go back and forth between surival
-	if button == "l" and self.survivalstatemouse == true and self.backstatemouse == false and self.mouseover == true or button == "r" and self.survivalstatemouse == true and self.backstatemouse == false and self.mouseover == true then
+	if button == 1 and self.survivalstatemouse == true and self.backstatemouse == false and self.mouseover == true or button == 2 and self.survivalstatemouse == true and self.backstatemouse == false and self.mouseover == true then
 		self.survivalarrowx = self.survivalarrowx + 118
 	end
 
 	-- Go back and forth between endless
-	if button == "l" and self.endlessstatemouse == true and self.backstatemouse == false and self.mouseover == true or button == "r" and self.endlessstatemouse == true and self.backstatemouse == false and self.mouseover == true then
+	if button == 1 and self.endlessstatemouse == true and self.backstatemouse == false and self.mouseover == true or button == 2 and self.endlessstatemouse == true and self.backstatemouse == false and self.mouseover == true then
 		self.endlessarrowx = self.endlessarrowx + 118
 	end
 
 	-- Go to the arcade game mode
-	if button == "l" and self.arcadestatemouse == true and self.backstatemouse == false and self.mouseover == true then
+	if button == 1 and self.arcadestatemouse == true and self.backstatemouse == false and self.mouseover == true then
 		Gamestate.push(arcade)
 		game.arcade = true
 		love.audio.play(self.entersound1)
@@ -704,14 +731,15 @@ function selectmode:mousepressed(mx, my, button)
 		love.audio.play(game.intromusic)
 		start.easteregg = false
 		love.audio.stop(start.colorgoeshere)
-		game.intromusic:setVolume(0.6)
+		musicvolumelower = musicvolume / 1.6
+		game.intromusic:setVolume(musicvolumelower)
 		game.intromusic:setLooping(true)
 		setfull = false
 		self.arrowy = 100
 	end
 
 	-- Go to the stuck game mode
-	if button == "l" and self.stuckstatemouse == true and self.backstatemouse == false and self.mouseover == true then
+	if button == 1 and self.stuckstatemouse == true and self.backstatemouse == false and self.mouseover == true then
 		Gamestate.push(stuckmode)
 		game.stuck = true
 		love.audio.play(self.entersound1)
@@ -719,38 +747,39 @@ function selectmode:mousepressed(mx, my, button)
 		love.audio.play(game.intromusic)
 		start.easteregg = false
 		love.audio.stop(start.colorgoeshere)
-		game.intromusic:setVolume(0.6)
+		musicvolumelower = musicvolume / 1.6
+		game.intromusic:setVolume(musicvolumelower)
 		game.intromusic:setLooping(true)
 		setfull = false
 		self.arrowy = 100
 	end
 
 	-- Enter sounds for survival and endless
-	if button == "l" and self.survivalstatemouse == true and self.survival == false and self.backstatemouse == false and self.mouseover == true or button == "r" and self.survivalstatemouse == true and self.survival == false and self.backstatemouse == false and self.mouseover == true then
+	if button == 1 and self.survivalstatemouse == true and self.survival == false and self.backstatemouse == false and self.mouseover == true or button == 2 and self.survivalstatemouse == true and self.survival == false and self.backstatemouse == false and self.mouseover == true then
 		love.audio.play(self.entersound1)
 	end
 	
-	if button == "l" and self.endlessstatemouse == true and self.endless == false and self.backstatemouse == false and self.mouseover == true or button == "r" and self.endlessstatemouse == true and self.endless == false and self.backstatemouse == false and self.mouseover == true then
+	if button == 1 and self.endlessstatemouse == true and self.endless == false and self.backstatemouse == false and self.mouseover == true or button == 2 and self.endlessstatemouse == true and self.endless == false and self.backstatemouse == false and self.mouseover == true then
 		love.audio.play(self.entersound1)
 	end
 	
 	-- Exit sounds for survival and endless
-	if button == "l" and self.survivalstatemouse == true and self.survival == true and self.backstatemouse == false and self.mouseover == true or button == "r" and self.survivalstatemouse == true and self.survival == true and self.backstatemouse == false and self.mouseover == true then
+	if button == 1 and self.survivalstatemouse == true and self.survival == true and self.backstatemouse == false and self.mouseover == true or button == 2 and self.survivalstatemouse == true and self.survival == true and self.backstatemouse == false and self.mouseover == true then
 		love.audio.play(self.backsound)
 	end
 	
-	if button == "l" and self.endlessstatemouse == true and self.endless == true and self.backstatemouse == false and self.mouseover == true or button == "r" and self.endlessstatemouse == true and self.endless == true and self.backstatemouse == false and self.mouseover == true then
+	if button == 1 and self.endlessstatemouse == true and self.endless == true and self.backstatemouse == false and self.mouseover == true or button == 2 and self.endlessstatemouse == true and self.endless == true and self.backstatemouse == false and self.mouseover == true then
 		love.audio.play(self.backsound)
 	end
 
 	-- Go back to main menu
-	if button == "l" and self.backstatemouse == true and self.mouseover == false then
+	if button == 1 and self.backstatemouse == true and self.mouseover == false then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 	end
 
 	-- Go back to main menu
-	if button == "r" and self.survival == false and self.endless == false then
+	if button == 2 and self.survival == false and self.endless == false then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 		self.arrowy = 100

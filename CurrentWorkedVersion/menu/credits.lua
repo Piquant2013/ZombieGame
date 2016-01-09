@@ -15,13 +15,16 @@ function credits:init()
 	self.music = love.audio.newSource("audio/music/credits.ogg")
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
 	self.backsound = love.audio.newSource("audio/buttons/back.ogg")
+
+	-- set volume
+	self.music:setVolume(musicvolume)
 	------ AUDIO ------
 end
 
 function credits:keypressed(key)
 	
 	-- Takes you back to the main menu
-	if key == "escape" or key == "return" or key == " " then
+	if key == "escape" or key == "return" or key == "space" then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 		love.audio.stop(options.entersound1)
@@ -52,7 +55,7 @@ end
 function credits:mousepressed(mx, my, button)
 
 	-- Takes you back to the main menu
-	if button == "l" or button == "r" then
+	if button == 1 or button == 2 then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 		love.audio.stop(options.entersound1)
@@ -81,6 +84,9 @@ function credits:mousepressed(mx, my, button)
 end
 
 function credits:update(dt)
+
+	self.entersound:setVolume(sfxvolume)
+	self.backsound:setVolume(sfxvolume)
 
 	-- SCROLL CREDITS --
 	self.slider = self.slider + dt - 1

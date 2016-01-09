@@ -71,16 +71,30 @@ end
 
 function pause:update(dt)
 
+
+
+	self.entersound:setVolume(sfxvolume)
+	self.select1:setVolume(sfxvolume)
+	self.select2:setVolume(sfxvolume)
+	self.select3:setVolume(sfxvolume)
+	self.mouseover1:setVolume(sfxvolume)
+	self.mouseover2:setVolume(sfxvolume)
+	self.mouseover3:setVolume(sfxvolume)
+
+
+
 	-- Pause game music and set cursor
 	if resume == false then
 		
 		if setarcade == false then
-			game.music1:setVolume(0.2)
-			game.music3:setVolume(0.2)
+			musicvolumelower = musicvolume / 5
+			game.music1:setVolume(musicvolumelower) --1/5
+			game.music3:setVolume(musicvolumelower) --1/5
 		end
 
 		if gamereset == false then
-			game.music4:setVolume(0.2)
+			musicvolumelower = musicvolume / 5
+			game.music4:setVolume(musicvolumelower) --1/5
 		end
 		
 		love.mouse.setCursor(cursor)
@@ -95,12 +109,12 @@ function pause:update(dt)
 		love.mouse.setCursor(crosshair)
 
 		if setarcade == false then
-			game.music1:setVolume(1.0)
-			game.music3:setVolume(1.0)
+			game.music1:setVolume(musicvolume)
+			game.music3:setVolume(musicvolume)
 		end
 
 		if gamereset == false then
-			game.music4:setVolume(1.0)
+			game.music4:setVolume(musicvolume)
 		end
 		
 		love.audio.resume(game.invidle)
@@ -341,9 +355,13 @@ function pause:keypressed(key)
 	-- SELECT BUTTONS --
 	-- Move arrow up through pause menu states
 	if key == "up" or key == "w" then
-		love.audio.play(self.select1)
-		love.audio.play(self.select2)
-		love.audio.play(self.select3)
+
+		if self.resumestate == false then
+			love.audio.play(self.select1)
+			love.audio.play(self.select2)
+			love.audio.play(self.select3)
+		end
+
 		self.arrowy = self.arrowy - 50
 
 		if self.mouseover == true then
@@ -353,9 +371,13 @@ function pause:keypressed(key)
 
 	-- Move arrow up through pause menu states
 	if key == "down" or key == "s" then
-		love.audio.play(self.select1)
-		love.audio.play(self.select2)
-		love.audio.play(self.select3)
+		
+		if self.mainmenustate == false then
+			love.audio.play(self.select1)
+			love.audio.play(self.select2)
+			love.audio.play(self.select3)
+		end
+
 		self.arrowy = self.arrowy + 50
 
 		if self.mouseover == true then
@@ -366,14 +388,14 @@ function pause:keypressed(key)
  
  	-- ACTIVATE BUTTONS --
 	-- Resume the game
-	if key == "return" and self.resumestate == true or key == " " and self.resumestate == true then
+	if key == "return" and self.resumestate == true or key == "space" and self.resumestate == true then
 		love.audio.play(self.entersound)
 		resume = true
 		self.arrowy = 50
 	end
 
 	-- Go to options menu
-	if key == "return" and self.optionsstate == true or key == " " and self.optionsstate == true then
+	if key == "return" and self.optionsstate == true or key == "space" and self.optionsstate == true then
 		love.audio.play(self.entersound)
 		Gamestate.push(options)
 		options.arrowy = -50
@@ -381,7 +403,7 @@ function pause:keypressed(key)
 	end
   
   	-- Go to the main menu
-	if key == "return" and self.mainmenustate == true or key == " " and self.mainmenustate == true then
+	if key == "return" and self.mainmenustate == true or key == "space" and self.mainmenustate == true then
 		love.audio.play(self.entersound)
 		setarcade = true
 		gamereset = true
@@ -409,14 +431,14 @@ end
 function pause:mousepressed(mx, my, button)
  
 	-- Resume the game
-	if button == "l" and self.resumestatemouse == true then
+	if button == 1 and self.resumestatemouse == true then
 		love.audio.play(self.entersound)
 		resume = true
 		self.arrowy = 50
 	end
 
 	-- Go to options menu
-	if button == "l" and self.optionsstatemouse == true then
+	if button == 1 and self.optionsstatemouse == true then
 		love.audio.play(self.entersound)
 		Gamestate.push(options)
 		options.arrowy = -50
@@ -424,7 +446,7 @@ function pause:mousepressed(mx, my, button)
 	end
   
   	-- Go to the main menu
-	if button == "l" and self.mainmenustatemouse == true then
+	if button == 1 and self.mainmenustatemouse == true then
 		love.audio.play(self.entersound)
 		setarcade = true
 		gamereset = true
@@ -442,7 +464,7 @@ function pause:mousepressed(mx, my, button)
 	end
 
 	-- Resume game
-	if button == 'r' then
+	if button == 2 then
 		resume = true
 		self.arrowy = 50
 	end

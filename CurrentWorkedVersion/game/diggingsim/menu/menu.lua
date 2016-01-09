@@ -117,7 +117,7 @@ function menusim:keypressed(key)
 
 	-- ACTIVATE BUTTONS --
 	-- Launch game
-	if key == "return" and self.playstate == true or key == " " and self.playstate == true then
+	if key == "return" and self.playstate == true or key == "space" and self.playstate == true then
 		love.audio.play(self.entersound)
 		Gamestate.push(selectmodesim)
 
@@ -141,7 +141,7 @@ function menusim:keypressed(key)
 	end
 
 	-- Quit game
-	if key == "return" and self.exitstate == true or key == " " and self.exitstate == true then
+	if key == "return" and self.exitstate == true or key == "space" and self.exitstate == true then
 		setarcade = true
 		gamereset = true
 		game.arcade = false

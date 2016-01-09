@@ -208,6 +208,17 @@ function advanced:init()
 	self.mouseover10 = love.audio.newSource("audio/buttons/select.ogg")
 	self.mouseover11 = love.audio.newSource("audio/buttons/select.ogg")
 	------ AUDIO ------
+
+
+
+
+	--musicvolume = 1
+	zeromusic = false
+	zeromaster = false
+	zerosfx = false
+
+
+
 end
 
 function advanced:update(dt)
@@ -1160,6 +1171,109 @@ function advanced:update(dt)
 
 
 
+	self.entersound1:setVolume(sfxvolume)
+	self.backsound:setVolume(sfxvolume)
+	self.select1:setVolume(sfxvolume)
+	self.select2:setVolume(sfxvolume)
+	self.select3:setVolume(sfxvolume)
+	self.select4:setVolume(sfxvolume)
+	self.select5:setVolume(sfxvolume)
+	self.select6:setVolume(sfxvolume)
+	self.select7:setVolume(sfxvolume)
+	self.select8:setVolume(sfxvolume)
+	self.select9:setVolume(sfxvolume)
+	self.select10:setVolume(sfxvolume)
+	self.select11:setVolume(sfxvolume)
+	self.clickselect1:setVolume(sfxvolume)
+	self.clickselect2:setVolume(sfxvolume)
+	self.mouseover1:setVolume(sfxvolume)
+	self.mouseover2:setVolume(sfxvolume)
+	self.mouseover3:setVolume(sfxvolume)
+	self.mouseover4:setVolume(sfxvolume)
+	self.mouseover5:setVolume(sfxvolume)
+	self.mouseover6:setVolume(sfxvolume)
+	self.mouseover7:setVolume(sfxvolume)
+	self.mouseover8:setVolume(sfxvolume)
+	self.mouseover9:setVolume(sfxvolume)
+	self.mouseover10:setVolume(sfxvolume)
+	self.mouseover11:setVolume(sfxvolume)
+
+
+
+
+		--love.audio.setVolume(mastervolume)
+		start.music:setVolume(musicvolume)
+		start.colorgoeshere:setVolume(musicvolume)
+
+		if resume == false then
+		
+		if setarcade == false then
+			musicvolumelower = musicvolume / 5
+			game.music1:setVolume(musicvolumelower) --1/5
+			game.music3:setVolume(musicvolumelower) --1/5
+		end
+
+		if gamereset == false then
+			musicvolumelower = musicvolume / 5
+			game.music4:setVolume(musicvolumelower) --1/5
+		end
+
+		end
+
+
+
+	-- master
+	if mastervolume < 0 then
+		mastervolume = 0
+	end
+
+	if mastervolume == 0 then
+		zeromaster = false
+	end
+
+	if mastervolume == 1 then
+		zeromaster = true
+	end
+
+	if mastervolume > 1 then
+		mastervolume = 1
+	end
+
+	-- music
+	if musicvolume < 0 then
+		musicvolume = 0
+	end
+
+	if musicvolume == 0 then
+		zeromusic = false
+	end
+
+	if musicvolume == 1 then
+		zeromusic = true
+	end
+
+	if musicvolume > 1 then
+		musicvolume = 1
+	end
+
+	-- sfx
+	if sfxvolume < 0 then
+		sfxvolume = 0
+	end
+
+	if sfxvolume == 0 then
+		zerosfx = false
+	end
+
+	if sfxvolume == 1 then
+		zerosfx = true
+	end
+
+	if sfxvolume > 1 then
+		sfxvolume = 1
+	end
+
+
 
 
 
@@ -1177,17 +1291,29 @@ function advanced:keypressed(key)
 	-- SELECT BUTTONS --
 	-- Move arrow up through options menu states
 	if key == "up" or key == "w" then
-		love.audio.play(self.select1)
-		love.audio.play(self.select2)
-		love.audio.play(self.select3)
-		love.audio.play(self.select4)
-		love.audio.play(self.select5)
-		love.audio.play(self.select6)
-		love.audio.play(self.select7)
-		love.audio.play(self.select8)
-		love.audio.play(self.select9)
-		love.audio.play(self.select10)
-		love.audio.play(self.select11)
+		
+		--if self.fpsstate == false then
+			--if self.arrowy < self.mutebtny then
+				love.audio.play(self.select1)
+				love.audio.play(self.select2)
+				love.audio.play(self.select3)
+				love.audio.play(self.select4)
+			--end
+			
+			--if self.arrowy > self.windowlockbtny and self.arrowy < self.defaultbtny then
+				love.audio.play(self.select5)
+				love.audio.play(self.select6)
+				love.audio.play(self.select7)
+				love.audio.play(self.select8)
+			--end
+			
+			--if self.arrowy > self.sfxvolbtny then
+				love.audio.play(self.select9)
+				love.audio.play(self.select10)
+				love.audio.play(self.select11)
+			--end
+		--end
+		
 		self.arrowy = self.arrowy - 50
 
 		-- move arrow over the fullscreen and credits gap
@@ -1202,17 +1328,29 @@ function advanced:keypressed(key)
 
 	-- Move arrow up through options menu states
 	if key == "down" or key == "s" then
-		love.audio.play(self.select1)
-		love.audio.play(self.select2)
-		love.audio.play(self.select3)
-		love.audio.play(self.select4)
-		love.audio.play(self.select5)
-		love.audio.play(self.select6)
-		love.audio.play(self.select7)
-		love.audio.play(self.select8)
-		love.audio.play(self.select9)
-		love.audio.play(self.select10)
-		love.audio.play(self.select11)
+
+		--if self.changelogstate == false then
+			--if self.arrowy < self.mutebtny then
+				love.audio.play(self.select1)
+				love.audio.play(self.select2)
+				love.audio.play(self.select3)
+				love.audio.play(self.select4)
+			--end
+			
+			--if self.arrowy > self.windowlockbtny and self.arrowy < self.defaultbtny then
+				love.audio.play(self.select5)
+				love.audio.play(self.select6)
+				love.audio.play(self.select7)
+				love.audio.play(self.select8)
+			--end
+			
+			--if self.arrowy > self.sfxvolbtny then
+				love.audio.play(self.select9)
+				love.audio.play(self.select10)
+				love.audio.play(self.select11)
+			--end
+		--end
+
 		self.arrowy = self.arrowy + 50
 
 		-- move arrow over the fullscreen and credits gap
@@ -1228,65 +1366,94 @@ function advanced:keypressed(key)
 
 	-- ACTIVATE BUTTONS --
 	-- go to credits screen
-	if key == "return" and self.fpsstate == true or key == " " and self.fpsstate == true then
+	if key == "return" and self.fpsstate == true or key == "space" and self.fpsstate == true then
 		love.audio.play(self.entersound1)
 		self.fpsarrowx = self.fpsarrowx + 118
 	end
 
 	-- switch advancded script
-	if key == "return" and self.fpslockstate == true or key == " " and self.fpslockstate == true then
+	if key == "return" and self.fpslockstate == true or key == "space" and self.fpslockstate == true then
 		love.audio.play(self.entersound1)
 		self.fpslockarrowx = self.fpslockarrowx + 118
 	end
 
 	-- set controls on or off
-	if key == "return" and self.resolutionstate == true or key == " " and self.resolutionstate == true then
+	if key == "return" and self.resolutionstate == true or key == "space" and self.resolutionstate == true then
 		love.audio.play(self.entersound1)
 	end
 
 	-- go to moregames screen
-	if key == "return" and self.fullscreenstate == true and setfull == false or key == " " and self.fullscreenstate == true and setfull == false then
-		love.audio.play(self.entersound1)
-		self.fullscreenarrowx = self.fullscreenarrowx + 118
-		love.window.setMode(1280, 720, {fullscreen=true})
-	end
-
-	-- go to moregames screen
-	if key == "return" and self.fullscreenstate == true and setfull == true or key == " " and self.fullscreenstate == true and setfull == true then
+	if key == "return" and self.fullscreenstate == true and setfull == false or key == "space" and self.fullscreenstate == true and setfull == false then
 		love.audio.play(self.entersound1)
 		self.fullscreenarrowx = self.fullscreenarrowx + 118
-		love.window.setMode(1280, 720, {fullscreen=false})
+		love.window.setFullscreen( true, "exclusive" )
+		--love.window.setMode(1280, 720)--, {fullscreen=true, "exclusive"})
 	end
 
 	-- go to moregames screen
-	if key == "return" and self.windowlockstate == true or key == " " and self.windowlockstate == true then
+	if key == "return" and self.fullscreenstate == true and setfull == true or key == "space" and self.fullscreenstate == true and setfull == true then
+		love.audio.play(self.entersound1)
+		self.fullscreenarrowx = self.fullscreenarrowx + 118
+		love.window.setFullscreen( false, "exclusive" )
+		--love.window.setMode(1280, 720)--, {fullscreen=false, "exclusive"})
+	end
+
+	-- go to moregames screen
+	if key == "return" and self.windowlockstate == true or key == "space" and self.windowlockstate == true then
 		love.audio.play(self.entersound1)
 		self.mouselockarrowx = self.mouselockarrowx + 118
 	end
 
 	-- go to moregames screen
-		if key == "return" and self.mutestate == true or key == " " and self.mutestate == true then
+		if key == "return" and self.mutestate == true or key == "space" and self.mutestate == true then
 	love.audio.play(self.entersound1)
 		self.mutearrowx = self.mutearrowx + 118
 	end
 
 	-- go to moregames screen
-	if key == "return" and self.mastervolstate == true or key == " " and self.mastervolstate == true then
+	if key == "return" and self.mastervolstate == true or key == "space" and self.mastervolstate == true then
 		love.audio.play(self.entersound1)
+
+		if zeromaster == true then
+			mastervolume = mastervolume - 0.1
+		end
+
+		if zeromaster == false then
+			mastervolume = mastervolume + 0.1
+		end
+
 	end
 
 	-- go to moregames screen
-	if key == "return" and self.musicvolstate == true or key == " " and self.musicvolstate == true then
+	if key == "return" and self.musicvolstate == true or key == "space" and self.musicvolstate == true then
 		love.audio.play(self.entersound1)
+
+		if zeromusic == true then
+			musicvolume = musicvolume - 0.1
+		end
+
+		if zeromusic == false then
+			musicvolume = musicvolume + 0.1
+		end
+
 	end
 
 	-- go to moregames screen
-	if key == "return" and self.sfxvolstate == true or key == " " and self.sfxvolstate == true then
+	if key == "return" and self.sfxvolstate == true or key == "space" and self.sfxvolstate == true then
 		love.audio.play(self.entersound1)
+
+		if zerosfx == true then
+			sfxvolume = sfxvolume - 0.1
+		end
+
+		if zerosfx == false then
+			sfxvolume = sfxvolume + 0.1
+		end
+
 	end
 
 	-- go to moregames screen
-	if key == "return" and self.defaultstate == true or key == " " and self.defaultstate == true then
+	if key == "return" and self.defaultstate == true or key == "space" and self.defaultstate == true then
 		love.audio.play(self.entersound1)
 		self.fpsarrowy = 232
 		self.fpsarrowx = 665
@@ -1304,10 +1471,13 @@ function advanced:keypressed(key)
 		self.fullscreenarrowx = 665
 		self.fullscreenbtnx = 492
 		love.window.setMode(1280, 720, {fullscreen=false})
+		mastervolume = 1
+		musicvolume = 1
+		sfxvolume = 1
 	end
 
 	-- go to moregames screen
-	if key == "return" and self.changelogstate == true or key == " " and self.changelogstate == true then
+	if key == "return" and self.changelogstate == true or key == "space" and self.changelogstate == true then
 		love.audio.play(self.entersound1)
 		Gamestate.push(changelog)
 	end
@@ -1408,9 +1578,9 @@ function advanced:draw()
 
 	-- White volumes bars --TEMP
 	love.graphics.setColor(255, 255, 255)
-	love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 140, (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.mastervolbtny - 15/2, 10, 30 )
-	love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 180, (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.musicvolbtny - 15/2, 10, 30 )
-	love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 240, (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.sfxvolbtny - 15/2, 10, 30 )
+	love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 120 + mastervolume*250, (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.mastervolbtny - 15/2, 10, 30 )
+	love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 120 + musicvolume*250, (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.musicvolbtny - 15/2, 10, 30 )
+	love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 120 + sfxvolume*250, (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.sfxvolbtny - 15/2, 10, 30 )
 	love.graphics.setColor(160, 47, 0)
 	------ SHAPES ------
 
@@ -1506,7 +1676,7 @@ function advanced:draw()
 	end
 
 	love.graphics.setColor(160, 47, 0, 100)
-	love.graphics.print('COMING SOON', love.graphics.getWidth()/2 + 115, (love.graphics.getHeight()/2 - start.font2:getHeight( "RESOLUTION:" )/2) + self.resolutionbtny, 0)
+	love.graphics.print('1280X720', love.graphics.getWidth()/2 + 115, (love.graphics.getHeight()/2 - start.font2:getHeight( "RESOLUTION:" )/2) + self.resolutionbtny, 0)
 	love.graphics.setColor(160, 47, 0, 255)
 	-- TEMP
 

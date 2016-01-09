@@ -71,7 +71,7 @@ end
 function startsim:keypressed(key)
 
 	-- move onto the menu script
-	if key == " " or key == "return" then
+	if key == "space" or key == "return" then
 		Gamestate.switch(menusim)
 		love.audio.play(self.entersound)
 		paused = false

@@ -37,7 +37,7 @@ end
 
 function crpistol:shooting(mx, my, button)
 
-	if button == "l" and self.cooldown <= 0 and gameover == false and welcomescreen == false then
+	if button == 1 and self.cooldown <= 0 and gameover == false and welcomescreen == false then
 		
 		-- rotates and shoots towards the crosshair if the crosshair is more then 20 pixels away from the player
 		if (mx1 > (plyr.x + 20) or (mx1 < (plyr.x - 20 ))) or (my1 > (plyr.y + 20 ) or (my1 < (plyr.y - 20 ))) then
@@ -69,12 +69,13 @@ function crpistol:shooting(mx, my, button)
 		self.cooldown = self.cooldownplus
 		self.shotstaken = self.shotstaken + 1
 		love.audio.play(self.bullet.sound)
+		self.bullet.sound:setVolume(sfxvolume)
 	end
 
 	-- turn aim on and off
-	if button == "r" and gameover == false and welcomescreen == false and self.aimassist == false then
+	if button == 2 and gameover == false and welcomescreen == false and self.aimassist == false then
 		self.aimassist = true
-	elseif button == "r" and gameover == false and welcomescreen == false and self.aimassist == true then
+	elseif button == 2 and gameover == false and welcomescreen == false and self.aimassist == true then
 		self.aimassist = false
 	end
 end

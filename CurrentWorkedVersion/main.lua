@@ -39,6 +39,20 @@ function love.load()
 	weapon = {}
 	------ GOLBAL VARIABLES ------
 
+
+
+
+	mastervolume = 1
+	musicvolume = 1
+	sfxvolume = 1
+	musicvolumelower = 0
+	love.audio.setVolume(mastervolume)
+
+
+
+
+
+
 	-- Set system cursor
 	love.mouse.setCursor(cursor)
 	
@@ -61,7 +75,7 @@ function love.update(dt)
 
 	-- Set game audio back to default if the options script tells mute to be false
 	if setmute == false then
-		love.audio.setVolume(1.0)
+		love.audio.setVolume(mastervolume)
 	end
 
 	-- Locks the cursor to the screen

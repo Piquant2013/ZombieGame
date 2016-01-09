@@ -77,6 +77,17 @@ function menu:init()
 end
 
 function menu:update(dt)
+
+
+	self.entersound:setVolume(sfxvolume)
+	self.backsound:setVolume(sfxvolume)
+	self.select1:setVolume(sfxvolume)
+	self.select2:setVolume(sfxvolume)
+	self.select3:setVolume(sfxvolume)
+	self.mouseover1:setVolume(sfxvolume)
+	self.mouseover2:setVolume(sfxvolume)
+	self.mouseover3:setVolume(sfxvolume)
+
 	
 	--- MOVE LOGO --- 
 	start.movelogo = start.movelogo + dt + 4
@@ -329,9 +340,13 @@ function menu:keypressed(key)
 	-- SELECT BUTTONS --
 	-- Move arrow up through menu states
 	if key == "up" or key == "w" then
-		love.audio.play(self.select1)
-		love.audio.play(self.select2)
-		love.audio.play(self.select3)
+		
+		if self.playstate == false then
+			love.audio.play(self.select1)
+			love.audio.play(self.select2)
+			love.audio.play(self.select3)
+		end
+
 		self.arrowy = self.arrowy - 50
 		
 		if self.mouseover == true then
@@ -341,9 +356,13 @@ function menu:keypressed(key)
 
 	-- Move arrow down through menu states
 	if key == "down" or key == "s" then
-		love.audio.play(self.select1)
-		love.audio.play(self.select2)
-		love.audio.play(self.select3)
+		
+		if self.exitstate == false then
+			love.audio.play(self.select1)
+			love.audio.play(self.select2)
+			love.audio.play(self.select3)
+		end
+		
 		self.arrowy = self.arrowy + 50
 		
 		if self.mouseover == true then
@@ -354,19 +373,19 @@ function menu:keypressed(key)
 
 	-- ACTIVATE BUTTONS --
 	-- Launch game
-	if key == "return" and self.playstate == true or key == " " and self.playstate == true then
+	if key == "return" and self.playstate == true or key == "space" and self.playstate == true then
 		love.audio.play(self.entersound)
 		Gamestate.push(selectmode)
 		self.arrowy = 100
 	end
 
 	-- Quit game
-	if key == "return" and self.exitstate == true or key == " " and self.exitstate == true then
+	if key == "return" and self.exitstate == true or key == "space" and self.exitstate == true then
 		love.event.quit()
 	end
 
 	-- Go to options menu
-	if key == "return" and self.optstate == true or key == " " and self.optstate == true then
+	if key == "return" and self.optstate == true or key == "space" and self.optstate == true then
 		love.audio.play(self.entersound)
 		Gamestate.push(options)
 		self.arrowy = 100
@@ -389,19 +408,19 @@ function menu:mousepressed(mx, my, button)
 
 	-- ACTIVATE BUTTONS --
 	-- Launch game
-	if button == "l" and self.playstatemouse == true then
+	if button == 1 and self.playstatemouse == true then
 		love.audio.play(self.entersound)
 		Gamestate.push(selectmode)
 		self.arrowy = 100
 	end
 
 	-- Quit game
-	if button == "l" and self.exitstatemouse == true then
+	if button == 1 and self.exitstatemouse == true then
 		love.event.quit()
 	end
 
 	-- Go to options menu
-	if button == "l" and self.optstatemouse == true then
+	if button == 1 and self.optstatemouse == true then
 		love.audio.play(self.entersound)
 		Gamestate.push(options)
 		self.arrowy = 100
@@ -409,7 +428,7 @@ function menu:mousepressed(mx, my, button)
 	-- ACTIVATE BUTTONS --
 
 	-- Go back to the start screen
-	if button == "r" then
+	if button == 2 then
 		Gamestate.switch(start)
 		start.movelogo = 128
 		love.audio.play(self.backsound)

@@ -44,6 +44,10 @@ function start:init()
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
 	self.music = love.audio.newSource("audio/music/menu.ogg")
 	self.colorgoeshere = love.audio.newSource("audio/music/colorgoeshere.ogg")
+
+	-- set volume
+	--self.music:setVolume(musicvolume)
+	--self.colorgoeshere:setVolume(musicvolume)
 	------ AUDIO ------
 
 	-- play menu music and set to loop
@@ -55,6 +59,8 @@ function start:init()
 end
 
 function start:update(dt)
+
+	self.entersound:setVolume(sfxvolume)
 	
 	--- MOVE LOGO ---
 	self.movelogo = self.movelogo - dt - 4
@@ -140,7 +146,7 @@ end
 function start:keypressed(key)
 
 	-- move onto the menu script
-	if key == " " or key == "return" then
+	if key == "space" or key == "return" then
 		Gamestate.push(menu)
 		love.audio.play(self.entersound)
 		paused = false
@@ -153,7 +159,7 @@ end
 function start:mousepressed(mx, my, button)
 
 	-- move onto the menu script
-	if button == "l" then
+	if button == 1 then
 		Gamestate.push(menu)
 		love.audio.play(self.entersound)
 		paused = false

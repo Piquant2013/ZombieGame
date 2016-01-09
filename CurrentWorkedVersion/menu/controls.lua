@@ -20,7 +20,7 @@ end
 function controls:keypressed(key)
 	
 	-- Takes you back to the main menu
-	if key == "escape" or key == "return" or key == " " then
+	if key == "escape" or key == "return" or key == "space" then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 		love.audio.stop(options.entersound1)
@@ -30,7 +30,7 @@ end
 function controls:mousepressed(mx, my, button)
 
 	-- Go back to the start screen
-	if button == "l" or button == "r" then
+	if button == 1 or button == 2 then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 		love.audio.stop(options.entersound1)
@@ -38,6 +38,9 @@ function controls:mousepressed(mx, my, button)
 end
 
 function controls:update(dt)
+
+	self.entersound:setVolume(sfxvolume)
+	self.backsound:setVolume(sfxvolume)
 end
 
 function controls:draw()

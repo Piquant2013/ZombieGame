@@ -72,7 +72,7 @@ function moregames:keypressed(key)
 	end
 	
 	-- Takes you back to the main menu
-	if key == "escape" or key == "return" or key == " " then
+	if key == "escape" or key == "return" or key == "space" then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 		love.audio.stop(options.entersound1)
@@ -82,28 +82,28 @@ end
 function moregames:mousepressed(mx, my, button)
 
 	-- Takes you back to the main menu
-	if button == "r" then
+	if button == 2 then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 		love.audio.stop(options.entersound1)
 	end
 
 	-- Go to the next page
-	if button == "l" and self.mouseovernext == true and self.dig == false then
+	if button == 1 and self.mouseovernext == true and self.dig == false then
 		love.audio.stop(self.select1)
 		love.audio.play(self.select2)
 		self.page2 = true
 	end
 
 	-- go to the next page
-	if button == "l" and self.mouseovernext == true and self.space == false then
+	if button == 1 and self.mouseovernext == true and self.space == false then
 		love.audio.play(self.select1)
 		love.audio.stop(self.select2)
 		self.page2 = false
 	end
 	
 	-- Takes you back to the main menu
-	if button == "l" and self.mouseoverback == true then
+	if button == 1 and self.mouseoverback == true then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
 		love.audio.stop(options.entersound1)
@@ -111,6 +111,15 @@ function moregames:mousepressed(mx, my, button)
 end
 
 function moregames:update(dt)
+
+
+	self.select1:setVolume(sfxvolume)
+	self.select2:setVolume(sfxvolume)
+	self.entersound:setVolume(sfxvolume)
+	self.backsound:setVolume(sfxvolume)
+	self.mouseover1:setVolume(sfxvolume)
+	self.mouseover2:setVolume(sfxvolume)
+	
 
 	-- Set the current page
 	if self.page2 == true then
