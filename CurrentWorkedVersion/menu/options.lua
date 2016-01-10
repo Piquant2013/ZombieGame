@@ -550,6 +550,14 @@ function options:update(dt)
 		love.audio.stop(self.mouseover3)
 		love.audio.play(self.mouseover4)
 	end
+
+	if self.mousedetect5 == 1 then
+		love.audio.stop(self.mouseover1)
+		love.audio.stop(self.mouseover2)
+		love.audio.stop(self.mouseover3)
+		love.audio.stop(self.mouseover4)
+		love.audio.play(self.mouseover5)
+	end
 	-- MOUSE DECTECTS --
 end
 
