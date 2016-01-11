@@ -14,5 +14,8 @@ function love.conf(t)
     t.window.width = 1280
 
     -- Games window height
-    t.window.height = 720   
+    t.window.height = 720
+
+    -- Game save folder name
+    t.identity = "ZombieGame"  
 end

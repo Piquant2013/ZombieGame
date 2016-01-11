@@ -120,6 +120,42 @@ function arcade:init()
 	self.bgtimer = 0
 	------ VARIABLES ------
 
+
+
+
+
+
+
+
+
+
+
+	self.highscore = 0
+	highscores = {}
+
+	if love.filesystem.exists("scores.lua") then
+	
+		for lines in love.filesystem.lines("scores.lua") do
+			table.insert(highscores, lines)
+			self.highscore = highscores[3]
+		end
+	
+	elseif not love.filesystem.exists("scores.lua") then
+		scores = love.filesystem.newFile("scores.lua")
+	end
+
+	--love.filesystem.write("scores.lua", "arcade.highscore\n=\n"..self.highscore)
+	--self.highscore = highscores[3]
+
+
+
+
+
+
+
+
+
+
 	------ IMAGES ------
 	self.layer1 = love.graphics.newImage("images/maps/arcade-layer1.png")
 	self.layer2 = love.graphics.newImage("images/maps/arcade-layer2.png")
@@ -1465,6 +1501,15 @@ function arcade:draw()
 			love.graphics.setFont( start.font3 )
 			love.graphics.print("SCORE:"..tostring(math.floor(self.totalscore)), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(math.floor(self.totalscore)))/2), 440)
 			love.graphics.setColor(255, 255, 255)
+
+			if self.totalscore > tonumber(self.highscore) then
+				self.highscore = self.totalscore
+				love.filesystem.write("scores.lua", "arcade.highscore\n=\n"..self.highscore)
+			end
+
+			love.graphics.setColor(160, 47, 0)
+			love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)), (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
+			love.graphics.setColor(255, 255, 255)
 		end
 	end
 
@@ -1476,6 +1521,11 @@ function arcade:draw()
 	-- draw game welcome messages
 	game:draw()
 	------ TEXT ------
+end
+
+function love.quit()
+	love.event.quit()
+	love.filesystem.write("scores.lua", "arcade.highscore\n=\n"..self.highscore)
 end
 
 return arcade

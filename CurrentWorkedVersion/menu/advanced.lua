@@ -223,6 +223,8 @@ function advanced:init()
 	self.buttonlot1 = false
 	self.buttonlot2 = false
 	self.buttonlot3 = false
+
+	inbtnarea1 = false
 		
 
 
@@ -1976,14 +1978,33 @@ function advanced:update(dt)
 
 
 
+	--[[
+	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.mastervolbtny - 15/2
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.mastervolbtny - 15/2 + 30 
+		and love.mouse.getX() > love.graphics.getWidth()/2 + 120 + mastervolume*250
+		and love.mouse.getX() < love.graphics.getWidth()/2 + 130 + mastervolume*250 then
+		inbtnarea1 = true
+	end
 
+	if love.mouse.isDown(1) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.musicvolbtny - 15/2
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.musicvolbtny - 15/2 + 30
+		and love.mouse.getX() > love.graphics.getWidth()/2 + 120 + musicvolume*250
+		and love.mouse.getX() < love.graphics.getWidth()/2 + 130 + musicvolume*250 then
+		--musicvolume = love.mouse.getX()
+	end
 
+	if love.mouse.isDown(1) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.sfxvolbtny - 15/2
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.sfxvolbtny - 15/2 + 30
+		and love.mouse.getX() > love.graphics.getWidth()/2 + 120 + sfxvolume*250
+		and love.mouse.getX() < love.graphics.getWidth()/2 + 130 + sfxvolume*250 then
+		--sfxvolume = love.mouse.getX()
+	end
 
-
-
-
-
-
+	if love.mouse.isDown(1) and inbtnarea1 == true and love.mouse.getX() > 760 and love.mouse.getX() < 1020 then
+		mastervolume = love.mouse.getX() / 1000
+	end
+	-- 760 - 1020
+	--]]
 
 
 
@@ -2341,6 +2362,12 @@ function advanced:draw()
 	-- Sets image depending if in options menu or pasue
 	love.graphics.draw(start.bg, 0, -1000, 0, 3)
 	------ IMAGES ------
+
+
+	
+--	love.graphics.print('DISPLAY FPS:'..tostring(love.mouse.getX()), 100, 100)
+
+
 
 	------ SHAPES ------
 	-- Arrow

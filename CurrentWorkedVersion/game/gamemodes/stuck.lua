@@ -62,6 +62,37 @@ function stuckmode:init()
 	self.layer2 = love.graphics.newImage("images/maps/arcade-layer2.png")
 	self.digeggimage = love.graphics.newImage("game/diggingsim/images/game/ach.png")
 	------ IMAGES ------
+
+
+
+
+
+
+
+
+	self.highscore = 0
+	self.highscoregrade = 0
+	self.scoregrade = 0
+	stuckhighscores = {}
+
+	if love.filesystem.exists("stuckscores.lua") then
+	
+		for lines in love.filesystem.lines("stuckscores.lua") do
+			table.insert(stuckhighscores, lines)
+			self.highscore = stuckhighscores[3]
+			self.highscoregrade = stuckhighscores[7]
+		end
+	
+	elseif not love.filesystem.exists("stuckscores.lua") then
+		scores = love.filesystem.newFile("stuckscores.lua")
+	end
+
+
+
+
+
+
+
 end
 
 function stuckmode:keypressed(key)
@@ -657,11 +688,116 @@ function stuckmode:draw()
 			love.graphics.print("SHOTS:"..tostring(crpistol.shotstaken), (love.graphics.getWidth()/2 - start.font2:getWidth("SHOTS:"..tostring(crpistol.shotstaken))/2), 380)
 			love.graphics.setFont( start.font3 )
 			love.graphics.print("SCORE:"..tostring(math.floor(self.totalscore)), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(math.floor(self.totalscore)))/2), 440)
+			
+
+
+
+
+
+
+
+			if self.totalscore > tonumber(self.highscore) then
+
+			if crpistol.shotstaken < 1 and self.score < 1 then
+				self.scoregrade = 1
+			end
+
+			if self.accuracy < 15 then
+				self.scoregrade = 2
+			elseif self.accuracy > 15 and self.accuracy < 30 then
+				self.scoregrade = 3
+			elseif self.accuracy > 30 and self.accuracy < 40 then
+				self.scoregrade = 4
+			elseif self.accuracy > 40 and self.accuracy < 45 then
+				self.scoregrade = 5
+			elseif self.accuracy > 45 and self.accuracy < 50 then
+				self.scoregrade = 6
+			elseif self.accuracy > 50 and self.accuracy < 55 then
+				self.scoregrade = 7
+			elseif self.accuracy > 55 and self.accuracy < 60 then
+				self.scoregrade = 8
+			elseif self.accuracy > 60 and self.accuracy < 65 then
+				self.scoregrade = 9
+			elseif self.accuracy > 65 and self.accuracy < 70 then
+				self.scoregrade = 10
+			elseif self.accuracy > 70 and self.accuracy < 75 then
+				self.scoregrade = 11
+			elseif self.accuracy > 75 and self.accuracy < 80 then
+				self.scoregrade = 12
+			elseif self.accuracy > 80 and self.accuracy < 84 then
+				self.scoregrade = 13
+			elseif self.accuracy > 84 and self.accuracy < 88 then
+				self.scoregrade = 14
+			elseif self.accuracy > 88 and self.accuracy < 90 then
+				self.scoregrade = 15
+			elseif self.accuracy > 90 and self.accuracy < 94 then
+				self.scoregrade = 16
+			elseif self.accuracy > 94 and self.accuracy < 98 then
+				self.scoregrade = 17
+			elseif self.accuracy > 98 then
+				self.scoregrade = 18
+			end
+
+				self.highscore = self.totalscore
+				self.highscoregrade = self.scoregrade
+				love.filesystem.write("stuckscores.lua", "stuck.highscore\n=\n"..self.highscore.."\n\nstuck.highscoregrade\n=\n"..self.highscoregrade)
+			end
+
+			love.graphics.setColor(160, 47, 0)
+
+			if self.scoregrade == 1 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." N/A", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." N/A")/2), 490)
+			end
+
+			if self.scoregrade == 2 then
+			love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." N/A", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." N/A")/2), 490)
+
+			elseif self.scoregrade == 3 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." F", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." F")/2), 490)
+			elseif self.scoregrade == 4 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." E-", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." E-")/2), 490)
+			elseif self.scoregrade == 5 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." E", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." E")/2), 490)
+			elseif self.scoregrade == 6 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." E+", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." E+")/2), 490)
+			elseif self.scoregrade == 7 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." D-", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." D-")/2), 490)
+			elseif self.scoregrade == 8 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." D", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." D")/2), 490)
+			elseif self.scoregrade == 9 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." D+", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." D+")/2), 490)
+			elseif self.scoregrade == 10 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." C-", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." C-")/2), 490)
+			elseif self.scoregrade == 11 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." C", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." C")/2), 490)
+			elseif self.scoregrade == 12 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." C+", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." C+")/2), 490)
+			elseif self.scoregrade == 13 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." B-", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." B-")/2), 490)
+			elseif self.scoregrade == 14 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." B", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." B")/2), 490)
+			elseif self.scoregrade == 15 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." B+", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." B+")/2), 490)
+			elseif self.scoregrade == 16 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." A-", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." A-")/2), 490)
+			elseif self.scoregrade == 17 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." A", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." A")/2), 490)
+			elseif self.scoregrade == 18 then
+				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." A+", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)).." A+")/2), 490)
+			end
+
+
+
+
+
+
+
+
+
 			love.graphics.setFont( start.font4 )
 
 			-- draw grades depedning on acuraccy
 			if crpistol.shotstaken < 1 and self.score < 1 then
-				self.totalscore = 0
 				love.graphics.print("N/A", (love.graphics.getWidth()/2 + 220), 335)
 			end
 
@@ -759,6 +895,12 @@ function stuckmode:draw()
 	-- draw game welcome messages
 	game:draw()
 	------ TEXT ------
+end
+
+function love.quit()
+	love.event.quit()
+	love.filesystem.write("stuckscores.lua", "stuck.highscore\n=\n"..self.highscore.."\n\nstuck.highscoregrade\n=\n"..self.highscoregrade)
+	--love.filesystem.write("stuckscores.lua", "\n\nstuck.highscoregrade\n=\n"..self.highscoregrade)
 end
 
 return stuckmode
