@@ -455,8 +455,6 @@ function arcade:update(dt)
 	end
 	-- SET UP GAME --
 
-	player:movement(dt)
-
 	-- update the gun
 	pistol:update(dt)
 

@@ -101,20 +101,24 @@ function player:movement(dt)
 	plyr.yvel = plyr.yvel * (1 - math.min(dt * plyr.friction, 1))
 
 	-- player movement with keys
-	if love.keyboard.isDown("a") and plyr.xvel > -100 and gameover == false then
-		plyr.xvel = plyr.xvel - plyr.speed * dt
+	if love.keyboard.isDown("a") and gameover == false then-- and plyr.xvel > -100 and gameover == false then
+		--plyr.xvel = plyr.xvel - plyr.speed * dt
+		plyr.x = plyr.x - plyr.speed * dt
 	end
     
-    if love.keyboard.isDown("d") and plyr.xvel < 100 and gameover == false then
-		plyr.xvel = plyr.xvel + plyr.speed * dt
+    if love.keyboard.isDown("d")  and gameover == false then--and plyr.xvel < 100 and gameover == false then
+		--plyr.xvel = plyr.xvel + plyr.speed * dt
+		plyr.x = plyr.x + plyr.speed * dt
     end
 
-    if love.keyboard.isDown("w") and plyr.yvel > -100 and gameover == false then
-		plyr.yvel = plyr.yvel - plyr.speed * dt
+    if love.keyboard.isDown("w")  and gameover == false then--and plyr.yvel > -100 and gameover == false then
+		--plyr.yvel = plyr.yvel - plyr.speed * dt
+		plyr.y = plyr.y - plyr.speed * dt
 	end
     
-    if love.keyboard.isDown("s") and plyr.yvel < 100 and gameover == false then
-		plyr.yvel = plyr.yvel + plyr.speed * dt
+    if love.keyboard.isDown("s")  and gameover == false then--and plyr.yvel < 100 and gameover == false then
+		--plyr.yvel = plyr.yvel + plyr.speed * dt
+		plyr.y = plyr.y + plyr.speed * dt
     end
 
     -- Player rotation
@@ -136,7 +140,7 @@ function player:update(dt)
 
 	-- update player and add plyr.bb to players group
 	Collider:addToGroup("players", plyr.bb)
-	--player:movement(dt) -- thr fact that its put through this update and then the game update and then the whole game update might be why its faster
+	player:movement(dt) -- thr fact that its put through this update and then the game update and then the whole game update might be why its faster
 end
 
 function player:draw()
