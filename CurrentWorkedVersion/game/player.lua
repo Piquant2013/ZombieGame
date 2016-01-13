@@ -34,6 +34,7 @@ function player:initialize()
 	plyr.friction = 20
 	plyr.health = 0
 	plyr.speed = 0
+	plyr.speed1 = 28
 	plyr.colliding = false
 	plyr.hurt = false
 	plyr.bb = Collider:addRectangle(plyr.x, plyr.y, plyr.w, plyr.h)
@@ -102,19 +103,19 @@ function player:movement(dt)
 
 	-- player movement with keys
 	if love.keyboard.isDown("a") and plyr.xvel > -100 and gameover == false then
-		plyr.xvel = plyr.xvel - plyr.speed * dt/2
+		plyr.xvel = plyr.xvel - plyr.speed1 * dt
 	end
     
     if love.keyboard.isDown("d") and plyr.xvel < 100 and gameover == false then
-		plyr.xvel = plyr.xvel + plyr.speed * dt/2
+		plyr.xvel = plyr.xvel + plyr.speed1 * dt
     end
 
     if love.keyboard.isDown("w") and plyr.yvel > -100 and gameover == false then
-		plyr.yvel = plyr.yvel - plyr.speed * dt/2
+		plyr.yvel = plyr.yvel - plyr.speed
 	end
     
     if love.keyboard.isDown("s") and plyr.yvel < 100 and gameover == false then
-		plyr.yvel = plyr.yvel + plyr.speed * dt/2
+		plyr.yvel = plyr.yvel + plyr.speed
     end
 
     -- Player rotation

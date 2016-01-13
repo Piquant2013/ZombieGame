@@ -248,7 +248,7 @@ function arcade:update(dt)
 		-- Player
 		plyr.y = 200
 		plyr.x = 400
-		plyr.speed = 28
+		plyr.speed = 0.5
 		plyr.health = 100
 		plyr.hurt = false
 		plyr.colliding = false
