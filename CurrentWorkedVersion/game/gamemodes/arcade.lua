@@ -248,7 +248,7 @@ function arcade:update(dt)
 		-- Player
 		plyr.y = 200
 		plyr.x = 400
-		plyr.speed = 0.5
+		plyr.speed = 28
 		plyr.health = 100
 		plyr.hurt = false
 		plyr.colliding = false
@@ -1231,7 +1231,7 @@ function arcade:draw()
 	love.graphics.draw(self.layer2, 0, 0)
 
 	-- display mini health bar
-	if plyr.hurt == true and gameover == false or player.minihealthbar == true and gameover == false then
+	if plyr.hurt == true and gameover == false or player.minihealthbar == true and gameover == false or minihealthalwayson == true and gameover == false then
 		love.graphics.setColor(160, 47, 0, 200)
 		love.graphics.rectangle("line", plyr.x - 13, plyr.y + 14, 27, 3)
 		love.graphics.setColor(0, 0, 0, 200)
@@ -1307,7 +1307,7 @@ function arcade:draw()
 			love.graphics.print("LIVES:"..tostring(player.lives), love.graphics.getWidth()/2 - 141, love.graphics.getHeight() - 17)
 		end
 
-		if self.oneupflashtimer < 8 then
+		if self.oneupflashtimer < 8 or minihealthalwayson == true and gameover == false then
 			love.graphics.setFont( start.font9 )
 			love.graphics.setColor(0, 0, 0, 150)
 			love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 140 - 6, love.graphics.getHeight() - 22, 140, 16 )
@@ -1315,9 +1315,12 @@ function arcade:draw()
 			love.graphics.rectangle("line", love.graphics.getWidth()/2 - 142 - 5, love.graphics.getHeight() - 23, 142, 18 )
 			love.graphics.setColor(160, 47, 0)
 			love.graphics.print("LIVES:"..tostring(player.lives), love.graphics.getWidth()/2 - 141, love.graphics.getHeight() - 17)
-			love.graphics.setColor(255, 255, 255, self.gunsflash)
-			love.graphics.print("LIVES:"..tostring(player.lives), love.graphics.getWidth()/2 - 141, love.graphics.getHeight() - 17)
-			love.graphics.setColor(255, 255, 255, 255)
+			
+			if self.oneupflashtimer < 8 then
+				love.graphics.setColor(255, 255, 255, self.gunsflash)
+				love.graphics.print("LIVES:"..tostring(player.lives), love.graphics.getWidth()/2 - 141, love.graphics.getHeight() - 17)
+				love.graphics.setColor(255, 255, 255, 255)
+			end
 		end
 		-- DISPLAY LIVES --
 
@@ -1332,7 +1335,7 @@ function arcade:draw()
 			love.graphics.print("SPEED:"..tostring(plyr.speed), love.graphics.getWidth()/2 + 12, love.graphics.getHeight() - 17)
 		end
 
-		if self.speedflashtimer < 8 then
+		if self.speedflashtimer < 8 or minihealthalwayson == true and gameover == false then
 			love.graphics.setFont( start.font9 )
 			love.graphics.setColor(0, 0, 0, 150)
 			love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 6, love.graphics.getHeight() - 22, 140, 16 )
@@ -1340,9 +1343,12 @@ function arcade:draw()
 			love.graphics.rectangle("line", love.graphics.getWidth()/2 + 5, love.graphics.getHeight() - 23, 142, 18 )
 			love.graphics.setColor(160, 47, 0)
 			love.graphics.print("SPEED:"..tostring(plyr.speed), love.graphics.getWidth()/2 + 12, love.graphics.getHeight() - 17)
-			love.graphics.setColor(255, 255, 255, self.gunsflash)
-			love.graphics.print("SPEED:"..tostring(plyr.speed), love.graphics.getWidth()/2 + 12, love.graphics.getHeight() - 17)
-			love.graphics.setColor(255, 255, 255, 255)
+			
+			if self.speedflashtimer < 8 then
+				love.graphics.setColor(255, 255, 255, self.gunsflash)
+				love.graphics.print("SPEED:"..tostring(plyr.speed), love.graphics.getWidth()/2 + 12, love.graphics.getHeight() - 17)
+				love.graphics.setColor(255, 255, 255, 255)
+			end
 		end
 		-- DISPLAY SPEED --
 

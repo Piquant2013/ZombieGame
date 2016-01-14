@@ -54,7 +54,7 @@ function advanced:init()
 
 	-- FPS lock Selecter Y & X
 	self.fpslockarrowy = 232
-	self.fpslockarrowx = 507
+	self.fpslockarrowx = 665
 	self.fpslockbtnx = 507
 	
 	-- Mute Selecter Y & X
@@ -225,7 +225,7 @@ function advanced:init()
 	self.buttonlot3 = false
 
 	inbtnarea1 = false
-		
+	zerores = true
 
 
 
@@ -1975,6 +1975,30 @@ function advanced:update(dt)
 
 
 
+	if resselections > 3 then
+		resselections = 1
+	end
+
+--	if resselections == 3 then
+	--	zerores = false
+--	end
+
+	--if resselections == 9 then
+	--	zerores = true
+--	end
+
+	--if resselections > 9 then
+		--resselections = 3
+	--end
+
+	--if self.fullscreenarrowx == 507 then
+		--self.fullscreenarrowx = 665
+--	end
+
+
+
+
+
 
 
 
@@ -2106,6 +2130,33 @@ function advanced:keypressed(key)
 	-- set controls on or off
 	if key == "return" and self.resolutionstate == true or key == "space" and self.resolutionstate == true then
 		love.audio.play(self.entersound1)
+
+
+
+		--if zerores == true then
+		resselections = resselections + 1
+
+		self.fullscreenarrowx = 665
+		--end
+
+		--if zerores == false then
+		--resselections = resselections + 3
+		--end
+
+		if resselections == 1 or resselections > 3 then
+			love.window.setMode( 1280, 720 )
+		end
+
+		if resselections == 2 then
+			love.window.setMode( 1680, 1050 )
+		end
+		
+		if resselections == 3 then
+			love.window.setMode( 1920, 1080 )
+		end
+
+
+
 	end
 
 	-- go to moregames screen
@@ -2113,6 +2164,7 @@ function advanced:keypressed(key)
 		love.audio.play(self.entersound1)
 		self.fullscreenarrowx = self.fullscreenarrowx + 118
 		love.window.setFullscreen( true, "exclusive" )
+		fullscreenon = true
 		--love.window.setMode(1280, 720)--, {fullscreen=true, "exclusive"})
 	end
 
@@ -2121,6 +2173,7 @@ function advanced:keypressed(key)
 		love.audio.play(self.entersound1)
 		self.fullscreenarrowx = self.fullscreenarrowx + 118
 		love.window.setFullscreen( false, "exclusive" )
+		fullscreenon = false
 		--love.window.setMode(1280, 720)--, {fullscreen=false, "exclusive"})
 	end
 
@@ -2185,7 +2238,7 @@ function advanced:keypressed(key)
 		self.fpsarrowx = 665
 		self.fpsbtnx = 492
 		self.fpslockarrowy = 232
-		self.fpslockarrowx = 507
+		self.fpslockarrowx = 665
 		self.fpslockbtnx = 507
 		self.mutearrowy = 232
 		self.mutearrowx = 665
@@ -2197,6 +2250,7 @@ function advanced:keypressed(key)
 		self.fullscreenarrowx = 665
 		self.fullscreenbtnx = 492
 		love.window.setMode(1280, 720, {fullscreen=false})
+		resselections = 1
 		mastervolume = 1
 		musicvolume = 1
 		sfxvolume = 1
@@ -2233,6 +2287,30 @@ function advanced:mousepressed(mx, my, button)
 	-- set controls on or off
 	if button == 1 and self.resolutionstatemouse == true then
 		love.audio.play(self.entersound1)
+
+			--if zerores == true then
+			resselections = resselections + 1
+		--end
+
+			self.fullscreenarrowx = 665
+
+		--if zerores == false then
+			--resselections = resselections + 3
+		--end
+
+		if resselections == 1 or resselections > 3 then
+			love.window.setMode( 1280, 720 )
+		end
+
+		if resselections == 2 then
+			love.window.setMode( 1680, 1050 )
+		end
+		
+		if resselections == 3 then
+			love.window.setMode( 1920, 1080 )
+		end
+
+
 	end
 
 	-- go to moregames screen
@@ -2312,7 +2390,7 @@ function advanced:mousepressed(mx, my, button)
 		self.fpsarrowx = 665
 		self.fpsbtnx = 492
 		self.fpslockarrowy = 232
-		self.fpslockarrowx = 507
+		self.fpslockarrowx = 665
 		self.fpslockbtnx = 507
 		self.mutearrowy = 232
 		self.mutearrowx = 665
@@ -2324,6 +2402,7 @@ function advanced:mousepressed(mx, my, button)
 		self.fullscreenarrowx = 665
 		self.fullscreenbtnx = 492
 		love.window.setMode(1280, 720, {fullscreen=false})
+		resselections = 1
 		mastervolume = 1
 		musicvolume = 1
 		sfxvolume = 1
@@ -2395,9 +2474,9 @@ function advanced:draw()
 	love.graphics.print('DISPLAY FPS:', love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120, (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2) + self.fpsbtny, 0, self.scalefps)
 		
 	love.graphics.setColor(160, 47, 0, 255)
-	love.graphics.print('LOCK FPS 60:', love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120, (love.graphics.getHeight()/2 - start.font2:getHeight( "LOCK FPS 60:" )/2) + self.fpslockbtny, 0, self.scalefpslock)
+	love.graphics.print('MINI HUDS:', love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120, (love.graphics.getHeight()/2 - start.font2:getHeight( "LOCK FPS 60:" )/2) + self.fpslockbtny, 0, self.scalefpslock)
 	love.graphics.setColor(255, 255, 255, self.buttonflashfpslock)
-	love.graphics.print('LOCK FPS 60:', love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120, (love.graphics.getHeight()/2 - start.font2:getHeight( "LOCK FPS 60:" )/2) + self.fpslockbtny, 0, self.scalefpslock)
+	love.graphics.print('MINI HUDS:', love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120, (love.graphics.getHeight()/2 - start.font2:getHeight( "LOCK FPS 60:" )/2) + self.fpslockbtny, 0, self.scalefpslock)
 		
 	love.graphics.setColor(160, 47, 0, 255)
 	love.graphics.print('RESOLUTION:', love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120, (love.graphics.getHeight()/2 - start.font2:getHeight( "RESOLUTION:" )/2) + self.resolutionbtny, 0, self.scaleresolution)
@@ -2455,9 +2534,9 @@ function advanced:draw()
 	end
 
 	if setfpslock == true then
-		love.graphics.print('ON', (love.graphics.getWidth()/2 - start.font2:getWidth( "ON" )/2) + 150, (love.graphics.getHeight()/2 - start.font2:getHeight( "ON" )/2) + self.fpslockbtny)
+		love.graphics.print('ALWAYS ON', (love.graphics.getWidth()/2 - start.font2:getWidth( "ON" )/2) + 150, (love.graphics.getHeight()/2 - start.font2:getHeight( "ON" )/2) + self.fpslockbtny)
 	elseif setfpslock == false then
-		love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font2:getWidth( "OFF" )/2) + 165, (love.graphics.getHeight()/2 - start.font2:getHeight( "OFF" )/2) + self.fpslockbtny)
+		love.graphics.print('AUTO HIDE', (love.graphics.getWidth()/2 - start.font2:getWidth( "OFF" )/2) + 165, (love.graphics.getHeight()/2 - start.font2:getHeight( "OFF" )/2) + self.fpslockbtny)
 	end
 
 	if setfull == true then
@@ -2478,9 +2557,17 @@ function advanced:draw()
 		love.graphics.print('OFF', (love.graphics.getWidth()/2 - start.font2:getWidth( "OFF" )/2) + 165, (love.graphics.getHeight()/2 - start.font2:getHeight( "OFF" )/2) + self.mutebtny)
 	end
 
-	love.graphics.setColor(160, 47, 0, 100)
-	love.graphics.print('1280X720', love.graphics.getWidth()/2 + 115, (love.graphics.getHeight()/2 - start.font2:getHeight( "RESOLUTION:" )/2) + self.resolutionbtny, 0)
-	love.graphics.setColor(160, 47, 0, 255)
+	if resselections == 1 then
+		love.graphics.print('1280x720', (love.graphics.getWidth()/2 + 115), (love.graphics.getHeight()/2 - start.font2:getHeight( "ON" )/2) + self.resolutionbtny)
+	elseif resselections == 2 then
+		love.graphics.print('1680x1050', (love.graphics.getWidth()/2 + 115), (love.graphics.getHeight()/2 - start.font2:getHeight( "OFF" )/2) + self.resolutionbtny)
+	elseif resselections == 3 then
+		love.graphics.print('1920x1080', (love.graphics.getWidth()/2 + 115), (love.graphics.getHeight()/2 - start.font2:getHeight( "OFF" )/2) + self.resolutionbtny)
+	end
+
+--	love.graphics.setColor(160, 47, 0, 100)
+--	love.graphics.print('1280X720', love.graphics.getWidth()/2 + 115, (love.graphics.getHeight()/2 - start.font2:getHeight( "RESOLUTION:" )/2) + self.resolutionbtny, 0)
+--	love.graphics.setColor(160, 47, 0, 255)
 	-- TEMP
 
 	-- draw back button

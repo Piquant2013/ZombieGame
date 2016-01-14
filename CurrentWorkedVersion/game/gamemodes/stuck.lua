@@ -135,6 +135,7 @@ function stuckmode:keypressed(key)
 		love.audio.play(diggingsim2015.music)
 		diggingsim2015.music:setLooping(true)
 		love.mouse.setCursor(cursor)
+		love.window.setMode( 1280, 720 )
   	end
 
   	-- Dismis dig promt

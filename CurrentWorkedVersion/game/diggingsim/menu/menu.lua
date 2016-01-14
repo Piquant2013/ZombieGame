@@ -154,6 +154,26 @@ function menusim:keypressed(key)
 		love.audio.stop(game.music1)
 		love.audio.stop(game.music2)
 		love.audio.stop(startsim.music)
+
+		if resselections == 1 or resselections > 3 then
+			love.window.setMode( 1280, 720 )
+		end
+
+		if resselections == 2 then
+			love.window.setMode( 1680, 1050 )
+		end
+		
+		if resselections == 3 then
+			love.window.setMode( 1920, 1080 )
+		end
+
+		if fullscreenon == false then
+			love.window.setFullscreen( false, "exclusive" )
+		end
+
+		if fullscreenon == true then
+			love.window.setFullscreen( true, "exclusive" )
+		end
 	end
 	-- ACTIVATE BUTTONS --
 

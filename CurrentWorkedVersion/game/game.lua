@@ -690,9 +690,29 @@ function game:update(dt)
 
 	-- Zoom camera in when gameover but make sure it stays default when not
     if gameover == true then
-		self.Cam:zoomTo(5)
+		if resselections == 1 then
+			self.Cam:zoomTo(5)
+		end
+
+		if resselections == 2 then
+			self.Cam:zoomTo(6.4)
+		end
+
+		if resselections == 3 then
+			self.Cam:zoomTo(6.8)
+		end
 	elseif gameover == false then
-		self.Cam:zoomTo(3.2)
+		if resselections == 1 then
+			self.Cam:zoomTo(3.2)
+		end
+
+		if resselections == 2 then
+			self.Cam:zoomTo(4.6)
+		end
+
+		if resselections == 3 then
+			self.Cam:zoomTo(5)
+		end
 	end
 	-- CAMERA --
 
@@ -753,29 +773,31 @@ function game:draw()
     	love.graphics.draw(start.bg, 0, -1000, 0, 3)
     	love.graphics.setColor(160, 47, 0)
     	love.graphics.setFont( start.font2 )
-		love.graphics.print("WELCOME! THANK YOU FOR TAKING THE TIME", 60, 70)
-		love.graphics.print("TO TEST PIQUANT INTERACTIVE'S PROJECT,", 60, 110)
-		love.graphics.print("ZOMBIE GAME. THIS GAME MODE HAS YOU", 60, 150)
-		love.graphics.print("BATTLING ZOMBIES IN AN ENDLESS, WAVE", 60, 190)
-		love.graphics.print("BASED SURVIVAL SHOOTER WITH NAUGHT BUT", 60, 230)
-		love.graphics.print("YOUR WIT AND YOUR PISTOL. DON'T DIE!", 60, 270)
+		love.graphics.print("WELCOME! THANK YOU FOR TAKING THE TIME", (love.graphics.getWidth()/2 - start.font2:getWidth( "WELCOME! THANK YOU FOR TAKING THE TIME" )/2) - 10, (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 275)
+		love.graphics.print("TO TEST PIQUANT INTERACTIVE'S PROJECT,", (love.graphics.getWidth()/2 - start.font2:getWidth( "TO TEST PIQUANT INTERACTIVE'S PROJECT," )/2) - 14, (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 235)
+		love.graphics.print("ZOMBIE GAME. THIS GAME MODE HAS YOU", (love.graphics.getWidth()/2 - start.font2:getWidth( "ZOMBIE GAME. THIS GAME MODE HAS YOU" )/2) - 54, (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 195)
+		love.graphics.print("BATTLING ZOMBIES IN AN ENDLESS, WAVE", (love.graphics.getWidth()/2 - start.font2:getWidth( "BATTLING ZOMBIES IN AN ENDLESS, WAVE" )/2) - 39, (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 155)
+		love.graphics.print("BASED SURVIVAL SHOOTER WITH NAUGHT BUT", (love.graphics.getWidth()/2 - start.font2:getWidth( "BASED SURVIVAL SHOOTER WITH NAUGHT BUT" )/2) - 10, (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 115)
+		love.graphics.print("YOUR WIT AND YOUR PISTOL. DON'T DIE!", (love.graphics.getWidth()/2 - start.font2:getWidth( "YOUR WIT AND YOUR PISTOL. DON'T DIE!" )/2) - 44, (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 75)
+		
 		love.graphics.setFont( start.font1 )
-		love.graphics.print("CONTORLS:", 60, 360)
-		love.graphics.print("SHOOT: LEFT-CLICK", 60, 385)
-		love.graphics.print("AIMASSIST: RIGHT-CLICK", 60, 410)
-		love.graphics.print("MOVEMENT: WASD", 60, 435)
-		love.graphics.print("PAUSE: ESC", 60, 455)
-		love.graphics.print("LEAVE ANY FEEDBACK YOU", 60, 540)
-		love.graphics.print("MAY HAVE AT", 60, 565)
-		love.graphics.print("[REDDIT.COM/R/PIQUANT2013/]", 60, 585)
-		love.graphics.print("AS WE LOVE PLAYER", 60, 610)
-		love.graphics.print("INTERACTION.", 60, 635)
+		love.graphics.print("CONTORLS:", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 15)
+		love.graphics.print("SHOOT: LEFT-CLICK", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 40)
+		love.graphics.print("AIMASSIST: RIGHT-CLICK", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 65)
+		love.graphics.print("MOVEMENT: WASD", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 90)
+		love.graphics.print("PAUSE: ESC", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 115)
+		love.graphics.print("LEAVE ANY FEEDBACK YOU", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 200)
+		love.graphics.print("MAY HAVE AT", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 225)
+		love.graphics.print("[REDDIT.COM/R/PIQUANT2013/]", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 250)
+		love.graphics.print("AS WE LOVE PLAYER", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 275)
+		love.graphics.print("INTERACTION.", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 300)
+		
 		love.graphics.setFont( start.font2 )
-		love.graphics.print("PRESS START", 765, 465)
-		love.graphics.print("BUTTON", 765 + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, 505)
+		love.graphics.print("PRESS START", (love.graphics.getWidth()/2 + 125), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 119)
+		love.graphics.print("BUTTON", (love.graphics.getWidth()/2 + 125) + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 159)
 		love.graphics.setColor(255, 255, 255, self.buttonflash)
-		love.graphics.print("PRESS START", 765, 465)
-		love.graphics.print("BUTTON", 765 + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, 505)
+		love.graphics.print("PRESS START", (love.graphics.getWidth()/2 + 125), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 119)
+		love.graphics.print("BUTTON", (love.graphics.getWidth()/2 + 125) + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 159)
 		love.graphics.setColor(255, 255, 255)
 	end
 
@@ -785,29 +807,31 @@ function game:draw()
     	love.graphics.draw(start.bg, 0, -1000, 0, 3)
     	love.graphics.setColor(160, 47, 0)
     	love.graphics.setFont( start.font2 )
-		love.graphics.print("THANK YOU FOR TAKING THE TIME TO TEST", 60, 70)
-		love.graphics.print("PIQUANT INTERACTIVE'S PROJECT, ZOMBIE", 60, 110)
-		love.graphics.print("GAME. THIS MODE DOESNT ALLOW PLAYER", 60, 150)
-		love.graphics.print("MOVEMENT; HENCE THE NAME. YOU WILL", 60, 190)
-		love.graphics.print("REQUIRE 3 THINGS: FAST REFLEXES, QUICK", 60, 230)
-		love.graphics.print("TIGGER FINGER, AND THE WILL TO SURVIVE.", 60, 270)
+		love.graphics.print("THANK YOU FOR TAKING THE TIME TO TEST", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 275)
+		love.graphics.print("PIQUANT INTERACTIVE'S PROJECT, ZOMBIE", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 235)
+		love.graphics.print("GAME. THIS MODE DOESNT ALLOW PLAYER", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 195)
+		love.graphics.print("MOVEMENT; HENCE THE NAME. YOU WILL", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 155)
+		love.graphics.print("REQUIRE 3 THINGS: FAST REFLEXES, QUICK", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 115)
+		love.graphics.print("TIGGER FINGER, AND THE WILL TO SURVIVE.", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 75)
+		
 		love.graphics.setFont( start.font1 )
-		love.graphics.print("CONTORLS:", 60, 360)
-		love.graphics.print("SHOOT: LEFT-CLICK", 60, 385)
-		love.graphics.print("AIMASSIST: RIGHT-CLICK", 60, 410)
-		love.graphics.print("MOVEMENT: WASD", 60, 435)
-		love.graphics.print("PAUSE: ESC", 60, 455)
-		love.graphics.print("LEAVE ANY FEEDBACK YOU", 60, 540)
-		love.graphics.print("MAY HAVE AT", 60, 565)
-		love.graphics.print("[REDDIT.COM/R/PIQUANT2013/]", 60, 585)
-		love.graphics.print("AS WE LOVE PLAYER", 60, 610)
-		love.graphics.print("INTERACTION.", 60, 635)
+		love.graphics.print("CONTORLS:", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 15)
+		love.graphics.print("SHOOT: LEFT-CLICK", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 40)
+		love.graphics.print("AIMASSIST: RIGHT-CLICK", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 65)
+		love.graphics.print("MOVEMENT: WASD", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 90)
+		love.graphics.print("PAUSE: ESC", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 115)
+		love.graphics.print("LEAVE ANY FEEDBACK YOU", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 200)
+		love.graphics.print("MAY HAVE AT", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 225)
+		love.graphics.print("[REDDIT.COM/R/PIQUANT2013/]", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 250)
+		love.graphics.print("AS WE LOVE PLAYER", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 275)
+		love.graphics.print("INTERACTION.", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 300)
+		
 		love.graphics.setFont( start.font2 )
-		love.graphics.print("PRESS START", 765, 465)
-		love.graphics.print("BUTTON", 765 + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, 505)
+		love.graphics.print("PRESS START", (love.graphics.getWidth()/2 + 125), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 119)
+		love.graphics.print("BUTTON", (love.graphics.getWidth()/2 + 125) + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 159)
 		love.graphics.setColor(255, 255, 255, self.buttonflash)
-		love.graphics.print("PRESS START", 765, 465)
-		love.graphics.print("BUTTON", 765 + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, 505)
+		love.graphics.print("PRESS START", (love.graphics.getWidth()/2 + 125), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 119)
+		love.graphics.print("BUTTON", (love.graphics.getWidth()/2 + 125) + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 159)
 		love.graphics.setColor(255, 255, 255)
 	end
 	------ TEXT ------

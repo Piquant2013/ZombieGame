@@ -47,6 +47,9 @@ function love.load()
 	sfxvolume = 1
 	musicvolumelower = 0
 	love.audio.setVolume(mastervolume)
+	minihealthalwayson = false
+	resselections = 1
+	fullscreenon = false
 
 
 
@@ -87,9 +90,11 @@ function love.update(dt)
 
 	-- Locks the fps to the screen
 	if setfpslock == false then
-		frame_limiter.set(999)
+		--frame_limiter.set(999)
+		minihealthalwayson = false
 	elseif setfpslock == true then
-		frame_limiter.set(60)
+		--frame_limiter.set(60)
+		minihealthalwayson = true
 	end
 
 	-- Set game fullscreen
