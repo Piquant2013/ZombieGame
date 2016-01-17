@@ -199,8 +199,14 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 						arcade.killallspawnscore = arcade.killallspawnscore + 10
 						arcade.oneupspawnscore = 	arcade.oneupspawnscore + 10
 						arcade.totalscore = arcade.totalscore + 10
+						o.speed = 0
+						
+						-- remove zombie
 						Collider:remove(o.bb)
-						table.remove(zombie.zombs, i)
+						
+						if gameover == true then
+							table.remove(zombie.zombs, i)
+						end
 					end
 				end
     		end
@@ -495,6 +501,7 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 						arcade.killallspawnscore = arcade.killallspawnscore + 10
 						arcade.oneupspawnscore = 	arcade.oneupspawnscore + 10
 						arcade.totalscore = arcade.totalscore + 10
+						o.speed = 0
 						
 						-- count the bullets for shot gun double kills
 						if arcade.wave > 9 and arcade.smghave == false or arcade.wave > 9 and arcade.minihave == false or arcade.wave > 9 and arcade.quesmghave == false or arcade.wave > 9 and arcade.queminihave == false then
@@ -506,10 +513,13 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 							Collider:remove(v.bb)
 							table.remove(pistol.bullets, c)
 						end
-						
+
 						-- remove zombie
 						Collider:remove(o.bb)
-						table.remove(zombie.zombs, i)
+						
+						if gameover == true then
+							table.remove(zombie.zombs, i)
+						end
 					end
 				end
 			end
