@@ -203,10 +203,6 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 						
 						-- remove zombie
 						Collider:remove(o.bb)
-						
-						if gameover == true then
-							table.remove(zombie.zombs, i)
-						end
 					end
 				end
     		end
@@ -516,10 +512,6 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 
 						-- remove zombie
 						Collider:remove(o.bb)
-						
-						if gameover == true then
-							table.remove(zombie.zombs, i)
-						end
 					end
 				end
 			end
@@ -569,9 +561,10 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 							zombie.speed = zombie.speed + 0.12
 						end
        
+       					o.speed = 0
        					-- remove zombie if dies
 						Collider:remove(o.bb)
-						table.remove(zombie.zombs, i)
+						--table.remove(zombie.zombs, i)
 					end
 				end
 			end

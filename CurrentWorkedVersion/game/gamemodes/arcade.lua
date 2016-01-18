@@ -1123,7 +1123,9 @@ function arcade:update(dt)
 		
 		-- make zombies slowmo at death
 		for i, o in ipairs(zombie.zombs) do
-			o.speed = 10
+			if o.health > 0 then
+				o.speed = 10
+			end
 		end
 
 		-- set timer and title mover
@@ -1179,6 +1181,16 @@ function arcade:draw()
 
 	-- layer1 of the map
 	love.graphics.draw(self.layer1, 0, 0)
+
+
+
+
+
+	zombie:drawblood()
+
+
+
+
 
 	-- bullet
 	pistol:bulletdraw()

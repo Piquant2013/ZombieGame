@@ -70,12 +70,15 @@ function zombie:spawn()
 		zomb.y = self.zry
 		zomb.w = 15
 		zomb.h = 16
-		zomb.timer = 0
+		zomb.timer = 7
+		zomb.bloodtype = love.math.random(1, 3)
 		zomb.health = self.health
 		zomb.speed = self.speed
 		zomb.bb = Collider:addRectangle(zomb.x, zomb.y, zomb.w, zomb.h)
 		zomb.sprite = love.graphics.newImage("images/zombies/zombie.png")
 		zomb.sprite2 = love.graphics.newImage("images/zombies/zombieblood.png")
+		zomb.sprite3 = love.graphics.newImage("images/zombies/zombieblood2.png")
+		zomb.sprite4 = love.graphics.newImage("images/zombies/zombieblood3.png")
 		zomb.damageaudio = love.audio.newSource("audio/zombie/damage.ogg")
 
 		-- Insert Zombie
@@ -92,7 +95,7 @@ function zombie:update(dt)
 	-- push zombies away from each other when they touch -- TEMP --
 	for i = 1, #self.zombs do
 		for j = i + 1, #self.zombs do
-			if (self.zombs[i].x > (self.zombs[j].x - 16) and (self.zombs[i].x < (self.zombs[j].x + 16))) and (self.zombs[i].y > (self.zombs[j].y - 16) and (self.zombs[i].y < (self.zombs[j].y + 16))) then
+			if (self.zombs[i].x > (self.zombs[j].x - 16) and (self.zombs[i].x < (self.zombs[j].x + 16))) and (self.zombs[i].y > (self.zombs[j].y - 16) and (self.zombs[i].y < (self.zombs[j].y + 16))) and self.zombs[j].health > 0 and self.zombs[i].health > 0 then
 				self.pushrotation = math.atan2(self.zombs[i].x - self.zombs[j].x, self.zombs[j].y - self.zombs[i].y) + math.pi / 2
 				self.zombs[j].x = self.zombs[j].x + math.cos(self.pushrotation) * 30 * dt
 				self.zombs[j].y = self.zombs[j].y + math.sin(self.pushrotation) * 30 * dt
@@ -112,10 +115,11 @@ function zombie:update(dt)
    		v.y = v.y + dy
 
    		if v.health == 0 then
-   			v.timer = v.timer + dt
+   			v.timer = v.timer - dt
+   			v.speed = 0
    		end
 
-   		if v.timer > 1 then
+   		if v.timer < 0 then
    			table.remove(zombie.zombs, i)
    		end
 	end
@@ -127,7 +131,6 @@ function zombie:draw()
 		
 		------ FILTERS ------
 		v.sprite:setFilter( 'nearest', 'nearest' )
-		v.sprite2:setFilter( 'nearest', 'nearest' )
 		------ FILTERS ------
 
 		------ IMAGES ------
@@ -138,10 +141,31 @@ function zombie:draw()
 		
    		if v.health > 0 then
 			love.graphics.draw(v.sprite, v.x, v.y, self.drawrotation, 1, 1, v.sprite:getWidth()/2, v.sprite:getHeight()/2)
-		end 
+		end
+		------ IMAGES ------
+	end
+end
 
-		if v.timer > 0 then
-			love.graphics.draw(v.sprite2, v.x, v.y, 1, 1, 1, v.sprite:getWidth()/2, v.sprite:getHeight()/2)
+function zombie:drawblood()
+	for i,v in ipairs(self.zombs) do
+		
+		------ FILTERS ------
+		v.sprite2:setFilter( 'nearest', 'nearest' )
+		v.sprite3:setFilter( 'nearest', 'nearest' )
+		v.sprite4:setFilter( 'nearest', 'nearest' )
+
+		if v.timer > 0 and v.health == 0 then
+			love.graphics.setColor(255, 255, 255, v.timer*36.42)
+
+			if v.bloodtype == 1 then
+				love.graphics.draw(v.sprite2, v.x, v.y, 1, 1, 1, v.sprite:getWidth()/2, v.sprite:getHeight()/2)
+			elseif v.bloodtype == 2 then
+				love.graphics.draw(v.sprite3, v.x, v.y, 1, 1, 1, v.sprite:getWidth()/2, v.sprite:getHeight()/2)
+			elseif v.bloodtype == 3 then
+				love.graphics.draw(v.sprite4, v.x, v.y, 1, 1, 1, v.sprite:getWidth()/2, v.sprite:getHeight()/2)
+			end
+
+			love.graphics.setColor(255, 255, 255)
 		end
 		------ IMAGES ------
 	end
