@@ -312,61 +312,85 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     		if other == o.bb then
     			arcade.questionmarkhad = true
     			arcade.questionmarkhave = true
-    			arcade.minihave = false
-    			arcade.smghave = false
+    			arcade.quevisualtimer = 4
+    			
+    			for i, o in ipairs(smg.smgs) do
+					o.ammo = 0
+				end
+
+				for i, o in ipairs(minigun.miniguns) do
+					o.ammo = 0
+				end
+
 				game.quenumber = love.math.random(1, 15)
 
 				-- differnt question mark options
 				if game.quenumber == 1 then
 					arcade.totalscore = arcade.totalscore - 1000
 					love.audio.play(menu.backsound)
+					arcade.quevisual = 1
 				elseif game.quenumber == 2 then
 					arcade.totalscore = arcade.totalscore + 1000
 					love.audio.play(game.pickupsound)
+					arcade.quevisual = 2
 				elseif game.quenumber == 3 then
 					arcade.totalscore = arcade.totalscore - 200
 					love.audio.play(menu.backsound)
+					arcade.quevisual = 3
 				elseif game.quenumber == 4 then
 					arcade.totalscore = arcade.totalscore + 200
 					love.audio.play(game.pickupsound)
+					arcade.quevisual = 4
 				elseif game.quenumber == 5 then
 					arcade.totalscore = arcade.totalscore - 100
 					love.audio.play(menu.backsound)
+					arcade.quevisual = 5
 				elseif game.quenumber == 6 then
 					arcade.totalscore = arcade.totalscore - 100
 					love.audio.play(menu.backsound)
+					arcade.quevisual = 5
 				elseif game.quenumber == 7 then
 					love.audio.play(game.pickupsound)
 					arcade.quesmghave = true
+					arcade.quevisual = 6
 				elseif game.quenumber == 8 then
 					love.audio.play(game.pickupsound)
 					arcade.quesmghave = true
+					arcade.quevisual = 6
 				elseif game.quenumber == 9 then
 					love.audio.play(game.pickupsound)
 					arcade.queminihave = true
+					arcade.quevisual = 7
 				elseif game.quenumber == 10 then
 					love.audio.play(game.pickupsound)
 					arcade.queminihave = true
+					arcade.quevisual = 7
 				elseif game.quenumber == 11 then
 					love.audio.play(game.pickupsound)
 					arcade.totalscore = arcade.totalscore + 100
+					arcade.quevisual = 8
 				elseif game.quenumber == 12 then
 					love.audio.play(game.pickupsound)
     				arcade.totalscore = arcade.totalscore + 100
+    				arcade.quevisual = 8
 				elseif game.quenumber == 13 then
 					if player.lives < 3 then
 						player.lives = player.lives + 1
 						arcade.oneupflashtimer = 0
 						love.audio.play(game.pickupsound)
+						arcade.quevisual = 9
 					elseif player.lives > 2 then
 						love.audio.play(game.pickupsound)
 						arcade.totalscore = arcade.totalscore + 1000
+						arcade.quevisual = 2
 					end
 				elseif game.quenumber == 14 then
 					love.audio.play(menu.backsound)
+					arcade.quevisual = 10
 				elseif game.quenumber == 15 then
 					love.audio.play(game.pickupsound)
 					arcade.totalscore = arcade.totalscore + 5000
+					arcade.quevisual = 11
 				end 
 			
     			Collider:remove(o.bb)

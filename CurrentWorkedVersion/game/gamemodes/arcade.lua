@@ -128,8 +128,8 @@ function arcade:init()
 
 
 
-
-
+	self.quevisualtimer = 0
+	self.quevisual = 0
 	self.highscore = 0
 	highscores = {}
 
@@ -238,6 +238,12 @@ function arcade:update(dt)
 	game.music2:setVolume(musicvolume)
 	game.music3:setVolume(musicvolume)
 
+	self.quevisualtimer = self.quevisualtimer - dt
+
+	if self.quevisualtimer < 0 then
+		self.quevisualtimer = 0
+	end
+
 	-- update main game mechanics
 	game:update(dt)
 
@@ -345,11 +351,11 @@ function arcade:update(dt)
 		self.spawnkillall = false
 		self.killallhave = false
 		self.killalltimer = 1.5
+		self.killallspawnscore = 0
+		self.killallhad = false
 		self.killallflash = 0
 		self.flashkillall = false
 		self.killamount = 100
-		self.killallspawnscore = 0
-		self.killallhad = false
 
 		-- Oneup vars
 		self.oneupcount = 1
@@ -688,7 +694,7 @@ function arcade:update(dt)
 	end
 
 	-- Spawning
-	if self.spawnkillall == true and self.killallspawnscore == 3000 then
+	if self.spawnkillall == true and self.killallspawnscore == 10000 then
 		killall:spawn()
 		self.killallspawnscore = 0
 	end
@@ -699,7 +705,7 @@ function arcade:update(dt)
 	end
 
 	-- reset spawning
-	if self.killallspawnscore > 2000 then
+	if self.killallspawnscore > 10000 then
 		self.killallspawnscore = 0
 	end
 
@@ -1240,7 +1246,9 @@ function arcade:draw()
 	zombie:draw()
 
 	-- layer2 of the map
+	love.graphics.setColor(255, 255, 255, 235)
 	love.graphics.draw(self.layer2, 0, 0)
+	love.graphics.setColor(255, 255, 255, 255)
 
 	-- display mini health bar
 	if plyr.hurt == true and gameover == false or player.minihealthbar == true and gameover == false or minihealthalwayson == true and gameover == false then
@@ -1479,6 +1487,15 @@ function arcade:draw()
 			love.graphics.draw(self.powerupdisplay2, love.graphics.getWidth()/2 - self.powerupdisplay2:getWidth()/2 * 2 - 90, love.graphics.getHeight() - self.powerupdisplay2:getHeight()/2 * 2 - 123, 0, 2)
 		end
 
+		if self.invhave == true then
+			love.graphics.setColor(0, 0, 0, 150)
+			love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 248/2, love.graphics.getHeight() - 149 - 30, 248, 22 )
+			love.graphics.setColor(160, 47, 0, 255)
+			love.graphics.rectangle("line", love.graphics.getWidth()/2 - 250/2, love.graphics.getHeight() - 150 - 30, 250, 24 )
+			love.graphics.print("SHIELD:"..tostring(math.floor(self.invtimer)), love.graphics.getWidth()/2 - 250/2 + 65, love.graphics.getHeight() - 117 - 55)
+			love.graphics.setColor(255, 255, 255, 255)
+		end
+
 		-- contiune screen draw
 		if self.death == true then
 			love.graphics.setColor(0, 0, 0, 150)
@@ -1494,6 +1511,53 @@ function arcade:draw()
     		love.graphics.print('PRESS START BUTTON', (love.graphics.getWidth()/2 - start.font3:getWidth('PRESS START BUTTON')/2), love.graphics.getHeight()/2 + 55)
     		love.graphics.setColor(255, 255, 255)
     	end
+
+
+
+
+
+
+    	love.graphics.setFont( start.font3 )
+   		love.graphics.setColor(160, 47, 0)
+    	if self.quevisualtimer > 0 then
+    		if self.quevisual == 1 then
+    			love.graphics.print("-1000", (love.graphics.getWidth()/2 - start.font3:getWidth("-1000")/2), 400)
+    		elseif self.quevisual == 2 then
+    			love.graphics.print("+1000", (love.graphics.getWidth()/2 - start.font3:getWidth("+1000")/2), 400)
+    		elseif self.quevisual == 3 then
+    			love.graphics.print("-200", (love.graphics.getWidth()/2 - start.font3:getWidth("-200")/2), 400)
+    		elseif self.quevisual == 4 then
+    			love.graphics.print("+200", (love.graphics.getWidth()/2 - start.font3:getWidth("+200")/2), 400)
+    		elseif self.quevisual == 5 then
+    			love.graphics.print("-100", (love.graphics.getWidth()/2 - start.font3:getWidth("-100")/2), 400)
+   			elseif self.quevisual == 6 then
+   				love.graphics.print("SMG", (love.graphics.getWidth()/2 - start.font3:getWidth("SMG")/2), 400)
+   			elseif self.quevisual == 7 then
+   				love.graphics.print("MINIGUN", (love.graphics.getWidth()/2 - start.font3:getWidth("MINIGUN")/2), 400)
+   			elseif self.quevisual == 8 then
+   				love.graphics.print("+100", (love.graphics.getWidth()/2 - start.font3:getWidth("+100")/2), 400)
+   			elseif self.quevisual == 9 then
+   				love.graphics.print("1UP", (love.graphics.getWidth()/2 - start.font3:getWidth("1UP")/2), 400)
+   			elseif self.quevisual == 10 then
+   				love.graphics.print("X", (love.graphics.getWidth()/2 - start.font3:getWidth("X")/2), 400)
+   			elseif self.quevisual == 11 then
+   				love.graphics.print("+5000", (love.graphics.getWidth()/2 - start.font3:getWidth("+5000")/2), 400)
+   			end
+   		end
+   		love.graphics.setColor(255, 255, 255)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	-- Game over title and the scores at the end of the game
 	elseif gameover == true then
