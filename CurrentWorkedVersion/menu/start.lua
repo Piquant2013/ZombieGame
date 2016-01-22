@@ -44,10 +44,6 @@ function start:init()
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
 	self.music = love.audio.newSource("audio/music/menu.ogg")
 	self.colorgoeshere = love.audio.newSource("audio/music/colorgoeshere.ogg")
-
-	-- set volume
-	--self.music:setVolume(musicvolume)
-	--self.colorgoeshere:setVolume(musicvolume)
 	------ AUDIO ------
 
 	-- play menu music and set to loop
@@ -60,6 +56,7 @@ end
 
 function start:update(dt)
 
+	-- Set volume for audio
 	self.entersound:setVolume(sfxvolume)
 	
 	--- MOVE LOGO ---
@@ -84,11 +81,6 @@ function start:update(dt)
 		self.flashtimer = 0
 	end
 	--- TEXT FLASH ---
-
-	-- if fullscreens was on before you entered a game switch it back on
-	--if setfull == false and setgamefull == true then
-		--setfull = true
-	--end
 
 	-- Update easter egg
 	start:colorupdate(dt)
@@ -188,7 +180,7 @@ function start:draw()
 	love.graphics.setColor(255, 255, 255, 255)
 	love.graphics.setFont( start.font0 )
 	love.graphics.setColor(160, 47, 0)
-	love.graphics.print('Pre-Alpha 0.1.3', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.3") - 10))
+	love.graphics.print('Pre-Alpha 0.1.x', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.x") - 10))
 	love.graphics.setColor(255, 255, 255, 255)
 	------ TEXT ------
 end

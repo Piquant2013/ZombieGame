@@ -136,7 +136,7 @@ function player:update(dt)
 
 	-- update player and add plyr.bb to players group
 	Collider:addToGroup("players", plyr.bb)
-	player:movement(dt) -- thr fact that its put through this update and then the game update and then the whole game update might be why its faster
+	player:movement(dt)
 end
 
 function player:draw()

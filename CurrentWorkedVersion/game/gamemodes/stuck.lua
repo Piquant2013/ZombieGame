@@ -63,18 +63,13 @@ function stuckmode:init()
 	self.digeggimage = love.graphics.newImage("game/diggingsim/images/game/ach.png")
 	------ IMAGES ------
 
-
-
-
-
-
-
-
+	-- HIGHSCORE SAVING VARS AND SETTINGS --
+	-- vars
 	self.highscore = 0
 	self.highscoregrade = 0
-	self.scoregrade = 0
 	stuckhighscores = {}
 
+	--- Create or load file depending on if it exsits
 	if love.filesystem.exists("stuckscores.lua") then
 	
 		for lines in love.filesystem.lines("stuckscores.lua") do
@@ -86,13 +81,7 @@ function stuckmode:init()
 	elseif not love.filesystem.exists("stuckscores.lua") then
 		scores = love.filesystem.newFile("stuckscores.lua")
 	end
-
-
-
-
-
-
-
+	-- HIGHSCORE SAVING VARS AND SETTINGS --
 end
 
 function stuckmode:keypressed(key)
@@ -172,6 +161,7 @@ end
 
 function stuckmode:update(dt)
 
+	-- set volume
 	game.music2:setVolume(musicvolume)
 	game.music4:setVolume(musicvolume)
 
@@ -538,6 +528,7 @@ function stuckmode:draw()
 	-- layer1 of the map
 	love.graphics.draw(self.layer1, 0, 0)
 
+	-- draw zombie blood
 	zombie:drawblood()
 
 	-- bullet
@@ -670,6 +661,7 @@ function stuckmode:draw()
 			love.graphics.setColor(255, 255, 255)
 		end
 
+
 	-- Game over title and the scores at the end of the game
 	elseif gameover == true then
     	
@@ -694,112 +686,53 @@ function stuckmode:draw()
 			love.graphics.setFont( start.font3 )
 			love.graphics.print("SCORE:"..tostring(math.floor(self.totalscore)), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(math.floor(self.totalscore)))/2), 440)
 			
+			-- if the players score is greater then the highscore then make the players score the high score
 			if self.totalscore > tonumber(self.highscore) then
 				self.highscore = self.totalscore
 				self.highscoregrade = self.accuracy
 				love.filesystem.write("stuckscores.lua", "stuck.highscore\n=\n"..self.highscore.."\n\nstuck.highscoregrade\n=\n"..self.highscoregrade)
 			end
 
+			-- print the highscore at the end of the game
 			love.graphics.setColor(160, 47, 0)
-			love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)), (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
+			love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)), (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 540)
 
-
-
-
-			--if crpistol.shotstaken < 1 and self.score < 1 then
-				--love.graphics.print("N/A", (love.graphics.getWidth()/2 + 220), 335)
-			--end
-
-			--[[
-			if self.highscoregrade < 15 then
-				love.graphics.print("N/A", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 15 and self.highscoregrade < 30 then
-				love.graphics.print("F", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 30 and self.highscoregrade < 40 then
-				love.graphics.print("E-", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 40 and self.highscoregrade < 45 then
-				love.graphics.print("E", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 45 and self.highscoregrade < 50 then
-				love.graphics.print("E+", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 50 and self.highscoregrade < 55 then
-				love.graphics.print("D-", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 55 and self.highscoregrade < 60 then
-				love.graphics.print("D", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 60 and self.highscoregrade < 65 then
-				love.graphics.print("D+", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 65 and self.highscoregrade < 70 then
-				love.graphics.print("C-", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 70 and self.highscoregrade < 75 then
-				love.graphics.print("C", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 75 and self.highscoregrade < 80 then
-				love.graphics.print("C+", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 80 and self.highscoregrade < 84 then
-				love.graphics.print("B-", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 84 and self.highscoregrade < 88 then
-				love.graphics.print("B", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 88 and self.highscoregrade < 90 then
-				love.graphics.print("B+", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 90 and self.highscoregrade < 94 then
-				love.graphics.print("A-", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 94 and self.highscoregrade < 98 then
-				love.graphics.print("A", (love.graphics.getWidth()/2 + 220), 635)
-			elseif self.highscoregrade > 98 then
-				love.graphics.print("A+", (love.graphics.getWidth()/2 + 220), 635)
+			-- print the highscores grade level
+			if tonumber(self.highscoregrade) == 15 then
+				love.graphics.print("N/A", (love.graphics.getWidth()/2 - start.font3:getWidth("N/A")/2), 590)
+			elseif tonumber(self.highscoregrade) > 15 and tonumber(self.highscoregrade) < 30 then
+				love.graphics.print("F", (love.graphics.getWidth()/2 - start.font3:getWidth("F")/2), 590)
+			elseif tonumber(self.highscoregrade) > 30 and tonumber(self.highscoregrade) < 40 then
+				love.graphics.print("E-", (love.graphics.getWidth()/2 - start.font3:getWidth("E-")/2), 590)
+			elseif tonumber(self.highscoregrade) > 40 and tonumber(self.highscoregrade) < 45 then
+				love.graphics.print("E", (love.graphics.getWidth()/2 - start.font3:getWidth("E")/2), 590)
+			elseif tonumber(self.highscoregrade) > 45 and tonumber(self.highscoregrade) < 50 then
+				love.graphics.print("E+", (love.graphics.getWidth()/2 - start.font3:getWidth("E+")/2), 590)
+			elseif tonumber(self.highscoregrade) > 50 and tonumber(self.highscoregrade) < 55 then
+				love.graphics.print("D-", (love.graphics.getWidth()/2 - start.font3:getWidth("D-")/2), 590)
+			elseif tonumber(self.highscoregrade) > 55 and tonumber(self.highscoregrade) < 60 then
+				love.graphics.print("D", (love.graphics.getWidth()/2 - start.font3:getWidth("D")/2), 590)
+			elseif tonumber(self.highscoregrade) > 60 and tonumber(self.highscoregrade) < 65 then
+				love.graphics.print("D+", (love.graphics.getWidth()/2 - start.font3:getWidth("D+")/2), 590)
+			elseif tonumber(self.highscoregrade) > 65 and tonumber(self.highscoregrade) < 70 then
+				love.graphics.print("C-", (love.graphics.getWidth()/2 - start.font3:getWidth("C-")/2), 590)
+			elseif tonumber(self.highscoregrade) > 70 and tonumber(self.highscoregrade) < 75 then
+				love.graphics.print("C", (love.graphics.getWidth()/2 - start.font3:getWidth("C")/2), 590)
+			elseif tonumber(self.highscoregrade) > 75 and tonumber(self.highscoregrade) < 80 then
+				love.graphics.print("C+", (love.graphics.getWidth()/2 - start.font3:getWidth("C+")/2), 590)
+			elseif tonumber(self.highscoregrade) > 80 and tonumber(self.highscoregrade) < 84 then
+				love.graphics.print("B-", (love.graphics.getWidth()/2 - start.font3:getWidth("B-")/2), 590)
+			elseif tonumber(self.highscoregrade) > 84 and tonumber(self.highscoregrade) < 88 then
+				love.graphics.print("B", (love.graphics.getWidth()/2 - start.font3:getWidth("B")/2), 590)
+			elseif tonumber(self.highscoregrade) > 88 and tonumber(self.highscoregrade) < 90 then
+				love.graphics.print("B+", (love.graphics.getWidth()/2 - start.font3:getWidth("B+")/2), 590)
+			elseif tonumber(self.highscoregrade) > 90 and tonumber(self.highscoregrade) < 94 then
+				love.graphics.print("A-", (love.graphics.getWidth()/2 - start.font3:getWidth("A-")/2), 590)
+			elseif tonumber(self.highscoregrade) > 94 and tonumber(self.highscoregrade) < 98 then
+				love.graphics.print("A", (love.graphics.getWidth()/2 - start.font3:getWidth("A")/2), 590)
+			elseif tonumber(self.highscoregrade) > 98 then
+				love.graphics.print("A+", (love.graphics.getWidth()/2 - start.font3:getWidth("A+")/2), 590)
 			end
-
-
-
-
-
-
-
-
-			--[[
-			if self.highscoregrade == 1 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." N/A", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 2 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." N/A", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 3 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." F", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 4 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." E-", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 5 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." E", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 6 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." E+", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 7 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." D-", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 8 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." D", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 9 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." D+", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 10 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." C-", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 11 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." C", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 12 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." C+", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 13 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." B-", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 14 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." B", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 15 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." B+", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 16 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." A-", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 17 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." A", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			elseif self.highscoregrade == 18 then
-				love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)).." A+", (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
-			end
-			--]]
-
-			--love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscoregrade)), (love.graphics.getWidth()/2), 600)
-
-
-
-
-
 
 			love.graphics.setFont( start.font4 )
 
@@ -905,9 +838,10 @@ function stuckmode:draw()
 end
 
 function love.quit()
+	
+	-- write to the highscore file before quiting
 	love.event.quit()
 	love.filesystem.write("stuckscores.lua", "stuck.highscore\n=\n"..self.highscore.."\n\nstuck.highscoregrade\n=\n"..self.highscoregrade)
-	--love.filesystem.write("stuckscores.lua", "\n\nstuck.highscoregrade\n=\n"..self.highscoregrade)
 end
 
 return stuckmode

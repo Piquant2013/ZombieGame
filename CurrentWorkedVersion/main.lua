@@ -28,7 +28,6 @@ function love.load()
 	setmute = false
 	setmouselock = false
 	setfull = false
-	--setgamefull = false
 	setfpslock = false
 	paused = false
 	resume = false
@@ -36,25 +35,18 @@ function love.load()
 	setarcade = true
 	gameover = false
 	welcomescreen = true
-	weapon = {}
-	------ GOLBAL VARIABLES ------
-
-
-
-
 	mastervolume = 1
 	musicvolume = 1
 	sfxvolume = 1
 	musicvolumelower = 0
-	love.audio.setVolume(mastervolume)
-	minihealthalwayson = false
 	resselections = 1
 	fullscreenon = false
+	minihealthalwayson = false
+	weapon = {}
+	------ GOLBAL VARIABLES ------
 
-
-
-
-
+	-- set master volume
+	love.audio.setVolume(mastervolume)
 
 	-- Set system cursor
 	love.mouse.setCursor(cursor)
@@ -88,20 +80,11 @@ function love.update(dt)
 		love.mouse.setGrabbed( false )
 	end
 
-	-- Locks the fps to the screen
+	-- keep mini hud on or off
 	if setfpslock == false then
-		--frame_limiter.set(999)
 		minihealthalwayson = false
 	elseif setfpslock == true then
-		--frame_limiter.set(60)
 		minihealthalwayson = true
-	end
-
-	-- Set game fullscreen
-	if setfull == true then -- cant be in update
-		--love.window.setMode(1280, 720, {fullscreen=true})
-	elseif setfull == false then
-		--love.window.setMode(1280, 720, {fullscreen=false})
 	end
 
 	-- Sets up each individual script to use its own love.update, love.load, etc
@@ -136,13 +119,6 @@ function love.draw()
 	if setfps == true then
 		love.graphics.setColor(255, 255, 255)
 		love.graphics.print("FPS: " .. love.timer.getFPS(), (love.graphics.getWidth( ) - fpsfont:getWidth( "FPS: " .. love.timer.getFPS()) + 15), 5)
-		love.graphics.setColor(255, 255, 255)
-	end
-
-	-- Displays "Mute: ON" if the options script tells mute to be true 
-	if setmute == true then
-		love.graphics.setColor(255, 255, 255)
-		love.graphics.print("MUTE: ON", (love.graphics.getWidth( ) - fpsfont:getWidth( "Mute: ON" ) - 100), 5)
 		love.graphics.setColor(255, 255, 255)
 	end
 end

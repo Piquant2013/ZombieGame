@@ -586,9 +586,7 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 						end
        
        					o.speed = 0
-       					-- remove zombie if dies
 						Collider:remove(o.bb)
-						--table.remove(zombie.zombs, i)
 					end
 				end
 			end
@@ -690,8 +688,7 @@ end
 
 function game:update(dt)
 
-
-		-- set volume
+	-- set volume
 	self.music1:setVolume(musicvolume)
 	self.music2:setVolume(musicvolume)
 	self.music3:setVolume(musicvolume)
@@ -707,15 +704,13 @@ function game:update(dt)
 	self.invidle:setVolume(sfxvolume)
 	self.invhit:setVolume(sfxvolume)
 
-
-
 	-- CAMERA --
 	-- set up camera
 	dx,dy = (plyr.x) - self.Cam.x, (plyr.y) - self.Cam.y
 	mx1,my1 = self.Cam:mousepos()
 	self.Cam:move(dx/2, dy/2)
 
-	-- Zoom camera in when gameover but make sure it stays default when not
+	-- Zoom the camera for diffent res options and if gameover
     if gameover == true then
 		if resselections == 1 then
 			self.Cam:zoomTo(5)
@@ -728,7 +723,9 @@ function game:update(dt)
 		if resselections == 3 then
 			self.Cam:zoomTo(6.8)
 		end
+	
 	elseif gameover == false then
+		
 		if resselections == 1 then
 			self.Cam:zoomTo(3.2)
 		end

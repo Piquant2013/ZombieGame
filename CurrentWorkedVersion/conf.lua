@@ -5,7 +5,7 @@ function love.conf(t)
     t.version = "0.10.0"  
     
     -- Title on game window
-    t.window.title = "Zombie Game (Pre-Alpha 0.1.3)"
+    t.window.title = "Zombie Game (Pre-Alpha 0.1.x)"
 
     -- Game icon
     t.window.icon = "images/gameicon.png"

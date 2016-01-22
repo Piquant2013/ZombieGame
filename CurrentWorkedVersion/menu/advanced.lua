@@ -179,6 +179,16 @@ function advanced:init()
 	self.mousedetect10 = 0
 	self.mousedetect11 = 0
 	self.mousedetect12 = 0
+
+	-- Volume contorl vars
+	self.zeromusic = false
+	self.zeromaster = false
+	self.zerosfx = false
+
+	-- button audio vars
+	self.buttonlot1 = false
+	self.buttonlot2 = false
+	self.buttonlot3 = false
 	------ VARIABLES ------
 
 	------ AUDIO ------
@@ -211,24 +221,6 @@ function advanced:init()
 	self.mouseover11 = love.audio.newSource("audio/buttons/select.ogg")
 	self.mouseover12 = love.audio.newSource("audio/buttons/select.ogg")
 	------ AUDIO ------
-
-
-
-
-	--musicvolume = 1
-	zeromusic = false
-	zeromaster = false
-	zerosfx = false
-
-	self.buttonlot1 = false
-	self.buttonlot2 = false
-	self.buttonlot3 = false
-
-	inbtnarea1 = false
-	zerores = true
-
-
-
 end
 
 function advanced:update(dt)
@@ -740,32 +732,8 @@ function advanced:update(dt)
 		setfpslock = true
 	end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	--[[]]
+	-- MOUSE AREAS --
+	-- Mouse area of fps button
 	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) - 60
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny) - 15
@@ -812,7 +780,8 @@ function advanced:update(dt)
 		self.mousedetect12 = 0
 	end
 
-		if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
+	-- Mouse area of fps button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) - 60
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpslockbtny) - 15
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpslockbtny) + start.font2:getHeight( "DISPLAY FPS:" ) + 5 then
@@ -858,7 +827,8 @@ function advanced:update(dt)
 		self.mousedetect12 = 0
 	end
 
-		if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
+	-- Mouse area of fps button	
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) - 60
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.resolutionbtny) - 15
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.resolutionbtny) + start.font2:getHeight( "DISPLAY FPS:" ) + 5 then
@@ -904,7 +874,8 @@ function advanced:update(dt)
 		self.mousedetect12 = 0
 	end
 
-		if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
+	-- Mouse area of fps button	
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) - 60
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fullscreenbtny) - 15
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fullscreenbtny) + start.font2:getHeight( "DISPLAY FPS:" ) + 5 then
@@ -950,7 +921,8 @@ function advanced:update(dt)
 		self.mousedetect12 = 0
 	end
 
-		if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
+	-- Mouse area of fps button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) - 60
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.windowlockbtny) - 15
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.windowlockbtny) + start.font2:getHeight( "DISPLAY FPS:" ) + 5 then
@@ -996,7 +968,8 @@ function advanced:update(dt)
 		self.mousedetect12 = 0
 	end
 
-		if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
+	-- Mouse area of fps button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) - 60
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.mutebtny) - 15
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.mutebtny) + start.font2:getHeight( "DISPLAY FPS:" ) + 5 then
@@ -1042,7 +1015,8 @@ function advanced:update(dt)
 		self.mousedetect12 = 0
 	end
 
-		if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
+	-- Mouse area of fps button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) - 60
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.mastervolbtny) - 15
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.mastervolbtny) + start.font2:getHeight( "DISPLAY FPS:" ) + 5 then
@@ -1088,7 +1062,8 @@ function advanced:update(dt)
 		self.mousedetect12 = 0
 	end
 
-		if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
+	-- Mouse area of fps button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) - 60
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.musicvolbtny) - 15
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.musicvolbtny) + start.font2:getHeight( "DISPLAY FPS:" ) + 5 then
@@ -1134,7 +1109,8 @@ function advanced:update(dt)
 		self.mousedetect12 = 0
 	end
 
-		if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
+	-- Mouse area of fps button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) - 60
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.sfxvolbtny) - 15
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.sfxvolbtny) + start.font2:getHeight( "DISPLAY FPS:" ) + 5 then
@@ -1180,7 +1156,8 @@ function advanced:update(dt)
 		self.mousedetect12 = 0
 	end
 
-		if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
+	-- Mouse area of fps button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) - 60
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.defaultbtny) - 15
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.defaultbtny) + start.font2:getHeight( "DISPLAY FPS:" ) + 5 then
@@ -1226,7 +1203,8 @@ function advanced:update(dt)
 		self.mousedetect12 = 0
 	end
 
-		if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
+	-- Mouse area of fps button
+	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) + start.font2:getWidth( "DISPLAY FPS:" )/2 + 200
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120) - 60
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.changelogbtny) - 15
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.changelogbtny) + start.font2:getHeight( "DISPLAY FPS:" ) + 5 then
@@ -1272,13 +1250,11 @@ function advanced:update(dt)
 		self.mousedetect12 = 0
 	end
 
-	--
 	-- Mouse area of back button
 	if love.mouse.getX() < (love.graphics.getWidth()/2 - 470 - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" ) + 40) 
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - 470 - start.font2:getWidth( "<" )/2 - 40) 
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy - 40) 
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy) + start.font2:getHeight( "<" ) + 40 then
-		
 		self.fpsstatemouse = false
 		self.fpslockstatemouse = false
 		self.resolutionstatemouse = false
@@ -1308,27 +1284,7 @@ function advanced:update(dt)
 		self.mousedetect12 = self.mousedetect12 + 1
 	end
 	-- MOUSE AREAS --
-	--]]
-
-
-
-	-- (love.graphics.getWidth()/2 - 320) - 150, (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2) + self.backy
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
 	-- MOUSE OUT OF AREA --
 	-- Out of areas for the page 1 buttons
 	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120 + start.font2:getWidth( "DISPLAY FPS:" ) - 120) + 200 then
@@ -1391,7 +1347,6 @@ function advanced:update(dt)
 		self.mouseover = false
 	end
 
-	--
 	-- Out of areas for the back button
 	if love.mouse.getX() > (love.graphics.getWidth()/2 - 470 - start.font2:getWidth( "<" )/2 + start.font2:getWidth( "<" )) + 40 then
 		self.backstatemouse = false
@@ -1416,30 +1371,7 @@ function advanced:update(dt)
 		self.mouseoverback = false
 		self.scaleback = 1
 	end
-	--]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	-- MOUSE OUT OF AREA --
 
 	-- BUTTON FLASHING -- 
 	-- Flashing for the fps button
@@ -1663,7 +1595,6 @@ function advanced:update(dt)
 	end
 	-- BUTTON FLASHING --
 
-
 	-- MOUSE DECTECTS --
 	if self.mouseover == false then
 		self.mousedetect1 = 0
@@ -1865,8 +1796,7 @@ function advanced:update(dt)
 	end
 	-- MOUSE DECTECTS --
 
-
-
+	-- Set volume for audio
 	self.entersound1:setVolume(sfxvolume)
 	self.backsound:setVolume(sfxvolume)
 	self.select1:setVolume(sfxvolume)
@@ -1895,145 +1825,82 @@ function advanced:update(dt)
 	self.mouseover10:setVolume(sfxvolume)
 	self.mouseover11:setVolume(sfxvolume)
 	self.mouseover12:setVolume(sfxvolume)
+	start.music:setVolume(musicvolume)
+	start.colorgoeshere:setVolume(musicvolume)
 
 
-
-
-		--love.audio.setVolume(mastervolume)
-		start.music:setVolume(musicvolume)
-		start.colorgoeshere:setVolume(musicvolume)
-
-		if resume == false then
+	-- AUDIO VOLUME SETTINGS --
+	-- if game is paused lower the volume of current song playing
+	if resume == false then
 		
 		if setarcade == false then
 			musicvolumelower = musicvolume / 5
-			game.music1:setVolume(musicvolumelower) --1/5
-			game.music3:setVolume(musicvolumelower) --1/5
+			game.music1:setVolume(musicvolumelower)
+			game.music3:setVolume(musicvolumelower)
 		end
 
 		if gamereset == false then
 			musicvolumelower = musicvolume / 5
-			game.music4:setVolume(musicvolumelower) --1/5
+			game.music4:setVolume(musicvolumelower)
 		end
+	end
 
-		end
-
-
-
-	-- master
+	-- Make sure master volume doesnt go over 1 or under 0
 	if mastervolume < 0 then
 		mastervolume = 0
 	end
 
 	if mastervolume == 0 then
-		zeromaster = false
+		self.zeromaster = false
 	end
 
 	if mastervolume == 1 then
-		zeromaster = true
+		self.zeromaster = true
 	end
 
 	if mastervolume > 1 then
 		mastervolume = 1
 	end
 
-	-- music
+	-- Make sure music volume doesnt go over 1 or under 0
 	if musicvolume < 0 then
 		musicvolume = 0
 	end
 
 	if musicvolume == 0 then
-		zeromusic = false
+		self.zeromusic = false
 	end
 
 	if musicvolume == 1 then
-		zeromusic = true
+		self.zeromusic = true
 	end
 
 	if musicvolume > 1 then
 		musicvolume = 1
 	end
 
-	-- sfx
+	-- Make sure sfx volume doesnt go over 1 or under 0
 	if sfxvolume < 0 then
 		sfxvolume = 0
 	end
 
 	if sfxvolume == 0 then
-		zerosfx = false
+		self.zerosfx = false
 	end
 
 	if sfxvolume == 1 then
-		zerosfx = true
+		self.zerosfx = true
 	end
 
 	if sfxvolume > 1 then
 		sfxvolume = 1
 	end
+	-- AUDIO VOLUME SETTINGS --
 
-
-
-
-
+	-- reset res selection if it gets to the end
 	if resselections > 3 then
 		resselections = 1
 	end
-
---	if resselections == 3 then
-	--	zerores = false
---	end
-
-	--if resselections == 9 then
-	--	zerores = true
---	end
-
-	--if resselections > 9 then
-		--resselections = 3
-	--end
-
-	--if self.fullscreenarrowx == 507 then
-		--self.fullscreenarrowx = 665
---	end
-
-
-
-
-
-
-
-
-	--[[
-	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.mastervolbtny - 15/2
-		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.mastervolbtny - 15/2 + 30 
-		and love.mouse.getX() > love.graphics.getWidth()/2 + 120 + mastervolume*250
-		and love.mouse.getX() < love.graphics.getWidth()/2 + 130 + mastervolume*250 then
-		inbtnarea1 = true
-	end
-
-	if love.mouse.isDown(1) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.musicvolbtny - 15/2
-		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.musicvolbtny - 15/2 + 30
-		and love.mouse.getX() > love.graphics.getWidth()/2 + 120 + musicvolume*250
-		and love.mouse.getX() < love.graphics.getWidth()/2 + 130 + musicvolume*250 then
-		--musicvolume = love.mouse.getX()
-	end
-
-	if love.mouse.isDown(1) and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.sfxvolbtny - 15/2
-		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.sfxvolbtny - 15/2 + 30
-		and love.mouse.getX() > love.graphics.getWidth()/2 + 120 + sfxvolume*250
-		and love.mouse.getX() < love.graphics.getWidth()/2 + 130 + sfxvolume*250 then
-		--sfxvolume = love.mouse.getX()
-	end
-
-	if love.mouse.isDown(1) and inbtnarea1 == true and love.mouse.getX() > 760 and love.mouse.getX() < 1020 then
-		mastervolume = love.mouse.getX() / 1000
-	end
-	-- 760 - 1020
-	--]]
-
-
-
-
-
 end
 
 function advanced:keypressed(key)
@@ -2043,6 +1910,7 @@ function advanced:keypressed(key)
 	if key == "up" or key == "w" then
 		
 		if self.fpsstate == false then
+			
 			if self.buttonlot1 == true then
 				love.audio.play(self.select1)
 				love.audio.play(self.select2)
@@ -2071,6 +1939,7 @@ function advanced:keypressed(key)
 			self.arrowy = self.arrowy - 50
 		end
 
+		-- move mouse out of the way
 		if self.mouseover == true then
 			love.mouse.setX((love.graphics.getWidth()/2 - 459/2) + 500)
 		end 
@@ -2080,6 +1949,7 @@ function advanced:keypressed(key)
 	if key == "down" or key == "s" then
 
 		if self.changelogstate == false then
+			
 			if self.buttonlot1 == true then
 				love.audio.play(self.select1)
 				love.audio.play(self.select2)
@@ -2108,6 +1978,7 @@ function advanced:keypressed(key)
 			self.arrowy = self.arrowy + 50
 		end
 
+		-- move mouse out of the way
 		if self.mouseover == true then
 			love.mouse.setX((love.graphics.getWidth()/2 - 459/2) + 500)
 		end 
@@ -2130,19 +2001,12 @@ function advanced:keypressed(key)
 	-- set controls on or off
 	if key == "return" and self.resolutionstate == true or key == "space" and self.resolutionstate == true then
 		love.audio.play(self.entersound1)
-
-
-
-		--if zerores == true then
 		resselections = resselections + 1
 
+		-- turn fullscreen off if its on
 		self.fullscreenarrowx = 665
-		--end
-
-		--if zerores == false then
-		--resselections = resselections + 3
-		--end
-
+	
+		-- cycle through resoultions
 		if resselections == 1 or resselections > 3 then
 			love.window.setMode( 1280, 720 )
 		end
@@ -2154,9 +2018,6 @@ function advanced:keypressed(key)
 		if resselections == 3 then
 			love.window.setMode( 1920, 1080 )
 		end
-
-
-
 	end
 
 	-- go to moregames screen
@@ -2165,7 +2026,6 @@ function advanced:keypressed(key)
 		self.fullscreenarrowx = self.fullscreenarrowx + 118
 		love.window.setFullscreen( true, "exclusive" )
 		fullscreenon = true
-		--love.window.setMode(1280, 720)--, {fullscreen=true, "exclusive"})
 	end
 
 	-- go to moregames screen
@@ -2174,7 +2034,6 @@ function advanced:keypressed(key)
 		self.fullscreenarrowx = self.fullscreenarrowx + 118
 		love.window.setFullscreen( false, "exclusive" )
 		fullscreenon = false
-		--love.window.setMode(1280, 720)--, {fullscreen=false, "exclusive"})
 	end
 
 	-- go to moregames screen
@@ -2185,7 +2044,7 @@ function advanced:keypressed(key)
 
 	-- go to moregames screen
 		if key == "return" and self.mutestate == true or key == "space" and self.mutestate == true then
-	love.audio.play(self.entersound1)
+		love.audio.play(self.entersound1)
 		self.mutearrowx = self.mutearrowx + 118
 	end
 
@@ -2193,42 +2052,42 @@ function advanced:keypressed(key)
 	if key == "return" and self.mastervolstate == true or key == "space" and self.mastervolstate == true then
 		love.audio.play(self.entersound1)
 
-		if zeromaster == true then
+		-- turn volume up and down for master
+		if self.zeromaster == true then
 			mastervolume = mastervolume - 0.1
 		end
 
-		if zeromaster == false then
+		if self.zeromaster == false then
 			mastervolume = mastervolume + 0.1
 		end
-
 	end
 
 	-- go to moregames screen
 	if key == "return" and self.musicvolstate == true or key == "space" and self.musicvolstate == true then
 		love.audio.play(self.entersound1)
 
-		if zeromusic == true then
+		-- turn volume up and down for music
+		if self.zeromusic == true then
 			musicvolume = musicvolume - 0.1
 		end
 
-		if zeromusic == false then
+		if self.zeromusic == false then
 			musicvolume = musicvolume + 0.1
 		end
-
 	end
 
 	-- go to moregames screen
 	if key == "return" and self.sfxvolstate == true or key == "space" and self.sfxvolstate == true then
 		love.audio.play(self.entersound1)
 
-		if zerosfx == true then
+		-- turn volume up and down for sfx
+		if self.zerosfx == true then
 			sfxvolume = sfxvolume - 0.1
 		end
 
-		if zerosfx == false then
+		if self.zerosfx == false then
 			sfxvolume = sfxvolume + 0.1
 		end
-
 	end
 
 	-- go to moregames screen
@@ -2287,17 +2146,12 @@ function advanced:mousepressed(mx, my, button)
 	-- set controls on or off
 	if button == 1 and self.resolutionstatemouse == true then
 		love.audio.play(self.entersound1)
+		resselections = resselections + 1
 
-			--if zerores == true then
-			resselections = resselections + 1
-		--end
+		-- turn fullscreen off if its on
+		self.fullscreenarrowx = 665
 
-			self.fullscreenarrowx = 665
-
-		--if zerores == false then
-			--resselections = resselections + 3
-		--end
-
+		-- cycle through resoultions
 		if resselections == 1 or resselections > 3 then
 			love.window.setMode( 1280, 720 )
 		end
@@ -2309,8 +2163,6 @@ function advanced:mousepressed(mx, my, button)
 		if resselections == 3 then
 			love.window.setMode( 1920, 1080 )
 		end
-
-
 	end
 
 	-- go to moregames screen
@@ -2318,7 +2170,6 @@ function advanced:mousepressed(mx, my, button)
 		love.audio.play(self.entersound1)
 		self.fullscreenarrowx = self.fullscreenarrowx + 118
 		love.window.setFullscreen( true, "exclusive" )
-		--love.window.setMode(1280, 720)--, {fullscreen=true, "exclusive"})
 	end
 
 	-- go to moregames screen
@@ -2326,7 +2177,6 @@ function advanced:mousepressed(mx, my, button)
 		love.audio.play(self.entersound1)
 		self.fullscreenarrowx = self.fullscreenarrowx + 118
 		love.window.setFullscreen( false, "exclusive" )
-		--love.window.setMode(1280, 720)--, {fullscreen=false, "exclusive"})
 	end
 
 	-- go to moregames screen
@@ -2345,42 +2195,42 @@ function advanced:mousepressed(mx, my, button)
 	if button == 1 and self.mastervolstatemouse == true then
 		love.audio.play(self.entersound1)
 
-		if zeromaster == true then
+		-- turn volume up and down for master
+		if self.zeromaster == true then
 			mastervolume = mastervolume - 0.1
 		end
 
-		if zeromaster == false then
+		if self.zeromaster == false then
 			mastervolume = mastervolume + 0.1
 		end
-
 	end
 
 	-- go to moregames screen
 	if button == 1 and self.musicvolstatemouse == true then
 		love.audio.play(self.entersound1)
 
-		if zeromusic == true then
+		-- turn volume up and down for music
+		if self.zeromusic == true then
 			musicvolume = musicvolume - 0.1
 		end
 
-		if zeromusic == false then
+		if self.zeromusic == false then
 			musicvolume = musicvolume + 0.1
 		end
-
 	end
 
 	-- go to moregames screen
 	if button == 1 and self.sfxvolstatemouse == true then
 		love.audio.play(self.entersound1)
 
-		if zerosfx == true then
+		-- turn volume up and down for sfx
+		if self.zerosfx == true then
 			sfxvolume = sfxvolume - 0.1
 		end
 
-		if zerosfx == false then
+		if self.zerosfx == false then
 			sfxvolume = sfxvolume + 0.1
 		end
-
 	end
 
 	-- go to moregames screen
@@ -2415,6 +2265,7 @@ function advanced:mousepressed(mx, my, button)
 	end
 	-- ACTIVATE BUTTONS --
 
+	-- back button
 	if button == 1 and self.backstatemouse == true then
 		Gamestate.pop()
 		love.audio.play(self.backsound)
@@ -2442,23 +2293,17 @@ function advanced:draw()
 	love.graphics.draw(start.bg, 0, -1000, 0, 3)
 	------ IMAGES ------
 
-
-	
---	love.graphics.print('DISPLAY FPS:'..tostring(love.mouse.getX()), 100, 100)
-
-
-
 	------ SHAPES ------
 	-- Arrow
 	love.graphics.setColor(160, 47, 0)
 	love.graphics.rectangle("fill", self.arrowx - 250 - (150), (love.graphics.getHeight()/2 - 28/2) + self.arrowy - 8, 28, 28 )
 
-	-- Volumes bars --TEMP
+	-- Volumes bars
 	love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 120, (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.mastervolbtny, 258, 14 )
 	love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 120, (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.musicvolbtny, 258, 14 )
 	love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 120, (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.sfxvolbtny, 258, 14 )
 
-	-- White volumes bars --TEMP
+	-- White volumes bars
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 120 + mastervolume*250, (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.mastervolbtny - 15/2, 10, 30 )
 	love.graphics.rectangle("fill", love.graphics.getWidth()/2 + 120 + musicvolume*250, (love.graphics.getHeight()/2 - start.font2:getHeight( "MASTER VOL:" )/2) + self.musicvolbtny - 15/2, 10, 30 )
@@ -2467,6 +2312,7 @@ function advanced:draw()
 	------ SHAPES ------
 
 	------ TEXT ------	
+	-- draw buttons
 	love.graphics.setFont( start.font2 )
 	love.graphics.setColor(160, 47, 0, 255)
 	love.graphics.print('DISPLAY FPS:', love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 - 120, (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2) + self.fpsbtny, 0, self.scalefps)
@@ -2564,11 +2410,6 @@ function advanced:draw()
 	elseif resselections == 3 then
 		love.graphics.print('1920x1080', (love.graphics.getWidth()/2 + 115), (love.graphics.getHeight()/2 - start.font2:getHeight( "OFF" )/2) + self.resolutionbtny)
 	end
-
---	love.graphics.setColor(160, 47, 0, 100)
---	love.graphics.print('1280X720', love.graphics.getWidth()/2 + 115, (love.graphics.getHeight()/2 - start.font2:getHeight( "RESOLUTION:" )/2) + self.resolutionbtny, 0)
---	love.graphics.setColor(160, 47, 0, 255)
-	-- TEMP
 
 	-- draw back button
 	love.graphics.setFont( start.font2 )

@@ -39,6 +39,7 @@ end
 
 function controls:update(dt)
 
+	-- Set volume for audio
 	self.entersound:setVolume(sfxvolume)
 	self.backsound:setVolume(sfxvolume)
 end

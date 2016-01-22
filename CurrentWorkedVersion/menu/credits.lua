@@ -85,6 +85,7 @@ end
 
 function credits:update(dt)
 
+	-- Set volume for audio
 	self.entersound:setVolume(sfxvolume)
 	self.backsound:setVolume(sfxvolume)
 

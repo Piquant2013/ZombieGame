@@ -112,14 +112,13 @@ end
 
 function moregames:update(dt)
 
-
+	-- Set volume for audio
 	self.select1:setVolume(sfxvolume)
 	self.select2:setVolume(sfxvolume)
 	self.entersound:setVolume(sfxvolume)
 	self.backsound:setVolume(sfxvolume)
 	self.mouseover1:setVolume(sfxvolume)
 	self.mouseover2:setVolume(sfxvolume)
-	
 
 	-- Set the current page
 	if self.page2 == true then

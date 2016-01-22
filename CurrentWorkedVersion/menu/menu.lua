@@ -78,7 +78,7 @@ end
 
 function menu:update(dt)
 
-
+	-- Set volume for audio
 	self.entersound:setVolume(sfxvolume)
 	self.backsound:setVolume(sfxvolume)
 	self.select1:setVolume(sfxvolume)
@@ -88,7 +88,6 @@ function menu:update(dt)
 	self.mouseover2:setVolume(sfxvolume)
 	self.mouseover3:setVolume(sfxvolume)
 
-	
 	--- MOVE LOGO --- 
 	start.movelogo = start.movelogo + dt + 4
 
@@ -326,11 +325,6 @@ function menu:update(dt)
 	end
 	-- MOUSE DECTECTS --
 
-	-- if fullscreens was on before you entered a game switch it back on
-	--if setfull == false and setgamefull == true then
-		--setfull = true
-	--end
-
 	-- Update easter egg
 	start:colorupdate(dt)
 end
@@ -470,7 +464,7 @@ function menu:draw()
 	love.graphics.setColor(160, 47, 0, 255)
 	love.graphics.setFont( start.font0 )
 	love.graphics.setColor(160, 47, 0)
-	love.graphics.print('Pre-Alpha 0.1.3', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.3") - 10))
+	love.graphics.print('Pre-Alpha 0.1.x', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.x") - 10))
 	love.graphics.setColor(255, 255, 255, 255)
 	------ TEXT ------
 end

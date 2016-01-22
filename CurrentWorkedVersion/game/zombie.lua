@@ -65,7 +65,7 @@ function zombie:spawn()
 		-- zombs table
 		zomb = {} 
 
-		-- The contents of the rock table
+		-- The contents of the zombie table
 		zomb.x = self.zrx
 		zomb.y = self.zry
 		zomb.w = 15
@@ -106,14 +106,16 @@ function zombie:update(dt)
 	-- refresh the spawn rate
 	self.spawnrate = math.max(0, self.spawnrate - dt)
 
-	-- Makes zombies go towards player
 	for i,v in ipairs(self.zombs) do	
+    	
+    	-- Makes zombies go towards player
     	self.rotation = math.atan2(v.x - plyr.x, plyr.y - v.y) + math.pi / 2
     	local dx = math.cos(self.rotation) * (dt * v.speed)
     	local dy = math.sin(self.rotation) * (dt * v.speed)
 		v.x = v.x + dx
    		v.y = v.y + dy
 
+   		-- Despawn timer for zombies
    		if v.health == 0 then
    			v.timer = v.timer - dt
    			v.speed = 0
@@ -147,16 +149,19 @@ function zombie:draw()
 end
 
 function zombie:drawblood()
+	
 	for i,v in ipairs(self.zombs) do
 		
 		------ FILTERS ------
 		v.sprite2:setFilter( 'nearest', 'nearest' )
 		v.sprite3:setFilter( 'nearest', 'nearest' )
 		v.sprite4:setFilter( 'nearest', 'nearest' )
+		------ FILTERS ------
 
+		------ IMAGES ------
+		-- Draw blood
 		if v.timer > 0 and v.health == 0 then
 			love.graphics.setColor(255, 255, 255, v.timer*36.42)
-
 			if v.bloodtype == 1 then
 				love.graphics.draw(v.sprite2, v.x, v.y, 1, 1, 1, v.sprite:getWidth()/2, v.sprite:getHeight()/2)
 			elseif v.bloodtype == 2 then
@@ -164,7 +169,6 @@ function zombie:drawblood()
 			elseif v.bloodtype == 3 then
 				love.graphics.draw(v.sprite4, v.x, v.y, 1, 1, 1, v.sprite:getWidth()/2, v.sprite:getHeight()/2)
 			end
-
 			love.graphics.setColor(255, 255, 255)
 		end
 		------ IMAGES ------

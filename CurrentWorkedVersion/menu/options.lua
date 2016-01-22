@@ -20,9 +20,9 @@ options = Gamestate.new()
 function options:init()
 
 	------ VARIABLES ------
-	-- FPS Button Y & X
-	self.fpsbtny = 100
-	self.fpsbtnx = 492
+	-- Advanced Button Y & X
+	self.advancedbtny = 100
+	self.advancedbtnx = 492
 
 	-- control Button Y & X
 	self.controlsbtny = 150
@@ -40,25 +40,25 @@ function options:init()
 	self.backy = 150
 
 	-- Button Selecter Y & X
-	self.arrowy = (self.fpsbtny)
+	self.arrowy = (self.advancedbtny)
 	self.arrowx = 645
 
 	-- Option menu states
-	self.fpsstate = false
+	self.advancedstate = false
 	self.creditsstate = false
 	self.controlsstate = false
 	self.moregamesstate = false
 
 	-- Scale vars for buttons
-	self.scalefps = 1
+	self.scaleadvanced = 1
 	self.scalecredits = 1
 	self.scalecontrols = 1
 	self.scalemoregames = 1
 	self.scaleback = 1
 
-	-- Flash vars for fps button
-	self.flashbuttonfps = true
-	self.buttonflashfps = 0
+	-- Flash vars for advanced button
+	self.flashbuttonadvanced = true
+	self.buttonflashadvanced = 0
 
 	-- Flash vars for credits button
 	self.flashbuttoncredits = true
@@ -77,7 +77,7 @@ function options:init()
 	self.buttonflashback = 0
 
 	-- mouse button state
-	self.fpsstatemouse = false
+	self.advancedstatemouse = false
 	self.creditsstatemouse = false
 	self.controlsstatemouse = false
 	self.moregamesstatemouse = false
@@ -112,7 +112,7 @@ end
 
 function options:update(dt)
 
-
+	-- Set volume for audio
 	self.entersound1:setVolume(sfxvolume)
 	self.backsound:setVolume(sfxvolume)
 	self.select1:setVolume(sfxvolume)
@@ -127,16 +127,15 @@ function options:update(dt)
 	self.mouseover4:setVolume(sfxvolume)
 	self.mouseover5:setVolume(sfxvolume)
 
-
 	-- Move options text depending on if its in menu or pasued
 	if paused == true then
-		self.fpsbtny = -50
+		self.advancedbtny = -50
 		self.creditsbtny = 100
 		self.backy = 0
 		self.controlsbtny = 0
 		self.moregamesbtny = 50
 	elseif paused == false then
-		self.fpsbtny = 100
+		self.advancedbtny = 100
 		self.creditsbtny = 250
 		self.backy = 150
 		self.controlsbtny = 150
@@ -144,17 +143,17 @@ function options:update(dt)
 	end 
 	
 	-- OPTION MENU STATES --
-	-- fps options menu state
-	if self.arrowy == self.fpsbtny then
+	-- advanced options menu state
+	if self.arrowy == self.advancedbtny then
 		self.arrowx = love.graphics.getWidth()/2 + 130 /2
-		self.fpsstate = true
+		self.advancedstate = true
 		self.creditsstate = false
 		self.controlsstate = false
 		self.moregamesstate = false
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
 		love.audio.stop(self.select4)
-		self.scalefps = 1.1
+		self.scaleadvanced = 1.1
 		self.scalecredits = 1
 		self.scalecontrols = 1
 		self.scalemoregames = 1
@@ -164,14 +163,14 @@ function options:update(dt)
 	-- credits options menu state
 	if self.arrowy == self.creditsbtny then
 		self.arrowx = love.graphics.getWidth()/2 + 170 /2
-		self.fpsstate = false
+		self.advancedstate = false
 		self.creditsstate = true
 		self.controlsstate = false
 		self.moregamesstate = false
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select3)
 		love.audio.stop(self.select4)
-		self.scalefps = 1
+		self.scaleadvanced = 1
 		self.scalecredits = 1.1
 		self.scalecontrols = 1
 		self.scalemoregames = 1
@@ -179,16 +178,16 @@ function options:update(dt)
 	end
 
 	-- mute controls menu state
-	if self.arrowy < self.moregamesbtny and self.arrowy > self.fpsbtny then
+	if self.arrowy < self.moregamesbtny and self.arrowy > self.advancedbtny then
 		self.arrowx = love.graphics.getWidth()/2 + 130 /2
-		self.fpsstate = false
+		self.advancedstate = false
 		self.creditsstate = false
 		self.controlsstate = true
 		self.moregamesstate = false
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select4)
-		self.scalefps = 1
+		self.scaleadvanced = 1
 		self.scalecredits = 1
 		self.scalecontrols = 1.1
 		self.scalemoregames = 1
@@ -198,14 +197,14 @@ function options:update(dt)
 	-- credits moregames menu state
 	if self.arrowy < self.creditsbtny and self.arrowy > self.controlsbtny then
 		self.arrowx = love.graphics.getWidth()/2 + 70 /2
-		self.fpsstate = false
+		self.advancedstate = false
 		self.creditsstate = false
 		self.controlsstate = false
 		self.moregamesstate = true
 		love.audio.stop(self.select1)
 		love.audio.stop(self.select2)
 		love.audio.stop(self.select3)
-		self.scalefps = 1
+		self.scaleadvanced = 1
 		self.scalecredits = 1
 		self.scalecontrols = 1
 		self.scalemoregames = 1.1
@@ -213,27 +212,27 @@ function options:update(dt)
 	end
 	-- OPTION MENU STATES --
 
-	-- Make sure the arrow doesnt go past fps or credits
-	if self.arrowy < self.fpsbtny then
-		self.arrowy = self.fpsbtny
+	-- Make sure the arrow doesnt go past advanced or credits
+	if self.arrowy < self.advancedbtny then
+		self.arrowy = self.advancedbtny
 	elseif self.arrowy > self.creditsbtny then
 		self.arrowy = self.creditsbtny
 	end
 
 	-- MOUSE AREAS --
-	-- Mouse area of fps button
+	-- Mouse area of advanced button
 	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) 
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) 
-		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny - 10) - 5
-		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny + start.font2:getHeight( "DISPLAY FPS:" )) + 5 then
-		self.fpsstatemouse = true
+		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.advancedbtny - 10) - 5
+		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.advancedbtny + start.font2:getHeight( "DISPLAY FPS:" )) + 5 then
+		self.advancedstatemouse = true
 		self.creditsstatemouse = false
 		self.controlsstatemouse = false
 		self.moregamesstatemouse = false
 		self.backstatemouse = false
 		self.arrowx = love.graphics.getWidth()/2 + 130 /2
-		self.arrowy = self.fpsbtny
-		self.scalefps = 1.1
+		self.arrowy = self.advancedbtny
+		self.scaleadvanced = 1.1
 		self.scalecredits = 1
 		self.scalecontrols = 1
 		self.scalemoregames = 1
@@ -252,14 +251,14 @@ function options:update(dt)
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) 
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2 + self.creditsbtny - 10) - 5
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2 + self.creditsbtny + start.font2:getHeight( "CREDITS" )) + 5 then
-		self.fpsstatemouse = false
+		self.advancedstatemouse = false
 		self.creditsstatemouse = true
 		self.controlsstatemouse = false
 		self.moregamesstatemouse = false
 		self.backstatemouse = false
 		self.arrowx = love.graphics.getWidth()/2 + 170 /2
 		self.arrowy = self.creditsbtny
-		self.scalefps = 1
+		self.scaleadvanced = 1
 		self.scalecredits = 1.1
 		self.scalecontrols = 1
 		self.scalemoregames = 1
@@ -278,14 +277,14 @@ function options:update(dt)
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) 
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2 + self.controlsbtny - 10) - 5
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2 + self.controlsbtny + start.font2:getHeight( "CONTROLS" )) + 5 then
-		self.fpsstatemouse = false
+		self.advancedstatemouse = false
 		self.creditsstatemouse = false
 		self.controlsstatemouse = true
 		self.moregamesstatemouse = false
 		self.backstatemouse = false
 		self.arrowx = love.graphics.getWidth()/2 + 130 /2
 		self.arrowy = self.controlsbtny
-		self.scalefps = 1
+		self.scaleadvanced = 1
 		self.scalecredits = 1
 		self.scalecontrols = 1.1
 		self.scalemoregames = 1
@@ -303,14 +302,14 @@ function options:update(dt)
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) 
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2 + self.moregamesbtny - 10) - 5
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2 + self.moregamesbtny + start.font2:getHeight( "MORE GAMES" )) + 5 then
-		self.fpsstatemouse = false
+		self.advancedstatemouse = false
 		self.creditsstatemouse = false
 		self.controlsstatemouse = false
 		self.moregamesstatemouse = true
 		self.backstatemouse = false
 		self.arrowx = love.graphics.getWidth()/2 + 70 /2
 		self.arrowy = self.moregamesbtny
-		self.scalefps = 1
+		self.scaleadvanced = 1
 		self.scalecredits = 1
 		self.scalecontrols = 1
 		self.scalemoregames = 1.1
@@ -329,7 +328,7 @@ function options:update(dt)
 		and love.mouse.getX() > (love.graphics.getWidth()/2 - 300 - start.font2:getWidth( "<" )/2 - 40) 
 		and love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy - 40) 
 		and love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "<" )/2 + self.backy) + start.font2:getHeight( "<" ) + 30 then
-		self.fpsstatemouse = false
+		self.advancedstatemouse = false
 		self.creditsstatemouse = false
 		self.controlsstatemouse = false
 		self.moregamesstatemouse = false
@@ -346,9 +345,9 @@ function options:update(dt)
 	-- MOUSE AREAS --
 
 	-- MOUSE OUT OF AREA --
-	-- Out of areas for the page 1 buttons
+	-- Out of areas buttons
 	if love.mouse.getX() > (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2 + start.font2:getWidth( "DISPLAY FPS:" )) then
-		self.fpsstatemouse = false
+		self.advancedstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
 		self.creditsstatemouse = false
@@ -356,15 +355,15 @@ function options:update(dt)
 	end
 	
 	if love.mouse.getX() < (love.graphics.getWidth()/2 - start.font2:getWidth( "DISPLAY FPS:" )/2) then
-		self.fpsstatemouse = false
+		self.advancedstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
 		self.creditsstatemouse = false
 		self.mouseover = false
 	end
 	
-	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.fpsbtny - 10) - 5 then
-		self.fpsstatemouse = false
+	if love.mouse.getY() < (love.graphics.getHeight()/2 - start.font2:getHeight( "DISPLAY FPS:" )/2 + self.advancedbtny - 10) - 5 then
+		self.advancedstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
 		self.creditsstatemouse = false
@@ -372,7 +371,7 @@ function options:update(dt)
 	end
 
 	if love.mouse.getY() > (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2 + self.creditsbtny + start.font2:getHeight( "CREDITS" )) + 5 then
-		self.fpsstatemouse = false
+		self.advancedstatemouse = false
 		self.mutestatemouse = false
 		self.mouselockstatemouse = false
 		self.creditsstatemouse = false
@@ -405,24 +404,24 @@ function options:update(dt)
 	end
 
 	-- BUTTON FLASHING -- 
-	-- Flashing for the fps button
-	if self.fpsstatemouse == true or self.fpsstate == true then
+	-- Flashing for the advanced button
+	if self.advancedstatemouse == true or self.advancedstate == true then
 		
-		if self.flashbuttonfps == true then
-			self.buttonflashfps = self.buttonflashfps + dt + 2
-		elseif self.flashbuttonfps == false then
-			self.buttonflashfps = self.buttonflashfps + dt - 2
+		if self.flashbuttonadvanced == true then
+			self.buttonflashadvanced = self.buttonflashadvanced + dt + 2
+		elseif self.flashbuttonadvanced == false then
+			self.buttonflashadvanced = self.buttonflashadvanced + dt - 2
 		end
 	
-		if self.buttonflashfps > 100 then
-			self.flashbuttonfps = false
-		elseif self.buttonflashfps < 2 then
-			self.flashbuttonfps = true
+		if self.buttonflashadvanced > 100 then
+			self.flashbuttonadvanced = false
+		elseif self.buttonflashadvanced < 2 then
+			self.flashbuttonadvanced = true
 		end
 	
-	elseif self.fpsstatemouse == false or self.fpsstate == false then
-		self.flashbuttonfps = true
-		self.buttonflashfps = 0
+	elseif self.advancedstatemouse == false or self.advancedstate == false then
+		self.flashbuttonadvanced = true
+		self.buttonflashadvanced = 0
 	end
 
 	-- Flashing for the credits button
@@ -567,7 +566,7 @@ function options:keypressed(key)
 	-- Move arrow up through options menu states
 	if key == "up" or key == "w" then
 
-		if self.fpsstate == false then
+		if self.advancedstate == false then
 			love.audio.play(self.select1)
 			love.audio.play(self.select2)
 			love.audio.play(self.select3)
@@ -629,7 +628,7 @@ function options:keypressed(key)
 	end
 
 	-- switch advancded script
-	if key == "return" and self.fpsstate == true or key == "space" and self.fpsstate == true then
+	if key == "return" and self.advancedstate == true or key == "space" and self.advancedstate == true then
 		Gamestate.push(advanced)
 		love.audio.play(self.entersound1)
 	end
@@ -691,7 +690,7 @@ function options:mousepressed(mx, my, button)
 	end
 
 	-- switch advancded script
-	if button == 1 and self.fpsstatemouse == true then
+	if button == 1 and self.advancedstatemouse == true then
 		Gamestate.push(advanced)
 		love.audio.play(self.entersound1)
 	end
@@ -757,29 +756,24 @@ function options:draw()
 	------ SHAPES ------
 
 	------ TEXT ------	
-		
-		-- draw page 1 options
-		love.graphics.setFont( start.font2 )
-		love.graphics.print('ADVANCED', (love.graphics.getWidth()/2 - start.font2:getWidth( "ADVANCED" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "ADVANCED" )/2) + self.fpsbtny, 0, self.scalefps)
-		love.graphics.setColor(255, 255, 255, self.buttonflashfps)
-		love.graphics.print('ADVANCED', (love.graphics.getWidth()/2 - start.font2:getWidth( "ADVANCED" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "ADVANCED" )/2) + self.fpsbtny, 0, self.scalefps)
-		love.graphics.setColor(160, 47, 0, 255)
-		love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CREDITS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2) + self.creditsbtny, 0, self.scalecredits)
-		love.graphics.setColor(255, 255, 255, self.buttonflashcredits)
-		love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CREDITS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2) + self.creditsbtny, 0, self.scalecredits)
-		love.graphics.setColor(160, 47, 0, 255)
-		
-		-- draw page 2 options
-		love.graphics.setFont( start.font2 )
-		love.graphics.setColor(160, 47, 0, 255)
-		love.graphics.print('CONTROLS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CONTROLS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2) + self.controlsbtny, 0, self.scalecontrols)
-		love.graphics.setColor(255, 255, 255, self.buttonflashcontrols)
-		love.graphics.print('CONTROLS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CONTROLS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2) + self.controlsbtny, 0, self.scalecontrols)
-		love.graphics.setColor(160, 47, 0, 255)
-		love.graphics.print('MORE GAMES', (love.graphics.getWidth()/2 - start.font2:getWidth( "MORE GAMES" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2) + self.moregamesbtny, 0, self.scalemoregames)
-		love.graphics.setColor(255, 255, 255, self.buttonflashmoregames)
-		love.graphics.print('MORE GAMES', (love.graphics.getWidth()/2 - start.font2:getWidth( "MORE GAMES" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2) + self.moregamesbtny, 0, self.scalemoregames)
-		love.graphics.setColor(160, 47, 0, 255)
+	-- draw page 1 options
+	love.graphics.setFont( start.font2 )
+	love.graphics.print('ADVANCED', (love.graphics.getWidth()/2 - start.font2:getWidth( "ADVANCED" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "ADVANCED" )/2) + self.advancedbtny, 0, self.scaleadvanced)
+	love.graphics.setColor(255, 255, 255, self.buttonflashadvanced)
+	love.graphics.print('ADVANCED', (love.graphics.getWidth()/2 - start.font2:getWidth( "ADVANCED" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "ADVANCED" )/2) + self.advancedbtny, 0, self.scaleadvanced)
+	love.graphics.setColor(160, 47, 0, 255)
+	love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CREDITS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2) + self.creditsbtny, 0, self.scalecredits)
+	love.graphics.setColor(255, 255, 255, self.buttonflashcredits)
+	love.graphics.print('CREDITS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CREDITS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CREDITS" )/2) + self.creditsbtny, 0, self.scalecredits)
+	love.graphics.setColor(160, 47, 0, 255)
+	love.graphics.print('CONTROLS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CONTROLS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2) + self.controlsbtny, 0, self.scalecontrols)
+	love.graphics.setColor(255, 255, 255, self.buttonflashcontrols)
+	love.graphics.print('CONTROLS', (love.graphics.getWidth()/2 - start.font2:getWidth( "CONTROLS" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "CONTROLS" )/2) + self.controlsbtny, 0, self.scalecontrols)
+	love.graphics.setColor(160, 47, 0, 255)
+	love.graphics.print('MORE GAMES', (love.graphics.getWidth()/2 - start.font2:getWidth( "MORE GAMES" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2) + self.moregamesbtny, 0, self.scalemoregames)
+	love.graphics.setColor(255, 255, 255, self.buttonflashmoregames)
+	love.graphics.print('MORE GAMES', (love.graphics.getWidth()/2 - start.font2:getWidth( "MORE GAMES" )/2), (love.graphics.getHeight()/2 - start.font2:getHeight( "MORE GAMES" )/2) + self.moregamesbtny, 0, self.scalemoregames)
+	love.graphics.setColor(160, 47, 0, 255)
 
 	-- draw back button
 	love.graphics.setFont( start.font2 )
@@ -792,7 +786,7 @@ function options:draw()
 	if paused == false then
 		love.graphics.setFont( start.font0 )
 		love.graphics.setColor(160, 47, 0)
-		love.graphics.print('Pre-Alpha 0.1.3', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.3") - 10))
+		love.graphics.print('Pre-Alpha 0.1.x', 15, (love.graphics.getHeight() - start.font0:getHeight("Pre-Alpha 0.1.x") - 10))
 		love.graphics.setColor(255, 255, 255)
 	end
 	------ TEXT ------

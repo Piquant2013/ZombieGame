@@ -71,8 +71,7 @@ end
 
 function pause:update(dt)
 
-
-
+	-- Set volume for audio
 	self.entersound:setVolume(sfxvolume)
 	self.select1:setVolume(sfxvolume)
 	self.select2:setVolume(sfxvolume)
@@ -81,20 +80,18 @@ function pause:update(dt)
 	self.mouseover2:setVolume(sfxvolume)
 	self.mouseover3:setVolume(sfxvolume)
 
-
-
-	-- Pause game music and set cursor
+	-- if game is paused lower the volume of current song playing
 	if resume == false then
 		
 		if setarcade == false then
 			musicvolumelower = musicvolume / 5
-			game.music1:setVolume(musicvolumelower) --1/5
-			game.music3:setVolume(musicvolumelower) --1/5
+			game.music1:setVolume(musicvolumelower)
+			game.music3:setVolume(musicvolumelower)
 		end
 
 		if gamereset == false then
 			musicvolumelower = musicvolume / 5
-			game.music4:setVolume(musicvolumelower) --1/5
+			game.music4:setVolume(musicvolumelower)
 		end
 		
 		love.mouse.setCursor(cursor)

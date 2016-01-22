@@ -121,8 +121,7 @@ end
 
 function selectmode:update(dt)
 
-
-
+	-- Set volume for audio
 	self.entersound1:setVolume(sfxvolume)
 	self.backsound:setVolume(sfxvolume)
 	self.select1:setVolume(sfxvolume)
@@ -134,8 +133,6 @@ function selectmode:update(dt)
 	self.mouseover3:setVolume(sfxvolume)
 	self.mouseover4:setVolume(sfxvolume)
 	self.mouseover5:setVolume(sfxvolume)
-
-
 
 	-- Stop arrow from moving and sounds when in survival or endless screens
 	if self.survival == true then
@@ -600,8 +597,7 @@ function selectmode:keypressed(key)
 			love.audio.play(self.select3)
 			love.audio.play(self.select4)
 		end
-
-
+		
 		self.arrowy = self.arrowy - 100
 
 		-- Move mouse and turn off mouse areas

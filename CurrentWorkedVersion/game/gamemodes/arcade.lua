@@ -113,6 +113,8 @@ function arcade:init()
 	self.queminihave = false
 	self.quesmgammo = 80
 	self.queminiammo = 150
+	self.quevisualtimer = 0
+	self.quevisual = 0
 
 	-- Gameover vars
 	self.gameovery = 800
@@ -120,19 +122,19 @@ function arcade:init()
 	self.bgtimer = 0
 	------ VARIABLES ------
 
+	------ IMAGES ------
+	self.layer1 = love.graphics.newImage("images/maps/arcade-layer1.png")
+	self.layer2 = love.graphics.newImage("images/maps/arcade-layer2.png")
+	self.powerupdisplay1 = love.graphics.newImage("images/weapons/smg.png")
+	self.powerupdisplay2 = love.graphics.newImage("images/weapons/minigun.png")
+	------ IMAGES ------
 
-
-
-
-
-
-
-
-	self.quevisualtimer = 0
-	self.quevisual = 0
+	-- HIGHSCORE SAVING VARS AND SETTINGS --
+	-- vars
 	self.highscore = 0
 	highscores = {}
 
+	--- Create or load file depending on if it exsits
 	if love.filesystem.exists("scores.lua") then
 	
 		for lines in love.filesystem.lines("scores.lua") do
@@ -143,25 +145,7 @@ function arcade:init()
 	elseif not love.filesystem.exists("scores.lua") then
 		scores = love.filesystem.newFile("scores.lua")
 	end
-
-	--love.filesystem.write("scores.lua", "arcade.highscore\n=\n"..self.highscore)
-	--self.highscore = highscores[3]
-
-
-
-
-
-
-
-
-
-
-	------ IMAGES ------
-	self.layer1 = love.graphics.newImage("images/maps/arcade-layer1.png")
-	self.layer2 = love.graphics.newImage("images/maps/arcade-layer2.png")
-	self.powerupdisplay1 = love.graphics.newImage("images/weapons/smg.png")
-	self.powerupdisplay2 = love.graphics.newImage("images/weapons/minigun.png")
-	------ IMAGES ------
+	-- HIGHSCORE SAVING VARS AND SETTINGS --
 end
 
 function arcade:keypressed(key)
@@ -234,15 +218,10 @@ end
 
 function arcade:update(dt)
 
+	-- set volume
 	game.music1:setVolume(musicvolume)
 	game.music2:setVolume(musicvolume)
 	game.music3:setVolume(musicvolume)
-
-	self.quevisualtimer = self.quevisualtimer - dt
-
-	if self.quevisualtimer < 0 then
-		self.quevisualtimer = 0
-	end
 
 	-- update main game mechanics
 	game:update(dt)
@@ -463,6 +442,13 @@ function arcade:update(dt)
 
 	-- update the gun
 	pistol:update(dt)
+
+	-- start quevisualrimer
+	self.quevisualtimer = self.quevisualtimer - dt
+
+	if self.quevisualtimer < 0 then
+		self.quevisualtimer = 0
+	end
 
 	-- set vars for gameover
 	if gameover == true then
@@ -1188,15 +1174,8 @@ function arcade:draw()
 	-- layer1 of the map
 	love.graphics.draw(self.layer1, 0, 0)
 
-
-
-
-
+	-- draw zombie blood
 	zombie:drawblood()
-
-
-
-
 
 	-- bullet
 	pistol:bulletdraw()
@@ -1487,6 +1466,7 @@ function arcade:draw()
 			love.graphics.draw(self.powerupdisplay2, love.graphics.getWidth()/2 - self.powerupdisplay2:getWidth()/2 * 2 - 90, love.graphics.getHeight() - self.powerupdisplay2:getHeight()/2 * 2 - 123, 0, 2)
 		end
 
+		-- draw shield timer
 		if self.invhave == true then
 			love.graphics.setColor(0, 0, 0, 150)
 			love.graphics.rectangle("fill", love.graphics.getWidth()/2 - 248/2, love.graphics.getHeight() - 149 - 30, 248, 22 )
@@ -1512,11 +1492,7 @@ function arcade:draw()
     		love.graphics.setColor(255, 255, 255)
     	end
 
-
-
-
-
-
+    	-- Draw what question mark option you got
     	love.graphics.setFont( start.font3 )
    		love.graphics.setColor(160, 47, 0)
     	if self.quevisualtimer > 0 then
@@ -1546,19 +1522,6 @@ function arcade:draw()
    		end
    		love.graphics.setColor(255, 255, 255)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	-- Game over title and the scores at the end of the game
 	elseif gameover == true then
     	
@@ -1584,11 +1547,13 @@ function arcade:draw()
 			love.graphics.print("SCORE:"..tostring(math.floor(self.totalscore)), (love.graphics.getWidth()/2 - start.font3:getWidth("SCORE:"..tostring(math.floor(self.totalscore)))/2), 440)
 			love.graphics.setColor(255, 255, 255)
 
+			-- if the players score is greater then the highscore then make the players score the high score
 			if self.totalscore > tonumber(self.highscore) then
 				self.highscore = self.totalscore
 				love.filesystem.write("scores.lua", "arcade.highscore\n=\n"..self.highscore)
 			end
 
+			-- print the highscore at the end of the game
 			love.graphics.setColor(160, 47, 0)
 			love.graphics.print("HIGHSCORE:"..tostring(math.floor(self.highscore)), (love.graphics.getWidth()/2 - start.font3:getWidth("HIGHSCORE:"..tostring(math.floor(self.highscore)))/2), 490)
 			love.graphics.setColor(255, 255, 255)
@@ -1606,6 +1571,8 @@ function arcade:draw()
 end
 
 function love.quit()
+	
+	-- write to the highscore file before quiting
 	love.event.quit()
 	love.filesystem.write("scores.lua", "arcade.highscore\n=\n"..self.highscore)
 end
