@@ -13,35 +13,38 @@ pause = require 'game/menus/pause'
 -- Loads player script
 player = require 'game/player'
 
+-- Loads handgun script
+handgun = require 'game/items/endless/handgun' --pistol
+
 -- Loads pistol script
-pistol = require 'game/weapons/shotgun' --pistol
+pistol = require 'game/items/arcade/shotgun' --pistol
 
 -- Loads crpistol script
-crpistol = require 'game/weapons/crpistol'
+crpistol = require 'game/items/stuck/crpistol'
 
 -- Loads smg script
-smg = require 'game/weapons/smg'
+smg = require 'game/items/arcade/smg'
 
 -- Loads minigun script
-minigun = require 'game/weapons/minigun'
+minigun = require 'game/items/arcade/minigun'
 
 -- Loads inv script
-inv = require 'game/weapons/inv'
+inv = require 'game/items/arcade/inv'
 
 -- Loads killall script
-killall = require 'game/weapons/killall'
+killall = require 'game/items/arcade/killall'
 
 -- Loads shoe script
-shoe = require 'game/weapons/shoe'
+shoe = require 'game/items/arcade/shoe'
 
 -- Loads heart script
-heart = require 'game/weapons/heart'
+heart = require 'game/items/arcade/heart'
 
 -- Loads heart script
-oneup = require 'game/weapons/oneup'
+oneup = require 'game/items/arcade/oneup'
 
 -- Loads heart script
-questionmark = require 'game/weapons/questionmark'
+questionmark = require 'game/items/arcade/questionmark'
 
 -- Loads zombie script
 zombie = require 'game/zombie'
@@ -59,9 +62,11 @@ function game:init()
 	-- Load player, pistol, etc vars
     player:initialize()
     pistol:initialize()
+    handgun:initialize()
     crpistol:initialize()
 
     -- gamemodes
+    self.endless = false
     self.arcade = false
     self.stuck = false
 	
@@ -120,6 +125,37 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
         		plyr.y = plyr.y + mtv_y
         		plyr.x = plyr.x + mtv_x
       		end
+
+
+
+
+
+
+
+
+      		-- if player hits wall
+        	if other == endless.wallT or other == endless.wallB or other == endless.wallL or other == endless.wallR then
+        		plyr.yvel = 0
+        		plyr.xvel = 0
+        		shape_a:move(mtv_x, mtv_y)
+        		plyr.y = plyr.y + mtv_y
+        		plyr.x = plyr.x + mtv_x
+      		end
+
+      		-- If player hits tree
+      		if other == endless.tree1 or other == endless.tree2 or other == endless.tree3 or other == endless.tree4 then
+        		plyr.yvel = 0
+        		plyr.xvel = 0
+        		shape_a:move(mtv_x, mtv_y)
+        		plyr.y = plyr.y + mtv_y
+        		plyr.x = plyr.x + mtv_x
+      		end
+
+
+
+
+
+
       	end
     
     elseif shape_b == plyr.bb then
@@ -146,6 +182,34 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
        			plyr.y = plyr.y + -mtv_y
         		plyr.x = plyr.x + -mtv_x
     		end
+
+
+
+
+
+
+    		 -- if player hits wall
+       		if other == endless.wallT or other == endless.wallB or other == endless.wallL or other == endless.wallR then
+       			plyr.yvel = 0
+        		plyr.xvel = 0
+       			shape_b:move(-mtv_x, -mtv_y)
+       			plyr.y = plyr.y + -mtv_y
+        		plyr.x = plyr.x + -mtv_x
+    		end
+
+    		-- If player hits tree
+    		if other == endless.tree1 or other == endless.tree2 or other == endless.tree3 or other == endless.tree4 then
+       			plyr.yvel = 0
+        		plyr.xvel = 0
+       			shape_b:move(-mtv_x, -mtv_y)
+       			plyr.y = plyr.y + -mtv_y
+        		plyr.x = plyr.x + -mtv_x
+    		end
+
+
+
+
+
     	end
     
     else
@@ -397,6 +461,47 @@ function playercollision(dt, shape_a, shape_b, mtv_x, mtv_y)
     		end
     	end
 	end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	if setendless == false then
+
+   		-- if player hits zombie
+   		for i, o in ipairs(zombie.zombs) do
+    		if other == o.bb then
+    		
+    			-- if player hits zombie
+    			plyr.health = plyr.health - 0.4
+    			plyr.hurt = true
+    			love.audio.play(plyr.hurtaudio)
+    		end
+    	end
+	end
+
+
+
+
+
+
+
+
+
+
+
+
+
 end
 
 function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
@@ -593,6 +698,126 @@ function zombiecollision(dt, shape_a, shape_b, mtv_x, mtv_y)
 		end
 	end
 	-- STUCK --
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	if setendless == false then
+		for i, o in ipairs(zombie.zombs) do
+
+			local other
+
+			-- Set soild objects for zombies
+			if shape_a == o.bb then
+				
+				-- set to shape	
+				other = shape_b
+
+				-- if zombie hits tress
+      			if other == endless.tree1 or other == endless.tree2 or other == endless.tree3 or other == endless.tree4 then
+        			shape_a:move(mtv_x, mtv_y)
+        			o.y = o.y + mtv_y
+        			o.x = o.x + mtv_x
+      			end
+
+      			-- if zombie hits player
+      			if gameover == false then
+      				if other == plyr.bb then
+        				shape_a:move(mtv_x, mtv_y)
+        				o.y = o.y + mtv_y
+        				o.x = o.x + mtv_x
+      				end
+      			end
+
+			elseif shape_b == o.bb then
+				
+				-- set to shape
+				other = shape_a
+
+				-- if zombie hits tress
+				if other == endless.tree1 or other == endless.tree2 or other == endless.tree3 or other == endless.tree4 then
+        			shape_b:move(-mtv_x, -mtv_y)
+        			o.y = o.y + -mtv_y
+        			o.x = o.x + -mtv_x
+      			end
+
+      			-- if zombie hits player
+      			if gameover == false then
+      				if other == plyr.bb then
+        				shape_a:move(-mtv_x, -mtv_y)
+        				o.y = o.y + -mtv_y
+        				o.x = o.x + -mtv_x
+      				end
+      			end
+			end
+		end
+	end
+
+	if setendless == false then
+		for i, o in ipairs(zombie.zombs) do
+			for c, v in ipairs(handgun.bullets) do
+
+				-- Set zombie hitbox to a shape
+				local other
+
+				if shape_a == o.bb then
+					other = shape_b
+				elseif shape_b == o.bb then
+					other = shape_a
+				end
+
+				-- if bullet hits zombie
+				if other == v.bb then
+					o.health = o.health - 10
+					love.audio.play(o.damageaudio)
+					o.damageaudio:setVolume(sfxvolume)
+					Collider:remove(v.bb)
+					table.remove(handgun.bullets, c)
+                    endless.money = endless.money + 10
+				
+					-- kill zombies
+					if o.health < 0 then
+						o.health = 0
+						
+						-- scores
+						endless.kills = endless.kills + 1
+						zombie.count = zombie.count - 1     
+						o.speed = 0
+
+						-- remove zombie
+						Collider:remove(o.bb)
+					end
+				end
+			end
+		end
+	end
+
+
+
+
+
+
+
+
+
+
+
+
 end
 
 function playercollisionstopped(dt, shape_a, shape_b)
@@ -632,6 +857,17 @@ end
 function game:keypressed(key)
 
 	-- dissmiss the welcome message for arcade mode
+  	if key == "return" and welcomescreen == true and self.endless == true or key == "space" and welcomescreen == true and self.endless == true then
+  		welcomescreen = false
+  		setendless = false
+  		love.audio.play(self.entersound)
+		love.audio.stop(self.intromusic)
+		love.audio.play(self.music1)
+		self.music1:setVolume(musicvolume)
+		self.music1:setLooping(true)
+  	end
+
+	-- dissmiss the welcome message for arcade mode
   	if key == "return" and welcomescreen == true and self.arcade == true or key == "space" and welcomescreen == true and self.arcade == true then
   		welcomescreen = false
   		setarcade = false
@@ -662,6 +898,17 @@ function game:keypressed(key)
 end
 
 function game:mousepressed(mx, my, button)
+
+	-- dissmiss the welcome message for endless mode
+  	if button == 1 and welcomescreen == true and self.endless == true then
+  		welcomescreen = false
+  		setendless = false
+  		love.audio.play(self.entersound)
+		love.audio.stop(self.intromusic)
+		love.audio.play(self.music1)
+		self.music1:setVolume(musicvolume)
+		self.music1:setLooping(true)
+  	end
 
 	-- dissmiss the welcome message for arcade mode
   	if button == 1 and welcomescreen == true and self.arcade == true then
@@ -774,7 +1021,7 @@ function love.focus(f)
 	
 	-- pause the game if window loses focus
 	if not f then
-		if paused == false and welcomescreen == false and game.arcade == true or game.stuck == true and gameover == false then  
+		if paused == false and welcomescreen == false and game.arcade == true and gameover == false or paused == false and welcomescreen == false and game.stuck == true and gameover == false or paused == false and welcomescreen == false and game.endless == true and gameover == false then  
 			paused = true
 			resume = false
    			love.mouse.setCursor(cursor)
@@ -783,12 +1030,6 @@ function love.focus(f)
 end
 
 function game:draw()
-	
-	------ FILTERS ------
-	start.font1:setFilter( 'nearest', 'nearest' )
-	start.font2:setFilter( 'nearest', 'nearest' )
-	start.font3:setFilter( 'nearest', 'nearest' )
-	------ FILTERS ------
 	
 	------ TEXT ------
 	-- draw the welcome text and background for arcade mode
@@ -850,6 +1091,41 @@ function game:draw()
 		love.graphics.print("AS WE LOVE PLAYER", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 275)
 		love.graphics.print("INTERACTION.", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 300)
 		
+		love.graphics.setFont( start.font2 )
+		love.graphics.print("PRESS START", (love.graphics.getWidth()/2 + 125), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 119)
+		love.graphics.print("BUTTON", (love.graphics.getWidth()/2 + 125) + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 159)
+		love.graphics.setColor(255, 255, 255, self.buttonflash)
+		love.graphics.print("PRESS START", (love.graphics.getWidth()/2 + 125), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 119)
+		love.graphics.print("BUTTON", (love.graphics.getWidth()/2 + 125) + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 159)
+		love.graphics.setColor(255, 255, 255)
+	end
+
+	-- draw the welcome text and bacground for endless mode
+	 if welcomescreen == true and self.endless == true then
+    	love.mouse.setCursor(cursor)
+    	love.graphics.draw(start.bg, 0, -1000, 0, 3)
+    	love.graphics.setColor(160, 47, 0)
+    	--[[
+    	love.graphics.setFont( start.font2 )       --- REWRITE
+		love.graphics.print("THANK YOU FOR TAKING THE TIME TO TEST", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 275)
+		love.graphics.print("PIQUANT INTERACTIVE'S PROJECT, ZOMBIE", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 235)
+		love.graphics.print("GAME. THIS MODE DOESNT ALLOW PLAYER", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 195)
+		love.graphics.print("MOVEMENT; HENCE THE NAME. YOU WILL", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 155)
+		love.graphics.print("REQUIRE 3 THINGS: FAST REFLEXES, QUICK", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 115)
+		love.graphics.print("TIGGER FINGER, AND THE WILL TO SURVIVE.", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) - 75)
+		
+		love.graphics.setFont( start.font1 )
+		love.graphics.print("CONTORLS:", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 15)
+		love.graphics.print("SHOOT: LEFT-CLICK", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 40)
+		love.graphics.print("AIMASSIST: RIGHT-CLICK", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 65)
+		love.graphics.print("MOVEMENT: WASD", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 90)
+		love.graphics.print("PAUSE: ESC", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 115)
+		love.graphics.print("LEAVE ANY FEEDBACK YOU", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 200)
+		love.graphics.print("MAY HAVE AT", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 225)
+		love.graphics.print("[REDDIT.COM/R/PIQUANT2013/]", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 250)
+		love.graphics.print("AS WE LOVE PLAYER", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 275)
+		love.graphics.print("INTERACTION.", (love.graphics.getWidth()/2 - 580), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 300)
+		--]]
 		love.graphics.setFont( start.font2 )
 		love.graphics.print("PRESS START", (love.graphics.getWidth()/2 + 125), (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 119)
 		love.graphics.print("BUTTON", (love.graphics.getWidth()/2 + 125) + start.font2:getWidth( "PRESS START" )/2 - start.font2:getWidth( "BUTTON" )/2, (love.graphics.getHeight()/2 - start.font2:getHeight( "WELCOME" )/2) + 159)

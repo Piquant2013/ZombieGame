@@ -2,7 +2,7 @@
 function love.conf(t)
     
     -- Love2d version
-    t.version = "0.10.0"  
+    t.version = "0.10.1"  
     
     -- Title on game window
     t.window.title = "Zombie Game (Pre-Alpha 0.1.x)"

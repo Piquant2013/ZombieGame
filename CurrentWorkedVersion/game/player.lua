@@ -129,6 +129,20 @@ function player:update(dt)
 		self.weaponx = pis.x
 	end
 
+
+
+
+
+	if game.endless == true then
+		self.weapony = hand.y
+		self.weaponx = hand.x
+	end
+
+
+
+
+
+
 	if game.stuck == true then
 		self.weapony = crp.y
 		self.weaponx = crp.x

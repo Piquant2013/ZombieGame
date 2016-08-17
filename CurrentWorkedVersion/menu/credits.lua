@@ -9,6 +9,7 @@ function credits:init()
 	
 	------ VARIABLES ------
 	self.slider = love.graphics.getHeight() + 20
+	self.backpressed = false
 	------ VARIABLES ------
 
 	------ AUDIO ------
@@ -19,68 +20,6 @@ function credits:init()
 	-- set volume
 	self.music:setVolume(musicvolume)
 	------ AUDIO ------
-end
-
-function credits:keypressed(key)
-	
-	-- Takes you back to the main menu
-	if key == "escape" or key == "return" or key == "space" then
-		Gamestate.pop()
-		love.audio.play(self.backsound)
-		love.audio.stop(options.entersound1)
-		love.audio.stop(self.music)
-		
-		-- resume game music if its playing or play music if its not and not in pause
-		if paused == false then
-			love.audio.resume(start.music)
-		
-		elseif paused == true then
-			
-			if setarcade == false then
-				love.audio.resume(game.music1)
-			end
-
-			if gamereset == false then
-				love.audio.resume(game.music4)
-			end
-		end
-
-		-- resume easteregg music if its paused
-		if start.easteregg == true then
-			love.audio.resume(start.colorgoeshere)
-		end
-	end
-end
-
-function credits:mousepressed(mx, my, button)
-
-	-- Takes you back to the main menu
-	if button == 1 or button == 2 then
-		Gamestate.pop()
-		love.audio.play(self.backsound)
-		love.audio.stop(options.entersound1)
-		love.audio.stop(self.music)
-		
-		-- resume game music if its playing or play music if its not and not in pause
-		if paused == false then
-			love.audio.resume(start.music)
-		
-		elseif paused == true then
-			
-			if setarcade == false then
-				love.audio.resume(game.music1)
-			end
-
-			if gamereset == false then
-				love.audio.resume(game.music4)
-			end
-		end
-
-		-- resume easteregg music if its paused
-		if start.easteregg == true then
-			love.audio.resume(start.colorgoeshere)
-		end
-	end
 end
 
 function credits:update(dt)
@@ -96,15 +35,55 @@ function credits:update(dt)
 		self.slider = love.graphics.getHeight() + 20
 	end
 	-- SCROLL CREDITS --
+
+	-- Takes you back to the main menu
+	if self.backpressed == true then
+		Gamestate.pop()
+		love.audio.play(self.backsound)
+		love.audio.stop(options.entersound1)
+		love.audio.stop(self.music)
+		
+		-- resume game music if its playing or play music if its not and not in pause
+		if paused == false then
+			love.audio.resume(start.music)
+		
+		elseif paused == true then
+			
+			if setarcade == false then
+				love.audio.resume(game.music1)
+			end
+
+			if gamereset == false then
+				love.audio.resume(game.music4)
+			end
+		end
+
+		-- resume easteregg music if its paused
+		if start.easteregg == true then
+			love.audio.resume(start.colorgoeshere)
+		end
+
+		self.backpressed = false
+	end
+end
+
+function credits:keypressed(key)
+	
+	-- Takes you back to the main menu
+	if key == "escape" or key == "return" or key == "space" then
+		self.backpressed = true
+	end
+end
+
+function credits:mousepressed(mx, my, button)
+
+	-- Takes you back to the main menu
+	if button == 1 or button == 2 then
+		self.backpressed = true
+	end
 end
 
 function credits:draw()
-	
-	------ FILTERS ------
-	start.gamelogo:setFilter( 'nearest', 'nearest' )
-	start.bg:setFilter( 'nearest', 'nearest' )
-	start.font2:setFilter( 'nearest', 'nearest' )
-	------ FILTERS ------
 
 	------ IMAGES ------
 	love.graphics.setColor(255, 255, 255)

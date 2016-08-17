@@ -189,6 +189,21 @@ function advanced:init()
 	self.buttonlot1 = false
 	self.buttonlot2 = false
 	self.buttonlot3 = false
+
+	-- button pressed vars
+	self.fpspressed = false
+	self.fpslockpressed = false
+	self.resoultionpressed = false
+	self.fullscreenpressed = false
+	self.fullscreenpressed = false
+	self.windowlockpressed = false
+	self.mutepressed = false
+	self.masterpressed = false
+	self.musicpressed = false
+	self.sfxpressed = false
+	self.defaultpressed = false
+	self.changelogpressed = false
+	self.backpressed = false
 	------ VARIABLES ------
 
 	------ AUDIO ------
@@ -1901,6 +1916,167 @@ function advanced:update(dt)
 	if resselections > 3 then
 		resselections = 1
 	end
+
+	-- ACTIVATE BUTTONS --
+	-- go to credits screen
+	if self.fpspressed == true then
+		love.audio.play(self.entersound1)
+		self.fpsarrowx = self.fpsarrowx + 118
+		self.fpspressed = false
+	end
+
+	-- switch advancded script
+	if self.fpslockpressed == true then
+		love.audio.play(self.entersound1)
+		self.fpslockarrowx = self.fpslockarrowx + 118
+		self.fpslockpressed = false
+	end
+
+	-- set controls on or off
+	if self.resoultionpressed == true then
+		love.audio.play(self.entersound1)
+		resselections = resselections + 1
+
+		-- turn fullscreen off if its on
+		self.fullscreenarrowx = 665
+	
+		-- cycle through resoultions
+		if resselections == 1 or resselections > 3 then
+			love.window.setMode( 1280, 720 )
+		end
+
+		if resselections == 2 then
+			love.window.setMode( 1680, 1050 )
+		end
+		
+		if resselections == 3 then
+			love.window.setMode( 1920, 1080 )
+		end
+
+		self.resoultionpressed = false
+	end
+
+	-- go to moregames screen
+	if self.fullscreenpressed == true and setfull == false then
+		love.audio.play(self.entersound1)
+		self.fullscreenarrowx = self.fullscreenarrowx + 118
+		love.window.setFullscreen( true, "exclusive" )
+		fullscreenon = true
+		self.fullscreenpressed = false
+	end
+
+	-- go to moregames screen
+	if self.fullscreenpressed == true and setfull == true then
+		love.audio.play(self.entersound1)
+		self.fullscreenarrowx = self.fullscreenarrowx + 118
+		love.window.setFullscreen( false, "exclusive" )
+		fullscreenon = false
+		self.fullscreenpressed = false
+	end
+
+	-- go to moregames screen
+	if self.windowlockpressed == true then
+		love.audio.play(self.entersound1)
+		self.mouselockarrowx = self.mouselockarrowx + 118
+		self.windowlockpressed = false
+	end
+
+	-- go to moregames screen
+	if self.mutepressed == true then
+		love.audio.play(self.entersound1)
+		self.mutearrowx = self.mutearrowx + 118
+		self.mutepressed = false
+	end
+
+	-- go to moregames screen
+	if self.masterpressed == true then
+		love.audio.play(self.entersound1)
+
+		-- turn volume up and down for master
+		if self.zeromaster == true then
+			mastervolume = mastervolume - 0.1
+		end
+
+		if self.zeromaster == false then
+			mastervolume = mastervolume + 0.1
+		end
+
+		self.masterpressed = false
+	end
+
+	-- go to moregames screen
+	if self.musicpressed == true then
+		love.audio.play(self.entersound1)
+
+		-- turn volume up and down for music
+		if self.zeromusic == true then
+			musicvolume = musicvolume - 0.1
+		end
+
+		if self.zeromusic == false then
+			musicvolume = musicvolume + 0.1
+		end
+
+		self.musicpressed = false
+	end
+
+	-- go to moregames screen
+	if self.sfxpressed == true then
+		love.audio.play(self.entersound1)
+
+		-- turn volume up and down for sfx
+		if self.zerosfx == true then
+			sfxvolume = sfxvolume - 0.1
+		end
+
+		if self.zerosfx == false then
+			sfxvolume = sfxvolume + 0.1
+		end
+
+		self.sfxpressed = false
+	end
+
+	-- go to moregames screen
+	if self.defaultpressed == true then
+		love.audio.play(self.entersound1)
+		self.fpsarrowy = 232
+		self.fpsarrowx = 665
+		self.fpsbtnx = 492
+		self.fpslockarrowy = 232
+		self.fpslockarrowx = 665
+		self.fpslockbtnx = 507
+		self.mutearrowy = 232
+		self.mutearrowx = 665
+		self.mutebtnx = 492
+		self.mouselockarrowy = 232
+		self.mouselockarrowx = 665
+		self.mouselockbtnx = 492
+		self.fullscreenarrowy = 232
+		self.fullscreenarrowx = 665
+		self.fullscreenbtnx = 492
+		love.window.setMode(1280, 720, {fullscreen=false})
+		resselections = 1
+		mastervolume = 1
+		musicvolume = 1
+		sfxvolume = 1
+		self.defaultpressed = false
+	end
+
+	-- go to moregames screen
+	if self.changelogpressed == true then
+		love.audio.play(self.entersound1)
+		Gamestate.push(changelog)
+		self.changelogpressed = false
+	end
+
+	-- Go back to the menu screen
+	if self.backpressed == true then
+		Gamestate.pop()
+		love.audio.play(self.backsound)
+		self.arrowy = -262
+		self.backpressed = false
+	end
+	-- ACTIVATE BUTTONS --
 end
 
 function advanced:keypressed(key)
@@ -1988,305 +2164,145 @@ function advanced:keypressed(key)
 	-- ACTIVATE BUTTONS --
 	-- go to credits screen
 	if key == "return" and self.fpsstate == true or key == "space" and self.fpsstate == true then
-		love.audio.play(self.entersound1)
-		self.fpsarrowx = self.fpsarrowx + 118
+		self.fpspressed = true
 	end
 
 	-- switch advancded script
 	if key == "return" and self.fpslockstate == true or key == "space" and self.fpslockstate == true then
-		love.audio.play(self.entersound1)
-		self.fpslockarrowx = self.fpslockarrowx + 118
+		self.fpslockpressed = true
 	end
 
 	-- set controls on or off
 	if key == "return" and self.resolutionstate == true or key == "space" and self.resolutionstate == true then
-		love.audio.play(self.entersound1)
-		resselections = resselections + 1
-
-		-- turn fullscreen off if its on
-		self.fullscreenarrowx = 665
-	
-		-- cycle through resoultions
-		if resselections == 1 or resselections > 3 then
-			love.window.setMode( 1280, 720 )
-		end
-
-		if resselections == 2 then
-			love.window.setMode( 1680, 1050 )
-		end
-		
-		if resselections == 3 then
-			love.window.setMode( 1920, 1080 )
-		end
+		self.resoultionpressed = true
 	end
 
 	-- go to moregames screen
 	if key == "return" and self.fullscreenstate == true and setfull == false or key == "space" and self.fullscreenstate == true and setfull == false then
-		love.audio.play(self.entersound1)
-		self.fullscreenarrowx = self.fullscreenarrowx + 118
-		love.window.setFullscreen( true, "exclusive" )
-		fullscreenon = true
+		self.fullscreenpressed = true
 	end
 
 	-- go to moregames screen
 	if key == "return" and self.fullscreenstate == true and setfull == true or key == "space" and self.fullscreenstate == true and setfull == true then
-		love.audio.play(self.entersound1)
-		self.fullscreenarrowx = self.fullscreenarrowx + 118
-		love.window.setFullscreen( false, "exclusive" )
-		fullscreenon = false
+		self.fullscreenpressed = true
 	end
 
 	-- go to moregames screen
 	if key == "return" and self.windowlockstate == true or key == "space" and self.windowlockstate == true then
-		love.audio.play(self.entersound1)
-		self.mouselockarrowx = self.mouselockarrowx + 118
+		self.windowlockpressed = true
 	end
 
 	-- go to moregames screen
-		if key == "return" and self.mutestate == true or key == "space" and self.mutestate == true then
-		love.audio.play(self.entersound1)
-		self.mutearrowx = self.mutearrowx + 118
+	if key == "return" and self.mutestate == true or key == "space" and self.mutestate == true then
+		self.mutepressed = true
 	end
 
 	-- go to moregames screen
 	if key == "return" and self.mastervolstate == true or key == "space" and self.mastervolstate == true then
-		love.audio.play(self.entersound1)
-
-		-- turn volume up and down for master
-		if self.zeromaster == true then
-			mastervolume = mastervolume - 0.1
-		end
-
-		if self.zeromaster == false then
-			mastervolume = mastervolume + 0.1
-		end
+		self.masterpressed = true
 	end
 
 	-- go to moregames screen
 	if key == "return" and self.musicvolstate == true or key == "space" and self.musicvolstate == true then
-		love.audio.play(self.entersound1)
-
-		-- turn volume up and down for music
-		if self.zeromusic == true then
-			musicvolume = musicvolume - 0.1
-		end
-
-		if self.zeromusic == false then
-			musicvolume = musicvolume + 0.1
-		end
+		self.musicpressed = true
 	end
 
 	-- go to moregames screen
 	if key == "return" and self.sfxvolstate == true or key == "space" and self.sfxvolstate == true then
-		love.audio.play(self.entersound1)
-
-		-- turn volume up and down for sfx
-		if self.zerosfx == true then
-			sfxvolume = sfxvolume - 0.1
-		end
-
-		if self.zerosfx == false then
-			sfxvolume = sfxvolume + 0.1
-		end
+		self.sfxpressed = true
 	end
 
 	-- go to moregames screen
 	if key == "return" and self.defaultstate == true or key == "space" and self.defaultstate == true then
-		love.audio.play(self.entersound1)
-		self.fpsarrowy = 232
-		self.fpsarrowx = 665
-		self.fpsbtnx = 492
-		self.fpslockarrowy = 232
-		self.fpslockarrowx = 665
-		self.fpslockbtnx = 507
-		self.mutearrowy = 232
-		self.mutearrowx = 665
-		self.mutebtnx = 492
-		self.mouselockarrowy = 232
-		self.mouselockarrowx = 665
-		self.mouselockbtnx = 492
-		self.fullscreenarrowy = 232
-		self.fullscreenarrowx = 665
-		self.fullscreenbtnx = 492
-		love.window.setMode(1280, 720, {fullscreen=false})
-		resselections = 1
-		mastervolume = 1
-		musicvolume = 1
-		sfxvolume = 1
+		self.defaultpressed = true
 	end
 
 	-- go to moregames screen
 	if key == "return" and self.changelogstate == true or key == "space" and self.changelogstate == true then
-		love.audio.play(self.entersound1)
-		Gamestate.push(changelog)
+		self.changelogpressed = true
 	end
 	-- ACTIVATE BUTTONS --
 
 	-- Go back to the menu screen
 	if key == "escape" then
-		Gamestate.pop()
-		love.audio.play(self.backsound)
-		self.arrowy = -262
+		self.backpressed = true
 	end
 end
 
 function advanced:mousepressed(mx, my, button)
 	
 	if button == 1 and self.fpsstatemouse == true then
-		love.audio.play(self.entersound1)
-		self.fpsarrowx = self.fpsarrowx + 118
+		self.fpspressed = true
 	end
 
 	-- switch advancded script
 	if button == 1 and self.fpslockstatemouse == true then
-		love.audio.play(self.entersound1)
-		self.fpslockarrowx = self.fpslockarrowx + 118
+		self.fpslockpressed = true
 	end
 
 	-- set controls on or off
 	if button == 1 and self.resolutionstatemouse == true then
-		love.audio.play(self.entersound1)
-		resselections = resselections + 1
-
-		-- turn fullscreen off if its on
-		self.fullscreenarrowx = 665
-
-		-- cycle through resoultions
-		if resselections == 1 or resselections > 3 then
-			love.window.setMode( 1280, 720 )
-		end
-
-		if resselections == 2 then
-			love.window.setMode( 1680, 1050 )
-		end
-		
-		if resselections == 3 then
-			love.window.setMode( 1920, 1080 )
-		end
+		self.resoultionpressed = true
 	end
 
 	-- go to moregames screen
 	if button == 1 and self.fullscreenstatemouse == true and setfull == false then
-		love.audio.play(self.entersound1)
-		self.fullscreenarrowx = self.fullscreenarrowx + 118
-		love.window.setFullscreen( true, "exclusive" )
+		self.fullscreenpressed = true
 	end
 
 	-- go to moregames screen
 	if button == 1 and self.fullscreenstatemouse == true and setfull == true then
-		love.audio.play(self.entersound1)
-		self.fullscreenarrowx = self.fullscreenarrowx + 118
-		love.window.setFullscreen( false, "exclusive" )
+		self.fullscreenpressed = true
 	end
 
 	-- go to moregames screen
 	if button == 1 and self.windowlockstatemouse == true then
-		love.audio.play(self.entersound1)
-		self.mouselockarrowx = self.mouselockarrowx + 118
+		self.windowlockpressed = true
 	end
 
 	-- go to moregames screen
-		if button == 1 and self.mutestatemouse == true then
-	love.audio.play(self.entersound1)
-		self.mutearrowx = self.mutearrowx + 118
+	if button == 1 and self.mutestatemouse == true then
+		self.mutepressed = true
 	end
 
 	-- go to moregames screen
 	if button == 1 and self.mastervolstatemouse == true then
-		love.audio.play(self.entersound1)
-
-		-- turn volume up and down for master
-		if self.zeromaster == true then
-			mastervolume = mastervolume - 0.1
-		end
-
-		if self.zeromaster == false then
-			mastervolume = mastervolume + 0.1
-		end
+		self.masterpressed = true
 	end
 
 	-- go to moregames screen
 	if button == 1 and self.musicvolstatemouse == true then
-		love.audio.play(self.entersound1)
-
-		-- turn volume up and down for music
-		if self.zeromusic == true then
-			musicvolume = musicvolume - 0.1
-		end
-
-		if self.zeromusic == false then
-			musicvolume = musicvolume + 0.1
-		end
+		self.musicpressed = true
 	end
 
 	-- go to moregames screen
 	if button == 1 and self.sfxvolstatemouse == true then
-		love.audio.play(self.entersound1)
-
-		-- turn volume up and down for sfx
-		if self.zerosfx == true then
-			sfxvolume = sfxvolume - 0.1
-		end
-
-		if self.zerosfx == false then
-			sfxvolume = sfxvolume + 0.1
-		end
+		self.sfxpressed = true
 	end
 
 	-- go to moregames screen
 	if button == 1 and self.defaultstatemouse == true then
-		love.audio.play(self.entersound1)
-		self.fpsarrowy = 232
-		self.fpsarrowx = 665
-		self.fpsbtnx = 492
-		self.fpslockarrowy = 232
-		self.fpslockarrowx = 665
-		self.fpslockbtnx = 507
-		self.mutearrowy = 232
-		self.mutearrowx = 665
-		self.mutebtnx = 492
-		self.mouselockarrowy = 232
-		self.mouselockarrowx = 665
-		self.mouselockbtnx = 492
-		self.fullscreenarrowy = 232
-		self.fullscreenarrowx = 665
-		self.fullscreenbtnx = 492
-		love.window.setMode(1280, 720, {fullscreen=false})
-		resselections = 1
-		mastervolume = 1
-		musicvolume = 1
-		sfxvolume = 1
+		self.defaultpressed = true
 	end
 
 	-- go to moregames screen
 	if button == 1 and self.changelogstatemouse == true then
-		love.audio.play(self.entersound1)
-		Gamestate.push(changelog)
+		self.changelogpressed = true
 	end
 	-- ACTIVATE BUTTONS --
 
 	-- back button
 	if button == 1 and self.backstatemouse == true then
-		Gamestate.pop()
-		love.audio.play(self.backsound)
-		self.arrowy = -262
+		self.backpressed = true
 	end
 
 	-- Go back to the menu screen
 	if button == 2 then
-		Gamestate.pop()
-		love.audio.play(self.backsound)
-		self.arrowy = -262
+		self.backpressed = true
 	end
 end
 
 function advanced:draw()
-
-	------ FILTERS ------
-	start.gamelogo:setFilter( 'nearest', 'nearest' )
-	start.bg:setFilter( 'nearest', 'nearest' )
-	start.font2:setFilter( 'nearest', 'nearest' )
-	------ FILTERS ------
 
 	------ IMAGES ------
 	-- Sets image depending if in options menu or pasue

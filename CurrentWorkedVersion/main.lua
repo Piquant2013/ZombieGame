@@ -18,6 +18,11 @@ function love.load()
 	fpsfont1 = love.graphics.newFont("fonts/xen3.ttf", 20)
 	------ FONTS ------
 
+	------ FILTERS ------
+	fpsfont:setFilter( 'nearest', 'nearest' )
+	fpsfont1:setFilter( 'nearest', 'nearest' )
+	------ FILTERS ------
+
 	------ CURSOR ------
 	crosshair = love.mouse.newCursor("images/crosshair.png", 14, 14)
 	cursor = love.mouse.newCursor("images/cursor.png", 2, 2)
@@ -33,6 +38,7 @@ function love.load()
 	resume = false
 	gamereset = true
 	setarcade = true
+	setendless = true
 	gameover = false
 	welcomescreen = true
 	mastervolume = 1
@@ -63,13 +69,10 @@ end
 
 function love.update(dt)
 
-	-- Set game audio to 0 if the options script tells mute to be true
+	-- Unmute and mute audio
 	if setmute == true then
 		love.audio.setVolume(0.0)
-	end
-
-	-- Set game audio back to default if the options script tells mute to be false
-	if setmute == false then
+	elseif setmute == false then
 		love.audio.setVolume(mastervolume)
 	end
 
@@ -105,21 +108,14 @@ end
 
 function love.draw()
 
-	------ FILTERS ------
-	fpsfont:setFilter( 'nearest', 'nearest' )
-	------ FILTERS ------
-
 	-- Sets up each individual script to use its own love.update, love.load, etc
 	Gamestate.draw()
-
-	-- Set font for fps and mute
-	love.graphics.setFont( fpsfont1 )
 	
 	-- Displays FPS if the options script tells FPS to be true
 	if setfps == true then
+		love.graphics.setFont( fpsfont1 )
 		love.graphics.setColor(255, 255, 255)
 		love.graphics.print("FPS: " .. love.timer.getFPS(), (love.graphics.getWidth( ) - fpsfont:getWidth( "FPS: " .. love.timer.getFPS()) + 15), 5)
-		love.graphics.setColor(255, 255, 255)
 	end
 end
 

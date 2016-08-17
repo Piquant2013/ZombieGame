@@ -15,6 +15,7 @@ function start:init()
 	self.movelogo = 80
 	self.textflash = 255
 	self.flashtimer = 0
+	self.entermenu = false
 
 	-- Color goes here easter egg variables
 	self.eggtimer = 0
@@ -39,6 +40,21 @@ function start:init()
 	self.font8 = love.graphics.newFont("fonts/PressStart.ttf", 70)
 	self.font9 = love.graphics.newFont("fonts/PressStart.ttf", 12)
 	------ FONTS ------
+
+	------ FILTERS ------
+	self.gamelogo:setFilter( 'nearest', 'nearest' )
+	self.bg:setFilter( 'nearest', 'nearest' )
+	self.font0:setFilter( 'nearest', 'nearest' )
+	self.font1:setFilter( 'nearest', 'nearest' )
+	self.font2:setFilter( 'nearest', 'nearest' )
+	self.font3:setFilter( 'nearest', 'nearest' )
+	self.font4:setFilter( 'nearest', 'nearest' )
+	self.font5:setFilter( 'nearest', 'nearest' )
+	self.font6:setFilter( 'nearest', 'nearest' )
+	self.font7:setFilter( 'nearest', 'nearest' )
+	self.font8:setFilter( 'nearest', 'nearest' )
+	self.font9:setFilter( 'nearest', 'nearest' )
+	------ FILTERS ------
 	
 	------ AUDIO ------
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
@@ -81,6 +97,14 @@ function start:update(dt)
 		self.flashtimer = 0
 	end
 	--- TEXT FLASH ---
+
+	-- move onto the menu script
+	if self.entermenu == true then
+		Gamestate.push(menu)
+		love.audio.play(self.entersound)
+		paused = false
+		self.entermenu = false
+	end
 
 	-- Update easter egg
 	start:colorupdate(dt)
@@ -139,9 +163,7 @@ function start:keypressed(key)
 
 	-- move onto the menu script
 	if key == "space" or key == "return" then
-		Gamestate.push(menu)
-		love.audio.play(self.entersound)
-		paused = false
+		self.entermenu = true
 	end
 
 	-- Keypressed for easter egg
@@ -152,19 +174,11 @@ function start:mousepressed(mx, my, button)
 
 	-- move onto the menu script
 	if button == 1 then
-		Gamestate.push(menu)
-		love.audio.play(self.entersound)
-		paused = false
+		self.entermenu = true
 	end
 end
 
 function start:draw()
-
-	------ FILTERS ------
-	self.gamelogo:setFilter( 'nearest', 'nearest' )
-	self.bg:setFilter( 'nearest', 'nearest' )
-	self.font2:setFilter( 'nearest', 'nearest' )
-	------ FILTERS ------
 
 	------ IMAGES ------
 	love.graphics.draw(self.bg, -10, 0, 0, 1)

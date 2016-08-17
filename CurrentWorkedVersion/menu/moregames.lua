@@ -34,6 +34,11 @@ function moregames:init()
 	self.space = true
 	self.dig = false
 	self.page2 = false
+
+	-- button pressed vars
+	self.rightpressed = false
+	self.leftpressed = false
+	self.backpressed = false
 	------ VARIABLES ------
 
 	------ IMAGES ------
@@ -45,6 +50,15 @@ function moregames:init()
 	self.spacebg = love.graphics.newImage("images/menu/spacebg.png")
 	------ IMAGES ------
 
+	------ FILTERS ------
+	self.logospace:setFilter( 'nearest', 'nearest' )
+	self.logodig:setFilter( 'nearest', 'nearest' )
+	self.spacebg:setFilter( 'nearest', 'nearest' )
+	self.screenspace1:setFilter( 'nearest', 'nearest' )
+	self.screenspace2:setFilter( 'nearest', 'nearest' )
+	self.screendig:setFilter( 'nearest', 'nearest' )
+	------ FILTERS ------
+
 	------ AUDIO ------
 	self.select1 = love.audio.newSource("audio/buttons/select.ogg")
 	self.select2 = love.audio.newSource("audio/buttons/select.ogg")
@@ -53,61 +67,6 @@ function moregames:init()
 	self.mouseover1 = love.audio.newSource("audio/buttons/select.ogg")
 	self.mouseover2 = love.audio.newSource("audio/buttons/select.ogg")
 	------ AUDIO ------
-end
-
-function moregames:keypressed(key)
-
-	-- Go to right page
-	if key == "right" and self.page2 == false or key == "d" and self.page2 == false then
-		love.audio.play(self.select1)
-		love.audio.stop(self.select2)
-		self.page2 = true
-	end
-
-	-- go to left page
-	if key == "left" and self.page2 == true or key == "a" and self.page2 == true then
-		love.audio.stop(self.select1)
-		love.audio.play(self.select2)
-		self.page2 = false
-	end
-	
-	-- Takes you back to the main menu
-	if key == "escape" or key == "return" or key == "space" then
-		Gamestate.pop()
-		love.audio.play(self.backsound)
-		love.audio.stop(options.entersound1)
-	end
-end
-
-function moregames:mousepressed(mx, my, button)
-
-	-- Takes you back to the main menu
-	if button == 2 then
-		Gamestate.pop()
-		love.audio.play(self.backsound)
-		love.audio.stop(options.entersound1)
-	end
-
-	-- Go to the next page
-	if button == 1 and self.mouseovernext == true and self.dig == false then
-		love.audio.stop(self.select1)
-		love.audio.play(self.select2)
-		self.page2 = true
-	end
-
-	-- go to the next page
-	if button == 1 and self.mouseovernext == true and self.space == false then
-		love.audio.play(self.select1)
-		love.audio.stop(self.select2)
-		self.page2 = false
-	end
-	
-	-- Takes you back to the main menu
-	if button == 1 and self.mouseoverback == true then
-		Gamestate.pop()
-		love.audio.play(self.backsound)
-		love.audio.stop(options.entersound1)
-	end
 end
 
 function moregames:update(dt)
@@ -268,20 +227,76 @@ function moregames:update(dt)
 		love.audio.play(self.mouseover2)
 	end
 	-- MOUSE DECTECTS --
+
+	-- ACTIVATE BUTTONS --
+	-- Takes you back to the main menu
+	if self.backpressed == true then
+		Gamestate.pop()
+		love.audio.play(self.backsound)
+		love.audio.stop(options.entersound1)
+		self.backpressed = false
+	end
+
+	-- Go to the next page
+	if self.rightpressed == true then
+		love.audio.play(self.select1)
+		love.audio.stop(self.select2)
+		self.page2 = true
+		self.rightpressed = false
+	end
+
+	-- Go to the next page
+	if self.leftpressed == true then
+		love.audio.stop(self.select1)
+		love.audio.play(self.select2)
+		self.page2 = false
+		self.leftpressed = false
+	end
+	-- ACTIVATE BUTTONS --
+end
+
+function moregames:keypressed(key)
+
+	-- Go to right page
+	if key == "right" and self.page2 == false or key == "d" and self.page2 == false then
+		self.rightpressed = true
+	end
+
+	-- go to left page
+	if key == "left" and self.page2 == true or key == "a" and self.page2 == true then
+		self.leftpressed = true
+	end
+	
+	-- Takes you back to the main menu
+	if key == "escape" or key == "return" or key == "space" then
+		self.backpressed = true
+	end
+end
+
+function moregames:mousepressed(mx, my, button)
+
+	-- Takes you back to the main menu
+	if button == 2 then
+		self.backpressed = true
+	end
+
+	-- Go to the next page
+	if button == 1 and self.mouseovernext == true and self.dig == false then
+		self.rightpressed = true
+	end
+
+	-- go to the next page
+	if button == 1 and self.mouseovernext == true and self.space == false then
+		self.leftpressed = true
+	end
+	
+	-- Takes you back to the main menu
+	if button == 1 and self.mouseoverback == true then
+		self.backpressed = true
+	end
 end
 
 function moregames:draw()
-	
-	------ FILTERS ------
-	self.logospace:setFilter( 'nearest', 'nearest' )
-	self.logodig:setFilter( 'nearest', 'nearest' )
-	self.spacebg:setFilter( 'nearest', 'nearest' )
-	self.screenspace1:setFilter( 'nearest', 'nearest' )
-	self.screenspace2:setFilter( 'nearest', 'nearest' )
-	self.screendig:setFilter( 'nearest', 'nearest' )
-	start.bg:setFilter( 'nearest', 'nearest' )
-	start.font7:setFilter( 'nearest', 'nearest' )
-	------ FILTERS ------
 
 	------ IMAGE ------
 	love.graphics.draw(start.bg, 0, -1000, 0, 3)

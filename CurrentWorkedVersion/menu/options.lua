@@ -91,6 +91,13 @@ function options:init()
 	self.mousedetect3 = 0
 	self.mousedetect4 = 0
 	self.mousedetect5 = 0
+
+	-- button pressed vars
+	self.advancedpressed = false
+	self.controlspressed = false
+	self.creditspressed = false
+	self.moregamespressed = false
+	self.backpressed = false
 	------ VARIABLES ------
 
 	------ AUDIO ------
@@ -558,6 +565,72 @@ function options:update(dt)
 		love.audio.play(self.mouseover5)
 	end
 	-- MOUSE DECTECTS --
+
+	-- ACTIVATE BUTTONS --
+	-- switch advancded script
+	if self.advancedpressed == true then
+		Gamestate.push(advanced)
+		love.audio.play(self.entersound1)
+		self.advancedpressed = false
+	end
+
+	-- set controls on or off
+	if self.controlspressed == true then
+		Gamestate.push(controls)
+		love.audio.play(self.entersound1)
+		self.controlspressed = false
+	end
+
+	-- go to moregames screen
+	if self.moregamespressed == true then
+		Gamestate.push(moregames)
+		love.audio.play(self.entersound1)
+		self.moregamespressed = false
+	end
+
+	-- go to credits screen
+	if self.creditspressed == true then
+		Gamestate.push(credits)
+		love.audio.play(self.entersound1)
+		love.audio.stop(credits.entersound)
+		love.audio.pause(start.music)
+
+		-- pause easteregg music if its playing
+		if start.easteregg == true then
+			love.audio.pause(start.colorgoeshere)
+		end
+		
+		-- pasue game music if its playing
+		if paused == true then
+			if setarcade == false then
+				love.audio.pause(game.music1)
+			end
+
+			if gamereset == false then
+				love.audio.pause(game.music4)
+			end
+		end
+
+		love.audio.play(credits.music)
+		credits.music:setLooping(true)
+		credits.slider = love.graphics.getHeight() + 20
+		self.creditspressed = false
+	end
+
+	-- Go back to the menu screen
+	if self.backpressed == true then
+		Gamestate.pop()
+		love.audio.play(self.backsound)
+
+		if paused == true then
+			self.arrowy = -50
+		elseif paused == false then
+			self.arrowy = 100
+		end
+
+		self.backpressed = false
+	end
+	-- ACTIVATE BUTTONS --
 end
 
 function options:keypressed(key)
@@ -601,61 +674,28 @@ function options:keypressed(key)
 	-- ACTIVATE BUTTONS --
 	-- go to credits screen
 	if key == "return" and self.creditsstate == true or key == "space" and self.creditsstate == true then
-		Gamestate.push(credits)
-		love.audio.play(self.entersound1)
-		love.audio.stop(credits.entersound)
-		love.audio.pause(start.music)
-
-		-- pause easteregg music if its playing
-		if start.easteregg == true then
-			love.audio.pause(start.colorgoeshere)
-		end
-		
-		-- pasue game music if its playing
-		if paused == true then
-			if setarcade == false then
-				love.audio.pause(game.music1)
-			end
-
-			if gamereset == false then
-				love.audio.pause(game.music4)
-			end
-		end
-
-		love.audio.play(credits.music)
-		credits.music:setLooping(true)
-		credits.slider = love.graphics.getHeight() + 20
+		self.creditspressed = true
 	end
 
 	-- switch advancded script
 	if key == "return" and self.advancedstate == true or key == "space" and self.advancedstate == true then
-		Gamestate.push(advanced)
-		love.audio.play(self.entersound1)
+		self.advancedpressed = true
 	end
 
 	-- set controls on or off
 	if key == "return" and self.controlsstate == true or key == "space" and self.controlsstate == true then
-		Gamestate.push(controls)
-		love.audio.play(self.entersound1)
+		self.controlspressed = true
 	end
 
 	-- go to moregames screen
 	if key == "return" and self.moregamesstate == true or key == "space" and self.moregamesstate == true then
-		Gamestate.push(moregames)
-		love.audio.play(self.entersound1)
+		self.moregamespressed = true
 	end
 	-- ACTIVATE BUTTONS --
 
 	-- Go back to the menu screen
 	if key == "escape" then
-		Gamestate.pop()
-		love.audio.play(self.backsound)
-
-		if paused == true then
-			self.arrowy = -50
-		elseif paused == false then
-			self.arrowy = 100
-		end 
+		self.backpressed = true
 	end
 end
 
@@ -663,82 +703,36 @@ function options:mousepressed(mx, my, button)
 	
 	-- go to credits screen
 	if button == 1 and self.creditsstatemouse == true then
-		Gamestate.push(credits)
-		love.audio.play(self.entersound1)
-		love.audio.stop(credits.entersound)
-		love.audio.pause(start.music)
-
-		-- pause easteregg music if its playing
-		if start.easteregg == true then
-			love.audio.pause(start.colorgoeshere)
-		end
-		
-		-- pasue game music if its playing
-		if paused == true then
-			if setarcade == false then
-				love.audio.pause(game.music1)
-			end
-
-			if gamereset == false then
-				love.audio.pause(game.music4)
-			end
-		end
-
-		love.audio.play(credits.music)
-		credits.music:setLooping(true)
-		credits.slider = love.graphics.getHeight() + 20
+		self.creditspressed = true
 	end
 
 	-- switch advancded script
 	if button == 1 and self.advancedstatemouse == true then
-		Gamestate.push(advanced)
-		love.audio.play(self.entersound1)
+		self.advancedpressed = true
 	end
 
 	-- set controls on or off
 	if button == 1 and self.controlsstatemouse == true then
-		love.audio.play(self.entersound1)
-		Gamestate.push(controls)
+		self.controlspressed = true
 	end
 
 	-- go to credits screen
 	if button == 1 and self.moregamesstatemouse == true then
-		love.audio.play(self.entersound1)
-		Gamestate.push(moregames)
+		self.moregamespressed = true
 	end
 
 	-- Go back to the start screen
 	if button == 1 and self.backstatemouse == true then
-		Gamestate.pop()
-		love.audio.play(self.backsound)
-
-		if paused == true then
-			self.arrowy = -50
-		elseif paused == false then
-			self.arrowy = 100
-		end 
+		self.backpressed = true
 	end
 
 	-- Go back to the start screen
 	if button == 2 then
-		Gamestate.pop()
-		love.audio.play(self.backsound)
-
-		if paused == true then
-			self.arrowy = -50
-		elseif paused == false then
-			self.arrowy = 100
-		end 
+		self.backpressed = true
 	end
 end
 
 function options:draw()
-
-	------ FILTERS ------
-	start.gamelogo:setFilter( 'nearest', 'nearest' )
-	start.bg:setFilter( 'nearest', 'nearest' )
-	start.font2:setFilter( 'nearest', 'nearest' )
-	------ FILTERS ------
 
 	------ IMAGES ------
 	-- Sets image depending if in options menu or pasue

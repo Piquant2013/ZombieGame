@@ -56,6 +56,12 @@ function pause:init()
 	self.mousedetect1 = 0
 	self.mousedetect2 = 0
 	self.mousedetect3 = 0
+
+	-- button pressed vars
+	self.resumepressed = false
+	self.optionspressed = false
+	self.mainmenupressed = false
+	self.backpressed = false
 	------ VARIABLES ------
 
 	------ AUDIO ------
@@ -89,6 +95,23 @@ function pause:update(dt)
 			game.music3:setVolume(musicvolumelower)
 		end
 
+
+
+
+
+
+		if setendless == false then
+			musicvolumelower = musicvolume / 5
+			game.music1:setVolume(musicvolumelower)
+			game.music3:setVolume(musicvolumelower)
+		end
+
+
+
+
+
+
+
 		if gamereset == false then
 			musicvolumelower = musicvolume / 5
 			game.music4:setVolume(musicvolumelower)
@@ -109,6 +132,19 @@ function pause:update(dt)
 			game.music1:setVolume(musicvolume)
 			game.music3:setVolume(musicvolume)
 		end
+
+
+
+
+
+		if setendless == false then
+			game.music1:setVolume(musicvolume)
+			game.music3:setVolume(musicvolume)
+		end
+
+
+
+
 
 		if gamereset == false then
 			game.music4:setVolume(musicvolume)
@@ -345,6 +381,52 @@ function pause:update(dt)
 		love.audio.play(self.mouseover3)
 	end
 	-- MOUSE DECTECTS --
+
+	-- ACTIVATE BUTTONS --
+	if self.resumepressed == true then
+		love.audio.play(self.entersound)
+		resume = true
+		self.arrowy = 50
+		self.resumepressed = false
+	end
+
+	-- Go to options menu
+	if self.optionspressed == true then
+		love.audio.play(self.entersound)
+		Gamestate.push(options)
+		options.arrowy = -50
+		self.arrowy = 50
+		self.optionspressed = false
+	end
+  
+  	-- Go to the main menu
+	if self.mainmenupressed == true then
+		love.audio.play(self.entersound)
+		setendless = true
+		setarcade = true
+		gamereset = true
+		game.endless = false
+		game.arcade = false
+		game.stuck = false
+		paused = false
+		welcomescreen = true
+		Gamestate.switch(menu)
+		love.audio.play(start.music)
+		start.music:setLooping(true)
+		love.audio.stop(game.music1)
+		love.audio.stop(game.music4)
+		love.audio.stop(game.music2)
+		self.arrowy = 50
+		self.mainmenupressed = false
+	end
+
+	-- Resume game
+	if self.backpressed == true then
+		resume = true
+		self.arrowy = 50
+		self.backpressed = false
+	end
+	-- ACTIVATE BUTTONS --
 end
 
 function pause:keypressed(key)
@@ -386,42 +468,23 @@ function pause:keypressed(key)
  	-- ACTIVATE BUTTONS --
 	-- Resume the game
 	if key == "return" and self.resumestate == true or key == "space" and self.resumestate == true then
-		love.audio.play(self.entersound)
-		resume = true
-		self.arrowy = 50
+		self.resumepressed = true
 	end
 
 	-- Go to options menu
 	if key == "return" and self.optionsstate == true or key == "space" and self.optionsstate == true then
-		love.audio.play(self.entersound)
-		Gamestate.push(options)
-		options.arrowy = -50
-		self.arrowy = 50
+		self.optionspressed = true
 	end
   
   	-- Go to the main menu
 	if key == "return" and self.mainmenustate == true or key == "space" and self.mainmenustate == true then
-		love.audio.play(self.entersound)
-		setarcade = true
-		gamereset = true
-		game.arcade = false
-		game.stuck = false
-		paused = false
-		welcomescreen = true
-		Gamestate.switch(menu)
-		love.audio.play(start.music)
-		start.music:setLooping(true)
-		love.audio.stop(game.music1)
-		love.audio.stop(game.music4)
-		love.audio.stop(game.music2)
-		self.arrowy = 50
+		self.mainmenupressed = true
 	end
 	-- ACTIVATE BUTTONS --
 
 	-- Resume game
 	if key == 'escape' then
-		resume = true
-		self.arrowy = 50
+		self.backpressed = true
 	end
 end
 
@@ -429,50 +492,26 @@ function pause:mousepressed(mx, my, button)
  
 	-- Resume the game
 	if button == 1 and self.resumestatemouse == true then
-		love.audio.play(self.entersound)
-		resume = true
-		self.arrowy = 50
+		self.resumepressed = true
 	end
 
 	-- Go to options menu
 	if button == 1 and self.optionsstatemouse == true then
-		love.audio.play(self.entersound)
-		Gamestate.push(options)
-		options.arrowy = -50
-		self.arrowy = 50
+		self.optionspressed = true
 	end
   
   	-- Go to the main menu
 	if button == 1 and self.mainmenustatemouse == true then
-		love.audio.play(self.entersound)
-		setarcade = true
-		gamereset = true
-		game.arcade = false
-		game.stuck = false
-		paused = false
-		welcomescreen = true
-		Gamestate.switch(menu)
-		love.audio.play(start.music)
-		start.music:setLooping(true)
-		love.audio.stop(game.music1)
-		love.audio.stop(game.music4)
-		love.audio.stop(game.music2)
-		self.arrowy = 50
+		self.mainmenupressed = true
 	end
 
 	-- Resume game
 	if button == 2 then
-		resume = true
-		self.arrowy = 50
+		self.backpressed = true
 	end
 end
 
 function pause:draw()
-	
-	------ FILTERS ------
-	start.bg:setFilter( 'nearest', 'nearest' )
-	start.font2:setFilter( 'nearest', 'nearest' )
-	------ FILTERS ------
 
 	------ IMAGES ------
 	love.graphics.draw(start.bg, 0, -1000, 0, 3)

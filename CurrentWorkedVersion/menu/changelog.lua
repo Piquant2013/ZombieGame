@@ -7,30 +7,14 @@ changelog = Gamestate.new()
 
 function changelog:init()
 
+	------ VARIABLES ------
+	self.backpressed = false
+	------ VARIABLES ------
+
 	------ AUDIO ------
 	self.entersound = love.audio.newSource("audio/buttons/enter.ogg")
 	self.backsound = love.audio.newSource("audio/buttons/back.ogg")
 	------ AUDIO ------
-end
-
-function changelog:keypressed(key)
-	
-	-- Takes you back to the main menu
-	if key == "escape" or key == "return" or key == "space" then
-		Gamestate.pop()
-		love.audio.play(self.backsound)
-		love.audio.stop(options.entersound1)
-	end
-end
-
-function changelog:mousepressed(mx, my, button)
-
-	-- Go back to the start screen
-	if button == 1 or button == 2 then
-		Gamestate.pop()
-		love.audio.play(self.backsound)
-		love.audio.stop(options.entersound1)
-	end
 end
 
 function changelog:update(dt)
@@ -38,14 +22,33 @@ function changelog:update(dt)
 	-- Set volume for audio
 	self.entersound:setVolume(sfxvolume)
 	self.backsound:setVolume(sfxvolume)
+
+	-- Takes you back to the main menu
+	if self.backpressed == true then
+		Gamestate.pop()
+		love.audio.play(self.backsound)
+		love.audio.stop(options.entersound1)
+		self.backpressed = false
+	end
+end
+
+function changelog:keypressed(key)
+	
+	-- Takes you back to the main menu
+	if key == "escape" or key == "return" or key == "space" then
+		self.backpressed = true
+	end
+end
+
+function changelog:mousepressed(mx, my, button)
+
+	-- Go back to the start screen
+	if button == 1 or button == 2 then
+		self.backpressed = true
+	end
 end
 
 function changelog:draw()
-	
-	------ FILTERS ------
-	start.bg:setFilter( 'nearest', 'nearest' )
-	start.font2:setFilter( 'nearest', 'nearest' )
-	------ FILTERS ------
 
 	------ IMAGE ------
 	love.graphics.draw(start.bg, 0, -1000, 0, 3)

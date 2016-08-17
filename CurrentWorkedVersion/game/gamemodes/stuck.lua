@@ -63,6 +63,12 @@ function stuckmode:init()
 	self.digeggimage = love.graphics.newImage("game/diggingsim/images/game/ach.png")
 	------ IMAGES ------
 
+	------ FILTERS ------
+	self.layer1:setFilter( 'nearest', 'nearest' )
+	self.layer2:setFilter( 'nearest', 'nearest' )
+	self.digeggimage:setFilter( 'nearest', 'nearest' )
+	------ FILTERS ------
+
 	-- HIGHSCORE SAVING VARS AND SETTINGS --
 	-- vars
 	self.highscore = 0
@@ -510,17 +516,6 @@ function stuckmode:update(dt)
 end
 
 function stuckmode:draw()
-	
-	------ FILTERS ------
-	self.layer1:setFilter( 'nearest', 'nearest' )
-	self.layer2:setFilter( 'nearest', 'nearest' )
-	start.font0:setFilter( 'nearest', 'nearest' )
-	start.font1:setFilter( 'nearest', 'nearest' )
-	start.font2:setFilter( 'nearest', 'nearest' )
-	start.font3:setFilter( 'nearest', 'nearest' )
-	start.font4:setFilter( 'nearest', 'nearest' )
-	start.font5:setFilter( 'nearest', 'nearest' )
-	------ FILTERS ------
 	
 	------ CAMERA ------
 	game.Cam:attach()

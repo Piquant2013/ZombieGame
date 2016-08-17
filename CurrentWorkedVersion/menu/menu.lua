@@ -57,6 +57,12 @@ function menu:init()
 	self.optstatemouse = false
 	self.exitstatemouse = false
 
+	-- button pressed vars
+	self.playpressed = false
+	self.optpressed = false
+	self.exitpressed = false
+	self.backpressed = false
+
 	-- Mouse Dectect vars for sound
 	self.mouseover = false
 	self.mousedetect1 = 0
@@ -325,6 +331,35 @@ function menu:update(dt)
 	end
 	-- MOUSE DECTECTS --
 
+	-- ACTIVATE BUTTONS --
+	if self.playpressed == true then
+		love.audio.play(self.entersound)
+		Gamestate.push(selectmode)
+		self.arrowy = 100
+		self.playpressed = false
+	end
+
+	if self.optpressed == true then
+		love.audio.play(self.entersound)
+		Gamestate.push(options)
+		self.arrowy = 100
+		self.optpressed = false
+	end
+
+	if self.exitpressed == true then
+		love.event.quit()
+		self.exitpressed = false
+	end
+
+	if self.backpressed == true then
+		Gamestate.switch(start)
+		start.movelogo = 128
+		love.audio.play(self.backsound)
+		self.arrowy = 100
+		self.backpressed = false
+	end
+	-- ACTIVATE BUTTONS --
+
 	-- Update easter egg
 	start:colorupdate(dt)
 end
@@ -368,30 +403,23 @@ function menu:keypressed(key)
 	-- ACTIVATE BUTTONS --
 	-- Launch game
 	if key == "return" and self.playstate == true or key == "space" and self.playstate == true then
-		love.audio.play(self.entersound)
-		Gamestate.push(selectmode)
-		self.arrowy = 100
+		self.playpressed = true
 	end
 
 	-- Quit game
 	if key == "return" and self.exitstate == true or key == "space" and self.exitstate == true then
-		love.event.quit()
+		self.exitpressed = true
 	end
 
 	-- Go to options menu
 	if key == "return" and self.optstate == true or key == "space" and self.optstate == true then
-		love.audio.play(self.entersound)
-		Gamestate.push(options)
-		self.arrowy = 100
+		self.optpressed = true
 	end
 	-- ACTIVATE BUTTONS --
 
 	-- Go back to the start screen
 	if key == "escape" then
-		Gamestate.switch(start)
-		start.movelogo = 128
-		love.audio.play(self.backsound)
-		self.arrowy = 100
+		self.backpressed = true
 	end
 
 	-- Keypressed for easter egg
@@ -403,40 +431,27 @@ function menu:mousepressed(mx, my, button)
 	-- ACTIVATE BUTTONS --
 	-- Launch game
 	if button == 1 and self.playstatemouse == true then
-		love.audio.play(self.entersound)
-		Gamestate.push(selectmode)
-		self.arrowy = 100
+		self.playpressed = true
 	end
 
 	-- Quit game
 	if button == 1 and self.exitstatemouse == true then
-		love.event.quit()
+		self.exitpressed = true
 	end
 
 	-- Go to options menu
 	if button == 1 and self.optstatemouse == true then
-		love.audio.play(self.entersound)
-		Gamestate.push(options)
-		self.arrowy = 100
+		self.optpressed = true
 	end
 	-- ACTIVATE BUTTONS --
 
 	-- Go back to the start screen
 	if button == 2 then
-		Gamestate.switch(start)
-		start.movelogo = 128
-		love.audio.play(self.backsound)
-		self.arrowy = 100
+		self.backpressed = true
 	end
 end
 
 function menu:draw()
-	
-	------ FILTERS ------
-	start.gamelogo:setFilter( 'nearest', 'nearest' )
-	start.bg:setFilter( 'nearest', 'nearest' )
-	start.font2:setFilter( 'nearest', 'nearest' )
-	------ FILTERS ------
 
 	------ IMAGES ------
 	love.graphics.draw(start.bg, -10, 0, 0, 1)
